@@ -1,0 +1,45 @@
+version: 1.0.0
+
+# possible values are CRITICAL, ERROR, WARNING, INFO, DEBUG
+log_level: "INFO"
+
+# streamer specific settings
+streamer:
+  lsl_chunk_frequency: 100 # Hz
+  # possible values are blackrock or npz
+  input_type: "npz"
+
+  stream_indefinitely: true
+
+  blackrock:
+    input:
+      # paths can be absolute or relative to the current work directory
+      file: "sample_data/blackrock-file.ns6"
+    output:
+      lsl:
+        # possible values are "float32", "double64", "int8", "int16", "int32", "int64"
+        channel_format: "int16"
+        instrument:
+          manufacturer: "Blackrock Neurotech"
+          model: "Playback"
+          id: 1
+
+  npz:
+    input:
+      # paths can be absolute or relative to the current work directory
+      file: "sample_data/session_4_behavior_standardized.npz"
+      timestamps_array_name: "timestamps_train"
+      data_array_name: "vel_train"
+    output:
+      sampling_rate: 50 # Hz
+      n_channels: 2
+      lsl:
+        # possible values are "float32", "double64", "int8", "int16", "int32", "int64"
+        channel_format: "float32"
+        stream_name: "NDS-Behavior"
+        stream_type: "Behavior"
+        source_id: "SimulatedBehavior"
+        instrument:
+          manufacturer: "Blackrock Neurotech"
+          model: "Simulated"
+          id: 0

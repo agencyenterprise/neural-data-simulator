@@ -1,0 +1,99 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "*"
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: ["ubuntu-latest", "macos-latest", "windows-latest"]
+        python-version: ["3.9", "3.10", "3.11"]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Set up python
+        id: setup-python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+          installer-parallel: true
+
+      - name: Install Conda for liblsl
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-activate-base: true
+          activate-environment: ""
+
+      - name: Install liblsl
+        run: |
+          if [ "$RUNNER_OS" == "Linux" ]; then
+            curl -OL https://github.com/sccn/liblsl/releases/download/v1.16.1/liblsl-1.16.1-focal_amd64.deb
+            sudo apt install -y ./liblsl-1.16.1-focal_amd64.deb
+          elif [ "$RUNNER_OS" == "macOS" ]; then
+            curl -OL https://github.com/sccn/liblsl/releases/download/v1.16.1/liblsl-1.16.1-OSX_amd64.tar.bz2
+            tar xvf liblsl-1.16.1-OSX_amd64.tar.bz2
+            echo "PYLSL_LIB=$PWD/lib/liblsl.dylib" >> $GITHUB_ENV
+          elif [ "$RUNNER_OS" == "Windows" ]; then
+            echo "liblsl will be installed by poetry"
+          else
+              echo "$RUNNER_OS not supported"
+              exit 1
+          fi
+
+      - name: Install dependencies
+        run: poetry install --no-interaction --no-root
+
+      - name: Install library
+        run: poetry install --no-interaction
+
+      - name: Run tests
+        run: |
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            poetry run pytest . -m "not jitter"
+          else
+            make test-coverage
+          fi
+
+      - name: Upload coverage
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage_report
+          path: |
+            pytest-coverage.txt
+            pytest.xml
+
+  coverage:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Download math result for job 1
+        uses: actions/download-artifact@v3
+        with:
+          name: coverage_report
+
+      - name: Report code coverage
+        uses: MishaKav/pytest-coverage-comment@main
+        with:
+          pytest-coverage-path: ./pytest-coverage.txt
+          junitxml-path: ./pytest.xml

@@ -1,0 +1,34 @@
+version: 1.0.0
+
+# possible values are CRITICAL, ERROR, WARNING, INFO, DEBUG
+log_level: "INFO"
+
+# settings for the timer implementation
+timer:
+  # maximum time to stay in cpu bound loop (i.e. a while loop that does nothing)
+  max_cpu_buffer: 0.0 # seconds
+  # the period expected for every iteration
+  loop_time: 0.02 # seconds
+
+# decoder specific settings
+decoder:
+  model_file: "sample_data/session_4_simple_decoder.joblib"
+  spike_threshold: -200 # uV
+  input:
+    lsl:
+      stream_name: "NDS-RawData"
+      # maximum time for attempting a connection to an LSL input stream
+      connection_timeout: 60.0 # seconds
+  output:
+    sampling_rate: 50 # Hz
+    n_channels: 2
+    lsl:
+      # possible values are "float32", "double64", "int8", "int16", "int32", "int64"
+      channel_format: "float32"
+      stream_name: "NDS-Decoder"
+      stream_type: "Decoder"
+      source_id: "DecodedBehavior"
+      instrument:
+        manufacturer: "Blackrock Neurotech"
+        model: "Simulated"
+        id: 0

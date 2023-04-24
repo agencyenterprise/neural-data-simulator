@@ -1,0 +1,60 @@
+name: Sphinx build
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  build_and_deploy:
+    strategy:
+      matrix:
+        os: ["ubuntu-latest"]
+        python-version: ["3.9"]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Set up python
+        id: setup-python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: false
+          installer-parallel: true
+
+      - name: Install dependencies
+        run: poetry install --no-interaction --no-root
+
+      - name: Install library
+        run: poetry install --no-interaction
+
+      - name: Install liblsl
+        run: |
+          curl -OL https://github.com/sccn/liblsl/releases/download/v1.16.1/liblsl-1.16.1-focal_amd64.deb
+          sudo apt install -y ./liblsl-1.16.1-focal_amd64.deb
+
+      - name: Post install config
+        run: poetry run nds_post_install_config
+
+      - name: Build HTML
+        run: make htmldoc
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: html-docs
+          path: docs/html/
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs/html/

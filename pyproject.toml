@@ -1,0 +1,101 @@
+[tool.poetry]
+name = "neural-data-simulator"
+version = "0.1.0"
+description = "Electrophysiology simulator data for developing Brain-Computer Interfaces"
+authors = ["AE Studio, Chadwick Boulay"]
+packages = [
+    {include = "nds", from = "src"},
+    {include = "decoder", from = "src"},
+    {include = "recorder", from = "src"},
+    {include = "tasks", from = "src"},
+    {include = "plugins", from = "src"},
+]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.12"
+numpy = "^1.22.4"
+pydantic = "^1.9.1"
+pylsl = "^1.16.1"
+colorednoise = "^2.1.0"
+pydantic-yaml = "^0.9.0"
+pyaml = "^21.10.1"
+scipy = "^1.10.0"
+pygame = "2.2.0.dev2"
+pooch = "^1.7.0"
+neo = "^0.12.0"
+joblib = "^1.2.0"
+matplotlib = "^3.7.1"
+scikit-learn = "1.2.1"
+screeninfo = "0.8.1"
+pyobjc-framework-Quartz = { version = "*", platform = "darwin" }
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.1.2"
+pytest-cov = "^3.0.0"
+pytest-mock = "^3.8.2"
+black = "22.3.0"
+flake8 = "^4.0.1"
+flake8-spellcheck = "^0.28.0"
+isort = "^5.10.1"
+jupyter = "^1.0.0"
+flake8-docstrings = "^1.6.0"
+Sphinx = "^5.3.0"
+myst-parser = "^0.19.0"
+nlb-tools = "^0.0.1"
+sphinx-material = "^0.0.35"
+sphinx-rtd-theme = "^1.1.1"
+sphinxcontrib-spelling = "^7.7.0"
+pyenchant = "^3.2.2"
+nbsphinx = "^0.8.12"
+sphinx-gallery = "^0.11.1"
+pyright = "^1.1.302"
+
+[tool.poetry.group.dev.dependencies]
+types-requests = "^2.28.11.8"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+nds_post_install_config = "nds.scripts.post_install_config:run"
+encoder = "nds.scripts.run_encoder:run"
+streamer = "nds.scripts.run_streamer:run"
+ephys_generator = "nds.scripts.run_ephys_generator:run"
+decoder = "decoder.run_decoder:run"
+recorder = "recorder.run_recorder:run"
+center_out_reach = "tasks.run_center_out_reach:run"
+run_closed_loop = "tasks.run_closed_loop:run"
+
+[tool.pytest.ini_options]
+# note: not overriding 'norecursedirs' here in order to keep the default value
+#   instead, using --ignore in the command line argument in Makefile
+markers = [
+    "jitter: mark a test for timer jitter."
+]
+pythonpath = [
+  "src"
+]
+
+[tool.black]
+line-length = 88
+extend-exclude = """(
+    docs
+)"""
+
+[tool.isort]
+profile = "google"
+src_paths = "."
+known_first_party = "nds"
+line_length = 88
+multi_line_output = 3
+include_trailing_comma = true
+
+[tool.pyright]
+include = ["src"]
+
+# [tool.flake8]
+# flake8 does not support config in pyproject.toml, see .flake8
+
+[tool.poetry.extras]
+extras = ["pygame", "screeninfo", "matplotlib", "joblib", "scikit-learn", "pyobjc-framework-Quartz"]

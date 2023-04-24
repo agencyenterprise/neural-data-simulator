@@ -1,0 +1,63 @@
+version: 1.0.0
+
+# possible values are CRITICAL, ERROR, WARNING, INFO, DEBUG
+log_level: "INFO"
+
+center_out_reach:
+  sampling_rate: 50
+  window:
+    # uncomment the lines below to adjust the resolution and ppi
+    # width: 800
+    # height: 600
+    # ppi: 77 # pixels per inch of the display
+
+    # html color names or hex values
+    colors:
+      background: "white"
+      decoded_cursor: "orange"
+      decoded_cursor_on_target: "black"
+      actual_cursor: "#ccccff"
+      target: "green"
+      target_waiting_for_cue: "#515df6"
+  with_metrics: true
+
+  standard_scaler:
+    scale:
+      - 1.0
+      - 1.0
+    mean:
+      - 0.0
+      - 0.0
+
+  task:
+    target_radius: 0.01 # meters
+    cursor_radius: 0.002 # meters
+    radius_to_target: 0.08 # meters
+    number_of_targets: 24
+
+    delay_to_begin: 3 # seconds
+    delay_waiting_for_cue: 1 # seconds
+    target_holding_time: 0.5 # seconds
+    max_trial_time: 5 # seconds
+
+  input:
+    # If enabled the decoded cursor will be displayed on the screen
+    enabled: true
+    # LSL settings for the "LSL" inlet
+    lsl:
+      stream_name: "NDS-Decoder"
+      # maximum time for attempting a connection to an LSL input stream
+      connection_timeout: 60.0 # seconds
+
+  output:
+    # settings for the LSL outlet
+    lsl:
+      # possible values are "float32", "double64", "int8", "int16", "int32", "int64"
+      channel_format: "float32"
+      stream_name: "NDS-Behavior"
+      stream_type: "CursorVelocity"
+      source_id: "MouseCursorVelocity"
+      instrument:
+        manufacturer: "AE Studio"
+        model: "CenterOutReachTask"
+        id: 0
