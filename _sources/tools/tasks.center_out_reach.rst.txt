@@ -47,6 +47,14 @@ tasks.center\_out\_reach.scalers
    :undoc-members:
    :show-inheritance:
 
+tasks.center\_out\_reach.screen\_info 
+--------------------------------------
+
+.. automodule:: tasks.center_out_reach.screen_info
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 tasks.center\_out\_reach.sprites 
 ---------------------------------
 

@@ -86,6 +86,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#module-tasks.center_out_reach.joystick">tasks.center_out_reach.joystick</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-tasks.center_out_reach.metrics">tasks.center_out_reach.metrics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-tasks.center_out_reach.scalers">tasks.center_out_reach.scalers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-tasks.center_out_reach.screen_info">tasks.center_out_reach.screen_info</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-tasks.center_out_reach.sprites">tasks.center_out_reach.sprites</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-tasks.center_out_reach.task_runner">tasks.center_out_reach.task_runner</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-tasks.center_out_reach.task_state">tasks.center_out_reach.task_state</a></li>
@@ -531,6 +532,22 @@ from the decoder.</p>
 </dl>
 </dd></dl>
 
+</dd></dl>
+
+</section>
+<section id="module-tasks.center_out_reach.screen_info">
+<span id="tasks-center-out-reach-screen-info"></span><h2>tasks.center_out_reach.screen_info<a class="headerlink" href="#module-tasks.center_out_reach.screen_info" title="Permalink to this heading"></a></h2>
+<p>A wrapper around screeninfo with improved functionality on macOS.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="tasks.center_out_reach.screen_info.get_monitors">
+<span class="sig-prename descclassname"><span class="pre">tasks.center_out_reach.screen_info.</span></span><span class="sig-name descname"><span class="pre">get_monitors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Monitor</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/tasks/center_out_reach/screen_info.html#get_monitors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tasks.center_out_reach.screen_info.get_monitors" title="Permalink to this definition"></a></dt>
+<dd><p>Return a list of Monitor objects representing the connected screens.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tasks.center_out_reach.screen_info.get_ppmm">
+<span class="sig-prename descclassname"><span class="pre">tasks.center_out_reach.screen_info.</span></span><span class="sig-name descname"><span class="pre">get_ppmm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">monitor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Monitor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/tasks/center_out_reach/screen_info.html#get_ppmm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tasks.center_out_reach.screen_info.get_ppmm" title="Permalink to this definition"></a></dt>
+<dd><p>Return the pixels per millimeter of the given monitor.</p>
 </dd></dl>
 
 </section>

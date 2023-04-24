@@ -106,8 +106,9 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ndarray</span>
-<span class="kn">from</span> <span class="nn">screeninfo</span> <span class="kn">import</span> <span class="n">get_monitors</span>
 <span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">tasks.center_out_reach.screen_info</span> <span class="kn">import</span> <span class="n">get_monitors</span>
+<span class="kn">from</span> <span class="nn">tasks.center_out_reach.screen_info</span> <span class="kn">import</span> <span class="n">get_ppmm</span>
 
 
 <div class="viewcode-block" id="PixelsToMetersConverter"><a class="viewcode-back" href="../../../tools/tasks.center_out_reach.html#tasks.center_out_reach.scalers.PixelsToMetersConverter">[docs]</a><span class="k">class</span> <span class="nc">PixelsToMetersConverter</span><span class="p">:</span>
@@ -120,13 +121,11 @@
 <span class="sd">            ppi: The pixels per inch of the display or None. If ppi is None, the</span>
 <span class="sd">              function will try to calculate it based on the default monitor.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">display_scale</span> <span class="o">=</span> <span class="mf">1.0</span>
         <span class="k">if</span> <span class="n">ppi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">monitors</span> <span class="o">:=</span> <span class="n">get_monitors</span><span class="p">():</span>
                 <span class="n">first_monitor</span> <span class="o">=</span> <span class="n">monitors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="k">if</span> <span class="n">ppmm</span> <span class="o">:=</span> <span class="n">first_monitor</span><span class="o">.</span><span class="n">ppmm</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">ppmm</span> <span class="o">:=</span> <span class="n">get_ppmm</span><span class="p">(</span><span class="n">first_monitor</span><span class="p">):</span>
                     <span class="n">ppi</span> <span class="o">=</span> <span class="n">ppmm</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mf">25.4</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">display_scale</span> <span class="o">=</span> <span class="n">first_monitor</span><span class="o">.</span><span class="n">scale</span>
         <span class="k">if</span> <span class="n">ppi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Could not detect monitor ppi. Please configure it.&quot;</span><span class="p">)</span>
 
