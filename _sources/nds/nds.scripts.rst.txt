@@ -1,0 +1,48 @@
+nds.scripts 
+============
+
+.. automodule:: nds.scripts
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+nds.scripts.errors 
+-------------------
+
+.. automodule:: nds.scripts.errors
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+nds.scripts.post\_install\_config 
+----------------------------------
+
+.. automodule:: nds.scripts.post_install_config
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+nds.scripts.run\_encoder 
+-------------------------
+
+.. automodule:: nds.scripts.run_encoder
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+nds.scripts.run\_ephys\_generator 
+----------------------------------
+
+.. automodule:: nds.scripts.run_ephys_generator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+nds.scripts.run\_streamer 
+--------------------------
+
+.. automodule:: nds.scripts.run_streamer
+   :members:
+   :undoc-members:
+   :show-inheritance:

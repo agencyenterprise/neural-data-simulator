@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>decoder.decoders &mdash; Neural Data Simulator 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Neural Data Simulator
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../running_bci.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Neural Data Simulator</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../inputs.html">Behavioral Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../encoder.html">Encoder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ephys_generator.html">Electrophysiology (Ephys) Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configuring.html">Configuring NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../running.html">Running NDS</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Extensions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../extending.html">Extending NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../decoders.html">Decoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tasks.html">Tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../visualization.html">Visualizing Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities.html">Recording and Streaming</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/">GitHub Repository</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../nds/modules.html">Neural Data Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/modules.html">Example Implementations and Utilities</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Neural Data Simulator</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">decoder.decoders</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for decoder.decoders</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;This module contains the included decoder implementation -- the :class:`Decoder`.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span>
+
+<span class="kn">import</span> <span class="nn">joblib</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ndarray</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">nds.filters</span> <span class="kn">import</span> <span class="n">BandpassFilter</span>
+<span class="kn">from</span> <span class="nn">nds.filters</span> <span class="kn">import</span> <span class="n">GaussianFilter</span>
+<span class="kn">from</span> <span class="nn">nds.filters</span> <span class="kn">import</span> <span class="n">LowpassFilter</span>
+<span class="kn">from</span> <span class="nn">nds.samples</span> <span class="kn">import</span> <span class="n">Samples</span>
+<span class="kn">from</span> <span class="nn">nds.util.buffer</span> <span class="kn">import</span> <span class="n">RingBuffer</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="DecoderModel"><a class="viewcode-back" href="../../tools/decoder.html#decoder.decoders.DecoderModel">[docs]</a><span class="k">class</span> <span class="nc">DecoderModel</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Protocol for a `Decoder` model.</span>
+
+<span class="sd">    A `Decoder model` predicts behavior data from spike rate data.</span>
+
+<span class="sd">    The Decoder processes data in chunks represented as :class:`nds.samples.Samples`.</span>
+<span class="sd">    One chunk may contain several spike rate data points (n_samples) across multiple</span>
+<span class="sd">    units (n_units). The :meth:`predict` method is called for each chunk in order to</span>
+<span class="sd">    transform the spike rate data into behavior data (n_samples) across multiple axes</span>
+<span class="sd">    (n_axes).</span>
+
+<span class="sd">    A python protocol (`PEP-544 &lt;https://peps.python.org/pep-0544/&gt;`_) works in</span>
+<span class="sd">    a similar way to an abstract class.</span>
+<span class="sd">    The :meth:`__init__` method of this protocol should never be called as</span>
+<span class="sd">    protocols are not meant to be instantiated. An :meth:`__init__` method</span>
+<span class="sd">    may be defined in a concrete implementation of this protocol if needed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DecoderModel.predict"><a class="viewcode-back" href="../../tools/decoder.html#decoder.decoders.DecoderModel.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Predict behavior from spike rate input.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data: Spike rate data as :class:`nds.samples.Samples` with shape</span>
+<span class="sd">                (n_samples, n_units).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Behavior data as :class:`nds.samples.Samples` with shape</span>
+<span class="sd">            (n_samples, n_axes). For example, in case of modeling velocities in a</span>
+<span class="sd">            horizontal and vertical direction (2 axes), the returned data is a 2D</span>
+<span class="sd">            array with shape (n_samples, 2).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="o">...</span></div></div>
+
+
+<div class="viewcode-block" id="PersistedFileDecoderModel"><a class="viewcode-back" href="../../tools/decoder.html#decoder.decoders.PersistedFileDecoderModel">[docs]</a><span class="k">class</span> <span class="nc">PersistedFileDecoderModel</span><span class="p">(</span><span class="n">DecoderModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Decoder pre-trained model that can be loaded from a file.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PersistedFileDecoderModel.__init__"><a class="viewcode-back" href="../../tools/decoder.html#decoder.decoders.PersistedFileDecoderModel.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the model from a file path.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            model_file_path: The path to the model file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">:</span> <span class="n">DecoderModel</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">model_file_path</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PersistedFileDecoderModel.predict"><a class="viewcode-back" href="../../tools/decoder.html#decoder.decoders.PersistedFileDecoderModel.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Predict behavior from spike rate input.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data: A spike rate vector.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A behavior vector.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div></div>
+
+
+<div class="viewcode-block" id="Decoder"><a class="viewcode-back" href="../../tools/decoder.html#decoder.decoders.Decoder">[docs]</a><span class="k">class</span> <span class="nc">Decoder</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Decoder implementation that decodes spiking raw data into velocities.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Decoder.__init__"><a class="viewcode-back" href="../../tools/decoder.html#decoder.decoders.Decoder.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">:</span> <span class="n">DecoderModel</span><span class="p">,</span>
+        <span class="n">input_sample_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">output_sample_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">n_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the decoder.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            model: The decoder model.</span>
+<span class="sd">            input_sample_rate: The input sample rate in Hz.</span>
+<span class="sd">            output_sample_rate: The output sample rate in Hz.</span>
+<span class="sd">            n_channels: The number of input channels.</span>
+<span class="sd">            threshold: The spike detection threshold.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_sample_rate</span> <span class="o">=</span> <span class="n">output_sample_rate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span> <span class="o">=</span> <span class="n">threshold</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bin_width</span> <span class="o">=</span> <span class="mf">0.02</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_channels</span> <span class="o">=</span> <span class="n">n_channels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">decoding_window_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">input_sample_rate</span> <span class="o">/</span> <span class="n">output_sample_rate</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">rates_filter</span> <span class="o">=</span> <span class="n">GaussianFilter</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;gauss_filter&quot;</span><span class="p">,</span>
+            <span class="n">window_size</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+            <span class="n">std</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+            <span class="n">normalization_coeff</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+            <span class="n">num_channels</span><span class="o">=</span><span class="n">n_channels</span><span class="p">,</span>
+            <span class="n">enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">velocities_filter</span> <span class="o">=</span> <span class="n">LowpassFilter</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;lp_filter&quot;</span><span class="p">,</span>
+            <span class="n">filter_order</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+            <span class="n">critical_frequency</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+            <span class="n">sample_rate</span><span class="o">=</span><span class="n">output_sample_rate</span><span class="p">,</span>
+            <span class="n">num_channels</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="n">enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">raw_data_filter</span> <span class="o">=</span> <span class="n">BandpassFilter</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;bp_filter&quot;</span><span class="p">,</span>
+            <span class="n">filter_order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">critical_frequencies</span><span class="o">=</span><span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="mi">2000</span><span class="p">),</span>
+            <span class="n">sample_rate</span><span class="o">=</span><span class="n">input_sample_rate</span><span class="p">,</span>
+            <span class="n">num_channels</span><span class="o">=</span><span class="n">n_channels</span><span class="p">,</span>
+            <span class="n">enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span> <span class="o">=</span> <span class="n">RingBuffer</span><span class="p">(</span>
+            <span class="n">max_samples</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">decoding_window_size</span> <span class="o">*</span> <span class="mi">100</span>
+            <span class="p">),</span>  <span class="c1"># 2 seconds of data in the decoder buffer</span>
+            <span class="n">n_channels</span><span class="o">=</span><span class="n">n_channels</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_run_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter_ns</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_add_to_buffer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples</span><span class="p">:</span> <span class="n">Samples</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">samples</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">samples</span><span class="o">.</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">samples</span><span class="o">.</span><span class="n">data</span><span class="p">)))</span>
+
+    <span class="k">def</span> <span class="nf">_consume_from_buffer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Samples</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">decoding_window_size</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Samples</span><span class="o">.</span><span class="n">empty_samples</span><span class="p">()</span>
+        <span class="n">timestamps_and_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">decoding_window_size</span><span class="p">)</span>
+        <span class="n">timestamps</span> <span class="o">=</span> <span class="n">timestamps_and_data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">timestamps_and_data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span>
+        <span class="k">return</span> <span class="n">Samples</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Decoder.decode"><a class="viewcode-back" href="../../tools/decoder.html#decoder.decoders.Decoder.decode">[docs]</a>    <span class="k">def</span> <span class="nf">decode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples</span><span class="p">:</span> <span class="n">Samples</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Samples</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Decode spiking raw data into velocities.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            samples: The raw data samples to decode.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The decoded velocities.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">time_now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter_ns</span><span class="p">()</span>
+        <span class="n">elapsed_time_ns</span> <span class="o">=</span> <span class="n">time_now</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_run_time</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_to_buffer</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;elapsed_time_ns=</span><span class="si">{</span><span class="n">elapsed_time_ns</span><span class="si">}</span><span class="s2"> buffer=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">decoded_velocities</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">decoded_timestamps</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_consume_from_buffer</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">samples</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+                <span class="k">break</span>
+
+            <span class="n">timestamps</span> <span class="o">=</span> <span class="n">samples</span><span class="o">.</span><span class="n">timestamps</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">samples</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">bin_rates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_channels</span><span class="p">))</span>
+            <span class="n">duration</span> <span class="o">=</span> <span class="n">timestamps</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">timestamps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">duration</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">filtered_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_data_filter</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                <span class="n">bin_rates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_bin_rates</span><span class="p">(</span><span class="n">filtered_data</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+
+            <span class="n">bin_rates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rates_filter</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">bin_rates</span><span class="p">)</span>
+
+            <span class="n">velocities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">bin_rates</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">velocities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocities_filter</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">velocities</span><span class="p">)</span>
+            <span class="n">decoded_velocities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">velocities</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">decoded_timestamps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">timestamps</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_run_time</span> <span class="o">=</span> <span class="n">time_now</span>
+        <span class="k">return</span> <span class="n">Samples</span><span class="p">(</span>
+            <span class="n">timestamps</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">decoded_timestamps</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">decoded_velocities</span><span class="p">)</span>
+        <span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_bin_rates</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">samples</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">duration</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ndarray</span><span class="p">:</span>
+        <span class="n">bin_rates</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">channel</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_channels</span><span class="p">):</span>
+            <span class="n">spike_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_threshold_crossing</span><span class="p">(</span><span class="n">samples</span><span class="p">[:,</span> <span class="n">channel</span><span class="p">])</span>
+            <span class="n">rate</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">spike_indices</span><span class="p">)</span> <span class="o">/</span> <span class="n">duration</span>
+            <span class="n">bin_rates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rate</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">bin_rates</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_channels</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_threshold_crossing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the indices of the array where the values pass a threshold.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            a: An one-dimensional array.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The array indices that correspond to a crossing.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the threshold is zero.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">((</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">a</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">((</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">a</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Threshold must be non-zero&quot;</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, AE Studio &amp; Chad Boulay.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

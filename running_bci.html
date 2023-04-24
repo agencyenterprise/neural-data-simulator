@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Running a full BCI simulation &mdash; Neural Data Simulator 0.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Architecture" href="architecture.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Neural Data Simulator
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Neural Data Simulator</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inputs.html">Behavioral Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="encoder.html">Encoder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ephys_generator.html">Electrophysiology (Ephys) Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuring.html">Configuring NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">Running NDS</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Extensions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="extending.html">Extending NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="decoders.html">Decoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tasks.html">Tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualization.html">Visualizing Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Recording and Streaming</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/">GitHub Repository</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="nds/modules.html">Neural Data Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools/modules.html">Example Implementations and Utilities</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Neural Data Simulator</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Running a full BCI simulation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/running_bci.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="running-a-full-bci-simulation">
+<h1>Running a full BCI simulation<a class="headerlink" href="#running-a-full-bci-simulation" title="Permalink to this heading"></a></h1>
+<p>If you’re eager to get started with NDS, you can run a full BCI simulation out of the box by following these steps:</p>
+<ol class="arabic">
+<li><p>Complete the <a class="reference internal" href="installation.html"><span class="std std-doc">installation</span></a> (make sure to install the <code class="docutils literal notranslate"><span class="pre">[extras]</span></code> dependencies).</p></li>
+<li><p>Run the following script:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">run_closed_loop</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You might need to give permissions like network access when running this script.</p>
+</div>
+</li>
+</ol>
+<p>After running the <code class="docutils literal notranslate"><span class="pre">run_closed_loop</span></code> script<a class="footnote-reference brackets" href="#id2" id="id1">1</a>, you’ll be prompted with instructions on how to perform the center-out reaching task. And that’s it, you’re now the <code class="docutils literal notranslate"><span class="pre">brain</span></code> that makes the <code class="docutils literal notranslate"><span class="pre">BCI</span></code>!</p>
+<hr class="footnotes docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>This script automates running the <a class="reference internal" href="tasks.html#provided-task"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">center_out_reach</span></code> task</span></a> that is used to generate behavior data, the <a class="reference internal" href="encoder.html"><span class="std std-doc">encoder</span></a> to consume and generate spiking rates, the <a class="reference internal" href="ephys_generator.html"><span class="std std-doc">ephys_generator</span></a> to transform the spiking rates into electrophysiology data, and the <a class="reference internal" href="decoders.html"><span class="std std-doc">decoder</span></a> to transform electrophysiology data back into decoded behavior.</p>
+</dd>
+</dl>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="architecture.html" class="btn btn-neutral float-right" title="Architecture" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, AE Studio &amp; Chad Boulay.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

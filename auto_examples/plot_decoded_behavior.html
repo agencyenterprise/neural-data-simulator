@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visualize the input behavior together with the decoded behavior &mdash; Neural Data Simulator 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Train models for the encoder and decoder" href="plot_train_encoder_and_decoder_model.html" />
+    <link rel="prev" title="Visualize predicted spike rates with generated spikes" href="plot_predicted_spike_rates.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Neural Data Simulator
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../running_bci.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Neural Data Simulator</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inputs.html">Behavioral Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../encoder.html">Encoder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ephys_generator.html">Electrophysiology (Ephys) Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuring.html">Configuring NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../running.html">Running NDS</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Extensions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../extending.html">Extending NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../decoders.html">Decoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks.html">Tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visualization.html">Visualizing Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Recording and Streaming</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="plot_run_open_loop.html">Collect data to train your own decoder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_psd.html">Visualize Power Spectral Density (PSD)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_behavior_distribution.html">Visualize distribution of velocities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_behavior_and_spikes.html">Visualize spike rates for input behavior</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_isi.html">Visualize inter-spike interval (ISI)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_predicted_spike_rates.html">Visualize predicted spike rates with generated spikes</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Visualize the input behavior together with the decoded behavior</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#environment-setup">Environment setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#set-data-source">Set data source</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#load-data">Load data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#plot-data">Plot data</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plot_train_encoder_and_decoder_model.html">Train models for the encoder and decoder</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/">GitHub Repository</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../nds/modules.html">Neural Data Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/modules.html">Example Implementations and Utilities</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Neural Data Simulator</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Tutorials</a></li>
+      <li class="breadcrumb-item active">Visualize the input behavior together with the decoded behavior</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/auto_examples/plot_decoded_behavior.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-plot-decoded-behavior-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
+</div>
+<section class="sphx-glr-example-title" id="visualize-the-input-behavior-together-with-the-decoded-behavior">
+<span id="sphx-glr-auto-examples-plot-decoded-behavior-py"></span><h1>Visualize the input behavior together with the decoded behavior<a class="headerlink" href="#visualize-the-input-behavior-together-with-the-decoded-behavior" title="Permalink to this heading"></a></h1>
+<p>The goal of this example is to display the input behavior aligned with the decoded behavior in a plot.</p>
+<p>By default, this script will download the data to be plotted from AWS S3. If you prefer to use
+your own data, you can start the closed loop simulation in one terminal:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">run</span><span class="o">-</span><span class="n">closed</span><span class="o">-</span><span class="n">loop</span>
+</pre></div>
+</div>
+<p>And then record the streams in another terminal:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">recorder</span> <span class="o">--</span><span class="n">session</span> <span class="s2">&quot;decode_example&quot;</span> <span class="o">--</span><span class="n">lsl</span> <span class="s2">&quot;NDS-Behavior,NDS-Decoder&quot;</span> <span class="o">--</span><span class="n">recording</span><span class="o">-</span><span class="n">time</span> <span class="mi">10</span>
+</pre></div>
+</div>
+<p>Make sure to change the variable:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LOCAL_DATA</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+<p>and replace the variable with the path to your data:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">BEHAVIOR_DATA_PATH</span> <span class="o">=</span> <span class="s2">&quot;the_path_to_your_recorded_behavior_data.npz&quot;</span>
+<span class="n">DECODER_DATA_PATH</span> <span class="o">=</span> <span class="s2">&quot;the_path_to_your_recorded_decoder_data.npz&quot;</span>
+</pre></div>
+</div>
+<section id="environment-setup">
+<h2>Environment setup<a class="headerlink" href="#environment-setup" title="Permalink to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LOCAL_DATA</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</section>
+<section id="set-data-source">
+<h2>Set data source<a class="headerlink" href="#set-data-source" title="Permalink to this heading"></a></h2>
+<p>Retrieve the data from AWS S3 or define the path to your local file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urljoin</span>
+
+<span class="kn">import</span> <span class="nn">pooch</span>
+
+<span class="n">DOWNLOAD_BASE_URL</span> <span class="o">=</span> <span class="s2">&quot;https://neural-data-simulator.s3.amazonaws.com/sample_data/v1/&quot;</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">LOCAL_DATA</span><span class="p">:</span>
+    <span class="n">BEHAVIOR_DATA_PATH</span> <span class="o">=</span> <span class="n">pooch</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span>
+        <span class="n">url</span><span class="o">=</span><span class="n">urljoin</span><span class="p">(</span><span class="n">DOWNLOAD_BASE_URL</span><span class="p">,</span> <span class="s2">&quot;decode_example_NDS-Behavior.npz&quot;</span><span class="p">),</span>
+        <span class="n">known_hash</span><span class="o">=</span><span class="s2">&quot;md5:201cbd92f432b94ce8dcb8fb87c07634&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">DECODER_DATA_PATH</span> <span class="o">=</span> <span class="n">pooch</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span>
+        <span class="n">url</span><span class="o">=</span><span class="n">urljoin</span><span class="p">(</span><span class="n">DOWNLOAD_BASE_URL</span><span class="p">,</span> <span class="s2">&quot;decode_example_NDS-Decoder.npz&quot;</span><span class="p">),</span>
+        <span class="n">known_hash</span><span class="o">=</span><span class="s2">&quot;md5:a6a59c08dc32819a6781383e0ba1b4c1&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">BEHAVIOR_DATA_PATH</span> <span class="o">=</span> <span class="s2">&quot;the_path_to_your_recorded_behavior_data.npz&quot;</span>
+    <span class="n">DECODER_DATA_PATH</span> <span class="o">=</span> <span class="s2">&quot;the_path_to_your_recorded_decoder_data.npz&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="load-data">
+<h2>Load data<a class="headerlink" href="#load-data" title="Permalink to this heading"></a></h2>
+<p>Load the data to be plotted.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">signal</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">r2_score</span>
+
+<span class="n">behavior_file</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">BEHAVIOR_DATA_PATH</span><span class="p">)</span>
+<span class="n">behavior_data</span> <span class="o">=</span> <span class="n">behavior_file</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+<span class="n">behavior_timestamps</span> <span class="o">=</span> <span class="n">behavior_file</span><span class="p">[</span><span class="s2">&quot;timestamps&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">behavior_file</span><span class="p">[</span><span class="s2">&quot;timestamps&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">decoder_file</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">DECODER_DATA_PATH</span><span class="p">)</span>
+<span class="n">decoder_data</span> <span class="o">=</span> <span class="n">decoder_file</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+<span class="n">decoder_timestamps</span> <span class="o">=</span> <span class="n">decoder_file</span><span class="p">[</span><span class="s2">&quot;timestamps&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">decoder_file</span><span class="p">[</span><span class="s2">&quot;timestamps&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="plot-data">
+<h2>Plot data<a class="headerlink" href="#plot-data" title="Permalink to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_plot_velocities</span><span class="p">(</span>
+    <span class="n">behavior_data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">behavior_timestamps</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">decoder_data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">r2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">decoder_data</span><span class="p">[:,</span> <span class="n">axis</span><span class="p">])</span>
+    <span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">decoder_data</span><span class="p">[:,</span> <span class="n">axis</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">axis</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Horizontal direction: r2 = </span><span class="si">{</span><span class="n">r2</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;mean = </span><span class="si">{</span><span class="n">mean</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, std = </span><span class="si">{</span><span class="n">std</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Vertical direction: r2 = </span><span class="si">{</span><span class="n">r2</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;mean = </span><span class="si">{</span><span class="n">mean</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, std = </span><span class="si">{</span><span class="n">std</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+        <span class="n">behavior_timestamps</span><span class="p">,</span>
+        <span class="n">decoder_data</span><span class="p">[:,</span> <span class="n">axis</span><span class="p">],</span>
+        <span class="s2">&quot;blue&quot;</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Decoded (from simulated spikes)&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+        <span class="n">behavior_timestamps</span><span class="p">,</span>
+        <span class="n">behavior_data</span><span class="p">[:,</span> <span class="n">axis</span><span class="p">],</span>
+        <span class="s2">&quot;red&quot;</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Input&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Velocity (mm/s)&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time (s)&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">get_lag</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+    <span class="n">correlation</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">correlate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;full&quot;</span><span class="p">)</span>
+    <span class="n">lags</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">correlation_lags</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;full&quot;</span><span class="p">)</span>
+    <span class="n">lag</span> <span class="o">=</span> <span class="n">lags</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">correlation</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">lag</span><span class="p">)</span>
+
+
+<span class="n">h_lag</span> <span class="o">=</span> <span class="n">get_lag</span><span class="p">(</span><span class="n">behavior_data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">decoder_data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+
+<span class="n">behavior_data</span> <span class="o">=</span> <span class="n">behavior_data</span><span class="p">[:,</span> <span class="p">:]</span>
+<span class="n">behavior_timestamps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">behavior_timestamps</span><span class="p">)[:]</span>
+<span class="n">behavior_timestamps</span> <span class="o">=</span> <span class="n">behavior_timestamps</span> <span class="o">-</span> <span class="n">behavior_timestamps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">decoder_data</span> <span class="o">=</span> <span class="n">decoder_data</span><span class="p">[</span><span class="n">h_lag</span><span class="p">:,</span> <span class="p">:]</span>
+
+<span class="c1"># cut behavior and decoder streams to the same length</span>
+<span class="n">min_samples</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">decoder_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">behavior_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">decoder_data</span> <span class="o">=</span> <span class="n">decoder_data</span><span class="p">[:</span><span class="n">min_samples</span><span class="p">,</span> <span class="p">:]</span>
+<span class="n">behavior_data</span> <span class="o">=</span> <span class="n">behavior_data</span><span class="p">[:</span><span class="n">min_samples</span><span class="p">,</span> <span class="p">:]</span>
+<span class="n">behavior_timestamps</span> <span class="o">=</span> <span class="n">behavior_timestamps</span><span class="p">[:</span><span class="n">min_samples</span><span class="p">]</span>
+
+<span class="n">r2</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">behavior_data</span><span class="p">,</span> <span class="n">decoder_data</span><span class="p">,</span> <span class="n">multioutput</span><span class="o">=</span><span class="s2">&quot;raw_values&quot;</span><span class="p">)</span>
+
+<span class="n">dpi</span> <span class="o">=</span> <span class="mi">180</span>
+<span class="n">fig_size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">num</span><span class="o">=</span><span class="s2">&quot;Velocities overview&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="n">dpi</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="n">fig_size</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">_plot_velocities</span><span class="p">(</span><span class="n">behavior_data</span><span class="p">,</span> <span class="n">behavior_timestamps</span><span class="p">,</span> <span class="n">decoder_data</span><span class="p">,</span> <span class="n">r2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">_plot_velocities</span><span class="p">(</span><span class="n">behavior_data</span><span class="p">,</span> <span class="n">behavior_timestamps</span><span class="p">,</span> <span class="n">decoder_data</span><span class="p">,</span> <span class="n">r2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_plot_decoded_behavior_001.png" srcset="../_images/sphx_glr_plot_decoded_behavior_001.png" alt="Horizontal direction: r2 = 0.41, mean = 0.30, std = 0.81, Vertical direction: r2 = 0.26, mean = 0.19, std = 0.63" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.721 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-decoded-behavior-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/4489587ad75cc7848325a47590c946e0/plot_decoded_behavior.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_decoded_behavior.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/07b0cb003c4543c4bb868484cce59eb0/plot_decoded_behavior.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_decoded_behavior.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="plot_predicted_spike_rates.html" class="btn btn-neutral float-left" title="Visualize predicted spike rates with generated spikes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="plot_train_encoder_and_decoder_model.html" class="btn btn-neutral float-right" title="Train models for the encoder and decoder" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, AE Studio &amp; Chad Boulay.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

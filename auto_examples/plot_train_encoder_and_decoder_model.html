@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Train models for the encoder and decoder &mdash; Neural Data Simulator 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Contributing" href="../contributing.html" />
+    <link rel="prev" title="Visualize the input behavior together with the decoded behavior" href="plot_decoded_behavior.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Neural Data Simulator
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../running_bci.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Neural Data Simulator</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inputs.html">Behavioral Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../encoder.html">Encoder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ephys_generator.html">Electrophysiology (Ephys) Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuring.html">Configuring NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../running.html">Running NDS</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Extensions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../extending.html">Extending NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../decoders.html">Decoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks.html">Tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visualization.html">Visualizing Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Recording and Streaming</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="plot_run_open_loop.html">Collect data to train your own decoder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_psd.html">Visualize Power Spectral Density (PSD)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_behavior_distribution.html">Visualize distribution of velocities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_behavior_and_spikes.html">Visualize spike rates for input behavior</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_isi.html">Visualize inter-spike interval (ISI)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_predicted_spike_rates.html">Visualize predicted spike rates with generated spikes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_decoded_behavior.html">Visualize the input behavior together with the decoded behavior</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Train models for the encoder and decoder</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#download-data">Download data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#load-data">Load data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#remove-outliers">Remove outliers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#standardize-velocity">Standardize velocity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#export-standardized-model-for-streaming">Export standardized model for streaming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-tuning-curves">Create tuning curves</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-spiking-data-from-models">Get spiking data from models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#evaluate-results">Evaluate results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cobps">Cobps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#r-2-of-behavioral-data"><span class="math notranslate nohighlight">\(R^2\)</span> of behavioral data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#export-the-encoder-model-to-a-file">Export the encoder model to a file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#train-a-model-for-the-decoder">Train a model for the decoder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#export-the-decoder-model-to-a-file">Export the decoder model to a file</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/">GitHub Repository</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../nds/modules.html">Neural Data Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/modules.html">Example Implementations and Utilities</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Neural Data Simulator</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Tutorials</a></li>
+      <li class="breadcrumb-item active">Train models for the encoder and decoder</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/auto_examples/plot_train_encoder_and_decoder_model.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-plot-train-encoder-and-decoder-model-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
+</div>
+<section class="sphx-glr-example-title" id="train-models-for-the-encoder-and-decoder">
+<span id="sphx-glr-auto-examples-plot-train-encoder-and-decoder-model-py"></span><h1>Train models for the encoder and decoder<a class="headerlink" href="#train-models-for-the-encoder-and-decoder" title="Permalink to this heading"></a></h1>
+<p>This example illustrates the steps required to train and save models
+for the NDS encoder and decoder. The encoder model is used to convert
+velocity into spiking rates, while the decoder model is used to predict
+velocity from spiking rates.</p>
+<p>The models will be trained using a slice of data from the dataset
+<a class="reference external" href="https://dandiarchive.org/dandiset/000121">Structure and variability of delay activity in premotor cortex</a> and <a class="reference external" href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1006808">paper with the same title</a>,
+specifically the data from <cite>Session 4</cite> with the subject <cite>JenkinsC</cite>.</p>
+<p>We mostly followed <a class="reference external" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6286377/pdf/41467_2018_Article_7647.pdf">decoding arm speed during reaching</a>
+for modeling. One reason to follow this paper specifically is that we wanted
+to use a model that incorporated the magnitude of the velocity as well as its
+direction. Traditional cosine tuning curves only include direction.</p>
+<section id="download-data">
+<h2>Download data<a class="headerlink" href="#download-data" title="Permalink to this heading"></a></h2>
+<p>Retrieve the preprocessed training data from AWS S3 and validate its checksum.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urljoin</span>
+
+<span class="kn">import</span> <span class="nn">pooch</span>
+
+<span class="n">DOWNLOAD_BASE_URL</span> <span class="o">=</span> <span class="s2">&quot;https://neural-data-simulator.s3.amazonaws.com/sample_data/v1/&quot;</span>
+
+<span class="n">BEHAVIOR_DATA_PATH</span> <span class="o">=</span> <span class="n">pooch</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span>
+    <span class="n">url</span><span class="o">=</span><span class="n">urljoin</span><span class="p">(</span><span class="n">DOWNLOAD_BASE_URL</span><span class="p">,</span> <span class="s2">&quot;session_4_behavior.npz&quot;</span><span class="p">),</span>
+    <span class="n">known_hash</span><span class="o">=</span><span class="s2">&quot;md5:fff727f5793f62c0bf52e5cf13a96214&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">SPIKES_TRAIN_DATA_PATH</span> <span class="o">=</span> <span class="n">pooch</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span>
+    <span class="n">url</span><span class="o">=</span><span class="n">urljoin</span><span class="p">(</span><span class="n">DOWNLOAD_BASE_URL</span><span class="p">,</span> <span class="s2">&quot;session_4_spikes_train.npz&quot;</span><span class="p">),</span>
+    <span class="n">known_hash</span><span class="o">=</span><span class="s2">&quot;md5:6ba47e77c3045c1d4eda71f892a5cdc3&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">SPIKES_TEST_DATA_PATH</span> <span class="o">=</span> <span class="n">pooch</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span>
+    <span class="n">url</span><span class="o">=</span><span class="n">urljoin</span><span class="p">(</span><span class="n">DOWNLOAD_BASE_URL</span><span class="p">,</span> <span class="s2">&quot;session_4_spikes_test.npz&quot;</span><span class="p">),</span>
+    <span class="n">known_hash</span><span class="o">=</span><span class="s2">&quot;md5:9df38539d794f91049ddc23cc5e04531&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="load-data">
+<h2>Load data<a class="headerlink" href="#load-data" title="Permalink to this heading"></a></h2>
+<p>Load the training and test data from the downloaded files.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">behavior_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">BEHAVIOR_DATA_PATH</span><span class="p">)</span>
+<span class="n">spikes_train_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">SPIKES_TRAIN_DATA_PATH</span><span class="p">)</span>
+<span class="n">spikes_test_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">SPIKES_TEST_DATA_PATH</span><span class="p">)</span>
+
+<span class="n">timestamps</span> <span class="o">=</span> <span class="n">behavior_data</span><span class="p">[</span><span class="s2">&quot;timestamps_train&quot;</span><span class="p">]</span>
+<span class="n">vel_train</span> <span class="o">=</span> <span class="n">behavior_data</span><span class="p">[</span><span class="s2">&quot;vel_train&quot;</span><span class="p">]</span>
+<span class="n">vel_test</span> <span class="o">=</span> <span class="n">behavior_data</span><span class="p">[</span><span class="s2">&quot;vel_test&quot;</span><span class="p">]</span>
+<span class="n">spikes_train</span> <span class="o">=</span> <span class="n">spikes_train_data</span><span class="p">[</span><span class="s2">&quot;spikes_train&quot;</span><span class="p">]</span>
+<span class="n">spikes_test</span> <span class="o">=</span> <span class="n">spikes_test_data</span><span class="p">[</span><span class="s2">&quot;spikes_test&quot;</span><span class="p">]</span>
+
+<span class="k">assert</span> <span class="n">vel_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">spikes_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">vel_train</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_plot_train_encoder_and_decoder_model_001.png" srcset="../_images/sphx_glr_plot_train_encoder_and_decoder_model_001.png" alt="plot train encoder and decoder model" class = "sphx-glr-single-img"/></section>
+<section id="remove-outliers">
+<h2>Remove outliers<a class="headerlink" href="#remove-outliers" title="Permalink to this heading"></a></h2>
+<p>We observe that at least one sample is an outlier,
+so let’s remove all outliers from the dataset before
+training the model.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_indices_without_outliers</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">9</span><span class="p">):</span>
+    <span class="n">std_dev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">*</span> <span class="n">std_dev</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+
+<span class="n">vel_train_without_outliers_indices</span> <span class="o">=</span> <span class="n">get_indices_without_outliers</span><span class="p">(</span><span class="n">vel_train</span><span class="p">)</span>
+<span class="n">vel_train</span> <span class="o">=</span> <span class="n">vel_train</span><span class="p">[</span><span class="n">vel_train_without_outliers_indices</span><span class="p">]</span>
+<span class="n">spikes_train</span> <span class="o">=</span> <span class="n">spikes_train</span><span class="p">[</span><span class="n">vel_train_without_outliers_indices</span><span class="p">]</span>
+<span class="n">timestamps</span> <span class="o">=</span> <span class="n">timestamps</span><span class="p">[</span><span class="n">vel_train_without_outliers_indices</span><span class="p">]</span>
+
+<span class="k">assert</span> <span class="n">vel_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">spikes_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">vel_train</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_plot_train_encoder_and_decoder_model_002.png" srcset="../_images/sphx_glr_plot_train_encoder_and_decoder_model_002.png" alt="plot train encoder and decoder model" class = "sphx-glr-single-img"/></section>
+<section id="standardize-velocity">
+<h2>Standardize velocity<a class="headerlink" href="#standardize-velocity" title="Permalink to this heading"></a></h2>
+<p>Standardize velocity horizontal and vertical directions by
+scaling to unit variance.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">scaler</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">vel_train</span><span class="p">)</span>
+
+<span class="n">vel_train</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">vel_train</span><span class="p">)</span>
+<span class="n">vel_test</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">vel_test</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;scale =&quot;</span><span class="p">,</span> <span class="n">scaler</span><span class="o">.</span><span class="n">scale_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;mean =&quot;</span><span class="p">,</span> <span class="n">scaler</span><span class="o">.</span><span class="n">mean_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;var =&quot;</span><span class="p">,</span> <span class="n">scaler</span><span class="o">.</span><span class="n">var_</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">vel_train</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_plot_train_encoder_and_decoder_model_003.png" srcset="../_images/sphx_glr_plot_train_encoder_and_decoder_model_003.png" alt="plot train encoder and decoder model" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>scale = [2.39072966 2.27921963]
+mean = [ 0.00231087 -0.01231422]
+var = [5.71558832 5.19484214]
+</pre></div>
+</div>
+</section>
+<section id="export-standardized-model-for-streaming">
+<h2>Export standardized model for streaming<a class="headerlink" href="#export-standardized-model-for-streaming" title="Permalink to this heading"></a></h2>
+<p>For replaying the data with the NDS streamer, keep all samples
+from the dataset, but clip them, then apply the scaler.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">nds.util.runtime</span> <span class="kn">import</span> <span class="n">get_sample_data_dir</span>
+
+<span class="n">STANDARDIZED_BEHAVIOR_DATA_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+    <span class="n">get_sample_data_dir</span><span class="p">(),</span> <span class="s2">&quot;session_4_behavior_standardized.npz&quot;</span>
+<span class="p">)</span>
+<span class="n">VELOCITY_LIMIT</span> <span class="o">=</span> <span class="mi">20</span>
+
+<span class="n">str_timestamps</span> <span class="o">=</span> <span class="n">behavior_data</span><span class="p">[</span><span class="s2">&quot;timestamps_train&quot;</span><span class="p">]</span>
+<span class="n">str_vel_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">behavior_data</span><span class="p">[</span><span class="s2">&quot;vel_train&quot;</span><span class="p">],</span> <span class="o">-</span><span class="n">VELOCITY_LIMIT</span><span class="p">,</span> <span class="n">VELOCITY_LIMIT</span><span class="p">)</span>
+<span class="n">str_vel_train</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">str_vel_train</span><span class="p">)</span>
+<span class="n">str_vel_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">behavior_data</span><span class="p">[</span><span class="s2">&quot;vel_test&quot;</span><span class="p">],</span> <span class="o">-</span><span class="n">VELOCITY_LIMIT</span><span class="p">,</span> <span class="n">VELOCITY_LIMIT</span><span class="p">)</span>
+<span class="n">str_vel_test</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">str_vel_test</span><span class="p">)</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span>
+    <span class="n">STANDARDIZED_BEHAVIOR_DATA_PATH</span><span class="p">,</span>
+    <span class="n">timestamps_train</span><span class="o">=</span><span class="n">str_timestamps</span><span class="p">,</span>
+    <span class="n">vel_train</span><span class="o">=</span><span class="n">str_vel_train</span><span class="p">,</span>
+    <span class="n">vel_test</span><span class="o">=</span><span class="n">str_vel_test</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="create-tuning-curves">
+<h2>Create tuning curves<a class="headerlink" href="#create-tuning-curves" title="Permalink to this heading"></a></h2>
+<p>We’re ready to start creating the encoder model. We’ll follow the
+equation from <a class="reference external" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6286377/pdf/41467_2018_Article_7647.pdf">decoding arm speed during reaching</a>:</p>
+<p><span class="math notranslate nohighlight">\(spike rate = b_0 + m * |v| * cos(\theta - \theta_{pd}) + b_s*|v|\)</span></p>
+<p>where <cite>spike rate</cite> is the spike data for the unit we’re trying to model,
+<span class="math notranslate nohighlight">\(b_0\)</span>, <span class="math notranslate nohighlight">\(m\)</span>, <span class="math notranslate nohighlight">\(\theta_{pd}\)</span>, and <span class="math notranslate nohighlight">\(b_s\)</span> are the coefficients
+we’re fitting <span class="math notranslate nohighlight">\(\theta_{pd}\)</span> is the preferred direction for this unit,
+<span class="math notranslate nohighlight">\(\theta\)</span> is the direction of the velocity and <span class="math notranslate nohighlight">\(|v|\)</span> is the magnitude of
+the velocity.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There is a time delay component removed from the original equation. In the paper,
+the authors searched for the optimal time delay for each unit. It’s expected that
+we’ll see spikes happening before the actual movement. For decoding kinematics
+from spikes, that’s a helpful delay, because you have extra time to process the
+current spikes as the motor action is only coming in a few milliseconds; but in
+our case, this means we’d need to use data from the future – or in practice,
+we’d need to add an extra delay between input and output, which is not desired.
+So for this initial model, we’ll use “current” behavior data to create “current”
+spikes.</p>
+</div>
+<p>Let’s fit one model for each unit.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">curve_fit</span>
+
+
+<span class="k">def</span> <span class="nf">tuning_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">b0</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">pd</span><span class="p">,</span> <span class="n">bs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Spiking rate tuning curve from the paper decoding arm speed during reaching</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mag_vel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">x</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">b0</span> <span class="o">+</span> <span class="n">m</span> <span class="o">*</span> <span class="n">mag_vel</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span> <span class="o">-</span> <span class="n">pd</span><span class="p">)</span> <span class="o">+</span> <span class="n">bs</span> <span class="o">*</span> <span class="n">mag_vel</span>
+
+
+<span class="k">class</span> <span class="nc">UnitModel</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Stores key data and model for each unit in our simulation</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tuning_model</span><span class="p">,</span> <span class="n">unit_id</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">unit_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_params</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_error</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">tuning_model</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">spike_rates_to_fit</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">velocity_to_fit</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">velocity</span><span class="p">,</span> <span class="n">spike_rates</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find model parameters to spike rates to the velocity using the tuning model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_params</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">velocity</span><span class="p">,</span> <span class="n">spike_rates</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spike_rates_to_fit</span> <span class="o">=</span> <span class="n">spike_rates</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">velocity_to_fit</span> <span class="o">=</span> <span class="n">velocity</span>
+
+    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">velocity</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get rates based on model fit in the fit function to the given velocities</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">velocity</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">model_params</span><span class="p">)</span>
+        <span class="n">rates</span><span class="p">[</span><span class="n">rates</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-9</span>
+        <span class="k">return</span> <span class="n">rates</span>
+
+
+<span class="n">units</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">unit_id</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">spikes_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+    <span class="n">unit_model</span> <span class="o">=</span> <span class="n">UnitModel</span><span class="p">(</span><span class="n">tuning_model</span><span class="p">,</span> <span class="n">unit_id</span><span class="p">)</span>
+    <span class="n">unit_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">vel_train</span><span class="p">,</span> <span class="n">spikes_train</span><span class="p">[:,</span> <span class="n">unit_id</span><span class="p">])</span>
+    <span class="n">units</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">unit_model</span><span class="p">)</span>
+
+<span class="n">params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">u</span><span class="o">.</span><span class="n">model_params</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">units</span><span class="p">])</span>
+</pre></div>
+</div>
+</section>
+<section id="get-spiking-data-from-models">
+<h2>Get spiking data from models<a class="headerlink" href="#get-spiking-data-from-models" title="Permalink to this heading"></a></h2>
+<p>In this section, we’ll follow a nomenclature similar to that from the NLB
+challenge, where <cite>rates</cite> are the expected number of spikes in a bin – this
+is what we get out of our original equation when we create our tuning
+curve model.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simulated_rates_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">spikes_train</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">u</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">units</span><span class="p">):</span>
+    <span class="n">simulated_rates_train</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">vel_train</span><span class="p">)</span>
+
+<span class="n">simulated_rates_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">spikes_test</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">u</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">units</span><span class="p">):</span>
+    <span class="n">simulated_rates_test</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">vel_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Let’s take a look at what our simulated data looks like compared to the
+original smoothed binned spiking data to a few randomly chosen units.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">signal</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">20230111</span><span class="p">)</span>
+
+<span class="n">BIN_WIDTH</span> <span class="o">=</span> <span class="mf">0.02</span>
+<span class="n">RANGE_TO_PLOT</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">3000</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">smooth_spike_counts</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">bin_ms</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sd_ms</span><span class="o">=</span><span class="mi">40</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Smooth the spike counts using a Gaussian filter</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">kern_sd</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">sd_ms</span> <span class="o">/</span> <span class="n">bin_ms</span><span class="p">))</span>
+    <span class="n">window</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">gaussian</span><span class="p">(</span><span class="n">kern_sd</span> <span class="o">*</span> <span class="mi">6</span><span class="p">,</span> <span class="n">kern_sd</span><span class="p">,</span> <span class="n">sym</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">window</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">window</span><span class="p">)</span>
+    <span class="n">filt</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="s2">&quot;same&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">filt</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+
+
+<span class="n">units_to_plot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">units</span><span class="p">)),</span> <span class="mi">16</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">u</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">units_to_plot</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># we need to smooth the data after sampling from the poisson</span>
+    <span class="n">ys</span> <span class="o">=</span> <span class="n">smooth_spike_counts</span><span class="p">(</span>
+        <span class="n">simulated_rates_train</span><span class="p">[:,</span> <span class="n">u</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+        <span class="n">bin_ms</span><span class="o">=</span><span class="n">BIN_WIDTH</span><span class="p">,</span>
+        <span class="n">sd_ms</span><span class="o">=</span><span class="mi">3</span> <span class="o">*</span> <span class="n">BIN_WIDTH</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ys</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">RANGE_TO_PLOT</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Simulated (rates)&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">spikes_train</span><span class="p">[</span><span class="n">RANGE_TO_PLOT</span><span class="p">,</span> <span class="n">u</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Original&quot;</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Rates (spk/sec)&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time bin&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_plot_train_encoder_and_decoder_model_004.png" srcset="../_images/sphx_glr_plot_train_encoder_and_decoder_model_004.png" alt="plot train encoder and decoder model" class = "sphx-glr-single-img"/><p>We see that the baseline for each of the rates is nonzero, which is the
+spiking rate when no movement is being performed.</p>
+</section>
+<section id="evaluate-results">
+<h2>Evaluate results<a class="headerlink" href="#evaluate-results" title="Permalink to this heading"></a></h2>
+<p>To get an idea of how our simulated data is performing, let’s use the
+evaluation tools from the NLB challenge.</p>
+<p>For more information about these metrics, take a look at the <a class="reference external" href="https://eval.ai/web/challenges/challenge-page/1256/evaluation">NLB challenge
+evaluation page</a>
+or at their paper <a class="reference external" href="https://arxiv.org/pdf/2109.04463.pdf">Neural Latents Benchmark ‘21: Evaluating latent variable
+models of neural population activity</a>.</p>
+</section>
+<section id="cobps">
+<h2>Cobps<a class="headerlink" href="#cobps" title="Permalink to this heading"></a></h2>
+<p>Co-smoothing (<cite>cobps</cite>) was the main metric used for the challenge which is
+based on the log-likelihood of neurons activity. <cite>cobps</cite> would be 0 if the
+predicted rates were the average of the actual spike rate. The higher <cite>cobps</cite>
+the better.</p>
+<p>It’s hard to interpret <cite>cobps</cite> though, as you can’t infer from the <cite>cobps</cite>
+results from other datasets. Here, we calculate a few different <cite>cobps</cite> for
+this dataset to try to get a better sense of how well we’re doing.
+However, this will be more useful as we create new models as this will
+allow us to tell whether our models are improving.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nlb_tools.evaluation</span> <span class="kn">import</span> <span class="n">bits_per_spike</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">simulated_rates_train</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+    <span class="mi">1</span><span class="p">,</span> <span class="n">simulated_rates_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">simulated_rates_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">spikes_train</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">spikes_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">spikes_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cobps for original data (i.e. best achievable): </span><span class="si">{</span><span class="n">bits_per_spike</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;cobps for mean per channel (this should be 0 by the co-bps definition): &quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bits_per_spike</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;cobps for mean across all training data: &quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bits_per_spike</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">s</span><span class="p">),</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;cobps for random uniform data: &quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bits_per_spike</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">s</span><span class="p">),</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">s</span><span class="p">),</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cobps for simulated data (train data): </span><span class="si">{</span><span class="n">bits_per_spike</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">simulated_rates_test</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+    <span class="mi">1</span><span class="p">,</span> <span class="n">simulated_rates_test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">simulated_rates_test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">spikes_test</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">spikes_test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">spikes_test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cobps for simulated data (test data): </span><span class="si">{</span><span class="n">bits_per_spike</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>neg_log_likelihood: Zero rate predictions found. Replacing zeros with 1e-9
+cobps for original data (i.e. best achievable): 0.4486997123425871
+cobps for mean per channel (this should be 0 by the co-bps definition): 0.0
+cobps for mean across all training data: -0.48506622301885105
+cobps for random uniform data: -9.126104175688969
+cobps for simulated data (train data): 0.02553927415256158
+cobps for simulated data (test data): 0.019769544877821482
+</pre></div>
+</div>
+</section>
+<section id="r-2-of-behavioral-data">
+<h2><span class="math notranslate nohighlight">\(R^2\)</span> of behavioral data<a class="headerlink" href="#r-2-of-behavioral-data" title="Permalink to this heading"></a></h2>
+<p>Another way that the quality of generated spikes was evaluated for the NLB
+challenge was using them on ridge regression model trained with actual data.</p>
+<p>Here we’ll do a similar approach, but we’ll try different combinations of
+training/testing with real or simulated data to try to extract more information.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nlb_tools.evaluation</span> <span class="kn">import</span> <span class="n">fit_and_eval_decoder</span>
+
+<span class="n">r2</span> <span class="o">=</span> <span class="n">fit_and_eval_decoder</span><span class="p">(</span><span class="n">spikes_train</span><span class="p">,</span> <span class="n">vel_train</span><span class="p">,</span> <span class="n">spikes_test</span><span class="p">,</span> <span class="n">vel_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;trained on real data, tested on real data: </span><span class="si">{</span><span class="n">r2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">r2</span> <span class="o">=</span> <span class="n">fit_and_eval_decoder</span><span class="p">(</span><span class="n">spikes_train</span><span class="p">,</span> <span class="n">vel_train</span><span class="p">,</span> <span class="n">simulated_rates_test</span><span class="p">,</span> <span class="n">vel_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;trained on real data, tested on simulated data: </span><span class="si">{</span><span class="n">r2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">r2</span> <span class="o">=</span> <span class="n">fit_and_eval_decoder</span><span class="p">(</span><span class="n">simulated_rates_train</span><span class="p">,</span> <span class="n">vel_train</span><span class="p">,</span> <span class="n">spikes_test</span><span class="p">,</span> <span class="n">vel_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;trained on simulated data, tested on real data: </span><span class="si">{</span><span class="n">r2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">r2</span> <span class="o">=</span> <span class="n">fit_and_eval_decoder</span><span class="p">(</span>
+    <span class="n">simulated_rates_train</span><span class="p">,</span> <span class="n">vel_train</span><span class="p">,</span> <span class="n">simulated_rates_test</span><span class="p">,</span> <span class="n">vel_test</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;trained on simulated data, tested on simulated data: </span><span class="si">{</span><span class="n">r2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>trained on real data, tested on real data: 0.49357481254843066
+trained on real data, tested on simulated data: 0.7756907304847125
+trained on simulated data, tested on real data: -1.1142196937517301
+trained on simulated data, tested on simulated data: 0.9999999999999727
+</pre></div>
+</div>
+</section>
+<section id="export-the-encoder-model-to-a-file">
+<h2>Export the encoder model to a file<a class="headerlink" href="#export-the-encoder-model-to-a-file" title="Permalink to this heading"></a></h2>
+<p>Save the velocity tuning curve parameters to a file that can be used
+in the encoder configuration.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ENCODER_MODEL_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+    <span class="n">get_sample_data_dir</span><span class="p">(),</span> <span class="s2">&quot;session_4_tuning_curves_params.npz&quot;</span>
+<span class="p">)</span>
+
+<span class="n">params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">u</span><span class="o">.</span><span class="n">model_params</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">units</span><span class="p">])</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span>
+    <span class="n">ENCODER_MODEL_PATH</span><span class="p">,</span>
+    <span class="n">b0</span><span class="o">=</span><span class="n">params</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">m</span><span class="o">=</span><span class="n">params</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">pd</span><span class="o">=</span><span class="n">params</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span>
+    <span class="n">bs</span><span class="o">=</span><span class="n">params</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="train-a-model-for-the-decoder">
+<h2>Train a model for the decoder<a class="headerlink" href="#train-a-model-for-the-decoder" title="Permalink to this heading"></a></h2>
+<p>Fit a model to predict velocity from the spiking data.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span>
+
+<span class="n">decoder</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">()</span>
+<span class="n">decoder</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spikes_train</span><span class="p">,</span> <span class="n">vel_train</span><span class="p">)</span>
+<span class="n">real_score</span> <span class="o">=</span> <span class="n">decoder</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">spikes_test</span><span class="p">,</span> <span class="n">vel_test</span><span class="p">)</span>
+<span class="n">sim_score</span> <span class="o">=</span> <span class="n">decoder</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">simulated_rates_test</span><span class="p">,</span> <span class="n">vel_test</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;trained on real data, tested on real spikes: </span><span class="si">{</span><span class="n">real_score</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;trained on real data, tested on simulated spikes: </span><span class="si">{</span><span class="n">sim_score</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>trained on real data, tested on real spikes: 0.49357481254843066
+trained on real data, tested on simulated spikes: 0.7756907304847125
+</pre></div>
+</div>
+</section>
+<section id="export-the-decoder-model-to-a-file">
+<h2>Export the decoder model to a file<a class="headerlink" href="#export-the-decoder-model-to-a-file" title="Permalink to this heading"></a></h2>
+<p>Dump the model to a file that can be used in the decoder configuration.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">joblib</span>
+
+<span class="n">DECODER_MODEL_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+    <span class="n">get_sample_data_dir</span><span class="p">(),</span> <span class="s2">&quot;session_4_simple_decoder.joblib&quot;</span>
+<span class="p">)</span>
+
+<span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">decoder</span><span class="p">,</span> <span class="n">DECODER_MODEL_PATH</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&#39;/home/runner/.nds/sample_data/session_4_simple_decoder.joblib&#39;]
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 1 minutes  9.195 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-train-encoder-and-decoder-model-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/04606d167bb9682bf0dc241cf8654c22/plot_train_encoder_and_decoder_model.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_train_encoder_and_decoder_model.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/169f42520b2884c769de571bbd00bb63/plot_train_encoder_and_decoder_model.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_train_encoder_and_decoder_model.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="plot_decoded_behavior.html" class="btn btn-neutral float-left" title="Visualize the input behavior together with the decoded behavior" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../contributing.html" class="btn btn-neutral float-right" title="Contributing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, AE Studio &amp; Chad Boulay.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

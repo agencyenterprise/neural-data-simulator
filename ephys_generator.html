@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Electrophysiology (Ephys) Generator &mdash; Neural Data Simulator 0.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Configuring NDS" href="configuring.html" />
+    <link rel="prev" title="Encoder" href="encoder.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Neural Data Simulator
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running_bci.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Neural Data Simulator</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inputs.html">Behavioral Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="encoder.html">Encoder</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Electrophysiology (Ephys) Generator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#spike-times">Spike times</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spike-waveforms">Spike waveforms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#background-noise">Background noise</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-output">Data output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing">Testing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="configuring.html">Configuring NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">Running NDS</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Extensions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="extending.html">Extending NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="decoders.html">Decoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tasks.html">Tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualization.html">Visualizing Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Recording and Streaming</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/">GitHub Repository</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="nds/modules.html">Neural Data Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools/modules.html">Example Implementations and Utilities</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Neural Data Simulator</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Electrophysiology (Ephys) Generator</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/ephys_generator.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="electrophysiology-ephys-generator">
+<h1>Electrophysiology (Ephys) Generator<a class="headerlink" href="#electrophysiology-ephys-generator" title="Permalink to this heading"></a></h1>
+<p><img alt="diagram" src="_images/ephys_generator.png" />
+The electrophysiology (ephys) generator is responsible for synthesizing spikes based on input spike rate data that it receives.
+The spike rate data is specified in spikes/second.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">ephys</span> <span class="pre">generator</span></code> is executed periodically to approximately match the configured output rate (<code class="docutils literal notranslate"><span class="pre">lsl_chunk_frequency</span></code>), and the number of samples generated per execution is calculated to match the configured raw data frequency (<code class="docutils literal notranslate"><span class="pre">raw_data_frequency</span></code>).</p>
+<p>NDS uses a probabilistic model, therefore over a long time span the generated spikes will match the desired spike rate.
+But over short time spans there will be variation in the produced spikes per second.</p>
+<p>The electrophysiology data is generated by convolving spike waveforms with the spiking events, and adding noise.
+The spike waveforms can be specified per channel, where a channel represents the readings of the activity from one of the electrodes in the microelectrode array.</p>
+<section id="spike-times">
+<h2>Spike times<a class="headerlink" href="#spike-times" title="Permalink to this heading"></a></h2>
+<p>Spike times are calculated using the spike rate input for each channel. When there are multiple units in a channel, the rate is divided equally across the units. A unit represents a putatively isolated neuron, perhaps among several neurons, recorded from a single channel.</p>
+<p>Each time the <code class="docutils literal notranslate"><span class="pre">ephys</span> <span class="pre">generator</span></code> is executed, the chances of a spike for each sample in each unit is calculated. A random draw is performed for each samples for each unit and a spike is assigned or not depending on the spike chance. An iterative process is then performed to remove spikes within the configured refractory period.</p>
+<p>See <a class="reference internal" href="configuring.html#ephys-generator"><span class="std std-ref">Ephys generator</span></a> configuration for details.</p>
+</section>
+<section id="spike-waveforms">
+<h2>Spike waveforms<a class="headerlink" href="#spike-waveforms" title="Permalink to this heading"></a></h2>
+<p>A list of waveform prototypes can be configured, and a waveform assigned to all units or individually mapped to each unit. For each unit, a random number between 0.5 and 1 is used to scale the waveform (the same scalar is used for an entire NDS execution).
+The waveforms are added to the raw data at the spike times, where the first sample of the waveform aligns with the spike time.</p>
+<p>See <a class="reference internal" href="configuring.html#loading-custom-spike-waveforms"><span class="std std-ref">Loading custom spike waveform</span></a> configuration for details.</p>
+</section>
+<section id="background-noise">
+<h2>Background noise<a class="headerlink" href="#background-noise" title="Permalink to this heading"></a></h2>
+<p>Background noise is calculated using a gaussian distributed noise. The power law for the noise generation is configurable as well as the standard deviation of the noise. Currently, the noise for each channel is generated when starting NDS and samples are fetched as needed during execution, and restarted when all generated noise was used. The number of noise samples generated are also configurable and recommended to be large compared to the raw data frequency so the noise repetition is not noticeable.</p>
+<p>See <a class="reference internal" href="configuring.html#noise"><span class="std std-ref">Noise</span></a> configuration for details.</p>
+</section>
+<section id="data-output">
+<h2>Data output<a class="headerlink" href="#data-output" title="Permalink to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Ephys</span> <span class="pre">generator</span></code> produces three outputs that are continuously pushed to 3 <a class="reference internal" href="configuring.html#id2"><span class="std std-ref">configurable</span></a> LSL streams:</p>
+<p><img alt="ephys-output" src="_images/ephys-generator-output.png" /></p>
+<ol class="arabic">
+<li><p><code class="docutils literal notranslate"><span class="pre">raw</span> <span class="pre">data</span></code>: the simulated electrophysiology signal. The number of channels is the same as the number of input spike rate channels. The output signal is obtained by combining preconfigured spike waveforms with randomly generated noise. A chunk of data, which is a group of samples in chronological order, is generated on each execution of the <code class="docutils literal notranslate"><span class="pre">ephys</span> <span class="pre">generator</span></code>. The size of chunk depends on the <a class="reference internal" href="configuring.html#ephys-generator"><span class="std std-ref">raw_data_frequency</span></a>, <a class="reference internal" href="configuring.html#ephys-generator"><span class="std std-ref">lsl_chunk_frequency</span></a> and the CPU. Ideally the chunk size is equal to <span class="math notranslate nohighlight">\(\frac{raw\_data\_frequency}{lsl\_chunk\_frequency}\)</span>, but it can increase in size if the CPU is not able to keep up with the simulation. A configurable refractory period is used to ensure realistic signal generation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LFP</span></code>: the data resulted after filtering the raw data with a <a class="reference internal" href="configuring.html#lfp"><span class="std std-ref">configurable</span></a> low pass filter.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">spike</span> <span class="pre">events</span></code>: data about the generated spikes. Each sample sent through this stream is structured as follows:</p>
+<ul class="simple">
+<li><p>the first element is the channel index with the spike</p></li>
+<li><p>the second element is the index of the unit within the channel</p></li>
+<li><p>the remaining elements carry the spike waveform</p></li>
+</ul>
+<p>For example if the spike waveform had 48 samples and the unit 0 spiked which was recorded on channel 10, the sample would be sent as: <code class="docutils literal notranslate"><span class="pre">[10,</span> <span class="pre">0,</span> <span class="pre">w0,</span> <span class="pre">...,</span> <span class="pre">w47]</span></code>.</p>
+</li>
+</ol>
+<p>To start the <code class="docutils literal notranslate"><span class="pre">ephys</span> <span class="pre">generator</span></code>, complete the <a class="reference internal" href="installation.html"><span class="std std-doc">installation</span></a>, adjust the <a class="reference internal" href="configuring.html#ephys-generator"><span class="std std-ref">configuration</span></a>, then run the script:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ephys_generator</span>
+</pre></div>
+</div>
+<p>The script can use a different config file specified via the <code class="docutils literal notranslate"><span class="pre">--settings-path</span></code> argument.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>By default, the <code class="docutils literal notranslate"><span class="pre">ephys</span> <span class="pre">generator</span></code> expects to read data from an LSL stream and output to an LSL outlet. In absence of the input stream, the <code class="docutils literal notranslate"><span class="pre">ephys</span> <span class="pre">generator</span></code> will not be able to start, therefore make sure to start the encoder before the <code class="docutils literal notranslate"><span class="pre">ephys</span> <span class="pre">generator</span></code>.</p>
+</div>
+</section>
+<section id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this heading"></a></h2>
+<p>You can also use the <code class="docutils literal notranslate"><span class="pre">ephys</span> <span class="pre">generator</span></code> in <code class="docutils literal notranslate"><span class="pre">testing</span></code> mode which produces a constant spike rates on each unit, proportional to the unit number as shown in the image below (the image is generated using the <a class="reference internal" href="visualization.html"><span class="std std-doc">open-ephys software</span></a>).</p>
+<p><img alt="ephys-testing-input" src="_images/ephys-testing-input.png" /></p>
+<p>To enable the <code class="docutils literal notranslate"><span class="pre">testing</span></code> mode set this <a class="reference internal" href="configuring.html#testing-input"><span class="std std-ref">configuration</span></a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="encoder.html" class="btn btn-neutral float-left" title="Encoder" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="configuring.html" class="btn btn-neutral float-right" title="Configuring NDS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, AE Studio &amp; Chad Boulay.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

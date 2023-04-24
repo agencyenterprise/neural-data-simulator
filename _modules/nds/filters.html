@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nds.filters &mdash; Neural Data Simulator 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Neural Data Simulator
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../running_bci.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Neural Data Simulator</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../inputs.html">Behavioral Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../encoder.html">Encoder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ephys_generator.html">Electrophysiology (Ephys) Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configuring.html">Configuring NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../running.html">Running NDS</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Extensions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../extending.html">Extending NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../decoders.html">Decoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tasks.html">Tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../visualization.html">Visualizing Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities.html">Recording and Streaming</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/">GitHub Repository</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../nds/modules.html">Neural Data Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/modules.html">Example Implementations and Utilities</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Neural Data Simulator</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">nds.filters</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for nds.filters</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Filter implementations for signal processing.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ndarray</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">signal</span>
+
+
+<div class="viewcode-block" id="RealTimeFilter"><a class="viewcode-back" href="../../nds/nds.html#nds.filters.RealTimeFilter">[docs]</a><span class="k">class</span> <span class="nc">RealTimeFilter</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A protocol for filters operating on chunked data.</span>
+
+<span class="sd">    A python protocol (`PEP-544 &lt;https://peps.python.org/pep-0544/&gt;`_) works in</span>
+<span class="sd">    a similar way to an abstract class.</span>
+<span class="sd">    The :meth:`__init__` method of this protocol should never be called as</span>
+<span class="sd">    protocols are not meant to be instantiated. An :meth:`__init__` method</span>
+<span class="sd">    may be defined in a concrete implementation of this protocol if needed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="RealTimeFilter.execute"><a class="viewcode-back" href="../../nds/nds.html#nds.filters.RealTimeFilter.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform filtering on the current chunk of data.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data: Data that should be filtered.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Filtered data with the same dimensions as the input.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="o">...</span></div></div>
+
+
+<div class="viewcode-block" id="GaussianFilter"><a class="viewcode-back" href="../../nds/nds.html#nds.filters.GaussianFilter">[docs]</a><span class="k">class</span> <span class="nc">GaussianFilter</span><span class="p">(</span><span class="n">RealTimeFilter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An implementation of a Gaussian filter.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GaussianFilter.__init__"><a class="viewcode-back" href="../../nds/nds.html#nds.filters.GaussianFilter.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">window_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">std</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">normalization_coeff</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">num_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the GaussianFilter class.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name: A label that identifies the filter instance.</span>
+<span class="sd">            window_size: The number of samples defining the size of the Gaussian window.</span>
+<span class="sd">            std: Standard deviation.</span>
+<span class="sd">            normalization_coeff: When applying the filter both numerator and</span>
+<span class="sd">              denominator are normalized by this value.</span>
+<span class="sd">            num_channels: Number of channels.</span>
+<span class="sd">            enabled: Whether to apply the filter. If false, the</span>
+<span class="sd">              data will be passed through without modification.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_size</span> <span class="o">=</span> <span class="n">window_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">std</span> <span class="o">=</span> <span class="n">std</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalization_coeff</span> <span class="o">=</span> <span class="n">normalization_coeff</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_channels</span> <span class="o">=</span> <span class="n">num_channels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="n">enabled</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_generate_filter_coefficients</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_generate_filter_coefficients</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate filter coefficients.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gauss_filter</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">gaussian</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">std</span><span class="p">,</span> <span class="n">sym</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_filter_state</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_initialize_filter_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize filter state for each channel.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_zi</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">lfilter_zi</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gauss_filter</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_channels</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_zi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_zi</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_channels</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+            <span class="p">)</span>
+
+<div class="viewcode-block" id="GaussianFilter.execute"><a class="viewcode-back" href="../../nds/nds.html#nds.filters.GaussianFilter.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform filtering on data.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data: Data that should be filtered as a two-dimensional array.</span>
+<span class="sd">              The first dimension represents samples and the second</span>
+<span class="sd">              dimension represents channels.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Filtered data with the same dimensions as the input.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data</span>
+
+        <span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zi</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">lfilter</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gauss_filter</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalization_coeff</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">zi</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_zi</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data</span></div></div>
+
+
+<div class="viewcode-block" id="ButterworthFilter"><a class="viewcode-back" href="../../nds/nds.html#nds.filters.ButterworthFilter">[docs]</a><span class="k">class</span> <span class="nc">ButterworthFilter</span><span class="p">(</span><span class="n">RealTimeFilter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generic class for Butterworth filters.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ButterworthFilter.__init__"><a class="viewcode-back" href="../../nds/nds.html#nds.filters.ButterworthFilter.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">filter_order</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">critical_frequency</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+        <span class="n">sample_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">num_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">btype</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform Butterworth filtering.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name: A label that identifies the filter instance.</span>
+<span class="sd">            filter_order: The order of the filter.</span>
+<span class="sd">            critical_frequency: Critical frequency in Hz. For lowpass or highpass</span>
+<span class="sd">              it is a scalar representing the cutoff frequency. For bandpass it is a</span>
+<span class="sd">              tuple of two scalars representing the lower and upper cutoff frequencies.</span>
+<span class="sd">            sample_rate: Sample rate in Hz.</span>
+<span class="sd">            num_channels: Number of channels.</span>
+<span class="sd">            btype: Type of filter. Either `highpass` or `lowpass`.</span>
+<span class="sd">            enabled: Whether to apply the filter. If false, the</span>
+<span class="sd">              data will be passed through without modification.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filter_order</span> <span class="o">=</span> <span class="n">filter_order</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">critical_frequency</span> <span class="o">=</span> <span class="n">critical_frequency</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sample_rate</span> <span class="o">=</span> <span class="n">sample_rate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_channels</span> <span class="o">=</span> <span class="n">num_channels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="n">enabled</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">btype</span> <span class="o">=</span> <span class="n">btype</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_generate_filter_coefficients</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_generate_filter_coefficients</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate filter coefficents for filter using scipy.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filter_sos</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">butter</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">filter_order</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">critical_frequency</span><span class="p">,</span>
+            <span class="n">btype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">btype</span><span class="p">,</span>
+            <span class="n">analog</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">fs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sample_rate</span><span class="p">,</span>
+            <span class="n">output</span><span class="o">=</span><span class="s2">&quot;sos&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_filter_state</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_initialize_filter_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize filter state for each channel.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_zi</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">sosfilt_zi</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_sos</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_channels</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_zi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_zi</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_channels</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span>
+            <span class="p">)</span>
+
+<div class="viewcode-block" id="ButterworthFilter.execute"><a class="viewcode-back" href="../../nds/nds.html#nds.filters.ButterworthFilter.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform filtering on data.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data: Data that should be filtered as a two-dimensional array.</span>
+<span class="sd">              The first dimension represents samples and the second</span>
+<span class="sd">              dimension represents channels.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Filtered data with the same dimensions as the input.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data</span>
+
+        <span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zi</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">sosfilt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_sos</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">zi</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_zi</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data</span></div></div>
+
+
+<div class="viewcode-block" id="HighpassFilter"><a class="viewcode-back" href="../../nds/nds.html#nds.filters.HighpassFilter">[docs]</a><span class="k">class</span> <span class="nc">HighpassFilter</span><span class="p">(</span><span class="n">ButterworthFilter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform highpass filtering.</span>
+
+<span class="sd">    This class is based around the scipy Butterworth digital</span>
+<span class="sd">    filter implementation and uses the same language as the</span>
+<span class="sd">    underlying scipy package.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="HighpassFilter.__init__"><a class="viewcode-back" href="../../nds/nds.html#nds.filters.HighpassFilter.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">filter_order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">critical_frequency</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">sample_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">num_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new instance.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name: A label that identifies the filter instance.</span>
+<span class="sd">            filter_order: The order of the filter.</span>
+<span class="sd">            critical_frequency: Critical frequency in Hz.</span>
+<span class="sd">            sample_rate: Sample rate in Hz.</span>
+<span class="sd">            num_channels: Number of channels.</span>
+<span class="sd">            enabled: Whether to apply the filter. If false, the</span>
+<span class="sd">              data will be passed through without modification.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HighpassFilter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">filter_order</span><span class="o">=</span><span class="n">filter_order</span><span class="p">,</span>
+            <span class="n">critical_frequency</span><span class="o">=</span><span class="n">critical_frequency</span><span class="p">,</span>
+            <span class="n">sample_rate</span><span class="o">=</span><span class="n">sample_rate</span><span class="p">,</span>
+            <span class="n">num_channels</span><span class="o">=</span><span class="n">num_channels</span><span class="p">,</span>
+            <span class="n">enabled</span><span class="o">=</span><span class="n">enabled</span><span class="p">,</span>
+            <span class="n">btype</span><span class="o">=</span><span class="s2">&quot;highpass&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="LowpassFilter"><a class="viewcode-back" href="../../nds/nds.html#nds.filters.LowpassFilter">[docs]</a><span class="k">class</span> <span class="nc">LowpassFilter</span><span class="p">(</span><span class="n">ButterworthFilter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform lowpass filtering.</span>
+
+<span class="sd">    This class is based around the scipy Butterworth digital</span>
+<span class="sd">    filter implementation and uses the same language as the</span>
+<span class="sd">    underlying scipy package.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="LowpassFilter.__init__"><a class="viewcode-back" href="../../nds/nds.html#nds.filters.LowpassFilter.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">filter_order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">critical_frequency</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+        <span class="n">sample_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">num_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform lowpass filtering.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name: A label that identifies the filter instance.</span>
+<span class="sd">            filter_order: The order of the filter.</span>
+<span class="sd">            critical_frequency: Critical frequency in Hz.</span>
+<span class="sd">            sample_rate: Sample rate in Hz.</span>
+<span class="sd">            num_channels: Number of channels.</span>
+<span class="sd">            enabled: Whether to apply the filter. If false, the</span>
+<span class="sd">              data will be passed through without modification.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LowpassFilter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">filter_order</span><span class="o">=</span><span class="n">filter_order</span><span class="p">,</span>
+            <span class="n">critical_frequency</span><span class="o">=</span><span class="n">critical_frequency</span><span class="p">,</span>
+            <span class="n">sample_rate</span><span class="o">=</span><span class="n">sample_rate</span><span class="p">,</span>
+            <span class="n">num_channels</span><span class="o">=</span><span class="n">num_channels</span><span class="p">,</span>
+            <span class="n">enabled</span><span class="o">=</span><span class="n">enabled</span><span class="p">,</span>
+            <span class="n">btype</span><span class="o">=</span><span class="s2">&quot;lowpass&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="BandpassFilter"><a class="viewcode-back" href="../../nds/nds.html#nds.filters.BandpassFilter">[docs]</a><span class="k">class</span> <span class="nc">BandpassFilter</span><span class="p">(</span><span class="n">ButterworthFilter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform bandpass filtering.</span>
+
+<span class="sd">    This class is based around the scipy Butterworth digital</span>
+<span class="sd">    filter implementation and uses the same language as the</span>
+<span class="sd">    underlying scipy package.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BandpassFilter.__init__"><a class="viewcode-back" href="../../nds/nds.html#nds.filters.BandpassFilter.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">filter_order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">critical_frequencies</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+        <span class="n">sample_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">num_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform lowpass filtering.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name: A label that identifies the filter instance.</span>
+<span class="sd">            filter_order: The order of the filter.</span>
+<span class="sd">            critical_frequencies: Tuple of low and high critical frequencies in Hz.</span>
+<span class="sd">            sample_rate: Sample rate in Hz.</span>
+<span class="sd">            num_channels: Number of channels.</span>
+<span class="sd">            enabled: Whether to apply the filter. If false, the</span>
+<span class="sd">              data will be passed through without modification.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BandpassFilter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">filter_order</span><span class="o">=</span><span class="n">filter_order</span><span class="p">,</span>
+            <span class="n">critical_frequency</span><span class="o">=</span><span class="n">critical_frequencies</span><span class="p">,</span>
+            <span class="n">sample_rate</span><span class="o">=</span><span class="n">sample_rate</span><span class="p">,</span>
+            <span class="n">num_channels</span><span class="o">=</span><span class="n">num_channels</span><span class="p">,</span>
+            <span class="n">enabled</span><span class="o">=</span><span class="n">enabled</span><span class="p">,</span>
+            <span class="n">btype</span><span class="o">=</span><span class="s2">&quot;bandpass&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, AE Studio &amp; Chad Boulay.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

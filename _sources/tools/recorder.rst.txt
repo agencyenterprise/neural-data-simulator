@@ -1,0 +1,16 @@
+recorder 
+=========
+
+.. automodule:: recorder
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+recorder.run\_recorder 
+-----------------------
+
+.. automodule:: recorder.run_recorder
+   :members:
+   :undoc-members:
+   :show-inheritance:

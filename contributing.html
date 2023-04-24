@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contributing &mdash; Neural Data Simulator 0.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Neural Data Simulator" href="nds/modules.html" />
+    <link rel="prev" title="Train models for the encoder and decoder" href="auto_examples/plot_train_encoder_and_decoder_model.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Neural Data Simulator
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running_bci.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Neural Data Simulator</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inputs.html">Behavioral Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="encoder.html">Encoder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ephys_generator.html">Electrophysiology (Ephys) Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuring.html">Configuring NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">Running NDS</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Extensions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="extending.html">Extending NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="decoders.html">Decoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tasks.html">Tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualization.html">Visualizing Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Recording and Streaming</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#reporting-issues">Reporting issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#contributing-code">Contributing code</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#preparing-your-environment">Preparing your environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-the-environment">Using the environment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#code-requirements-and-conventions">Code requirements and conventions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/">GitHub Repository</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="nds/modules.html">Neural Data Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools/modules.html">Example Implementations and Utilities</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Neural Data Simulator</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Contributing</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/contributing.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="contributing">
+<h1>Contributing<a class="headerlink" href="#contributing" title="Permalink to this heading"></a></h1>
+<p>We warmly welcome you to contribute your feedback, code improvements, suggestions, and questions on the Neural Data Simulator.
+Please contribute to NDS by creating GitHub issues or by submitting pull requests.</p>
+<section id="reporting-issues">
+<h2>Reporting issues<a class="headerlink" href="#reporting-issues" title="Permalink to this heading"></a></h2>
+<p>Feel free to open an issue if you would like to discuss a new feature request or report a bug. When creating a bug report, please include as much information as possible to help us reproduce the bug as well as what the actual and expected behavior is.</p>
+</section>
+<section id="contributing-code">
+<h2>Contributing code<a class="headerlink" href="#contributing-code" title="Permalink to this heading"></a></h2>
+<p>If you’ve already setup your development environment and are able to run the make targets for linting and running unit tests, you can skip to the <a class="reference internal" href="#code-requirements-and-conventions">code requirements and conventions</a> section.</p>
+<section id="preparing-your-environment">
+<h3>Preparing your environment<a class="headerlink" href="#preparing-your-environment" title="Permalink to this heading"></a></h3>
+<p>Start by cloning the repository:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">agencyenterprise</span><span class="o">/</span><span class="n">neural</span><span class="o">-</span><span class="n">data</span><span class="o">-</span><span class="n">simulator</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">neural</span><span class="o">-</span><span class="n">data</span><span class="o">-</span><span class="n">simulator</span>
+</pre></div>
+</div>
+<p>This project requires Python <code class="docutils literal notranslate"><span class="pre">&gt;=3.9</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;3.12</span></code> to be installed. You can find the Python version you have installed by running <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">--version</span></code> in a terminal. If you don’t have Python installed or are running an unsupported version, you can download a supported version from <a class="reference external" href="https://www.python.org/downloads/">python.org</a>.</p>
+<p>We use <a class="reference external" href="https://python-poetry.org/">poetry</a> to manage dependencies and virtual environments. Follow the instructions from <a class="reference external" href="https://python-poetry.org/docs/#installation">poetry’s documentation</a> to install it if you don’t have it on your system.</p>
+<p>Install the dependencies by running the following command in a shell within the project directory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poetry</span> <span class="n">install</span>
+</pre></div>
+</div>
+<p>This will resolve and install the dependencies from <code class="docutils literal notranslate"><span class="pre">poetry.lock</span></code> and will install the <code class="docutils literal notranslate"><span class="pre">nds</span></code> package in editable mode.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On Windows you might have to install <a class="reference external" href="https://visualstudio.microsoft.com/visual-cpp-build-tools/">Microsoft C++ Build Tools - Visual Studio</a> to run the command above successfully.</p>
+</div>
+<p>To bootstrap configurations, models and sample data, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poetry</span> <span class="n">run</span> <span class="n">nds_post_install_config</span>
+</pre></div>
+</div>
+<p>Additionally, you will need to install <a class="reference external" href="https://labstreaminglayer.readthedocs.io/index.html">LSL</a>. This can be done by running:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># on Linux/WSL</span>
+<span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="n">liblsl</span>
+
+<span class="c1"># on macOS</span>
+<span class="n">brew</span> <span class="n">install</span> <span class="n">labstreaminglayer</span><span class="o">/</span><span class="n">tap</span><span class="o">/</span><span class="n">lsl</span>
+
+<span class="c1"># on Windows</span>
+<span class="c1"># the python package should be installed automatically by pip when installing the dependencies.</span>
+</pre></div>
+</div>
+<p>On Windows, the <a class="reference external" href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170">Microsoft Visual C++ Redistributable</a> has to be installed.</p>
+<p>For building the documentation or running spellchecking you will need to install the <a class="reference external" href="https://abiword.github.io/enchant/">enchant C library</a> if it’s not already installed on your system. To do this please follow the instructions on the <a class="reference external" href="https://pyenchant.github.io/pyenchant/install.html#installing-the-enchant-c-library">pyenchant documentation page</a>.</p>
+</section>
+<section id="using-the-environment">
+<h3>Using the environment<a class="headerlink" href="#using-the-environment" title="Permalink to this heading"></a></h3>
+<p>If you are not already using a virtual environment, <code class="docutils literal notranslate"><span class="pre">poetry</span></code> will <a class="reference external" href="https://python-poetry.org/docs/basic-usage/#using-your-virtual-environment">create one for you by default</a>. You will need to use this virtual env when using or working on the package.</p>
+<p>You can do that in one of two ways:</p>
+<ol class="arabic">
+<li><p>Activate the environment directly via:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poetry</span> <span class="n">shell</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On Windows, if not using the Windows Subsystem for Linux (WSL), you will need to enable <code class="docutils literal notranslate"><span class="pre">Powershell</span></code> to execute scripts via <a class="reference external" href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.1">Set-ExecutionPolicy</a>.</p>
+<p>Before executing <code class="docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">shell</span></code>, open a <code class="docutils literal notranslate"><span class="pre">Powershell</span></code> window as administrator and run:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> Set-ExecutionPolicy RemoteSigned
+</pre></div>
+</div>
+</div>
+<p>Now you are able to execute scripts that use the python environment, like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">encoder</span>
+</pre></div>
+</div>
+</li>
+<li><p>Alternatively, you can prepend <code class="docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">run</span></code> to any python or poetry command in order to run the command within the virtual environment instead of needing to activate the environment. Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poetry</span> <span class="n">run</span> <span class="n">encoder</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>By default, the encoder expects to consume an LSL stream, if you prefer to read from a file set this <a class="reference internal" href="configuring.html#prerecorded-behavior-file"><span class="std std-ref">configuration</span></a>.</p>
+</div>
+<p>If you are already using your own virtual environment, you should not need to change anything.</p>
+</section>
+</section>
+<section id="code-requirements-and-conventions">
+<h2>Code requirements and conventions<a class="headerlink" href="#code-requirements-and-conventions" title="Permalink to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The following commands require <code class="docutils literal notranslate"><span class="pre">GNU</span> <span class="pre">make</span></code> to be installed, on Windows you can install it with <a class="reference external" href="https://chocolatey.org/install">Chocolatey</a>:
+<code class="docutils literal notranslate"><span class="pre">choco</span> <span class="pre">install</span> <span class="pre">make</span></code></p>
+</div>
+<p>Before opening a pull request, please make sure that all of the following requirements are met:</p>
+<ol class="arabic">
+<li><p>all unit and integration tests are passing:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">test</span>
+</pre></div>
+</div>
+</li>
+<li><p>the code is linted and formatted:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">lint</span>
+</pre></div>
+</div>
+</li>
+<li><p>spelling is checked:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">spellcheck</span>
+</pre></div>
+</div>
+</li>
+<li><p>the documentation builds without warnings:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">htmldoc</span>
+</pre></div>
+</div>
+</li>
+<li><p>type hinting is used on all function and method parameters and return values, excluding tests</p></li>
+<li><p>docstring usage conforms to the following:</p>
+<ol class="arabic simple">
+<li><p>all docstrings should follow <a class="reference external" href="https://peps.python.org/pep-0257/">PEP257 Docstring Conventions</a></p></li>
+<li><p>all public API classes, functions, methods, and properties have docstrings and follow the <a class="reference external" href="https://github.com/google/styleguide/blob/gh-pages/pyguide.md#38-comments-and-docstrings">Google Python Style Guide</a></p></li>
+<li><p>docstrings on private objects are not required, but are encouraged where they would significantly aid understanding</p></li>
+</ol>
+</li>
+<li><p>testing is done using the pytest library, and test coverage should not unnecessarily decrease.</p></li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="auto_examples/plot_train_encoder_and_decoder_model.html" class="btn btn-neutral float-left" title="Train models for the encoder and decoder" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="nds/modules.html" class="btn btn-neutral float-right" title="Neural Data Simulator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, AE Studio &amp; Chad Boulay.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

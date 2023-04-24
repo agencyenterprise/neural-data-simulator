@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Encoder &mdash; Neural Data Simulator 0.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Electrophysiology (Ephys) Generator" href="ephys_generator.html" />
+    <link rel="prev" title="Behavioral Input" href="inputs.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Neural Data Simulator
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running_bci.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Neural Data Simulator</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inputs.html">Behavioral Input</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Encoder</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#customizing-the-encoder">Customizing the Encoder</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#plugins">Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#preprocessor">Preprocessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#encoder-model">Encoder model</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#default-model">Default model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#custom-model">Custom model</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#postprocessor">Postprocessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-custom-preprocessor-as-plugin">Example custom preprocessor as plugin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-custom-postprocessor-as-plugin">Example custom postprocessor as plugin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-a-new-model-plugin-for-the-encoder">Creating a new model plugin for the encoder</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ephys_generator.html">Electrophysiology (Ephys) Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuring.html">Configuring NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">Running NDS</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Extensions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="extending.html">Extending NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="decoders.html">Decoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tasks.html">Tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualization.html">Visualizing Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Recording and Streaming</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/">GitHub Repository</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="nds/modules.html">Neural Data Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools/modules.html">Example Implementations and Utilities</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Neural Data Simulator</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Encoder</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/encoder.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="encoder">
+<h1>Encoder<a class="headerlink" href="#encoder" title="Permalink to this heading"></a></h1>
+<p><img alt="diagram" src="_images/encoder.png" />
+The encoder transforms behavioral data into spike rates using a pretrained model.
+It is designed as a pipeline with three stages: the preprocessor, the encoder model, and the postprocessor.</p>
+<p>The image below shows an example of input and output of an encoder using a pretrained model for mouse cursor movements. A varying velocity input generates a variation in spike rates for all channels.</p>
+<p><img alt="encoder_spikes" src="_images/encoder_spikes.png" /></p>
+<p>The input to the encoder can be a <a class="reference internal" href="configuring.html#prerecorded-behavior-file"><span class="std std-ref">file</span></a> or an <a class="reference internal" href="configuring.html#behavior-lsl-stream"><span class="std std-ref">LSL stream</span></a>. Similarly, the output spike rates can be saved to a <a class="reference internal" href="configuring.html#save-spike-rates-to-file"><span class="std std-ref">file</span></a> or streamed via <a class="reference internal" href="configuring.html#spike-rates-lsl-output"><span class="std std-ref">LSL</span></a>.</p>
+<p>To start the encoder, complete the <a class="reference internal" href="installation.html"><span class="std std-doc">installation</span></a>, adjust the <a class="reference internal" href="configuring.html#encoder"><span class="std std-ref">configuration</span></a>, then run the script:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">encoder</span>
+</pre></div>
+</div>
+<section id="customizing-the-encoder">
+<h2>Customizing the Encoder<a class="headerlink" href="#customizing-the-encoder" title="Permalink to this heading"></a></h2>
+<section id="plugins">
+<h3>Plugins<a class="headerlink" href="#plugins" title="Permalink to this heading"></a></h3>
+<p>Plugins are simple ways to change or extend how the <a class="reference internal" href="#"><span class="std std-doc">encoder</span></a> works. All stages of the <a class="reference internal" href="#"><span class="std std-doc">encoder</span></a> pipeline can be customized using plugins. The <code class="docutils literal notranslate"><span class="pre">preprocessor</span></code> and <code class="docutils literal notranslate"><span class="pre">postprocessor</span></code> are optional, where the encoder <code class="docutils literal notranslate"><span class="pre">model</span></code> plugin is required.</p>
+<p>Plugins have several usages depending on which component is being plugged in.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">preprocessor</span></code> plugin (via its implementation of the <a class="reference internal" href="nds/nds.html#nds.encoder.Processor" title="nds.encoder.Processor"><span class="xref myst py py-class">Processor</span></a> protocol) is used to change the data before entering the encoder <code class="docutils literal notranslate"><span class="pre">model</span></code> (i.e. it modifies the behavior data); for example, it can be defined to scale behavioral data to accepted range, change behavioral data format, filter behavior data, add noise/disturbances to behavior data, etc.</p>
+<p>The encoder <code class="docutils literal notranslate"><span class="pre">model</span></code> plugin (via its implementation of the <a class="reference internal" href="nds/nds.html#nds.models.EncoderModel" title="nds.models.EncoderModel"><span class="xref myst py py-class">EncoderModel</span></a> protocol) is used to define the model that converts behavior data to firing rate data.</p>
+<p>Finally, the <code class="docutils literal notranslate"><span class="pre">postprocessor</span></code> plugin (via its implementation of the <a class="reference internal" href="nds/nds.html#nds.encoder.Processor" title="nds.encoder.Processor"><span class="xref myst py py-class">Processor</span></a> protocol) is used to change the data after passing through the encoder <code class="docutils literal notranslate"><span class="pre">model</span></code> (i.e. it modifies the spiking rate data); for example change dimensionality of the model output data (e.g. duplicate or remove channels), add noise to firing rate data, swap channels or zero out channels to simulate data disturbances, etc.</p>
+</section>
+<section id="preprocessor">
+<h3>Preprocessor<a class="headerlink" href="#preprocessor" title="Permalink to this heading"></a></h3>
+<p>A <code class="docutils literal notranslate"><span class="pre">preprocessor</span></code> is responsible for transforming the behavior input data before it is sent to the model. It should modify the received behavioral data to the encoder’s expected shape (i.e., same number of channels) and scaling. For example, the default encoder expects standardized inputs with mean of 0 and standard deviation of 1.</p>
+<p>You can find examples of the preprocessor in the <a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/tree/main/src/plugins/examples">plugins example folder</a>. To create and configure a preprocessor from scratch, check out the <a class="reference internal" href="#example-custom-preprocessor-as-plugin">Example custom preprocessor as plugin</a>.</p>
+</section>
+<section id="encoder-model">
+<h3>Encoder model<a class="headerlink" href="#encoder-model" title="Permalink to this heading"></a></h3>
+<p>The encoder <code class="docutils literal notranslate"><span class="pre">model</span></code> is responsible for converting preprocessed behavior data into spike rates.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>An encoder <code class="docutils literal notranslate"><span class="pre">model</span></code> plugin is <strong>required</strong> for running NDS.</p>
+</div>
+<section id="default-model">
+<h4>Default model<a class="headerlink" href="#default-model" title="Permalink to this heading"></a></h4>
+<p>NDS includes a default model called <a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/blob/main/src/plugins/examples/model.py">VelocityTuningCurvesModel</a>. The example <a class="reference internal" href="auto_examples/plot_train_encoder_and_decoder_model.html"><span class="doc std std-doc">Train models for the encoder and decoder</span></a> illustrates the steps performed for training the parameters of the included model.
+You can modify this example to create a model that suits the needs of your project.</p>
+</section>
+<section id="custom-model">
+<h4>Custom model<a class="headerlink" href="#custom-model" title="Permalink to this heading"></a></h4>
+<p>You can easily add a new model to NDS by implementing a plugin. Check out <a class="reference internal" href="#creating-a-new-model-plugin-for-the-encoder">Creating a new model plugin for the encoder</a> to get started.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When adding a new model to the encoder, ensure that the input data has the same dimensionality and type as the input data used to train the model.</p>
+</div>
+</section>
+</section>
+<section id="postprocessor">
+<h3>Postprocessor<a class="headerlink" href="#postprocessor" title="Permalink to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">postprocessor</span></code> modifies the encoder output into a format that the <a class="reference internal" href="ephys_generator.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">ephys</span> <span class="pre">generator</span></code></span></a> will expect.</p>
+<p>You can find an example of a postprocessor in the <a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/tree/main/src/plugins/examples">plugins example folder</a>. To create and configure a postprocessor from scratch, check out the <a class="reference internal" href="#example-custom-postprocessor-as-plugin">Example custom postprocessor as plugin</a>.</p>
+</section>
+<section id="example-custom-preprocessor-as-plugin">
+<h3>Example custom preprocessor as plugin<a class="headerlink" href="#example-custom-preprocessor-as-plugin" title="Permalink to this heading"></a></h3>
+<p>Create a python script file in any location you prefer, for example <code class="docutils literal notranslate"><span class="pre">preprocessor.py</span></code>.
+At a minimum, this script should define a function called <code class="docutils literal notranslate"><span class="pre">create_preprocessor</span></code> that returns an instance of a class that implements the <a class="reference internal" href="nds/nds.html#nds.encoder.Processor" title="nds.encoder.Processor"><span class="xref myst py py-class">Processor</span></a> protocol.</p>
+<p>The following snippet is a minimal but complete example of a preprocessor that just passes through the data unchanged as it receives it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;An example preprocessor&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">nds.encoder</span> <span class="kn">import</span> <span class="n">Processor</span>
+<span class="kn">from</span> <span class="nn">nds.samples</span> <span class="kn">import</span> <span class="n">Samples</span>
+
+
+<span class="k">class</span> <span class="nc">PassThroughPreprocessor</span><span class="p">(</span><span class="n">Processor</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Samples</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Samples</span><span class="p">:</span>
+        <span class="c1"># Process the data and return the transformation.</span>
+        <span class="k">return</span> <span class="n">data</span>
+
+<span class="k">def</span> <span class="nf">create_preprocessor</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Processor</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">PassThroughPreprocessor</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Your implementation of the <code class="docutils literal notranslate"><span class="pre">execute</span></code> function will be called by NDS with the data that you should transform and return.</p>
+<p>To make NDS call your preprocessor, you have to add the path of the script you just created to the encoder <a class="reference internal" href="configuring.html#preprocessor"><span class="std std-ref">configuration</span></a>. Upon start the encoder will expect to obtain an instance of the preprocessor by calling the <code class="docutils literal notranslate"><span class="pre">create_preprocessor</span></code> function.</p>
+</section>
+<section id="example-custom-postprocessor-as-plugin">
+<h3>Example custom postprocessor as plugin<a class="headerlink" href="#example-custom-postprocessor-as-plugin" title="Permalink to this heading"></a></h3>
+<p>Create a python script file in any location you prefer, for example <code class="docutils literal notranslate"><span class="pre">postprocessor.py</span></code>.
+At a minimum, this script should define a function called <code class="docutils literal notranslate"><span class="pre">create_postprocessor</span></code> that returns an instance of a class that implements the <a class="reference internal" href="nds/nds.html#nds.encoder.Processor" title="nds.encoder.Processor"><span class="xref myst py py-class">Processor</span></a> protocol.</p>
+<p>The following snippet is a minimal, but complete example of a postprocessor that just passes through the data unchanged as it receives it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;An example postprocessor&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">nds.encoder</span> <span class="kn">import</span> <span class="n">Processor</span>
+<span class="kn">from</span> <span class="nn">nds.samples</span> <span class="kn">import</span> <span class="n">Samples</span>
+
+
+<span class="k">class</span> <span class="nc">PassThroughPostprocessor</span><span class="p">(</span><span class="n">Processor</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Samples</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Samples</span><span class="p">:</span>
+        <span class="c1"># Process the data and return the transformation.</span>
+        <span class="k">return</span> <span class="n">data</span>
+
+<span class="k">def</span> <span class="nf">create_postprocessor</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Processor</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">PassThroughPostprocessor</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Your implementation of the <code class="docutils literal notranslate"><span class="pre">execute</span></code> function will be called by NDS with the data that you should transform and return.</p>
+<p>To make NDS call your postprocessor, you have to add the path of the script you just created to the encoder <a class="reference internal" href="configuring.html#postprocessor"><span class="std std-ref">configuration</span></a>. Upon start the encoder will expect to obtain an instance of the postprocessor by calling the <code class="docutils literal notranslate"><span class="pre">create_postprocessor</span></code> function.</p>
+</section>
+<section id="creating-a-new-model-plugin-for-the-encoder">
+<h3>Creating a new model plugin for the encoder<a class="headerlink" href="#creating-a-new-model-plugin-for-the-encoder" title="Permalink to this heading"></a></h3>
+<p>If the included example <a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/blob/main/src/plugins/examples/model.py">VelocityTuningCurvesModel</a> is not well suited for your use case and <a class="reference internal" href="auto_examples/plot_train_encoder_and_decoder_model.html"><span class="doc std std-doc">retraining this model</span></a> is not a good option, you can create your own model and integrate it into the NDS encoder as a plugin.</p>
+<p>Create a python script file in any location you prefer, for example <code class="docutils literal notranslate"><span class="pre">model.py</span></code>.
+At a minimum, this script should define a function called <code class="docutils literal notranslate"><span class="pre">create_model</span></code> that returns an instance of a class that implements the <a class="reference internal" href="nds/nds.html#nds.models.EncoderModel" title="nds.models.EncoderModel"><span class="xref myst py py-class">EncoderModel</span></a> protocol.</p>
+<p>The following snippet is an example of a model that returns random values for spike rates:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Example of a custom EncoderModel.&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">nds.models</span> <span class="kn">import</span> <span class="n">EncoderModel</span>
+<span class="kn">from</span> <span class="nn">nds.samples</span> <span class="kn">import</span> <span class="n">Samples</span>
+
+<span class="k">class</span> <span class="nc">ExampleModel</span><span class="p">(</span><span class="n">EncoderModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;ExampleModel implementation.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">Samples</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Samples</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform the encode and return the result.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Samples</span><span class="p">(</span>
+            <span class="n">timestamps</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">timestamps</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">190</span><span class="p">)</span>
+        <span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">create_model</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">EncoderModel</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Instantiate the ExampleModel.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">ExampleModel</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The encoder will expect to obtain an instance of the model from the <code class="docutils literal notranslate"><span class="pre">create_model</span></code> function. The <code class="docutils literal notranslate"><span class="pre">encode</span></code> function will be called periodically by the encoder with the data that you should evaluate and return. The period can be changed in the <a class="reference internal" href="configuring.html#encoder-period"><span class="std std-ref">configuration</span></a>. The data is an instance of <a class="reference internal" href="nds/nds.html#nds.samples.Samples" title="nds.samples.Samples"><span class="xref myst py py-class">Samples</span></a> and its size depends on the sampling rate of the encoder input and the configured period. For example, if the encoder period is <code class="docutils literal notranslate"><span class="pre">0.02</span></code> seconds and the input sampling rate is <code class="docutils literal notranslate"><span class="pre">1000</span> <span class="pre">Hz</span></code>, then <code class="docutils literal notranslate"><span class="pre">len(X)</span></code> will be equal to <code class="docutils literal notranslate"><span class="pre">20</span></code> on average. You should return exactly the same number of samples as you received since the encoder advertised output sampling rate is the same as the input sampling rate.</p>
+<p>To make NDS use your new model change the <a class="reference internal" href="configuring.html#model"><span class="std std-ref">configuration</span></a> adding the path of the script you just created so that the encoder can load it.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="inputs.html" class="btn btn-neutral float-left" title="Behavioral Input" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ephys_generator.html" class="btn btn-neutral float-right" title="Electrophysiology (Ephys) Generator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, AE Studio &amp; Chad Boulay.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

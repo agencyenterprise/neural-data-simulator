@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configuring NDS &mdash; Neural Data Simulator 0.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Running NDS" href="running.html" />
+    <link rel="prev" title="Electrophysiology (Ephys) Generator" href="ephys_generator.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Neural Data Simulator
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running_bci.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Neural Data Simulator</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inputs.html">Behavioral Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="encoder.html">Encoder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ephys_generator.html">Electrophysiology (Ephys) Generator</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Configuring NDS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#encoder">Encoder</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#encoder-period">Encoder period</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#input">Input</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#behavior-lsl-stream">Behavior LSL stream</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#prerecorded-behavior-file">Prerecorded behavior file</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plugins">Plugins</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#preprocessor">Preprocessor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#postprocessor">Postprocessor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#model">Model</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#output">Output</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#spike-rates-lsl-output">Spike rates LSL output</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#save-spike-rates-to-file">Save spike rates to file</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#ephys-generator">Ephys Generator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#random-seed">Random seed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#resolution">Resolution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#raw-data-frequency">Raw data frequency</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#units-per-channel">Units per channel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#refractory-time">Refractory time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lsl-chuck-frequency">LSL chuck frequency</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Input</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#spike-rates-lsl-input">Spike rates LSL input</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#testing-input">Testing input</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Output</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#raw">Raw</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lfp">LFP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spike-events">Spike Events</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#noise">Noise</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#loading-custom-spike-waveforms">Loading custom spike waveforms</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">Running NDS</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Extensions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="extending.html">Extending NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="decoders.html">Decoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tasks.html">Tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualization.html">Visualizing Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Recording and Streaming</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/">GitHub Repository</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="nds/modules.html">Neural Data Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools/modules.html">Example Implementations and Utilities</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Neural Data Simulator</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Configuring NDS</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/configuring.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="configuring-nds">
+<h1>Configuring NDS<a class="headerlink" href="#configuring-nds" title="Permalink to this heading"></a></h1>
+<p>The scripts provided with NDS are configured using a <code class="docutils literal notranslate"><span class="pre">settings.yaml</span></code> file.
+By default, this file is stored in <code class="docutils literal notranslate"><span class="pre">$HOME/.nds</span></code> and created when you run the <code class="docutils literal notranslate"><span class="pre">nds_post_install_config</span></code> script.
+However, you can specify custom locations by passing the <code class="docutils literal notranslate"><span class="pre">--settings_path=/path/to/settings.yaml</span></code> argument to most NDS scripts.
+You can customize the behavior of the NDS components by editing the <code class="docutils literal notranslate"><span class="pre">settings.yaml</span></code> as described below.</p>
+<section id="encoder">
+<h2>Encoder<a class="headerlink" href="#encoder" title="Permalink to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">encoder</span></code> transforms behavioral data into spike rates using a pretrained model.
+It is comprised of three sub-components, the preprocessor, the encoder model, and the postprocessor.
+Each of these sub-components can be configured using the <code class="docutils literal notranslate"><span class="pre">setttings.yaml</span></code> file.
+Additionally, the input and output and system behavior can be configured.</p>
+<section id="encoder-period">
+<h3>Encoder period<a class="headerlink" href="#encoder-period" title="Permalink to this heading"></a></h3>
+<p>The time interval between encoder iterations can be configured by changing the <code class="docutils literal notranslate"><span class="pre">loop_time</span></code> configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">timer</span><span class="p">:</span>
+  <span class="n">loop_time</span><span class="p">:</span> <span class="mf">0.02</span> <span class="c1"># seconds</span>
+</pre></div>
+</div>
+</section>
+<section id="input">
+<h3>Input<a class="headerlink" href="#input" title="Permalink to this heading"></a></h3>
+<p>Configure one of the 2 possible behavior data input sources for the encoder.</p>
+<section id="behavior-lsl-stream">
+<h4>Behavior LSL stream<a class="headerlink" href="#behavior-lsl-stream" title="Permalink to this heading"></a></h4>
+<p>To enable LSL as input for the encoder apply the following configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">encoder</span><span class="p">:</span>
+  <span class="nb">input</span><span class="p">:</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="s2">&quot;LSL&quot;</span>
+</pre></div>
+</div>
+<p>The available settings for this input source are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">encoder</span><span class="p">:</span>
+  <span class="nb">input</span><span class="p">:</span>
+    <span class="n">lsl</span><span class="p">:</span>
+      <span class="n">stream_name</span><span class="p">:</span> <span class="s2">&quot;NDS-Behavior&quot;</span>
+      <span class="c1"># maximum time for attempting a connection to an LSL input stream</span>
+      <span class="n">connection_timeout</span><span class="p">:</span> <span class="mf">60.0</span> <span class="c1"># seconds</span>
+</pre></div>
+</div>
+</section>
+<section id="prerecorded-behavior-file">
+<h4>Prerecorded behavior file<a class="headerlink" href="#prerecorded-behavior-file" title="Permalink to this heading"></a></h4>
+<p>To enable file as input for the encoder change the following configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">encoder</span><span class="p">:</span>
+  <span class="nb">input</span><span class="p">:</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="s2">&quot;file&quot;</span>
+</pre></div>
+</div>
+<p>The available customizations for this input source are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">encoder</span><span class="p">:</span>
+  <span class="nb">input</span><span class="p">:</span>
+    <span class="n">file</span><span class="p">:</span>
+      <span class="c1"># paths can be absolute or relative to the current work directory</span>
+      <span class="n">path</span><span class="p">:</span> <span class="s2">&quot;sample_data/session_4_behavior_standardized.npz&quot;</span>
+      <span class="n">sampling_rate</span><span class="p">:</span> <span class="mi">50</span> <span class="c1"># Hz</span>
+      <span class="n">timestamps_array_name</span><span class="p">:</span> <span class="s2">&quot;timestamps_train&quot;</span>
+      <span class="n">data_array_name</span><span class="p">:</span> <span class="s2">&quot;vel_train&quot;</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">npz</span></code> file is expected to include two arrays, one with timestamps and another one with behavior data. The name of each array has to be defined in the configuration file, this information is required by the encoder in order to read the data correctly. <a class="reference internal" href="auto_examples/plot_train_encoder_and_decoder_model.html#export-standardized-model-for-streaming"><span class="std std-ref">Export standardized model for streaming</span></a> contains an example of how to save a file in the correct format.</p>
+</section>
+</section>
+<section id="plugins">
+<h3>Plugins<a class="headerlink" href="#plugins" title="Permalink to this heading"></a></h3>
+<section id="preprocessor">
+<h4>Preprocessor<a class="headerlink" href="#preprocessor" title="Permalink to this heading"></a></h4>
+<p>Enable the encoder to use your custom preprocessor by changing the path:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">encoder</span><span class="p">:</span>
+  <span class="c1"># set a path to your custom preprocessor plugin</span>
+  <span class="n">preprocessor</span><span class="p">:</span> <span class="s1">&#39;plugins/preprocessor.py&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="postprocessor">
+<h4>Postprocessor<a class="headerlink" href="#postprocessor" title="Permalink to this heading"></a></h4>
+<p>Enable the encoder to use your custom postprocessor by changing the path:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">encoder</span><span class="p">:</span>
+  <span class="c1"># set a path to your custom postprocessor plugin</span>
+  <span class="n">postprocessor</span><span class="p">:</span> <span class="s1">&#39;plugins/postprocessor.py&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="model">
+<h4>Model<a class="headerlink" href="#model" title="Permalink to this heading"></a></h4>
+<p>To integrate your customized model set the following configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">encoder</span><span class="p">:</span>
+  <span class="c1"># path to the model entrypoint</span>
+  <span class="n">model</span><span class="p">:</span> <span class="s1">&#39;plugins/model.py&#39;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="output">
+<h3>Output<a class="headerlink" href="#output" title="Permalink to this heading"></a></h3>
+<p>The encoder can be configured to output to a file or to an LSL stream. Each output type allows its own customization.</p>
+<section id="spike-rates-lsl-output">
+<h4>Spike rates LSL output<a class="headerlink" href="#spike-rates-lsl-output" title="Permalink to this heading"></a></h4>
+<p>To enable LSL output apply the following configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">encoder</span><span class="p">:</span>
+  <span class="n">output</span><span class="p">:</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="s2">&quot;LSL&quot;</span>
+</pre></div>
+</div>
+<p>The available customizations for this output type are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">encoder</span><span class="p">:</span>
+  <span class="n">output</span><span class="p">:</span>
+    <span class="n">lsl</span><span class="p">:</span>
+      <span class="c1"># possible values are &quot;float32&quot;, &quot;double64&quot;, &quot;int8&quot;, &quot;int16&quot;, &quot;int32&quot;, &quot;int64&quot;</span>
+      <span class="n">channel_format</span><span class="p">:</span> <span class="s2">&quot;int16&quot;</span>
+      <span class="n">stream_name</span><span class="p">:</span> <span class="s2">&quot;NDS-SpikeRates&quot;</span>
+      <span class="n">stream_type</span><span class="p">:</span> <span class="s2">&quot;SpikingRates&quot;</span>
+      <span class="n">source_id</span><span class="p">:</span> <span class="s2">&quot;SimulatedSpikeRates&quot;</span>
+      <span class="n">instrument</span><span class="p">:</span>
+        <span class="n">manufacturer</span><span class="p">:</span> <span class="s2">&quot;Hardware Company&quot;</span>
+        <span class="n">model</span><span class="p">:</span> <span class="s2">&quot;Simulated&quot;</span>
+        <span class="nb">id</span><span class="p">:</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">stream_name</span></code> is the most relevant in this context as it is used by the <code class="docutils literal notranslate"><span class="pre">ephys</span> <span class="pre">generator</span></code> script to discover and connect to the LSL source.</p>
+</section>
+<section id="save-spike-rates-to-file">
+<h4>Save spike rates to file<a class="headerlink" href="#save-spike-rates-to-file" title="Permalink to this heading"></a></h4>
+<p>To set the encoder output to a file apply the following configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">encoder</span><span class="p">:</span>
+  <span class="n">output</span><span class="p">:</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="s2">&quot;file&quot;</span>
+</pre></div>
+</div>
+<p>The available customizations for this output type are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">encoder</span><span class="p">:</span>
+  <span class="n">output</span><span class="p">:</span>
+    <span class="n">file</span><span class="p">:</span> <span class="s2">&quot;output.csv&quot;</span>
+</pre></div>
+</div>
+<p>The format of the output file is CSV without header. The first column is the timestamp and the following columns are the spike rates for each unit.</p>
+</section>
+</section>
+</section>
+<section id="ephys-generator">
+<h2>Ephys Generator<a class="headerlink" href="#ephys-generator" title="Permalink to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">electrophysiology</span> <span class="pre">(ephys)</span> <span class="pre">generator</span></code> is responsible for synthesizing spikes based on input spike rate data that it receives.
+The <code class="docutils literal notranslate"><span class="pre">ephys</span> <span class="pre">generator</span></code> produces three outputs that are continuously pushed to 3 LSL streams.
+The system properties and streams can be configured using the <code class="docutils literal notranslate"><span class="pre">settings.yaml</span></code> file.
+The available general customizations for <code class="docutils literal notranslate"><span class="pre">ephys</span> <span class="pre">generator</span></code> are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ephys_generator</span><span class="p">:</span>
+  <span class="n">random_seed</span><span class="p">:</span> <span class="mi">12332323</span>
+
+  <span class="n">resolution</span><span class="p">:</span> <span class="mf">0.25</span> <span class="c1"># uV per count</span>
+
+  <span class="n">raw_data_frequency</span><span class="p">:</span> <span class="mi">30_000</span> <span class="c1"># Hz</span>
+  <span class="n">n_units_per_channel</span><span class="p">:</span> <span class="mi">1</span> <span class="c1"># number of distinct waveforms in each channel</span>
+
+  <span class="n">refractory_time</span><span class="p">:</span> <span class="mf">0.001</span> <span class="c1"># seconds</span>
+
+  <span class="n">lsl_chunk_frequency</span><span class="p">:</span> <span class="mi">1_000</span> <span class="c1"># Hz</span>
+</pre></div>
+</div>
+<section id="random-seed">
+<h3>Random seed<a class="headerlink" href="#random-seed" title="Permalink to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">random_seed</span></code> is used to initialize <a class="reference external" href="https://numpy.org/">NumPy’s</a> underlying random number generator which is useful for reproducibility between runs.</p>
+</section>
+<section id="resolution">
+<h3>Resolution<a class="headerlink" href="#resolution" title="Permalink to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">resolution</span></code> is the resolution of the electrophysiology data in microvolts per count.</p>
+</section>
+<section id="raw-data-frequency">
+<h3>Raw data frequency<a class="headerlink" href="#raw-data-frequency" title="Permalink to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">raw_data_frequency</span></code> represents the sampling rate of the raw data output. This can have an impact on the performance of the simulation. While a typical value is 30kHz, on machines with less-capable CPUs this should be lowered to 10kHz.</p>
+</section>
+<section id="units-per-channel">
+<h3>Units per channel<a class="headerlink" href="#units-per-channel" title="Permalink to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">n_units_per_channel</span></code> defines how many neurons are being captured per channel.</p>
+</section>
+<section id="refractory-time">
+<h3>Refractory time<a class="headerlink" href="#refractory-time" title="Permalink to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">refractory_time</span></code> is the minimum time between two consecutive spikes for a unit.</p>
+</section>
+<section id="lsl-chuck-frequency">
+<h3>LSL chuck frequency<a class="headerlink" href="#lsl-chuck-frequency" title="Permalink to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">lsl_chunk_frequency</span></code> determines how often data is being pushed to the LSL streams.</p>
+</section>
+<section id="id1">
+<h3>Input<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">Ephys</span> <span class="pre">generator</span></code> typically consumes the output from the encoder, in which case the input type should be LSL.</p>
+<section id="spike-rates-lsl-input">
+<h4>Spike rates LSL input<a class="headerlink" href="#spike-rates-lsl-input" title="Permalink to this heading"></a></h4>
+<p>To use an LSL input apply the following configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ephys_generator</span><span class="p">:</span>
+  <span class="nb">input</span><span class="p">:</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="s2">&quot;LSL&quot;</span>
+</pre></div>
+</div>
+<p>The available customizations for this input type are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ephys_generator</span><span class="p">:</span>
+  <span class="nb">input</span><span class="p">:</span>
+    <span class="n">lsl</span><span class="p">:</span>
+      <span class="n">stream_name</span><span class="p">:</span> <span class="s2">&quot;NDS-SpikeRates&quot;</span>
+      <span class="c1"># maximum time for attempting a connection to an LSL input stream</span>
+      <span class="n">connection_timeout</span><span class="p">:</span> <span class="mf">60.0</span> <span class="c1"># seconds</span>
+</pre></div>
+</div>
+<p>If <code class="docutils literal notranslate"><span class="pre">ephys</span> <span class="pre">generator</span></code> should read the rates from the encoder via LSL, then the <code class="docutils literal notranslate"><span class="pre">stream_name</span></code> in this configuration should match the <code class="docutils literal notranslate"><span class="pre">stream_name</span></code> from the encoder <a class="reference internal" href="#spike-rates-lsl-output">output</a>.</p>
+</section>
+<section id="testing-input">
+<h4>Testing input<a class="headerlink" href="#testing-input" title="Permalink to this heading"></a></h4>
+<p>Like the name suggests, this input is meant for testing. To use it, apply the following configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ephys_generator</span><span class="p">:</span>
+  <span class="nb">input</span><span class="p">:</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="s2">&quot;testing&quot;</span>
+</pre></div>
+</div>
+<p>The available customizations for this input type are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ephys_generator</span><span class="p">:</span>
+  <span class="nb">input</span><span class="p">:</span>
+    <span class="n">testing</span><span class="p">:</span>
+      <span class="n">n_channels</span><span class="p">:</span> <span class="mi">50</span>
+</pre></div>
+</div>
+<p>When the testing input is configured, the <code class="docutils literal notranslate"><span class="pre">ephys</span> <span class="pre">generator</span></code> will output spikes based on constant spike rates for each channel/unit. The rates are uniformly distributed in the interval [0, 100). This means that, if <code class="docutils literal notranslate"><span class="pre">n_channels</span></code> is set to 50, the first unit will have a spike rate of 0, while the last unit will have a spike rate of 99 spikes/s.</p>
+</section>
+</section>
+<section id="id2">
+<h3>Output<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+<p>Following are the configurations for each of the 3 LSL outputs.</p>
+<section id="raw">
+<h4>Raw<a class="headerlink" href="#raw" title="Permalink to this heading"></a></h4>
+<p>The available customizations for this output type are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ephys_generator</span><span class="p">:</span>
+  <span class="n">output</span><span class="p">:</span>
+    <span class="n">raw</span><span class="p">:</span>
+      <span class="n">lsl</span><span class="p">:</span>
+        <span class="c1"># possible values are &quot;float32&quot;, &quot;double64&quot;, &quot;int8&quot;, &quot;int16&quot;, &quot;int32&quot;, &quot;int64&quot;</span>
+        <span class="n">channel_format</span><span class="p">:</span> <span class="s2">&quot;int16&quot;</span>
+        <span class="n">stream_name</span><span class="p">:</span> <span class="s2">&quot;NDS-RawData&quot;</span>
+        <span class="n">stream_type</span><span class="p">:</span> <span class="s2">&quot;Ephys&quot;</span>
+        <span class="n">source_id</span><span class="p">:</span> <span class="s2">&quot;SimulatedRawData&quot;</span>
+        <span class="n">instrument</span><span class="p">:</span>
+          <span class="n">manufacturer</span><span class="p">:</span> <span class="s2">&quot;Hardware Company&quot;</span>
+          <span class="n">model</span><span class="p">:</span> <span class="s2">&quot;Simulated&quot;</span>
+          <span class="nb">id</span><span class="p">:</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</section>
+<section id="lfp">
+<h4>LFP<a class="headerlink" href="#lfp" title="Permalink to this heading"></a></h4>
+<p>The available customizations for this output type are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ephys_generator</span><span class="p">:</span>
+  <span class="n">output</span><span class="p">:</span>
+    <span class="n">lfp</span><span class="p">:</span>
+      <span class="n">data_frequency</span><span class="p">:</span> <span class="mi">1_000</span> <span class="c1"># Hz</span>
+      <span class="n">filter_cutoff</span><span class="p">:</span> <span class="mi">300</span> <span class="c1"># Hz</span>
+      <span class="n">filter_order</span><span class="p">:</span> <span class="mi">4</span> <span class="c1"># number</span>
+      <span class="n">lsl</span><span class="p">:</span>
+        <span class="c1"># possible values are &quot;float32&quot;, &quot;double64&quot;, &quot;int8&quot;, &quot;int16&quot;, &quot;int32&quot;, &quot;int64&quot;</span>
+        <span class="n">channel_format</span><span class="p">:</span> <span class="s2">&quot;int16&quot;</span>
+        <span class="n">stream_name</span><span class="p">:</span> <span class="s2">&quot;NDS-LFPData&quot;</span>
+        <span class="n">stream_type</span><span class="p">:</span> <span class="s1">&#39;LFP&#39;</span>
+        <span class="n">source_id</span><span class="p">:</span> <span class="s2">&quot;SimulatedLFPData&quot;</span>
+        <span class="n">instrument</span><span class="p">:</span>
+          <span class="n">manufacturer</span><span class="p">:</span> <span class="s2">&quot;Hardware Company&quot;</span>
+          <span class="n">model</span><span class="p">:</span> <span class="s2">&quot;Simulated&quot;</span>
+          <span class="nb">id</span><span class="p">:</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</section>
+<section id="spike-events">
+<h4>Spike Events<a class="headerlink" href="#spike-events" title="Permalink to this heading"></a></h4>
+<p>The available customizations for this output type are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ephys_generator</span><span class="p">:</span>
+  <span class="n">output</span><span class="p">:</span>
+    <span class="n">spike_events</span><span class="p">:</span>
+      <span class="n">lsl</span><span class="p">:</span>
+        <span class="c1"># possible values are &quot;float32&quot;, &quot;double64&quot;, &quot;int8&quot;, &quot;int16&quot;, &quot;int32&quot;, &quot;int64&quot;</span>
+        <span class="n">channel_format</span><span class="p">:</span> <span class="s2">&quot;int16&quot;</span>
+        <span class="n">stream_name</span><span class="p">:</span> <span class="s2">&quot;NDS-SpikeEvents&quot;</span>
+        <span class="n">stream_type</span><span class="p">:</span> <span class="s2">&quot;SpikeEvents&quot;</span>
+        <span class="n">source_id</span><span class="p">:</span> <span class="s2">&quot;SimulatedSpikeEvents&quot;</span>
+        <span class="n">instrument</span><span class="p">:</span>
+          <span class="n">manufacturer</span><span class="p">:</span> <span class="s2">&quot;Hardware Company&quot;</span>
+          <span class="n">model</span><span class="p">:</span> <span class="s2">&quot;Simulated&quot;</span>
+          <span class="nb">id</span><span class="p">:</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="noise">
+<h3>Noise<a class="headerlink" href="#noise" title="Permalink to this heading"></a></h3>
+<p>Noise is being generated with the help of the <a class="reference external" href="https://github.com/felixpatzelt/colorednoise">colorednoise</a> library. The following noise characteristics can be adjusted:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ephys_generator</span><span class="p">:</span>
+  <span class="c1"># Gaussian (1/f)**beta noise settings</span>
+  <span class="n">noise</span><span class="p">:</span>
+    <span class="c1"># exponent</span>
+    <span class="n">beta</span><span class="p">:</span> <span class="mf">1.5</span>
+    <span class="c1"># noise standard deviation</span>
+    <span class="n">standard_deviation</span><span class="p">:</span> <span class="mf">40.0</span>
+    <span class="c1"># low-frequency cutoff. The power-spectrum below fmin is flat.</span>
+    <span class="n">fmin</span><span class="p">:</span> <span class="mf">0.0001</span>
+    <span class="c1"># unique noise samples to generate per channel</span>
+    <span class="c1"># the noise is repeated if the samples are all used</span>
+    <span class="n">samples</span><span class="p">:</span> <span class="mi">262144</span>
+</pre></div>
+</div>
+<p>For example here’s how changing the <code class="docutils literal notranslate"><span class="pre">beta</span></code> can impact the output raw data:</p>
+<p><img alt="diagram" src="_images/Noise_beta.png" /></p>
+</section>
+<section id="loading-custom-spike-waveforms">
+<h3>Loading custom spike waveforms<a class="headerlink" href="#loading-custom-spike-waveforms" title="Permalink to this heading"></a></h3>
+<p>It is possible to configure the waveforms for the spikes synthesized by the <code class="docutils literal notranslate"><span class="pre">ephys</span> <span class="pre">generator</span></code> by adjusting the following configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ephys_generator</span><span class="p">:</span>
+  <span class="n">waveforms</span><span class="p">:</span>
+    <span class="n">n_samples</span><span class="p">:</span> <span class="mi">48</span>
+    <span class="n">prototypes</span><span class="p">:</span>
+      <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;[0.0, 8.5, 17.0, 24.0, 30.75, 47.75, 64.5, 72.75, 81.25, 72.75, 64.5, 28.0, -8.25, -99.25, -190.0, -194.25, -198.5, -172.0, -145.25, -95.0, -44.75, 1.5, 47.75, 68.75, 89.5, 92.5, 95.25, 82.5, 70.0, 57.5, 44.75, 29.5, 14.0, 7.0, 0.0, -2.75, -5.5, -7.0, -8.25, -4.0, 0.0]&quot;</span>
+      <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;[0.0, -4.0, -8.25, -16.75, -25.0, -74.0, -123.0, -111.75, -100.5, 8.5, 117.5, 137.25, 156.75, 117.5, 78.5, 22.5, -33.5, -41.75, -50.25, -47.5, -44.75, -40.5, -36.25, -25.0, -14.0, -5.5, 3.0, 10.0, 17.0, 18.25, 19.75, 11.25, 3.0, -1.25, -5.5, -5.5, -5.5, -4.0, -2.75, -1.25, 0.0]&quot;</span>
+      <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;[0.0, -5.5, -11.0, -25.0, -39.0, -95.0, -151.0, -151.0, -151.0, -99.25, -47.5, 8.5, 64.5, 106.5, 148.25, 175.0, 201.5, 169.25, 137.25, 89.5, 42.0, 22.5, 3.0, -5.5, -14.0, -16.75, -19.5, -21.0, -22.25, -22.25, -22.25, -22.25, -22.25, -21.0, -19.5, -15.25, -11.0, -9.75, -8.25, -4.0, 0.0]&quot;</span>
+
+
+    <span class="n">unit_prototype_mapping</span><span class="p">:</span>
+      <span class="n">default</span><span class="p">:</span> <span class="mi">1</span>
+      <span class="mi">1</span><span class="p">:</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<p>A new custom waveform should be added first to the <code class="docutils literal notranslate"><span class="pre">prototypes</span></code> dictionary, where the key can be any integer serving as the prototype ID and the value is the JSON list of the waveform samples. In the next step, the <code class="docutils literal notranslate"><span class="pre">unit_prototype_mapping</span></code> dictionary should be updated to include the new prototype ID for the <code class="docutils literal notranslate"><span class="pre">unit</span></code> that is expected to use it. The <code class="docutils literal notranslate"><span class="pre">default</span></code> key is used for all <code class="docutils literal notranslate"><span class="pre">units</span></code> that are not explicitly defined in the mapping.
+So in the example above, unit 1 will use waveform prototype 3, and units 0 and 2 will both use waveform prototype 1.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ephys_generator.html" class="btn btn-neutral float-left" title="Electrophysiology (Ephys) Generator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="running.html" class="btn btn-neutral float-right" title="Running NDS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, AE Studio &amp; Chad Boulay.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+decoder 
+========
+
+.. automodule:: decoder
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+decoder.decoders 
+-----------------
+
+.. automodule:: decoder.decoders
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+decoder.run\_decoder 
+---------------------
+
+.. automodule:: decoder.run_decoder
+   :members:
+   :undoc-members:
+   :show-inheritance:

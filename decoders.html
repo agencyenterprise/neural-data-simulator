@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Decoders &mdash; Neural Data Simulator 0.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tasks" href="tasks.html" />
+    <link rel="prev" title="Extending NDS" href="extending.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Neural Data Simulator
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running_bci.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Neural Data Simulator</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inputs.html">Behavioral Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="encoder.html">Encoder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ephys_generator.html">Electrophysiology (Ephys) Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuring.html">Configuring NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">Running NDS</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Extensions</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="extending.html">Extending NDS</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Decoders</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#provided-decoder-model">Provided decoder model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuring-and-running-the-included-decoder">Configuring and running the included decoder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#integrating-a-new-decoder">Integrating a new decoder</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tasks.html">Tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualization.html">Visualizing Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Recording and Streaming</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/">GitHub Repository</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="nds/modules.html">Neural Data Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools/modules.html">Example Implementations and Utilities</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Neural Data Simulator</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Decoders</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/decoders.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="decoders">
+<h1>Decoders<a class="headerlink" href="#decoders" title="Permalink to this heading"></a></h1>
+<p>The decoder is responsible for predicting behavior from electrophysiology raw data. In the BCI closed loop paradigm, the decoder is consuming the neural data and its output is used to control an external device (e.g., a cursor on a screen) in order to perform a task.</p>
+<p>NDS comes with a basic, yet complete, decoder implementation that can be used as a template to guide your own development. The NDS decoder input is the raw data stream from the <code class="docutils literal notranslate"><span class="pre">ephys</span> <span class="pre">generator</span></code> and the output is the predicted cursor movement in the horizontal and vertical directions.</p>
+<section id="provided-decoder-model">
+<h2>Provided decoder model<a class="headerlink" href="#provided-decoder-model" title="Permalink to this heading"></a></h2>
+<p>The complete decoder implementation including the signal processing (spike detection and spike rate estimation) is contained in the <a class="reference internal" href="tools/decoder.html#decoder.decoders.Decoder" title="decoder.decoders.Decoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">decoder.decoders.Decoder</span></code></a> class. This class is using a linear regression model that predicts cursor movement from spike rates. See the <a class="reference internal" href="auto_examples/plot_train_encoder_and_decoder_model.html"><span class="doc std std-doc">Train models for the encoder and decoder</span></a> example for more details on how the model was trained.</p>
+<p>The <a class="reference internal" href="tools/decoder.html#decoder.decoders.Decoder" title="decoder.decoders.Decoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">decoder.decoders.Decoder</span></code></a> class can also be used with a custom decoder model implementation that conforms to the <a class="reference internal" href="tools/decoder.html#decoder.decoders.DecoderModel" title="decoder.decoders.DecoderModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">decoder.decoders.DecoderModel</span></code></a> protocol.</p>
+</section>
+<section id="configuring-and-running-the-included-decoder">
+<h2>Configuring and running the included decoder<a class="headerlink" href="#configuring-and-running-the-included-decoder" title="Permalink to this heading"></a></h2>
+<p>To configure the decoder, change the file <code class="docutils literal notranslate"><span class="pre">settings_decoder.yaml</span></code>, which is located by default in the <code class="docutils literal notranslate"><span class="pre">$HOME/.nds/</span></code> folder. You can point the script to use a different configuration file by passing the <code class="docutils literal notranslate"><span class="pre">--settings-path</span></code> argument.</p>
+<p>Upon start, the decoder connects to the LSL input raw data stream and creates an LSL outlet to write the predicted behavior to. If the input stream cannot be found, the decoder will not be able to start, therefore make sure that the <code class="docutils literal notranslate"><span class="pre">ephys</span> <span class="pre">generator</span></code> is running before starting the decoder.</p>
+<p>To use a different model file for predicting velocities, change the following config:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">decoder</span><span class="p">:</span>
+  <span class="n">model_file</span><span class="p">:</span> <span class="s2">&quot;sample_data/session_4_simple_decoder.joblib&quot;</span>
+</pre></div>
+</div>
+<p>The threshold for spike detection can be adjusted by updating the config:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">decoder</span><span class="p">:</span>
+  <span class="n">spike_threshold</span><span class="p">:</span> <span class="o">-</span><span class="mi">200</span> <span class="c1"># uV</span>
+</pre></div>
+</div>
+<p>To start the decoder, complete the <a class="reference internal" href="installation.html"><span class="std std-doc">installation</span></a> with the <code class="docutils literal notranslate"><span class="pre">[extras]</span></code> option, then run the script:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">decoder</span>
+</pre></div>
+</div>
+</section>
+<section id="integrating-a-new-decoder">
+<h2>Integrating a new decoder<a class="headerlink" href="#integrating-a-new-decoder" title="Permalink to this heading"></a></h2>
+<p>If the included <a class="reference internal" href="tools/decoder.html#decoder.decoders.Decoder" title="decoder.decoders.Decoder"><span class="xref myst py py-class">Decoder</span></a> is not well suited for your use case and training a new decoder model by following the <a class="reference internal" href="auto_examples/plot_train_encoder_and_decoder_model.html"><span class="doc std std-doc">example</span></a> is not a good option, you can create your own decoder and integrate it into the NDS closed loop. For a seamless integration your decoder should satisfy the following requirements:</p>
+<ul class="simple">
+<li><p>provide an LSL outlet named <code class="docutils literal notranslate"><span class="pre">NDS-Decoder</span></code>. By default, the GUI is configured to read data from this outlet.</p></li>
+<li><p>output at <code class="docutils literal notranslate"><span class="pre">50</span> <span class="pre">Hz</span></code>. By default, the GUI loop is running at 50 Hz.</p></li>
+<li><p>output data is an array with shape (n_samples, 2) where the 2 columns correspond to the velocity in the horizontal and vertical direction.</p></li>
+</ul>
+<p>A new decoder can read data from one of the different LSL streams that NDS provides by default:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">NDS-RawData</span></code>: the raw spiking data stream.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NDS-LFPData</span></code>: the local field potentials stream.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NDS-SpikeEvents</span></code>: the stream containing spike events for each unit.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NDS-SpikeRates</span></code>: the stream containing spike rates for each channel.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When adding a new decoder to the loop, ensure that the default decoder is not running in order to prevent an LSL outlet name conflict. To achieve this change the <code class="docutils literal notranslate"><span class="pre">run-closed-loop</span></code> Makefile target removing the <code class="docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">run</span> <span class="pre">decoder</span></code> command.</p>
+</div>
+<p>For example, a decoder that reads based on the <code class="docutils literal notranslate"><span class="pre">NDS-SpikeRates</span></code> stream could be implemented as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">import</span> <span class="nn">joblib</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pylsl</span>
+<span class="kn">from</span> <span class="nn">nds.util.runtime</span> <span class="kn">import</span> <span class="n">get_sample_data_dir</span>
+
+
+<span class="k">def</span> <span class="nf">get_lsl_outlet</span><span class="p">():</span>
+    <span class="n">stream_info</span> <span class="o">=</span> <span class="n">pylsl</span><span class="o">.</span><span class="n">StreamInfo</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;NDS-Decoder&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;behavior&quot;</span><span class="p">,</span>
+        <span class="n">channel_count</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">nominal_srate</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+        <span class="n">channel_format</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">,</span>
+        <span class="n">source_id</span><span class="o">=</span><span class="s2">&quot;centerout_behavior&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">channels_info</span> <span class="o">=</span> <span class="n">stream_info</span><span class="o">.</span><span class="n">desc</span><span class="p">()</span><span class="o">.</span><span class="n">append_child</span><span class="p">(</span><span class="s2">&quot;channels&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">ch_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;vel_x&quot;</span><span class="p">,</span> <span class="s2">&quot;vel_y&quot;</span><span class="p">]:</span>
+        <span class="n">ch</span> <span class="o">=</span> <span class="n">channels_info</span><span class="o">.</span><span class="n">append_child</span><span class="p">(</span><span class="s2">&quot;channel&quot;</span><span class="p">)</span>
+        <span class="n">ch</span><span class="o">.</span><span class="n">append_child_value</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="n">ch_name</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">pylsl</span><span class="o">.</span><span class="n">StreamOutlet</span><span class="p">(</span><span class="n">stream_info</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">get_lsl_inlet</span><span class="p">():</span>
+    <span class="n">stream_infos</span> <span class="o">=</span> <span class="n">pylsl</span><span class="o">.</span><span class="n">resolve_byprop</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;NDS-SpikeRates&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">stream_infos</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pylsl</span><span class="o">.</span><span class="n">StreamInlet</span><span class="p">(</span><span class="n">stream_infos</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ConnectionError</span><span class="p">(</span><span class="s2">&quot;Inlet could not find requested LSL stream.&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">loaded_decoder</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">get_sample_data_dir</span><span class="p">(),</span> <span class="s2">&quot;session_4_simple_decoder.joblib&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">n_channels</span> <span class="o">=</span> <span class="mi">190</span>
+    <span class="n">decoder_interval</span> <span class="o">=</span> <span class="mi">20</span> <span class="o">*</span> <span class="mf">1e6</span>  <span class="c1"># nanoseconds</span>
+
+    <span class="n">lsl_outlet</span> <span class="o">=</span> <span class="n">get_lsl_outlet</span><span class="p">()</span>
+    <span class="n">lsl_inlet</span> <span class="o">=</span> <span class="n">get_lsl_inlet</span><span class="p">()</span>
+    <span class="n">last_run_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter_ns</span><span class="p">()</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">time_now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter_ns</span><span class="p">()</span>
+        <span class="n">elapsed_time_ns</span> <span class="o">=</span> <span class="n">time_now</span> <span class="o">-</span> <span class="n">last_run_time</span>
+        <span class="k">if</span> <span class="n">elapsed_time_ns</span> <span class="o">&gt;=</span> <span class="n">decoder_interval</span><span class="p">:</span>
+            <span class="n">samples</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">lsl_inlet</span><span class="o">.</span><span class="n">pull_chunk</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">spike_rates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">samples</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">velocities</span> <span class="o">=</span> <span class="n">loaded_decoder</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">spike_rates</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_channels</span><span class="p">))</span>
+                <span class="n">lsl_outlet</span><span class="o">.</span><span class="n">push_sample</span><span class="p">(</span><span class="n">velocities</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">last_run_time</span> <span class="o">=</span> <span class="n">time_now</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.0001</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+
+</pre></div>
+</div>
+<p>This decoder is not practical because it is simply reversing the output of the encoder, but it can serve as a starting point for your own decoder since it satisfies the requirements mentioned above.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="extending.html" class="btn btn-neutral float-left" title="Extending NDS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tasks.html" class="btn btn-neutral float-right" title="Tasks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, AE Studio &amp; Chad Boulay.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

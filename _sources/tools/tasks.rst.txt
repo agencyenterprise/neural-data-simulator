@@ -1,0 +1,30 @@
+tasks 
+======
+
+.. automodule:: tasks
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. toctree::
+   :hidden:
+   :maxdepth: 4
+
+   tasks.center_out_reach
+
+
+tasks.run\_center\_out\_reach 
+------------------------------
+
+.. automodule:: tasks.run_center_out_reach
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+tasks.run\_closed\_loop 
+------------------------
+
+.. automodule:: tasks.run_closed_loop
+   :members:
+   :undoc-members:
+   :show-inheritance:

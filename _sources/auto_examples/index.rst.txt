@@ -1,0 +1,184 @@
+:orphan:
+
+Tutorials
+=========
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The goal of this example is to show how you can run an open loop simulation and collect the ele...">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_run_open_loop_thumb.png
+    :alt: Collect data to train your own decoder
+
+  :ref:`sphx_glr_auto_examples_plot_run_open_loop.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Collect data to train your own decoder</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The goal of this example is to calculate and plot the Power Spectral Density (PSD) for a given ...">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_psd_thumb.png
+    :alt: Visualize Power Spectral Density (PSD)
+
+  :ref:`sphx_glr_auto_examples_plot_psd.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Visualize Power Spectral Density (PSD)</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The goal of this example is to show the distribution of velocities used to train the model and ...">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_behavior_distribution_thumb.png
+    :alt: Visualize distribution of velocities
+
+  :ref:`sphx_glr_auto_examples_plot_behavior_distribution.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Visualize distribution of velocities</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The goal of this example is to show the spike rates predicted by the encoder for a given behavi...">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_behavior_and_spikes_thumb.png
+    :alt: Visualize spike rates for input behavior
+
+  :ref:`sphx_glr_auto_examples_plot_behavior_and_spikes.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Visualize spike rates for input behavior</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The goal of this example is to calculate and plot the inter-spike interval (ISI) for a given ch...">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_isi_thumb.png
+    :alt: Visualize inter-spike interval (ISI)
+
+  :ref:`sphx_glr_auto_examples_plot_isi.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Visualize inter-spike interval (ISI)</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The goal of this example is to compare the spike rates predicted by the encoder with the spikes...">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_predicted_spike_rates_thumb.png
+    :alt: Visualize predicted spike rates with generated spikes
+
+  :ref:`sphx_glr_auto_examples_plot_predicted_spike_rates.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Visualize predicted spike rates with generated spikes</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The goal of this example is to display the input behavior aligned with the decoded behavior in ...">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_decoded_behavior_thumb.png
+    :alt: Visualize the input behavior together with the decoded behavior
+
+  :ref:`sphx_glr_auto_examples_plot_decoded_behavior.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Visualize the input behavior together with the decoded behavior</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example illustrates the steps required to train and save models for the NDS encoder and de...">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_train_encoder_and_decoder_model_thumb.png
+    :alt: Train models for the encoder and decoder
+
+  :ref:`sphx_glr_auto_examples_plot_train_encoder_and_decoder_model.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Train models for the encoder and decoder</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/plot_run_open_loop
+   /auto_examples/plot_psd
+   /auto_examples/plot_behavior_distribution
+   /auto_examples/plot_behavior_and_spikes
+   /auto_examples/plot_isi
+   /auto_examples/plot_predicted_spike_rates
+   /auto_examples/plot_decoded_behavior
+   /auto_examples/plot_train_encoder_and_decoder_model
+
+
+.. only:: html
+
+  .. container:: sphx-glr-footer sphx-glr-footer-gallery
+
+    .. container:: sphx-glr-download sphx-glr-download-python
+
+      :download:`Download all examples in Python source code: auto_examples_python.zip </auto_examples/auto_examples_python.zip>`
+
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
+
+      :download:`Download all examples in Jupyter notebooks: auto_examples_jupyter.zip </auto_examples/auto_examples_jupyter.zip>`
+
+
+.. only:: html
+
+ .. rst-class:: sphx-glr-signature
+
+    `Gallery generated by Sphinx-Gallery <https://sphinx-gallery.github.io>`_

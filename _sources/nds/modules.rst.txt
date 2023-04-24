@@ -1,0 +1,8 @@
+Neural Data Simulator
+=====================
+
+.. toctree::
+   :maxdepth: 2
+
+
+   nds
