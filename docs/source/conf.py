@@ -7,9 +7,9 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "Neural Data Simulator"
-copyright = "2023, AE Studio & Chad Boulay"
-author = "AE Studio & Chad Boulay"
-release = "0.1.0"
+copyright = "2023, AE Studio & Chadwick Boulay"
+author = "AE Studio & Chadwick Boulay"
+release = "0.1.1"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
