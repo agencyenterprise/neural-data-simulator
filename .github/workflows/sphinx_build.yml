@@ -47,7 +47,8 @@ jobs:
       - name: Build HTML
         run: |
           poetry run sphinx-multiversion docs/source/ docs/html/ -D templates_path=$PWD/docs/templates
-          cp -R `git tag --sort=committerdate | grep -E '[0-9]' | tail -1` .
+          export NEWEST_TAG=`git tag --sort=committerdate | grep -E '[0-9]'/* | tail -1`
+          echo "<meta http-equiv=\"refresh\" content=\"0; url=./$NEWEST_TAG/index.html\" />" > docs/html/index.html
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
