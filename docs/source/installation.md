@@ -10,7 +10,7 @@ The `neural-data-simulator` package contains:
 You can install `NDS`, with all included utilities and example implementations, using:
 
 ```
-pip install neural-data-simulator[extras]
+pip install "neural-data-simulator[extras]"
 ```
 
 ```{important}

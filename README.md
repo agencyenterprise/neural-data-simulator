@@ -1,6 +1,6 @@
 # Neural Data Simulator
 
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](.github/CODE_OF_CONDUCT.md)
 [![Linting](https://github.com/agencyenterprise/neural-data-simulator/actions/workflows/lint.yml/badge.svg)](https://github.com/agencyenterprise/neural-data-simulator/actions/workflows/lint.yml)
 [![Tests](https://github.com/agencyenterprise/neural-data-simulator/actions/workflows/test.yml/badge.svg)](https://github.com/agencyenterprise/neural-data-simulator/actions/workflows/test.yml)
 
@@ -28,7 +28,7 @@ brew install labstreaminglayer/tap/lsl
 Install the NDS package with the included examples and utilities via pip:
 
 ```
-pip install neural-data-simulator[extras]
+pip install "neural-data-simulator[extras]"
 ```
 
 ## Quick start
