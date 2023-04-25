@@ -45,7 +45,9 @@ jobs:
         run: poetry run nds_post_install_config
 
       - name: Build HTML
-        run: make htmldoc
+        run: |
+          poetry run sphinx-multiversion docs/source/ docs/html/ -D templates_path=$PWD/docs/templates
+          cp -R `git tag --sort=committerdate | grep -E '[0-9]' | tail -1` .
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3

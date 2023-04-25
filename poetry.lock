@@ -3752,6 +3752,21 @@ sphinx = ">=2.0"
 dev = ["black (==19.10b0)"]
 
 [[package]]
+name = "sphinx-multiversion-pre-post-build"
+version = "0.2.4"
+description = "Add support for multiple versions to sphinx"
+category = "dev"
+optional = false
+python-versions = "*"
+files = [
+    {file = "sphinx-multiversion-pre-post-build-0.2.4.tar.gz", hash = "sha256:f85aae835219f65c2dabe9e5e83d02c2e95c47e76ce162c31d74fc1cd269d153"},
+    {file = "sphinx_multiversion_pre_post_build-0.2.4-py3-none-any.whl", hash = "sha256:7edc38c5052356cbc5ad2dd11bbd4eeefd07517a4dfdb258fd5ba00d1df143a3"},
+]
+
+[package.dependencies]
+sphinx = ">=2.1"
+
+[[package]]
 name = "sphinx-rtd-theme"
 version = "1.1.1"
 description = "Read the Docs theme for Sphinx"
@@ -4273,4 +4288,4 @@ extras = ["joblib", "matplotlib", "pygame", "pyobjc-framework-Quartz", "scikit-l
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "c6d2d424f685e8e7a83a41295ae9349f59265f0094080f1ed1107977bdbcf115"
+content-hash = "3888312be96ccc21d671b35d32b218b16d0850b4f9db1399b4df7af9da306ba7"

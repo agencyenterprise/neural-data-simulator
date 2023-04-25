@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "neural-data-simulator"
-version = "0.1.0"
+version = "0.2.0-dev"
 description = "Electrophysiology simulator data for developing Brain-Computer Interfaces"
 authors = ["AE Studio, Chadwick Boulay"]
 packages = [
@@ -49,6 +49,7 @@ pyenchant = "^3.2.2"
 nbsphinx = "^0.8.12"
 sphinx-gallery = "^0.11.1"
 pyright = "^1.1.302"
+sphinx-multiversion-pre-post-build = "^0.2.4"
 
 [tool.poetry.group.dev.dependencies]
 types-requests = "^2.28.11.8"

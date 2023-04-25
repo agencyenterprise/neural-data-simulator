@@ -9,7 +9,7 @@
 project = "Neural Data Simulator"
 copyright = "2023, AE Studio & Chad Boulay"
 author = "AE Studio & Chad Boulay"
-release = "0.1.0"
+release = "0.2.0 dev"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -31,6 +31,7 @@ extensions.append("sphinx_gallery.gen_gallery")
 extensions.append("sphinx.ext.autosectionlabel")
 # Support for NumPy and Google style docstrings
 extensions.append("sphinx.ext.napoleon")
+extensions.append("sphinx_multiversion")
 
 sphinx_gallery_conf = {
     "examples_dirs": "../../examples",
@@ -44,7 +45,6 @@ myst_enable_extensions = ["attrs_inline"]
 
 autosummary_generate = True
 
-templates_path = ["_templates"]
 exclude_patterns = []
 
 
@@ -61,3 +61,9 @@ autodoc_default_options = {
     'undoc-members': True,
     'exclude-members': '__weakref__'
 }
+
+# -- Options for documentation versions --------------------------------------
+smv_branch_whitelist = r'^main$'            # Include only the main branch
+smv_tag_whitelist = r'^.*$'                 # Include all tags
+smv_prebuild_command = "make apidoc"
+
