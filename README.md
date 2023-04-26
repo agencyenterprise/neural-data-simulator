@@ -38,6 +38,6 @@ Run the following scripts:
 nds_post_install_config
 run_closed_loop
 ```
-![quick-start](https://raw.githubusercontent.com/florin-pop/neural-data-simulator/main/docs/source/images/quick-start.gif)
+![quick-start](https://raw.githubusercontent.com/agencyenterprise/neural-data-simulator/main/docs/source/images/quick-start.gif)
 
 > **_NOTE:_** You might need to give permissions like network access when running the scripts.

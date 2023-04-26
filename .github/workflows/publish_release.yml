@@ -12,7 +12,4 @@ jobs:
       - name: Build and publish to pypi
         uses: JRubics/poetry-publish@v1.16
         with:
-          pypi_token: ${{ secrets.TEST_PYPI_TOKEN }}
-          # following 2 lines set deployment to testpypi
-          repository_name: "testpypi"
-          repository_url: "https://test.pypi.org/legacy/" 
+          pypi_token: ${{ secrets.PYPI_TOKEN }}
