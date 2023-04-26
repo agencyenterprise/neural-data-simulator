@@ -74,26 +74,5 @@ jobs:
             make test-coverage
           fi
 
-      - name: Upload coverage
-        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage_report
-          path: |
-            pytest-coverage.txt
-            pytest.xml
-
-  coverage:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - name: Download math result for job 1
-        uses: actions/download-artifact@v3
-        with:
-          name: coverage_report
-
-      - name: Report code coverage
-        uses: MishaKav/pytest-coverage-comment@main
-        with:
-          pytest-coverage-path: ./pytest-coverage.txt
-          junitxml-path: ./pytest.xml
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
