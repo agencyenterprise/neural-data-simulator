@@ -13,7 +13,7 @@ def run():
             "extras couldn't be imported"
         )
         print("Please reinstall neural-data-simulator with extras by running:")
-        print("pip install 'neural-data-simulator[extras]'")
+        print('pip install "neural-data-simulator[extras]"')
         return
 
     encoder = subprocess.Popen(["encoder"])

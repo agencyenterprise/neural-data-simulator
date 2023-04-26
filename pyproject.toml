@@ -1,8 +1,9 @@
 [tool.poetry]
 name = "neural-data-simulator"
-version = "0.1.0"
+version = "0.1.1"
 description = "Electrophysiology simulator data for developing Brain-Computer Interfaces"
-authors = ["AE Studio, Chadwick Boulay"]
+authors = ["AE Studio <bci@ae.studio>", "Chadwick Boulay <chadwick.boulay@gmail.com>"]
+maintainers = ["Chadwick Boulay <chadwick.boulay@gmail.com>", "AE Studio <bci@ae.studio>"]
 packages = [
     {include = "nds", from = "src"},
     {include = "decoder", from = "src"},
@@ -10,6 +11,19 @@ packages = [
     {include = "tasks", from = "src"},
     {include = "plugins", from = "src"},
 ]
+readme = "README.md"
+license = "Apache-2.0"
+classifiers = [
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: MacOS",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/agencyenterprise/neural-data-simulator"
+"Documentation" = "https://agencyenterprise.github.io/neural-data-simulator/"
+"Bug Tracker" = "https://github.com/agencyenterprise/neural-data-simulator/issues"
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.12"
