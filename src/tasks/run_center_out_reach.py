@@ -17,16 +17,16 @@ from tasks.center_out_reach.task_state import StateParams
 from tasks.center_out_reach.task_state import TaskState
 from tasks.center_out_reach.task_window import TaskWindow
 
-from nds import inputs
-from nds import outputs
-from nds.outputs import StreamConfig
-from nds.settings import LogLevel
-from nds.settings import LSLInputModel
-from nds.settings import LSLOutputModel
-from nds.util.runtime import configure_logger
-from nds.util.runtime import open_connection
-from nds.util.runtime import unwrap
-from nds.util.settings_loader import get_script_settings
+from neural_data_simulator import inputs
+from neural_data_simulator import outputs
+from neural_data_simulator.outputs import StreamConfig
+from neural_data_simulator.settings import LogLevel
+from neural_data_simulator.settings import LSLInputModel
+from neural_data_simulator.settings import LSLOutputModel
+from neural_data_simulator.util.runtime import configure_logger
+from neural_data_simulator.util.runtime import open_connection
+from neural_data_simulator.util.runtime import unwrap
+from neural_data_simulator.util.settings_loader import get_script_settings
 
 logger = logging.getLogger(__name__)
 

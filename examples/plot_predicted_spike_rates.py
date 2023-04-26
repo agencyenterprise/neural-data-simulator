@@ -4,7 +4,7 @@
 Visualize predicted spike rates with generated spikes
 ======================================================
 
-.. currentmodule:: nds
+.. currentmodule:: neural_data_simulator
 
 The goal of this example is to compare the spike rates predicted by
 the encoder with the spikes created by `ephys generator`.
@@ -51,8 +51,8 @@ import numpy as np
 import pooch
 from scipy import signal
 
-from nds.filters import BandpassFilter
-from nds.filters import GaussianFilter
+from neural_data_simulator.filters import BandpassFilter
+from neural_data_simulator.filters import GaussianFilter
 
 
 def threshold_crossing(a: np.ndarray) -> np.ndarray:

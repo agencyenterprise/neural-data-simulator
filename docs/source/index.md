@@ -80,6 +80,6 @@ GitHub Repository <https://github.com/agencyenterprise/neural-data-simulator/>
 :caption: 'API Reference'
 :maxdepth: 3
 
-nds/modules
+neural_data_simulator/modules
 tools/modules
 ```

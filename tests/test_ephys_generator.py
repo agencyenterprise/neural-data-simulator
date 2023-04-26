@@ -5,10 +5,10 @@ from unittest import mock
 import numpy as np
 import pytest
 
-from nds.ephys_generator import ContinuousData
-from nds.ephys_generator import RingBuffer
-from nds.ephys_generator import Spikes
-from nds.ephys_generator import Waveforms
+from neural_data_simulator.ephys_generator import ContinuousData
+from neural_data_simulator.ephys_generator import RingBuffer
+from neural_data_simulator.ephys_generator import Spikes
+from neural_data_simulator.ephys_generator import Waveforms
 
 
 @pytest.fixture

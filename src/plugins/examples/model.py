@@ -5,9 +5,9 @@ from typing import Union
 from numpy import ndarray
 import numpy as np
 
-from nds.models import EncoderModel
-from nds.samples import Samples
-from nds.util.runtime import get_abs_path
+from neural_data_simulator.models import EncoderModel
+from neural_data_simulator.samples import Samples
+from neural_data_simulator.util.runtime import get_abs_path
 
 
 class VelocityTuningCurvesModel(EncoderModel):
@@ -54,17 +54,18 @@ class VelocityTuningCurvesModel(EncoderModel):
         with v = velocity, theta = velocity direction.
 
         Args:
-            X: :class:`nds.samples.Samples` dataclass with timestamps and data points
-              for velocity data (x and y direction, respectively) in the same unit as
-              parameters were fit for. Each element of samples timestamps has 1 column
-              where the acquisition time of the data point is stored. Each element of
-              samples data has 2 columns, one for each velocity direction. Each row of
-              samples corresponds to a data point acquisition.
+            X: :class:`neural_data_simulator.samples.Samples` dataclass with timestamps
+              and data points for velocity data (x and y direction, respectively) in
+              the same unit as parameters were fit for. Each element of samples
+              timestamps has 1 column where the acquisition time of the data point
+              is stored. Each element of samples data has 2 columns, one for each
+              velocity direction. Each row of samples corresponds to a data point
+              acquisition.
 
         Returns:
-            :class:`nds.samples.Samples` with the same timestamps as input, but data
-            matching the size of the model parameters (which represent the units
-            spikes are generated for).
+            :class:`neural_data_simulator.samples.Samples` with the same timestamps as
+            input, but data matching the size of the model parameters (which represent
+            the units spikes are generated for).
         """
         velocities = X.data
         magnitudes = VelocityTuningCurvesModel._get_magnitude(velocities)

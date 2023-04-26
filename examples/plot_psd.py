@@ -4,7 +4,7 @@
 Visualize Power Spectral Density (PSD)
 =========================================
 
-.. currentmodule:: nds
+.. currentmodule:: neural_data_simulator
 
 The goal of this example is to calculate and plot the Power Spectral Density (PSD) for a given channel
 of the raw data.

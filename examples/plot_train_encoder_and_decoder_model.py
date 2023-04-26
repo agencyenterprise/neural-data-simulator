@@ -4,7 +4,7 @@
 Train models for the encoder and decoder
 ========================================
 
-.. currentmodule:: nds
+.. currentmodule:: neural_data_simulator
 
 This example illustrates the steps required to train and save models
 for the NDS encoder and decoder. The encoder model is used to convert
@@ -127,7 +127,7 @@ plt.show()
 
 import os
 
-from nds.util.runtime import get_sample_data_dir
+from neural_data_simulator.util.runtime import get_sample_data_dir
 
 STANDARDIZED_BEHAVIOR_DATA_PATH = os.path.join(
     get_sample_data_dir(), "session_4_behavior_standardized.npz"

@@ -4,7 +4,7 @@ import numpy as np
 from plugins.examples.model import VelocityTuningCurvesModel
 import pytest
 
-from nds.samples import Samples
+from neural_data_simulator.samples import Samples
 
 
 def _create_model_weights_file(tmp_path, b0, m, pd, bs):

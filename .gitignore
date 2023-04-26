@@ -150,6 +150,6 @@ dmypy.json
 !docs/sphinx/*
 docs/html
 docs/doctrees
-docs/source/nds
+docs/source/neural_data_simulator
 docs/source/tools
 docs/source/auto_examples

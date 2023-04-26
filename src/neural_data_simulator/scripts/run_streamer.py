@@ -1,13 +1,13 @@
 r"""Script that starts the streamer.
 
 The streamer default configuration is located in `NDS_HOME/settings_streamer.yaml`
-(see :mod:`nds.scripts.post_install_config`). The script can use different
-config file specified via the `\--settings-path` argument.
+(see :mod:`neural_data_simulator.scripts.post_install_config`). The script can use
+different config file specified via the `\--settings-path` argument.
 
 Upon start, the streamer expects to read data from a file and output to an LSL
 outlet. By default, a sample behavior data file will be downloaded by the
-:mod:`nds.scripts.post_install_config` script, so the streamer should be able
-to run without any additional configuration. If the input file cannot be found,
+:mod:`neural_data_simulator.scripts.post_install_config` script, so the streamer should
+be able to run without any additional configuration. If the input file cannot be found,
 the streamer will not be able to start.
 """
 import argparse
@@ -23,17 +23,17 @@ from pydantic import validator
 from pydantic_yaml import VersionedYamlModel
 from pydantic_yaml import YamlStrEnum
 
-from nds import outputs
-from nds import streamers
-from nds.outputs import StreamConfig
-from nds.samples import Samples
-from nds.settings import LogLevel
-from nds.settings import LSLChannelFormatType
-from nds.settings import LSLOutputModel
-from nds.util.runtime import configure_logger
-from nds.util.runtime import get_abs_path
-from nds.util.runtime import unwrap
-from nds.util.settings_loader import get_script_settings
+from neural_data_simulator import outputs
+from neural_data_simulator import streamers
+from neural_data_simulator.outputs import StreamConfig
+from neural_data_simulator.samples import Samples
+from neural_data_simulator.settings import LogLevel
+from neural_data_simulator.settings import LSLChannelFormatType
+from neural_data_simulator.settings import LSLOutputModel
+from neural_data_simulator.util.runtime import configure_logger
+from neural_data_simulator.util.runtime import get_abs_path
+from neural_data_simulator.util.runtime import unwrap
+from neural_data_simulator.util.settings_loader import get_script_settings
 
 logger = logging.getLogger(__name__)
 

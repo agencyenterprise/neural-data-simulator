@@ -6,8 +6,8 @@ from typing import Optional, Type
 
 from pydantic_yaml import VersionedYamlModel
 
-from nds.util.runtime import get_abs_path
-from nds.util.runtime import NDS_HOME
+from neural_data_simulator.util.runtime import get_abs_path
+from neural_data_simulator.util.runtime import NDS_HOME
 
 logger = logging.getLogger(__name__)
 

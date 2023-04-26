@@ -4,7 +4,7 @@
 Visualize the input behavior together with the decoded behavior
 ================================================================
 
-.. currentmodule:: nds
+.. currentmodule:: neural_data_simulator
 
 The goal of this example is to display the input behavior aligned with the decoded behavior in a plot.
 

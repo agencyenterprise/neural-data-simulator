@@ -8,17 +8,17 @@ from unittest.mock import Mock
 import numpy as np
 import pytest
 
-import nds
-from nds import inputs
-from nds import models
-from nds import outputs
-from nds.encoder import Encoder
-from nds.encoder import Processor
-from nds.scripts import run_encoder
-from nds.settings import EncoderEndpointType
-from nds.settings import EncoderSettings
-from nds.settings import Settings
-from nds.util import settings_loader
+import neural_data_simulator
+from neural_data_simulator import inputs
+from neural_data_simulator import models
+from neural_data_simulator import outputs
+from neural_data_simulator.encoder import Encoder
+from neural_data_simulator.encoder import Processor
+from neural_data_simulator.scripts import run_encoder
+from neural_data_simulator.settings import EncoderEndpointType
+from neural_data_simulator.settings import EncoderSettings
+from neural_data_simulator.settings import Settings
+from neural_data_simulator.util import settings_loader
 
 velocity_tuning_curves = {
     "b0": np.array([1]),
@@ -63,14 +63,15 @@ def fake_parse_args(monkeypatch: pytest.MonkeyPatch) -> argparse.Namespace:
 def mock_get_script_settings(monkeypatch: pytest.MonkeyPatch):
     """Mock get_script_settings to return the default settings."""
     default_settings: Settings = settings_loader.get_script_settings(
-        Path(f"{os.path.dirname(nds.__file__)}/config/settings.yaml"),
+        Path(f"{os.path.dirname(neural_data_simulator.__file__)}/config/settings.yaml"),
         "settings.yaml",
         Settings,
     )
     get_script_settings_mock = Mock()
     get_script_settings_mock.return_value = default_settings
     monkeypatch.setattr(
-        "nds.scripts.run_encoder.get_script_settings", get_script_settings_mock
+        "neural_data_simulator.scripts.run_encoder.get_script_settings",
+        get_script_settings_mock,
     )
     return get_script_settings_mock
 
@@ -86,7 +87,7 @@ def fake_runner(monkeypatch):
         def run(encoder: Encoder, *args, **kwargs):
             runner_fake.encoder = encoder
 
-    monkeypatch.setattr("nds.scripts.run_encoder.runner", runner_fake)
+    monkeypatch.setattr("neural_data_simulator.scripts.run_encoder.runner", runner_fake)
     return runner_fake
 
 

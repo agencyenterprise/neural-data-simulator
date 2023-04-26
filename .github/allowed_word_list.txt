@@ -73,7 +73,6 @@ readouterr
 reproducibility
 samples1
 samples2
-nds
 searchsorted
 tanh
 timestamp

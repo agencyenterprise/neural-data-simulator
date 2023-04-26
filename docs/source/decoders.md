@@ -64,7 +64,7 @@ import time
 import joblib
 import numpy as np
 import pylsl
-from nds.util.runtime import get_sample_data_dir
+from neural_data_simulator.util.runtime import get_sample_data_dir
 
 
 def get_lsl_outlet():

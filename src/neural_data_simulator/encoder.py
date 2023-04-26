@@ -3,11 +3,11 @@ import contextlib
 import logging
 from typing import Iterator, Optional, Protocol, runtime_checkable
 
-from nds.inputs import Input
-from nds.models import EncoderModel
-from nds.outputs import Output
-from nds.samples import Samples
-from nds.util.runtime import open_connection
+from neural_data_simulator.inputs import Input
+from neural_data_simulator.models import EncoderModel
+from neural_data_simulator.outputs import Output
+from neural_data_simulator.samples import Samples
+from neural_data_simulator.util.runtime import open_connection
 
 
 @runtime_checkable

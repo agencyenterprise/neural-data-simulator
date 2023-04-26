@@ -73,6 +73,7 @@ def get_timer(loop_time: float = 0.02, max_cpu_buffer: float = 0.005) -> Timer:
           call (in seconds). Defaults to 0.005.
 
     Returns:
-        An instance of the :class:`nds.timing.Timer` class based on input parameters.
+        An instance of the :class:`neural_data_simulator.timing.Timer` class based on
+        input parameters.
     """
     return Timer(loop_time, max_cpu_buffer)

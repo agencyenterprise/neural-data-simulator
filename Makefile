@@ -18,21 +18,21 @@ lint-check:
 	poetry run pyright --warnings
 
 test:
-	poetry run pytest . --color=yes --ignore=experiments --ignore=BKP -m "not jitter" --cov=src/nds --cov-report=term-missing:skip-covered --junitxml=pytest.xml --cov-report=xml 2>&1
+	poetry run pytest . --color=yes --ignore=experiments --ignore=BKP -m "not jitter" --cov=src/neural_data_simulator --cov-report=term-missing:skip-covered --junitxml=pytest.xml --cov-report=xml 2>&1
 
 test-coverage:
-	poetry run pytest . --color=yes --ignore=experiments --ignore=BKP -m "not jitter" --cov=src/nds --cov-report=term-missing:skip-covered --junitxml=pytest.xml --cov-report=xml 2>&1 | tee pytest-coverage.txt
+	poetry run pytest . --color=yes --ignore=experiments --ignore=BKP -m "not jitter" --cov=src/neural_data_simulator --cov-report=term-missing:skip-covered --junitxml=pytest.xml --cov-report=xml 2>&1 | tee pytest-coverage.txt
 
 clean:
 	-rm docs/source/*.rst
-	-rm -rf docs/source/nds
+	-rm -rf docs/source/neural_data_simulator
 	-rm -rf docs/source/tools
 	-rm -rf docs/html
 	-rm -rf docs/source/auto_examples
 
 apidoc:
-	poetry run sphinx-apidoc -M -H "Neural Data Simulator" -t docs/templates -o docs/source/nds src/nds src/nds/settings.py src/nds/util src/plugins
-	poetry run sphinx-apidoc -M -H "Example Implementations and Utilities" -t docs/templates -o docs/source/tools src/ src/nds src/plugins
+	poetry run sphinx-apidoc -M -H "Neural Data Simulator" -t docs/templates -o docs/source/neural_data_simulator src/neural_data_simulator src/neural_data_simulator/settings.py src/neural_data_simulator/util src/plugins
+	poetry run sphinx-apidoc -M -H "Example Implementations and Utilities" -t docs/templates -o docs/source/tools src/ src/neural_data_simulator src/plugins
 
 spellcheck: apidoc
 	poetry run sphinx-build -W -b spelling docs/source docs/build

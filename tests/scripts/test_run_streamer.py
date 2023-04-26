@@ -8,10 +8,10 @@ from unittest.mock import Mock
 import numpy as np
 import pytest
 
-import nds
-from nds.scripts import run_streamer
-import nds.scripts.run_streamer
-from nds.util import settings_loader
+import neural_data_simulator
+from neural_data_simulator.scripts import run_streamer
+import neural_data_simulator.scripts.run_streamer
+from neural_data_simulator.util import settings_loader
 
 
 class BlackrockRawIOFake:
@@ -96,7 +96,9 @@ class BlackrockRawIOFake:
 @pytest.fixture(autouse=True)
 def fake_blackrockrawio(monkeypatch):
     """Override the nnds.scripts.run_streamer.BlackrockRawIO with a fake."""
-    monkeypatch.setattr(nds.scripts.run_streamer, "BlackrockRawIO", BlackrockRawIOFake)
+    monkeypatch.setattr(
+        neural_data_simulator.scripts.run_streamer, "BlackrockRawIO", BlackrockRawIOFake
+    )
 
 
 @pytest.fixture(autouse=True)
@@ -134,8 +136,9 @@ def mock_path_exists(monkeypatch: pytest.MonkeyPatch):
 @pytest.fixture(autouse=True)
 def mock_default_settings(monkeypatch: pytest.MonkeyPatch):
     """Mock get_script_settings to return the default settings."""
+    package_dir = os.path.dirname(neural_data_simulator.__file__)
     default_settings: run_streamer._Settings = settings_loader.get_script_settings(
-        Path(f"{os.path.dirname(nds.__file__)}/config/settings_streamer.yaml"),
+        Path(f"{package_dir}/config/settings_streamer.yaml"),
         "settings.yaml",
         run_streamer._Settings,
     )
@@ -143,7 +146,8 @@ def mock_default_settings(monkeypatch: pytest.MonkeyPatch):
     get_script_settings_mock = Mock()
     get_script_settings_mock.return_value = default_settings
     monkeypatch.setattr(
-        "nds.scripts.run_streamer.get_script_settings", get_script_settings_mock
+        "neural_data_simulator.scripts.run_streamer.get_script_settings",
+        get_script_settings_mock,
     )
     return default_settings
 

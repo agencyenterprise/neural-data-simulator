@@ -6,9 +6,9 @@ from typing import List
 import numpy as np
 import pylsl
 
-from nds.outputs import LSLOutputDevice
-from nds.samples import Samples
-from nds.timing import Timer
+from neural_data_simulator.outputs import LSLOutputDevice
+from neural_data_simulator.samples import Samples
+from neural_data_simulator.timing import Timer
 
 logger = logging.getLogger(__name__)
 
@@ -42,9 +42,10 @@ class Stream:
 class LSLStreamer:
     """Streamer class that can be used to send samples through an LSL stream.
 
-    A streamer class that takes a :class:`nds.samples.Samples` dataclass with timestamps
-    and behavior data and stream it through LSL. Following the timestamps provided, the
-    data is streamed to simulate a real-time data acquisition.
+    A streamer class that takes a :class:`neural_data_simulator.samples.Samples`
+    dataclass with timestamps and behavior data and stream it through LSL.
+    Following the timestamps provided, the data is streamed to simulate a
+    real-time data acquisition.
     """
 
     def __init__(

@@ -19,11 +19,11 @@ from tasks.center_out_reach.input_events import InputHandler
 from tasks.center_out_reach.metrics import MetricsCollector
 from tasks.center_out_reach.task_state import TaskState
 
-from nds import inputs
-from nds import outputs
-from nds.filters import LowpassFilter
-from nds.samples import Samples
-from nds.timing import Timer
+from neural_data_simulator import inputs
+from neural_data_simulator import outputs
+from neural_data_simulator.filters import LowpassFilter
+from neural_data_simulator.samples import Samples
+from neural_data_simulator.timing import Timer
 
 
 class VelocityScaler(Protocol):
