@@ -22,7 +22,7 @@
 Visualize inter-spike interval (ISI)
 =========================================
 
-.. currentmodule:: nds
+.. currentmodule:: neural_data_simulator
 
 The goal of this example is to calculate and plot the inter-spike interval (ISI) for a given channel
 of the raw data.
@@ -244,7 +244,7 @@ For a longer recording, the values will be more similar to the ones used for tra
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.960 seconds)
+   **Total running time of the script:** ( 0 minutes  3.261 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_isi.py:

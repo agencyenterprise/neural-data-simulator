@@ -5,4 +5,4 @@ Neural Data Simulator
    :maxdepth: 2
 
 
-   nds
+   neural_data_simulator

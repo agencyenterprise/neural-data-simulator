@@ -1,0 +1,48 @@
+neural\_data\_simulator.scripts 
+================================
+
+.. automodule:: neural_data_simulator.scripts
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+neural\_data\_simulator.scripts.errors 
+---------------------------------------
+
+.. automodule:: neural_data_simulator.scripts.errors
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.scripts.post\_install\_config 
+------------------------------------------------------
+
+.. automodule:: neural_data_simulator.scripts.post_install_config
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.scripts.run\_encoder 
+---------------------------------------------
+
+.. automodule:: neural_data_simulator.scripts.run_encoder
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.scripts.run\_ephys\_generator 
+------------------------------------------------------
+
+.. automodule:: neural_data_simulator.scripts.run_ephys_generator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.scripts.run\_streamer 
+----------------------------------------------
+
+.. automodule:: neural_data_simulator.scripts.run_streamer
+   :members:
+   :undoc-members:
+   :show-inheritance:

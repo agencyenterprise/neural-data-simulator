@@ -4,7 +4,7 @@
 Visualize spike rates for input behavior
 =========================================
 
-.. currentmodule:: nds
+.. currentmodule:: neural_data_simulator
 
 The goal of this example is to show the spike rates predicted by the encoder for a given behavior input.
 

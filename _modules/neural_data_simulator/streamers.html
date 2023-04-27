@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>nds.streamers &mdash; Neural Data Simulator 0.1.2 documentation</title>
+  <title>neural_data_simulator.streamers &mdash; Neural Data Simulator 0.2.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/sg_gallery.css" type="text/css" />
@@ -73,7 +73,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../nds/modules.html">Neural Data Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../neural_data_simulator/modules.html">Neural Data Simulator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools/modules.html">Example Implementations and Utilities</a></li>
 </ul>
 
@@ -92,7 +92,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">nds.streamers</li>
+      <li class="breadcrumb-item active">neural_data_simulator.streamers</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -101,7 +101,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for nds.streamers</h1><div class="highlight"><pre>
+  <h1>Source code for neural_data_simulator.streamers</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Stream data over LSL.&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">import</span> <span class="nn">logging</span>
@@ -110,14 +110,14 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pylsl</span>
 
-<span class="kn">from</span> <span class="nn">nds.outputs</span> <span class="kn">import</span> <span class="n">LSLOutputDevice</span>
-<span class="kn">from</span> <span class="nn">nds.samples</span> <span class="kn">import</span> <span class="n">Samples</span>
-<span class="kn">from</span> <span class="nn">nds.timing</span> <span class="kn">import</span> <span class="n">Timer</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.outputs</span> <span class="kn">import</span> <span class="n">LSLOutputDevice</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.samples</span> <span class="kn">import</span> <span class="n">Samples</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.timing</span> <span class="kn">import</span> <span class="n">Timer</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="Stream"><a class="viewcode-back" href="../../nds/nds.html#nds.streamers.Stream">[docs]</a><span class="nd">@dataclass</span>
+<div class="viewcode-block" id="Stream"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.streamers.Stream">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">Stream</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Stream information.&quot;&quot;&quot;</span>
 
@@ -143,15 +143,16 @@
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="LSLStreamer"><a class="viewcode-back" href="../../nds/nds.html#nds.streamers.LSLStreamer">[docs]</a><span class="k">class</span> <span class="nc">LSLStreamer</span><span class="p">:</span>
+<div class="viewcode-block" id="LSLStreamer"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.streamers.LSLStreamer">[docs]</a><span class="k">class</span> <span class="nc">LSLStreamer</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Streamer class that can be used to send samples through an LSL stream.</span>
 
-<span class="sd">    A streamer class that takes a :class:`nds.samples.Samples` dataclass with timestamps</span>
-<span class="sd">    and behavior data and stream it through LSL. Following the timestamps provided, the</span>
-<span class="sd">    data is streamed to simulate a real-time data acquisition.</span>
+<span class="sd">    A streamer class that takes a :class:`neural_data_simulator.samples.Samples`</span>
+<span class="sd">    dataclass with timestamps and behavior data and stream it through LSL.</span>
+<span class="sd">    Following the timestamps provided, the data is streamed to simulate a</span>
+<span class="sd">    real-time data acquisition.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="LSLStreamer.__init__"><a class="viewcode-back" href="../../nds/nds.html#nds.streamers.LSLStreamer.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="LSLStreamer.__init__"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.streamers.LSLStreamer.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">outputs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">LSLOutputDevice</span><span class="p">],</span>
         <span class="n">samples</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Samples</span><span class="p">],</span>
@@ -181,7 +182,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_timer</span> <span class="o">=</span> <span class="n">Timer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_interval</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LSLStreamer.stream"><a class="viewcode-back" href="../../nds/nds.html#nds.streamers.LSLStreamer.stream">[docs]</a>    <span class="k">def</span> <span class="nf">stream</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="LSLStreamer.stream"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.streamers.LSLStreamer.stream">[docs]</a>    <span class="k">def</span> <span class="nf">stream</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Stream samples.</span>
 
 <span class="sd">        Stream all samples to all the outputs one output at a time.</span>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>nds.scripts.post_install_config &mdash; Neural Data Simulator 0.1.2 documentation</title>
+  <title>neural_data_simulator.scripts.post_install_config &mdash; Neural Data Simulator 0.2.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -73,7 +73,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../nds/modules.html">Neural Data Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../neural_data_simulator/modules.html">Neural Data Simulator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tools/modules.html">Example Implementations and Utilities</a></li>
 </ul>
 
@@ -92,7 +92,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">nds.scripts.post_install_config</li>
+      <li class="breadcrumb-item active">neural_data_simulator.scripts.post_install_config</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -101,7 +101,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for nds.scripts.post_install_config</h1><div class="highlight"><pre>
+  <h1>Source code for neural_data_simulator.scripts.post_install_config</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Script to bootstrap the NDS environment.</span>
 
 <span class="sd">This script needs to be run by the user after installing NDS.</span>
@@ -122,11 +122,11 @@
 <span class="kn">import</span> <span class="nn">pooch</span>
 <span class="kn">import</span> <span class="nn">tasks</span>
 
-<span class="kn">import</span> <span class="nn">nds</span>
-<span class="kn">from</span> <span class="nn">nds.util.runtime</span> <span class="kn">import</span> <span class="n">get_abs_path</span>
-<span class="kn">from</span> <span class="nn">nds.util.runtime</span> <span class="kn">import</span> <span class="n">get_configs_dir</span>
-<span class="kn">from</span> <span class="nn">nds.util.runtime</span> <span class="kn">import</span> <span class="n">get_plugins_dir</span>
-<span class="kn">from</span> <span class="nn">nds.util.runtime</span> <span class="kn">import</span> <span class="n">get_sample_data_dir</span>
+<span class="kn">import</span> <span class="nn">neural_data_simulator</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">get_abs_path</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">get_configs_dir</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">get_plugins_dir</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">get_sample_data_dir</span>
 
 <span class="n">plugin_files</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">(</span><span class="s2">&quot;model.py&quot;</span><span class="p">,</span> <span class="n">plugins</span><span class="o">.</span><span class="vm">__file__</span><span class="p">),</span>
@@ -141,9 +141,9 @@
 
 
 <span class="n">core_configs</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">(</span><span class="s2">&quot;settings.yaml&quot;</span><span class="p">,</span> <span class="n">nds</span><span class="o">.</span><span class="vm">__file__</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">&quot;settings_streamer.yaml&quot;</span><span class="p">,</span> <span class="n">nds</span><span class="o">.</span><span class="vm">__file__</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">&quot;lsl.config&quot;</span><span class="p">,</span> <span class="n">nds</span><span class="o">.</span><span class="vm">__file__</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;settings.yaml&quot;</span><span class="p">,</span> <span class="n">neural_data_simulator</span><span class="o">.</span><span class="vm">__file__</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;settings_streamer.yaml&quot;</span><span class="p">,</span> <span class="n">neural_data_simulator</span><span class="o">.</span><span class="vm">__file__</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;lsl.config&quot;</span><span class="p">,</span> <span class="n">neural_data_simulator</span><span class="o">.</span><span class="vm">__file__</span><span class="p">),</span>
 <span class="p">]</span>
 
 <span class="n">extras_configs</span> <span class="o">=</span> <span class="p">[</span>
@@ -200,7 +200,7 @@
             <span class="p">)</span>
 
 
-<div class="viewcode-block" id="run"><a class="viewcode-back" href="../../../nds/nds.scripts.html#nds.scripts.post_install_config.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
+<div class="viewcode-block" id="run"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.scripts.html#neural_data_simulator.scripts.post_install_config.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Copy config files and sample data to NDS_HOME.&quot;&quot;&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Run post install steps.&quot;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>

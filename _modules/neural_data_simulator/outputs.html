@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>nds.outputs &mdash; Neural Data Simulator 0.1.2 documentation</title>
+  <title>neural_data_simulator.outputs &mdash; Neural Data Simulator 0.2.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/sg_gallery.css" type="text/css" />
@@ -73,7 +73,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../nds/modules.html">Neural Data Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../neural_data_simulator/modules.html">Neural Data Simulator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools/modules.html">Example Implementations and Utilities</a></li>
 </ul>
 
@@ -92,7 +92,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">nds.outputs</li>
+      <li class="breadcrumb-item active">neural_data_simulator.outputs</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -101,7 +101,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for nds.outputs</h1><div class="highlight"><pre>
+  <h1>Source code for neural_data_simulator.outputs</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;A collection of outputs that can be used by NDS.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">abc</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
@@ -112,11 +112,11 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pylsl</span>
 
-<span class="kn">from</span> <span class="nn">nds.samples</span> <span class="kn">import</span> <span class="n">Samples</span>
-<span class="kn">from</span> <span class="nn">nds.settings</span> <span class="kn">import</span> <span class="n">LSLOutputModel</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.samples</span> <span class="kn">import</span> <span class="n">Samples</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.settings</span> <span class="kn">import</span> <span class="n">LSLOutputModel</span>
 
 
-<div class="viewcode-block" id="Output"><a class="viewcode-back" href="../../nds/nds.html#nds.outputs.Output">[docs]</a><span class="k">class</span> <span class="nc">Output</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="Output"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.outputs.Output">[docs]</a><span class="k">class</span> <span class="nc">Output</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents an abstract output that can be used to send samples.&quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
@@ -125,7 +125,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the number of channels.&quot;&quot;&quot;</span>
         <span class="k">pass</span>
 
-<div class="viewcode-block" id="Output.wait_for_consumers"><a class="viewcode-back" href="../../nds/nds.html#nds.outputs.Output.wait_for_consumers">[docs]</a>    <span class="k">def</span> <span class="nf">wait_for_consumers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="Output.wait_for_consumers"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.outputs.Output.wait_for_consumers">[docs]</a>    <span class="k">def</span> <span class="nf">wait_for_consumers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Wait for consumers to connect until the timeout expires.</span>
 
 <span class="sd">        Args:</span>
@@ -136,16 +136,16 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="Output.has_consumers"><a class="viewcode-back" href="../../nds/nds.html#nds.outputs.Output.has_consumers">[docs]</a>    <span class="k">def</span> <span class="nf">has_consumers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="Output.has_consumers"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.outputs.Output.has_consumers">[docs]</a>    <span class="k">def</span> <span class="nf">has_consumers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return whether there are consumers connected to the output.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="Output.connect"><a class="viewcode-back" href="../../nds/nds.html#nds.outputs.Output.connect">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+<div class="viewcode-block" id="Output.connect"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.outputs.Output.connect">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Connect to output.&quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="Output.disconnect"><a class="viewcode-back" href="../../nds/nds.html#nds.outputs.Output.disconnect">[docs]</a>    <span class="k">def</span> <span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="Output.disconnect"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.outputs.Output.disconnect">[docs]</a>    <span class="k">def</span> <span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Disconnect from output. The default implementation does nothing.&quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
@@ -171,7 +171,7 @@
                 <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; received data with </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> channels&quot;</span>
             <span class="p">)</span>
 
-<div class="viewcode-block" id="Output.send"><a class="viewcode-back" href="../../nds/nds.html#nds.outputs.Output.send">[docs]</a>    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples</span><span class="p">:</span> <span class="n">Samples</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Samples</span><span class="p">:</span>
+<div class="viewcode-block" id="Output.send"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.outputs.Output.send">[docs]</a>    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples</span><span class="p">:</span> <span class="n">Samples</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Samples</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Push samples to output and return the data unchanged.</span>
 
 <span class="sd">        Args:</span>
@@ -185,10 +185,10 @@
         <span class="k">return</span> <span class="n">samples</span></div></div>
 
 
-<div class="viewcode-block" id="ConsoleOutput"><a class="viewcode-back" href="../../nds/nds.html#nds.outputs.ConsoleOutput">[docs]</a><span class="k">class</span> <span class="nc">ConsoleOutput</span><span class="p">(</span><span class="n">Output</span><span class="p">):</span>
+<div class="viewcode-block" id="ConsoleOutput"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.outputs.ConsoleOutput">[docs]</a><span class="k">class</span> <span class="nc">ConsoleOutput</span><span class="p">(</span><span class="n">Output</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents an output device that prints to the terminal.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ConsoleOutput.__init__"><a class="viewcode-back" href="../../nds/nds.html#nds.outputs.ConsoleOutput.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<div class="viewcode-block" id="ConsoleOutput.__init__"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.outputs.ConsoleOutput.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the ConsoleOutput class.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_channel_count</span> <span class="o">=</span> <span class="n">channel_count</span></div>
@@ -206,12 +206,13 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Send data to a file without index or header.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            samples: :class:`nds.samples.Samples` dataclass with timestamps and data.</span>
+<span class="sd">            samples: :class:`neural_data_simulator.samples.Samples` dataclass with</span>
+<span class="sd">              timestamps and data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">timestamps_and_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">samples</span><span class="o">.</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">samples</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array2string</span><span class="p">(</span><span class="n">timestamps_and_data</span><span class="p">))</span>
 
-<div class="viewcode-block" id="ConsoleOutput.connect"><a class="viewcode-back" href="../../nds/nds.html#nds.outputs.ConsoleOutput.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="ConsoleOutput.connect"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.outputs.ConsoleOutput.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Connect to the device within a context.</span>
 
 <span class="sd">        The default implementation does nothing.</span>
@@ -219,10 +220,10 @@
         <span class="k">pass</span></div></div>
 
 
-<div class="viewcode-block" id="FileOutput"><a class="viewcode-back" href="../../nds/nds.html#nds.outputs.FileOutput">[docs]</a><span class="k">class</span> <span class="nc">FileOutput</span><span class="p">(</span><span class="n">Output</span><span class="p">):</span>
+<div class="viewcode-block" id="FileOutput"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.outputs.FileOutput">[docs]</a><span class="k">class</span> <span class="nc">FileOutput</span><span class="p">(</span><span class="n">Output</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents an output device that writes to a file.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="FileOutput.__init__"><a class="viewcode-back" href="../../nds/nds.html#nds.outputs.FileOutput.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;output.csv&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="FileOutput.__init__"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.outputs.FileOutput.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;output.csv&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize FileOutput class.</span>
 
 <span class="sd">        Args:</span>
@@ -248,24 +249,24 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Write the samples into the file.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            samples: :class:`nds.samples.Samples` dataclass.</span>
+<span class="sd">            samples: :class:`neural_data_simulator.samples.Samples` dataclass.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">timestamps_and_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">samples</span><span class="o">.</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">samples</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
             <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">,</span> <span class="n">timestamps_and_data</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="FileOutput.connect"><a class="viewcode-back" href="../../nds/nds.html#nds.outputs.FileOutput.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="FileOutput.connect"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.outputs.FileOutput.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Open the output file.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Opening output file </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">file_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_name</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="FileOutput.disconnect"><a class="viewcode-back" href="../../nds/nds.html#nds.outputs.FileOutput.disconnect">[docs]</a>    <span class="k">def</span> <span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="FileOutput.disconnect"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.outputs.FileOutput.disconnect">[docs]</a>    <span class="k">def</span> <span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Close the output file.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>
 
 
-<div class="viewcode-block" id="StreamConfig"><a class="viewcode-back" href="../../nds/nds.html#nds.outputs.StreamConfig">[docs]</a><span class="nd">@dataclass</span>
+<div class="viewcode-block" id="StreamConfig"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.outputs.StreamConfig">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">StreamConfig</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Parameters of an LSL stream.&quot;&quot;&quot;</span>
 
@@ -291,17 +292,18 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Channel labels. The number of labels must match the number</span>
 <span class="sd">    of channels.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="StreamConfig.from_lsl_settings"><a class="viewcode-back" href="../../nds/nds.html#nds.outputs.StreamConfig.from_lsl_settings">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="StreamConfig.from_lsl_settings"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.outputs.StreamConfig.from_lsl_settings">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_lsl_settings</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">lsl_settings</span><span class="p">:</span> <span class="n">LSLOutputModel</span><span class="p">,</span>
         <span class="n">sampling_rate</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Callable</span><span class="p">],</span>
         <span class="n">n_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a StreamConfig from an :class:`nds.settings.LSLOutputModel`.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a StreamConfig from an :class:`neural_data_simulator.settings.LSLOutputModel`.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            lsl_settings: :class:`nds.settings.LSLOutputModel` instance.</span>
+<span class="sd">            lsl_settings: :class:`neural_data_simulator.settings.LSLOutputModel`</span>
+<span class="sd">              instance.</span>
 <span class="sd">            sampling_rate: Sampling rate in Hz.</span>
 <span class="sd">            n_channels: Number of channels.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -322,14 +324,14 @@
         <span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="LSLOutputDevice"><a class="viewcode-back" href="../../nds/nds.html#nds.outputs.LSLOutputDevice">[docs]</a><span class="k">class</span> <span class="nc">LSLOutputDevice</span><span class="p">(</span><span class="n">Output</span><span class="p">):</span>
+<div class="viewcode-block" id="LSLOutputDevice"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.outputs.LSLOutputDevice">[docs]</a><span class="k">class</span> <span class="nc">LSLOutputDevice</span><span class="p">(</span><span class="n">Output</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;An output device that can be used to stream data via LSL.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="LSLOutputDevice.__init__"><a class="viewcode-back" href="../../nds/nds.html#nds.outputs.LSLOutputDevice.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream_config</span><span class="p">:</span> <span class="n">StreamConfig</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the LSL Output Device from a :class:`nds.outputs.StreamConfig`.</span>
+<div class="viewcode-block" id="LSLOutputDevice.__init__"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.outputs.LSLOutputDevice.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream_config</span><span class="p">:</span> <span class="n">StreamConfig</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the LSL Output Device from a StreamConfig.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            stream_config: :class:`nds.outputs.StreamConfig` instance.</span>
+<span class="sd">            stream_config: :class:`neural_data_simulator.outputs.StreamConfig` instance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_stream_config</span> <span class="o">=</span> <span class="n">stream_config</span>
@@ -393,7 +395,8 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Push the data to the LSL outlet.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            samples: :class:`nds.samples.Samples` dataclass with timestamps and data.</span>
+<span class="sd">            samples: :class:`neural_data_simulator.samples.Samples` dataclass with</span>
+<span class="sd">              timestamps and data.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: LSL StreamOutlet is not connected. `connect` should be called</span>
@@ -402,7 +405,7 @@
         <span class="k">for</span> <span class="n">timestamp</span><span class="p">,</span> <span class="n">data_point</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">samples</span><span class="o">.</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">samples</span><span class="o">.</span><span class="n">data</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">send_as_sample</span><span class="p">(</span><span class="n">data_point</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
 
-<div class="viewcode-block" id="LSLOutputDevice.send_as_chunk"><a class="viewcode-back" href="../../nds/nds.html#nds.outputs.LSLOutputDevice.send_as_chunk">[docs]</a>    <span class="k">def</span> <span class="nf">send_as_chunk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="LSLOutputDevice.send_as_chunk"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.outputs.LSLOutputDevice.send_as_chunk">[docs]</a>    <span class="k">def</span> <span class="nf">send_as_chunk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Send a list of data points to the LSL outlet together with an optional timestamp.</span>
 
 <span class="sd">        Args:</span>
@@ -424,7 +427,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_outlet</span><span class="o">.</span><span class="n">push_chunk</span><span class="p">(</span><span class="n">data_out</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LSLOutputDevice.send_as_sample"><a class="viewcode-back" href="../../nds/nds.html#nds.outputs.LSLOutputDevice.send_as_sample">[docs]</a>    <span class="k">def</span> <span class="nf">send_as_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="LSLOutputDevice.send_as_sample"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.outputs.LSLOutputDevice.send_as_sample">[docs]</a>    <span class="k">def</span> <span class="nf">send_as_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Send a single sample with the corresponding timestamp.</span>
 
 <span class="sd">        A sample consisting of a data point per channel will be pushed to the LSL</span>
@@ -460,7 +463,7 @@
         <span class="n">stream_infos</span> <span class="o">=</span> <span class="n">pylsl</span><span class="o">.</span><span class="n">resolve_streams</span><span class="p">()</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">lsl_stream_info</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="k">for</span> <span class="n">lsl_stream_info</span> <span class="ow">in</span> <span class="n">stream_infos</span><span class="p">]</span>
 
-<div class="viewcode-block" id="LSLOutputDevice.connect"><a class="viewcode-back" href="../../nds/nds.html#nds.outputs.LSLOutputDevice.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="LSLOutputDevice.connect"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.outputs.LSLOutputDevice.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Connect to the LSL stream.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Initializing LSL output stream...&quot;</span><span class="p">)</span>
 
@@ -473,7 +476,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Created LSL output stream: &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_stream_info</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_stream_configured</span> <span class="o">=</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="LSLOutputDevice.disconnect"><a class="viewcode-back" href="../../nds/nds.html#nds.outputs.LSLOutputDevice.disconnect">[docs]</a>    <span class="k">def</span> <span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="LSLOutputDevice.disconnect"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.outputs.LSLOutputDevice.disconnect">[docs]</a>    <span class="k">def</span> <span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Forget the connection to the LSL stream.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Destroying LSL output stream...&quot;</span><span class="p">)</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outlet</span>
@@ -481,7 +484,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_stream_info</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_stream_configured</span> <span class="o">=</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="LSLOutputDevice.has_consumers"><a class="viewcode-back" href="../../nds/nds.html#nds.outputs.LSLOutputDevice.has_consumers">[docs]</a>    <span class="k">def</span> <span class="nf">has_consumers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="LSLOutputDevice.has_consumers"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.outputs.LSLOutputDevice.has_consumers">[docs]</a>    <span class="k">def</span> <span class="nf">has_consumers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if there are consumers connected to the stream.</span>
 
 <span class="sd">        Return:</span>
@@ -491,7 +494,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outlet</span><span class="o">.</span><span class="n">have_consumers</span><span class="p">()</span>
         <span class="k">return</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="LSLOutputDevice.wait_for_consumers"><a class="viewcode-back" href="../../nds/nds.html#nds.outputs.LSLOutputDevice.wait_for_consumers">[docs]</a>    <span class="k">def</span> <span class="nf">wait_for_consumers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="LSLOutputDevice.wait_for_consumers"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.outputs.LSLOutputDevice.wait_for_consumers">[docs]</a>    <span class="k">def</span> <span class="nf">wait_for_consumers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Wait for consumers to connect until the timeout expires.</span>
 
 <span class="sd">        Args:</span>

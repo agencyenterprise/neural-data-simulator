@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>nds.models &mdash; Neural Data Simulator 0.1.2 documentation</title>
+  <title>neural_data_simulator.models &mdash; Neural Data Simulator 0.2.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/sg_gallery.css" type="text/css" />
@@ -73,7 +73,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../nds/modules.html">Neural Data Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../neural_data_simulator/modules.html">Neural Data Simulator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools/modules.html">Example Implementations and Utilities</a></li>
 </ul>
 
@@ -92,7 +92,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">nds.models</li>
+      <li class="breadcrumb-item active">neural_data_simulator.models</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -101,22 +101,23 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for nds.models</h1><div class="highlight"><pre>
+  <h1>Source code for neural_data_simulator.models</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Classes that implement a model for encoding neural data from behavior data.&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">runtime_checkable</span>
 
-<span class="kn">from</span> <span class="nn">nds.samples</span> <span class="kn">import</span> <span class="n">Samples</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.samples</span> <span class="kn">import</span> <span class="n">Samples</span>
 
 
-<div class="viewcode-block" id="EncoderModel"><a class="viewcode-back" href="../../nds/nds.html#nds.models.EncoderModel">[docs]</a><span class="nd">@runtime_checkable</span>
+<div class="viewcode-block" id="EncoderModel"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.models.EncoderModel">[docs]</a><span class="nd">@runtime_checkable</span>
 <span class="k">class</span> <span class="nc">EncoderModel</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Protocol for an `Encoder` model.</span>
 
 <span class="sd">    Classes that conform to this protocol can be used by the</span>
-<span class="sd">    :class:`nds.encoder.Encoder` to convert behavioral input data into</span>
+<span class="sd">    :class:`neural_data_simulator.encoder.Encoder` to convert behavioral input data into</span>
 <span class="sd">    spiking rate data.</span>
 
-<span class="sd">    The Encoder processes data in chunks represented as :class:`nds.samples.Samples`.</span>
+<span class="sd">    The Encoder processes data in chunks represented as</span>
+<span class="sd">    :class:`neural_data_simulator.samples.Samples`.</span>
 <span class="sd">    One chunk may contain several behavioral data points (n_samples) across</span>
 <span class="sd">    multiple axes (n_axes). The Encoder calls the EncoderModel&#39;s :meth:`encode` method</span>
 <span class="sd">    for each chunk in order to transform the behavioral data into spiking rates</span>
@@ -129,17 +130,18 @@
 <span class="sd">    may be defined in a concrete implementation of this protocol if needed.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="EncoderModel.encode"><a class="viewcode-back" href="../../nds/nds.html#nds.models.EncoderModel.encode">[docs]</a>    <span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Samples</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Samples</span><span class="p">:</span>
+<div class="viewcode-block" id="EncoderModel.encode"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.models.EncoderModel.encode">[docs]</a>    <span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Samples</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Samples</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Encode behavior into spiking rates.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            data: Behavioral data as :class:`nds.samples.Samples`.</span>
+<span class="sd">            data: Behavioral data as :class:`neural_data_simulator.samples.Samples`.</span>
 <span class="sd">              For example, in case of modeling velocities in a horizontal and vertical</span>
 <span class="sd">              direction (2 axes), the data is a 2D array with shape (n_samples, 2).</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Spiking rates as :class:`nds.samples.Samples`. The spiking rates are</span>
-<span class="sd">            represented as a 2D array with shape (n_samples, n_units).</span>
+<span class="sd">            Spiking rates as :class:`neural_data_simulator.samples.Samples`.</span>
+<span class="sd">            The spiking rates are represented as a 2D array with shape</span>
+<span class="sd">            (n_samples, n_units).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="o">...</span></div></div>
 </pre></div>

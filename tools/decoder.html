@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>decoder &mdash; Neural Data Simulator 0.1.2 documentation</title>
+  <title>decoder &mdash; Neural Data Simulator 0.2.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
@@ -76,7 +76,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../nds/modules.html">Neural Data Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../neural_data_simulator/modules.html">Neural Data Simulator</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">Example Implementations and Utilities</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">decoder</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#module-decoder.decoders">decoder.decoders</a><ul>
@@ -148,7 +148,8 @@ LSL output stream.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code></p>
 <p>Protocol for a <cite>Decoder</cite> model.</p>
 <p>A <cite>Decoder model</cite> predicts behavior data from spike rate data.</p>
-<p>The Decoder processes data in chunks represented as <a class="reference internal" href="../nds/nds.html#nds.samples.Samples" title="nds.samples.Samples"><code class="xref py py-class docutils literal notranslate"><span class="pre">nds.samples.Samples</span></code></a>.
+<p>The Decoder processes data in chunks represented as
+<a class="reference internal" href="../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.samples.Samples" title="neural_data_simulator.samples.Samples"><code class="xref py py-class docutils literal notranslate"><span class="pre">neural_data_simulator.samples.Samples</span></code></a>.
 One chunk may contain several spike rate data points (n_samples) across multiple
 units (n_units). The <a class="reference internal" href="#decoder.decoders.DecoderModel.predict" title="decoder.decoders.DecoderModel.predict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">predict()</span></code></a> method is called for each chunk in order to
 transform the spike rate data into behavior data (n_samples) across multiple axes
@@ -164,11 +165,11 @@ may be defined in a concrete implementation of this protocol if needed.</p>
 <dd><p>Predict behavior from spike rate input.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>data</strong> – Spike rate data as <a class="reference internal" href="../nds/nds.html#nds.samples.Samples" title="nds.samples.Samples"><code class="xref py py-class docutils literal notranslate"><span class="pre">nds.samples.Samples</span></code></a> with shape
-(n_samples, n_units).</p>
+<dd class="field-odd"><p><strong>data</strong> – Spike rate data as <a class="reference internal" href="../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.samples.Samples" title="neural_data_simulator.samples.Samples"><code class="xref py py-class docutils literal notranslate"><span class="pre">neural_data_simulator.samples.Samples</span></code></a>
+with shape (n_samples, n_units).</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Behavior data as <a class="reference internal" href="../nds/nds.html#nds.samples.Samples" title="nds.samples.Samples"><code class="xref py py-class docutils literal notranslate"><span class="pre">nds.samples.Samples</span></code></a> with shape
+<dd class="field-even"><p>Behavior data as <a class="reference internal" href="../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.samples.Samples" title="neural_data_simulator.samples.Samples"><code class="xref py py-class docutils literal notranslate"><span class="pre">neural_data_simulator.samples.Samples</span></code></a> with shape
 (n_samples, n_axes). For example, in case of modeling velocities in a
 horizontal and vertical direction (2 axes), the returned data is a 2D
 array with shape (n_samples, 2).</p>
@@ -239,7 +240,7 @@ array with shape (n_samples, 2).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="decoder.decoders.Decoder.decode">
-<span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../nds/nds.html#nds.samples.Samples" title="nds.samples.Samples"><span class="pre">Samples</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../nds/nds.html#nds.samples.Samples" title="nds.samples.Samples"><span class="pre">Samples</span></a></span></span><a class="reference internal" href="../_modules/decoder/decoders.html#Decoder.decode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#decoder.decoders.Decoder.decode" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.samples.Samples" title="neural_data_simulator.samples.Samples"><span class="pre">Samples</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.samples.Samples" title="neural_data_simulator.samples.Samples"><span class="pre">Samples</span></a></span></span><a class="reference internal" href="../_modules/decoder/decoders.html#Decoder.decode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#decoder.decoders.Decoder.decode" title="Permalink to this definition"></a></dt>
 <dd><p>Decode spiking raw data into velocities.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

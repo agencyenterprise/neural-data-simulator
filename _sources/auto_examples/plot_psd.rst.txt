@@ -22,7 +22,7 @@
 Visualize Power Spectral Density (PSD)
 =========================================
 
-.. currentmodule:: nds
+.. currentmodule:: neural_data_simulator
 
 The goal of this example is to calculate and plot the Power Spectral Density (PSD) for a given channel
 of the raw data.
@@ -154,7 +154,7 @@ Plot data
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.997 seconds)
+   **Total running time of the script:** ( 0 minutes  3.254 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_psd.py:

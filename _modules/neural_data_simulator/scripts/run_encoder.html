@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>nds.scripts.run_encoder &mdash; Neural Data Simulator 0.1.2 documentation</title>
+  <title>neural_data_simulator.scripts.run_encoder &mdash; Neural Data Simulator 0.2.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -73,7 +73,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../nds/modules.html">Neural Data Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../neural_data_simulator/modules.html">Neural Data Simulator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tools/modules.html">Example Implementations and Utilities</a></li>
 </ul>
 
@@ -92,7 +92,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">nds.scripts.run_encoder</li>
+      <li class="breadcrumb-item active">neural_data_simulator.scripts.run_encoder</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -101,12 +101,12 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for nds.scripts.run_encoder</h1><div class="highlight"><pre>
+  <h1>Source code for neural_data_simulator.scripts.run_encoder</h1><div class="highlight"><pre>
 <span></span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Script that starts the encoder.</span>
 
 <span class="sd">The encoder default configuration is located in `NDS_HOME/settings.yaml`</span>
-<span class="sd">(see :mod:`nds.scripts.post_install_config`). The script can use different</span>
-<span class="sd">config file specified via the `\--settings-path` argument.</span>
+<span class="sd">(see :mod:`neural_data_simulator.scripts.post_install_config`). The script can use</span>
+<span class="sd">different config file specified via the `\--settings-path` argument.</span>
 
 <span class="sd">The config file has an `encoder` section where the settings for the model,</span>
 <span class="sd">input and output can be adjusted. By default, the encoder expects to read</span>
@@ -124,24 +124,24 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">nds</span> <span class="kn">import</span> <span class="n">encoder</span>
-<span class="kn">from</span> <span class="nn">nds</span> <span class="kn">import</span> <span class="n">inputs</span>
-<span class="kn">from</span> <span class="nn">nds</span> <span class="kn">import</span> <span class="n">models</span>
-<span class="kn">from</span> <span class="nn">nds</span> <span class="kn">import</span> <span class="n">outputs</span>
-<span class="kn">from</span> <span class="nn">nds</span> <span class="kn">import</span> <span class="n">runner</span>
-<span class="kn">from</span> <span class="nn">nds</span> <span class="kn">import</span> <span class="n">timing</span>
-<span class="kn">from</span> <span class="nn">nds.outputs</span> <span class="kn">import</span> <span class="n">LSLOutputDevice</span>
-<span class="kn">from</span> <span class="nn">nds.outputs</span> <span class="kn">import</span> <span class="n">StreamConfig</span>
-<span class="kn">from</span> <span class="nn">nds.samples</span> <span class="kn">import</span> <span class="n">Samples</span>
-<span class="kn">from</span> <span class="nn">nds.scripts.errors</span> <span class="kn">import</span> <span class="n">InvalidPluginError</span>
-<span class="kn">from</span> <span class="nn">nds.settings</span> <span class="kn">import</span> <span class="n">EncoderEndpointType</span>
-<span class="kn">from</span> <span class="nn">nds.settings</span> <span class="kn">import</span> <span class="n">EncoderSettings</span>
-<span class="kn">from</span> <span class="nn">nds.settings</span> <span class="kn">import</span> <span class="n">LSLOutputModel</span>
-<span class="kn">from</span> <span class="nn">nds.settings</span> <span class="kn">import</span> <span class="n">Settings</span>
-<span class="kn">from</span> <span class="nn">nds.util.runtime</span> <span class="kn">import</span> <span class="n">configure_logger</span>
-<span class="kn">from</span> <span class="nn">nds.util.runtime</span> <span class="kn">import</span> <span class="n">get_abs_path</span>
-<span class="kn">from</span> <span class="nn">nds.util.runtime</span> <span class="kn">import</span> <span class="n">unwrap</span>
-<span class="kn">from</span> <span class="nn">nds.util.settings_loader</span> <span class="kn">import</span> <span class="n">get_script_settings</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator</span> <span class="kn">import</span> <span class="n">encoder</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator</span> <span class="kn">import</span> <span class="n">inputs</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator</span> <span class="kn">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator</span> <span class="kn">import</span> <span class="n">outputs</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator</span> <span class="kn">import</span> <span class="n">runner</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator</span> <span class="kn">import</span> <span class="n">timing</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.outputs</span> <span class="kn">import</span> <span class="n">LSLOutputDevice</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.outputs</span> <span class="kn">import</span> <span class="n">StreamConfig</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.samples</span> <span class="kn">import</span> <span class="n">Samples</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.scripts.errors</span> <span class="kn">import</span> <span class="n">InvalidPluginError</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.settings</span> <span class="kn">import</span> <span class="n">EncoderEndpointType</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.settings</span> <span class="kn">import</span> <span class="n">EncoderSettings</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.settings</span> <span class="kn">import</span> <span class="n">LSLOutputModel</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.settings</span> <span class="kn">import</span> <span class="n">Settings</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">configure_logger</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">get_abs_path</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">unwrap</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.settings_loader</span> <span class="kn">import</span> <span class="n">get_script_settings</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -271,7 +271,7 @@
 <span class="sd">        encoder_settings: The encoder settings with the model path.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        An instance of an :class:`nds.models.EncoderModel`.</span>
+<span class="sd">        An instance of an :class:`neural_data_simulator.models.EncoderModel`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_load_plugin_model</span><span class="p">(</span><span class="n">encoder_settings</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
 
@@ -316,7 +316,7 @@
     <span class="k">return</span> <span class="n">data_output</span>
 
 
-<div class="viewcode-block" id="run"><a class="viewcode-back" href="../../../nds/nds.scripts.html#nds.scripts.run_encoder.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
+<div class="viewcode-block" id="run"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.scripts.html#neural_data_simulator.scripts.run_encoder.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the configuration and start the encoder.&quot;&quot;&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Run encoder.&quot;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>

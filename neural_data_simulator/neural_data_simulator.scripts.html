@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>neural_data_simulator.scripts &mdash; Neural Data Simulator 0.2.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Example Implementations and Utilities" href="../tools/modules.html" />
+    <link rel="prev" title="neural_data_simulator" href="neural_data_simulator.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Neural Data Simulator
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../running_bci.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Neural Data Simulator</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inputs.html">Behavioral Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../encoder.html">Encoder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ephys_generator.html">Electrophysiology (Ephys) Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuring.html">Configuring NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../running.html">Running NDS</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Extensions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../extending.html">Extending NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../decoders.html">Decoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks.html">Tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visualization.html">Visualizing Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Recording and Streaming</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/">GitHub Repository</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Neural Data Simulator</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="neural_data_simulator.html">neural_data_simulator</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">neural_data_simulator.scripts</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#module-neural_data_simulator.scripts.errors">neural_data_simulator.scripts.errors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-neural_data_simulator.scripts.post_install_config">neural_data_simulator.scripts.post_install_config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-neural_data_simulator.scripts.run_encoder">neural_data_simulator.scripts.run_encoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-neural_data_simulator.scripts.run_ephys_generator">neural_data_simulator.scripts.run_ephys_generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-neural_data_simulator.scripts.run_streamer">neural_data_simulator.scripts.run_streamer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="neural_data_simulator.html#module-neural_data_simulator.encoder">neural_data_simulator.encoder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neural_data_simulator.html#module-neural_data_simulator.ephys_generator">neural_data_simulator.ephys_generator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neural_data_simulator.html#module-neural_data_simulator.filters">neural_data_simulator.filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neural_data_simulator.html#module-neural_data_simulator.health_checker">neural_data_simulator.health_checker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neural_data_simulator.html#module-neural_data_simulator.inputs">neural_data_simulator.inputs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neural_data_simulator.html#module-neural_data_simulator.models">neural_data_simulator.models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neural_data_simulator.html#module-neural_data_simulator.outputs">neural_data_simulator.outputs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neural_data_simulator.html#module-neural_data_simulator.runner">neural_data_simulator.runner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neural_data_simulator.html#module-neural_data_simulator.samples">neural_data_simulator.samples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neural_data_simulator.html#module-neural_data_simulator.streamers">neural_data_simulator.streamers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neural_data_simulator.html#module-neural_data_simulator.timing">neural_data_simulator.timing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/modules.html">Example Implementations and Utilities</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Neural Data Simulator</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">Neural Data Simulator</a></li>
+          <li class="breadcrumb-item"><a href="neural_data_simulator.html">neural_data_simulator</a></li>
+      <li class="breadcrumb-item active">neural_data_simulator.scripts</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/neural_data_simulator/neural_data_simulator.scripts.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-neural_data_simulator.scripts">
+<span id="neural-data-simulator-scripts"></span><h1>neural_data_simulator.scripts<a class="headerlink" href="#module-neural_data_simulator.scripts" title="Permalink to this heading"></a></h1>
+<p>Entry points for the scripts that are exposed to the user.</p>
+<section id="module-neural_data_simulator.scripts.errors">
+<span id="neural-data-simulator-scripts-errors"></span><h2>neural_data_simulator.scripts.errors<a class="headerlink" href="#module-neural_data_simulator.scripts.errors" title="Permalink to this heading"></a></h2>
+<p>Script errors.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="neural_data_simulator.scripts.errors.InvalidPluginError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.scripts.errors.</span></span><span class="sig-name descname"><span class="pre">InvalidPluginError</span></span><a class="reference internal" href="../_modules/neural_data_simulator/scripts/errors.html#InvalidPluginError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.scripts.errors.InvalidPluginError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Plugin cannot be used.</p>
+</dd></dl>
+
+</section>
+<section id="module-neural_data_simulator.scripts.post_install_config">
+<span id="neural-data-simulator-scripts-post-install-config"></span><h2>neural_data_simulator.scripts.post_install_config<a class="headerlink" href="#module-neural_data_simulator.scripts.post_install_config" title="Permalink to this heading"></a></h2>
+<p>Script to bootstrap the NDS environment.</p>
+<p>This script needs to be run by the user after installing NDS.
+It will create the NDS_HOME directory in <cite>$HOME/.nds</cite> then copy the default
+configuration files to it. In addition, it will download the example models
+and behavior data, validate their <cite>md5</cite> hashes, and copy them to the
+<cite>NDS_HOME/sample_data</cite> directory.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="neural_data_simulator.scripts.post_install_config.run">
+<span class="sig-prename descclassname"><span class="pre">neural_data_simulator.scripts.post_install_config.</span></span><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/scripts/post_install_config.html#run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.scripts.post_install_config.run" title="Permalink to this definition"></a></dt>
+<dd><p>Copy config files and sample data to NDS_HOME.</p>
+</dd></dl>
+
+</section>
+<section id="module-neural_data_simulator.scripts.run_encoder">
+<span id="neural-data-simulator-scripts-run-encoder"></span><h2>neural_data_simulator.scripts.run_encoder<a class="headerlink" href="#module-neural_data_simulator.scripts.run_encoder" title="Permalink to this heading"></a></h2>
+<p>Script that starts the encoder.</p>
+<p>The encoder default configuration is located in <cite>NDS_HOME/settings.yaml</cite>
+(see <a class="reference internal" href="#module-neural_data_simulator.scripts.post_install_config" title="neural_data_simulator.scripts.post_install_config"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_data_simulator.scripts.post_install_config</span></code></a>). The script can use
+different config file specified via the <cite>--settings-path</cite> argument.</p>
+<p>The config file has an <cite>encoder</cite> section where the settings for the model,
+input and output can be adjusted. By default, the encoder expects to read
+data from an LSL stream and output to an LSL outlet. In absence of the
+input stream, the encoder will not be able to start.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="neural_data_simulator.scripts.run_encoder.run">
+<span class="sig-prename descclassname"><span class="pre">neural_data_simulator.scripts.run_encoder.</span></span><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/scripts/run_encoder.html#run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.scripts.run_encoder.run" title="Permalink to this definition"></a></dt>
+<dd><p>Load the configuration and start the encoder.</p>
+</dd></dl>
+
+</section>
+<section id="module-neural_data_simulator.scripts.run_ephys_generator">
+<span id="neural-data-simulator-scripts-run-ephys-generator"></span><h2>neural_data_simulator.scripts.run_ephys_generator<a class="headerlink" href="#module-neural_data_simulator.scripts.run_ephys_generator" title="Permalink to this heading"></a></h2>
+<p>Script that starts the ephys generator.</p>
+<p>The ephys generator default configuration is located in <cite>NDS_HOME/settings.yaml</cite>
+(see <a class="reference internal" href="#module-neural_data_simulator.scripts.post_install_config" title="neural_data_simulator.scripts.post_install_config"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_data_simulator.scripts.post_install_config</span></code></a>). The script can use
+different config file specified via the <cite>--settings-path</cite> argument.</p>
+<p>The config file has an <cite>ephys_generator</cite> section where the settings for the input,
+output, noise, etc. can be adjusted. By default, the ephys generator expects to read
+data from an LSL stream and output to an LSL outlet. In absence of the
+input stream, the ephys generator will not be able to start.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="neural_data_simulator.scripts.run_ephys_generator.run">
+<span class="sig-prename descclassname"><span class="pre">neural_data_simulator.scripts.run_ephys_generator.</span></span><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/scripts/run_ephys_generator.html#run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.scripts.run_ephys_generator.run" title="Permalink to this definition"></a></dt>
+<dd><p>Load the configuration and start the ephys generator.</p>
+</dd></dl>
+
+</section>
+<section id="module-neural_data_simulator.scripts.run_streamer">
+<span id="neural-data-simulator-scripts-run-streamer"></span><h2>neural_data_simulator.scripts.run_streamer<a class="headerlink" href="#module-neural_data_simulator.scripts.run_streamer" title="Permalink to this heading"></a></h2>
+<p>Script that starts the streamer.</p>
+<p>The streamer default configuration is located in <cite>NDS_HOME/settings_streamer.yaml</cite>
+(see <a class="reference internal" href="#module-neural_data_simulator.scripts.post_install_config" title="neural_data_simulator.scripts.post_install_config"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_data_simulator.scripts.post_install_config</span></code></a>). The script can use
+different config file specified via the <cite>--settings-path</cite> argument.</p>
+<p>Upon start, the streamer expects to read data from a file and output to an LSL
+outlet. By default, a sample behavior data file will be downloaded by the
+<a class="reference internal" href="#module-neural_data_simulator.scripts.post_install_config" title="neural_data_simulator.scripts.post_install_config"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_data_simulator.scripts.post_install_config</span></code></a> script, so the streamer should
+be able to run without any additional configuration. If the input file cannot be found,
+the streamer will not be able to start.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_data_simulator.scripts.run_streamer.StreamerInputType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.scripts.run_streamer.</span></span><span class="sig-name descname"><span class="pre">StreamerInputType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/scripts/run_streamer.html#StreamerInputType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.scripts.run_streamer.StreamerInputType" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">YamlStrEnum</span></code></p>
+<p>Possible types for the streamer input.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neural_data_simulator.scripts.run_streamer.StreamerInputType.NPZ">
+<span class="sig-name descname"><span class="pre">NPZ</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">YamlStr('npz')</span></em><a class="headerlink" href="#neural_data_simulator.scripts.run_streamer.StreamerInputType.NPZ" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neural_data_simulator.scripts.run_streamer.StreamerInputType.Blackrock">
+<span class="sig-name descname"><span class="pre">Blackrock</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">YamlStr('blackrock')</span></em><a class="headerlink" href="#neural_data_simulator.scripts.run_streamer.StreamerInputType.Blackrock" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_data_simulator.scripts.run_streamer.LSLSimplifiedOutputModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.scripts.run_streamer.</span></span><span class="sig-name descname"><span class="pre">LSLSimplifiedOutputModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">LSLChannelFormatType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instrument</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_Instrument</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/scripts/run_streamer.html#LSLSimplifiedOutputModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.scripts.run_streamer.LSLSimplifiedOutputModel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Settings for all LSL outlets.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neural_data_simulator.scripts.run_streamer.LSLSimplifiedOutputModel.channel_format">
+<span class="sig-name descname"><span class="pre">channel_format</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">LSLChannelFormatType</span></em><a class="headerlink" href="#neural_data_simulator.scripts.run_streamer.LSLSimplifiedOutputModel.channel_format" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neural_data_simulator.scripts.run_streamer.LSLSimplifiedOutputModel.instrument">
+<span class="sig-name descname"><span class="pre">instrument</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">_Instrument</span></em><a class="headerlink" href="#neural_data_simulator.scripts.run_streamer.LSLSimplifiedOutputModel.instrument" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_data_simulator.scripts.run_streamer.StreamGroup">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.scripts.run_streamer.</span></span><span class="sig-name descname"><span class="pre">StreamGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">streams_configs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="neural_data_simulator.html#neural_data_simulator.outputs.StreamConfig" title="neural_data_simulator.outputs.StreamConfig"><span class="pre">StreamConfig</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/scripts/run_streamer.html#StreamGroup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.scripts.run_streamer.StreamGroup" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Utility class for managing a list of streams.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_data_simulator.scripts.run_streamer.StreamGroup.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">streams_configs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="neural_data_simulator.html#neural_data_simulator.outputs.StreamConfig" title="neural_data_simulator.outputs.StreamConfig"><span class="pre">StreamConfig</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/scripts/run_streamer.html#StreamGroup.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.scripts.run_streamer.StreamGroup.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Create a new instance.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_data_simulator.scripts.run_streamer.StreamGroup.connect">
+<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/scripts/run_streamer.html#StreamGroup.connect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.scripts.run_streamer.StreamGroup.connect" title="Permalink to this definition"></a></dt>
+<dd><p>Connect all streams.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_data_simulator.scripts.run_streamer.StreamGroup.disconnect">
+<span class="sig-name descname"><span class="pre">disconnect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/scripts/run_streamer.html#StreamGroup.disconnect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.scripts.run_streamer.StreamGroup.disconnect" title="Permalink to this definition"></a></dt>
+<dd><p>Disconnect all streams.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_data_simulator.scripts.run_streamer.StreamGroup.open_connection">
+<span class="sig-name descname"><span class="pre">open_connection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/neural_data_simulator/scripts/run_streamer.html#StreamGroup.open_connection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.scripts.run_streamer.StreamGroup.open_connection" title="Permalink to this definition"></a></dt>
+<dd><p>Open a managed connection.</p>
+<p>The connection is released after it is consumed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neural_data_simulator.scripts.run_streamer.load_blackrock_file">
+<span class="sig-prename descclassname"><span class="pre">neural_data_simulator.scripts.run_streamer.</span></span><span class="sig-name descname"><span class="pre">load_blackrock_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.scripts.run_streamer.LSLSimplifiedOutputModel" title="neural_data_simulator.scripts.run_streamer.LSLSimplifiedOutputModel"><span class="pre">LSLSimplifiedOutputModel</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="neural_data_simulator.html#neural_data_simulator.outputs.StreamConfig" title="neural_data_simulator.outputs.StreamConfig"><span class="pre">StreamConfig</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="neural_data_simulator.html#neural_data_simulator.samples.Samples" title="neural_data_simulator.samples.Samples"><span class="pre">Samples</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/neural_data_simulator/scripts/run_streamer.html#load_blackrock_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.scripts.run_streamer.load_blackrock_file" title="Permalink to this definition"></a></dt>
+<dd><p>Parse streams from a Blackrock Neurotech file.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neural_data_simulator.scripts.run_streamer.run">
+<span class="sig-prename descclassname"><span class="pre">neural_data_simulator.scripts.run_streamer.</span></span><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/scripts/run_streamer.html#run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.scripts.run_streamer.run" title="Permalink to this definition"></a></dt>
+<dd><p>Load the configuration and start the streamer.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="neural_data_simulator.html" class="btn btn-neutral float-left" title="neural_data_simulator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../tools/modules.html" class="btn btn-neutral float-right" title="Example Implementations and Utilities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, AE Studio &amp; Chadwick Boulay.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

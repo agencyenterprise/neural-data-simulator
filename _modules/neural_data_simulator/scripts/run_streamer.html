@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>nds.scripts.run_streamer &mdash; Neural Data Simulator 0.1.2 documentation</title>
+  <title>neural_data_simulator.scripts.run_streamer &mdash; Neural Data Simulator 0.2.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -73,7 +73,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../nds/modules.html">Neural Data Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../neural_data_simulator/modules.html">Neural Data Simulator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tools/modules.html">Example Implementations and Utilities</a></li>
 </ul>
 
@@ -92,7 +92,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">nds.scripts.run_streamer</li>
+      <li class="breadcrumb-item active">neural_data_simulator.scripts.run_streamer</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -101,17 +101,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for nds.scripts.run_streamer</h1><div class="highlight"><pre>
+  <h1>Source code for neural_data_simulator.scripts.run_streamer</h1><div class="highlight"><pre>
 <span></span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Script that starts the streamer.</span>
 
 <span class="sd">The streamer default configuration is located in `NDS_HOME/settings_streamer.yaml`</span>
-<span class="sd">(see :mod:`nds.scripts.post_install_config`). The script can use different</span>
-<span class="sd">config file specified via the `\--settings-path` argument.</span>
+<span class="sd">(see :mod:`neural_data_simulator.scripts.post_install_config`). The script can use</span>
+<span class="sd">different config file specified via the `\--settings-path` argument.</span>
 
 <span class="sd">Upon start, the streamer expects to read data from a file and output to an LSL</span>
 <span class="sd">outlet. By default, a sample behavior data file will be downloaded by the</span>
-<span class="sd">:mod:`nds.scripts.post_install_config` script, so the streamer should be able</span>
-<span class="sd">to run without any additional configuration. If the input file cannot be found,</span>
+<span class="sd">:mod:`neural_data_simulator.scripts.post_install_config` script, so the streamer should</span>
+<span class="sd">be able to run without any additional configuration. If the input file cannot be found,</span>
 <span class="sd">the streamer will not be able to start.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">argparse</span>
@@ -127,29 +127,29 @@
 <span class="kn">from</span> <span class="nn">pydantic_yaml</span> <span class="kn">import</span> <span class="n">VersionedYamlModel</span>
 <span class="kn">from</span> <span class="nn">pydantic_yaml</span> <span class="kn">import</span> <span class="n">YamlStrEnum</span>
 
-<span class="kn">from</span> <span class="nn">nds</span> <span class="kn">import</span> <span class="n">outputs</span>
-<span class="kn">from</span> <span class="nn">nds</span> <span class="kn">import</span> <span class="n">streamers</span>
-<span class="kn">from</span> <span class="nn">nds.outputs</span> <span class="kn">import</span> <span class="n">StreamConfig</span>
-<span class="kn">from</span> <span class="nn">nds.samples</span> <span class="kn">import</span> <span class="n">Samples</span>
-<span class="kn">from</span> <span class="nn">nds.settings</span> <span class="kn">import</span> <span class="n">LogLevel</span>
-<span class="kn">from</span> <span class="nn">nds.settings</span> <span class="kn">import</span> <span class="n">LSLChannelFormatType</span>
-<span class="kn">from</span> <span class="nn">nds.settings</span> <span class="kn">import</span> <span class="n">LSLOutputModel</span>
-<span class="kn">from</span> <span class="nn">nds.util.runtime</span> <span class="kn">import</span> <span class="n">configure_logger</span>
-<span class="kn">from</span> <span class="nn">nds.util.runtime</span> <span class="kn">import</span> <span class="n">get_abs_path</span>
-<span class="kn">from</span> <span class="nn">nds.util.runtime</span> <span class="kn">import</span> <span class="n">unwrap</span>
-<span class="kn">from</span> <span class="nn">nds.util.settings_loader</span> <span class="kn">import</span> <span class="n">get_script_settings</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator</span> <span class="kn">import</span> <span class="n">outputs</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator</span> <span class="kn">import</span> <span class="n">streamers</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.outputs</span> <span class="kn">import</span> <span class="n">StreamConfig</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.samples</span> <span class="kn">import</span> <span class="n">Samples</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.settings</span> <span class="kn">import</span> <span class="n">LogLevel</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.settings</span> <span class="kn">import</span> <span class="n">LSLChannelFormatType</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.settings</span> <span class="kn">import</span> <span class="n">LSLOutputModel</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">configure_logger</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">get_abs_path</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">unwrap</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.settings_loader</span> <span class="kn">import</span> <span class="n">get_script_settings</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="StreamerInputType"><a class="viewcode-back" href="../../../nds/nds.scripts.html#nds.scripts.run_streamer.StreamerInputType">[docs]</a><span class="k">class</span> <span class="nc">StreamerInputType</span><span class="p">(</span><span class="n">YamlStrEnum</span><span class="p">):</span>
+<div class="viewcode-block" id="StreamerInputType"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.scripts.html#neural_data_simulator.scripts.run_streamer.StreamerInputType">[docs]</a><span class="k">class</span> <span class="nc">StreamerInputType</span><span class="p">(</span><span class="n">YamlStrEnum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Possible types for the streamer input.&quot;&quot;&quot;</span>
 
     <span class="n">NPZ</span> <span class="o">=</span> <span class="s2">&quot;npz&quot;</span>
     <span class="n">Blackrock</span> <span class="o">=</span> <span class="s2">&quot;blackrock&quot;</span></div>
 
 
-<div class="viewcode-block" id="LSLSimplifiedOutputModel"><a class="viewcode-back" href="../../../nds/nds.scripts.html#nds.scripts.run_streamer.LSLSimplifiedOutputModel">[docs]</a><span class="k">class</span> <span class="nc">LSLSimplifiedOutputModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="LSLSimplifiedOutputModel"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.scripts.html#neural_data_simulator.scripts.run_streamer.LSLSimplifiedOutputModel">[docs]</a><span class="k">class</span> <span class="nc">LSLSimplifiedOutputModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Settings for all LSL outlets.&quot;&quot;&quot;</span>
 
     <span class="k">class</span> <span class="nc">_Instrument</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
@@ -215,27 +215,27 @@
     <span class="n">streamer</span><span class="p">:</span> <span class="n">Streamer</span>
 
 
-<div class="viewcode-block" id="StreamGroup"><a class="viewcode-back" href="../../../nds/nds.scripts.html#nds.scripts.run_streamer.StreamGroup">[docs]</a><span class="k">class</span> <span class="nc">StreamGroup</span><span class="p">:</span>
+<div class="viewcode-block" id="StreamGroup"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.scripts.html#neural_data_simulator.scripts.run_streamer.StreamGroup">[docs]</a><span class="k">class</span> <span class="nc">StreamGroup</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Utility class for managing a list of streams.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="StreamGroup.__init__"><a class="viewcode-back" href="../../../nds/nds.scripts.html#nds.scripts.run_streamer.StreamGroup.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">streams_configs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">StreamConfig</span><span class="p">]):</span>
+<div class="viewcode-block" id="StreamGroup.__init__"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.scripts.html#neural_data_simulator.scripts.run_streamer.StreamGroup.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">streams_configs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">StreamConfig</span><span class="p">]):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new instance.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">streams_configs</span> <span class="o">=</span> <span class="n">streams_configs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lsl_outputs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">outputs</span><span class="o">.</span><span class="n">LSLOutputDevice</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span></div>
 
-<div class="viewcode-block" id="StreamGroup.connect"><a class="viewcode-back" href="../../../nds/nds.scripts.html#nds.scripts.run_streamer.StreamGroup.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="StreamGroup.connect"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.scripts.html#neural_data_simulator.scripts.run_streamer.StreamGroup.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Connect all streams.&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">stream_config</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">streams_configs</span><span class="p">:</span>
             <span class="n">lsl_output</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">LSLOutputDevice</span><span class="p">(</span><span class="n">stream_config</span><span class="p">)</span>
             <span class="n">lsl_output</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">lsl_outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lsl_output</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="StreamGroup.disconnect"><a class="viewcode-back" href="../../../nds/nds.scripts.html#nds.scripts.run_streamer.StreamGroup.disconnect">[docs]</a>    <span class="k">def</span> <span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="StreamGroup.disconnect"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.scripts.html#neural_data_simulator.scripts.run_streamer.StreamGroup.disconnect">[docs]</a>    <span class="k">def</span> <span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Disconnect all streams.&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">lsl_output</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lsl_outputs</span><span class="p">:</span>
             <span class="n">lsl_output</span><span class="o">.</span><span class="n">disconnect</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="StreamGroup.open_connection"><a class="viewcode-back" href="../../../nds/nds.scripts.html#nds.scripts.run_streamer.StreamGroup.open_connection">[docs]</a>    <span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<div class="viewcode-block" id="StreamGroup.open_connection"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.scripts.html#neural_data_simulator.scripts.run_streamer.StreamGroup.open_connection">[docs]</a>    <span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
     <span class="k">def</span> <span class="nf">open_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Open a managed connection.</span>
 
@@ -248,7 +248,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">disconnect</span><span class="p">()</span></div></div>
 
 
-<div class="viewcode-block" id="load_blackrock_file"><a class="viewcode-back" href="../../../nds/nds.scripts.html#nds.scripts.run_streamer.load_blackrock_file">[docs]</a><span class="k">def</span> <span class="nf">load_blackrock_file</span><span class="p">(</span>
+<div class="viewcode-block" id="load_blackrock_file"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.scripts.html#neural_data_simulator.scripts.run_streamer.load_blackrock_file">[docs]</a><span class="k">def</span> <span class="nf">load_blackrock_file</span><span class="p">(</span>
     <span class="n">filepath</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">output_settings</span><span class="p">:</span> <span class="n">LSLSimplifiedOutputModel</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">StreamConfig</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Samples</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse streams from a Blackrock Neurotech file.&quot;&quot;&quot;</span>
@@ -386,7 +386,7 @@
     <span class="k">return</span> <span class="n">stream_config</span>
 
 
-<div class="viewcode-block" id="run"><a class="viewcode-back" href="../../../nds/nds.scripts.html#nds.scripts.run_streamer.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
+<div class="viewcode-block" id="run"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.scripts.html#neural_data_simulator.scripts.run_streamer.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the configuration and start the streamer.&quot;&quot;&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Run streamer.&quot;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>

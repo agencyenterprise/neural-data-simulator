@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>decoder.run_decoder &mdash; Neural Data Simulator 0.1.2 documentation</title>
+  <title>decoder.run_decoder &mdash; Neural Data Simulator 0.2.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/sg_gallery.css" type="text/css" />
@@ -73,7 +73,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../nds/modules.html">Neural Data Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../neural_data_simulator/modules.html">Neural Data Simulator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools/modules.html">Example Implementations and Utilities</a></li>
 </ul>
 
@@ -114,18 +114,18 @@
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
 <span class="kn">from</span> <span class="nn">pydantic_yaml</span> <span class="kn">import</span> <span class="n">VersionedYamlModel</span>
 
-<span class="kn">from</span> <span class="nn">nds</span> <span class="kn">import</span> <span class="n">inputs</span>
-<span class="kn">from</span> <span class="nn">nds</span> <span class="kn">import</span> <span class="n">outputs</span>
-<span class="kn">from</span> <span class="nn">nds</span> <span class="kn">import</span> <span class="n">timing</span>
-<span class="kn">from</span> <span class="nn">nds.outputs</span> <span class="kn">import</span> <span class="n">StreamConfig</span>
-<span class="kn">from</span> <span class="nn">nds.settings</span> <span class="kn">import</span> <span class="n">LogLevel</span>
-<span class="kn">from</span> <span class="nn">nds.settings</span> <span class="kn">import</span> <span class="n">LSLInputModel</span>
-<span class="kn">from</span> <span class="nn">nds.settings</span> <span class="kn">import</span> <span class="n">LSLOutputModel</span>
-<span class="kn">from</span> <span class="nn">nds.settings</span> <span class="kn">import</span> <span class="n">TimerModel</span>
-<span class="kn">from</span> <span class="nn">nds.util.runtime</span> <span class="kn">import</span> <span class="n">configure_logger</span>
-<span class="kn">from</span> <span class="nn">nds.util.runtime</span> <span class="kn">import</span> <span class="n">get_abs_path</span>
-<span class="kn">from</span> <span class="nn">nds.util.runtime</span> <span class="kn">import</span> <span class="n">open_connection</span>
-<span class="kn">from</span> <span class="nn">nds.util.settings_loader</span> <span class="kn">import</span> <span class="n">get_script_settings</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator</span> <span class="kn">import</span> <span class="n">inputs</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator</span> <span class="kn">import</span> <span class="n">outputs</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator</span> <span class="kn">import</span> <span class="n">timing</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.outputs</span> <span class="kn">import</span> <span class="n">StreamConfig</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.settings</span> <span class="kn">import</span> <span class="n">LogLevel</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.settings</span> <span class="kn">import</span> <span class="n">LSLInputModel</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.settings</span> <span class="kn">import</span> <span class="n">LSLOutputModel</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.settings</span> <span class="kn">import</span> <span class="n">TimerModel</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">configure_logger</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">get_abs_path</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">open_connection</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.settings_loader</span> <span class="kn">import</span> <span class="n">get_script_settings</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 

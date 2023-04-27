@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>nds.ephys_generator &mdash; Neural Data Simulator 0.1.2 documentation</title>
+  <title>neural_data_simulator.ephys_generator &mdash; Neural Data Simulator 0.2.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/sg_gallery.css" type="text/css" />
@@ -73,7 +73,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../nds/modules.html">Neural Data Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../neural_data_simulator/modules.html">Neural Data Simulator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools/modules.html">Example Implementations and Utilities</a></li>
 </ul>
 
@@ -92,7 +92,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">nds.ephys_generator</li>
+      <li class="breadcrumb-item active">neural_data_simulator.ephys_generator</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -101,7 +101,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for nds.ephys_generator</h1><div class="highlight"><pre>
+  <h1>Source code for neural_data_simulator.ephys_generator</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;This module contains classes that are used to generate spikes from spike rates.&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">Tuple</span>
@@ -111,15 +111,15 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pylsl</span>
 
-<span class="kn">from</span> <span class="nn">nds.filters</span> <span class="kn">import</span> <span class="n">LowpassFilter</span>
-<span class="kn">from</span> <span class="nn">nds.health_checker</span> <span class="kn">import</span> <span class="n">HealthChecker</span>
-<span class="kn">from</span> <span class="nn">nds.inputs</span> <span class="kn">import</span> <span class="n">LSLInput</span>
-<span class="kn">from</span> <span class="nn">nds.outputs</span> <span class="kn">import</span> <span class="n">LSLOutputDevice</span>
-<span class="kn">from</span> <span class="nn">nds.timing</span> <span class="kn">import</span> <span class="n">Timer</span>
-<span class="kn">from</span> <span class="nn">nds.util.buffer</span> <span class="kn">import</span> <span class="n">RingBuffer</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.filters</span> <span class="kn">import</span> <span class="n">LowpassFilter</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.health_checker</span> <span class="kn">import</span> <span class="n">HealthChecker</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.inputs</span> <span class="kn">import</span> <span class="n">LSLInput</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.outputs</span> <span class="kn">import</span> <span class="n">LSLOutputDevice</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.timing</span> <span class="kn">import</span> <span class="n">Timer</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.buffer</span> <span class="kn">import</span> <span class="n">RingBuffer</span>
 
 
-<div class="viewcode-block" id="SpikeRateInput"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.SpikeRateInput">[docs]</a><span class="k">class</span> <span class="nc">SpikeRateInput</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<div class="viewcode-block" id="SpikeRateInput"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.SpikeRateInput">[docs]</a><span class="k">class</span> <span class="nc">SpikeRateInput</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;An abstract input that can be used to read spike rates.</span>
 
 <span class="sd">    A python protocol (`PEP-544 &lt;https://peps.python.org/pep-0544/&gt;`_) works in</span>
@@ -138,7 +138,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="o">...</span>
 
-<div class="viewcode-block" id="SpikeRateInput.read"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.SpikeRateInput.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ndarray</span><span class="p">]:</span>
+<div class="viewcode-block" id="SpikeRateInput.read"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.SpikeRateInput.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Read spike rates, one per channel.</span>
 
 <span class="sd">        Returns:</span>
@@ -148,7 +148,7 @@
         <span class="o">...</span></div></div>
 
 
-<div class="viewcode-block" id="LSLSpikeRateInputAdapter"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.LSLSpikeRateInputAdapter">[docs]</a><span class="k">class</span> <span class="nc">LSLSpikeRateInputAdapter</span><span class="p">(</span><span class="n">SpikeRateInput</span><span class="p">):</span>
+<div class="viewcode-block" id="LSLSpikeRateInputAdapter"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.LSLSpikeRateInputAdapter">[docs]</a><span class="k">class</span> <span class="nc">LSLSpikeRateInputAdapter</span><span class="p">(</span><span class="n">SpikeRateInput</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Reads spike rates from an LSL input.&quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
@@ -160,7 +160,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lsl_input</span><span class="o">.</span><span class="n">get_info</span><span class="p">()</span><span class="o">.</span><span class="n">channel_count</span>
 
-<div class="viewcode-block" id="LSLSpikeRateInputAdapter.__init__"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.LSLSpikeRateInputAdapter.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lsl_input</span><span class="p">:</span> <span class="n">LSLInput</span><span class="p">):</span>
+<div class="viewcode-block" id="LSLSpikeRateInputAdapter.__init__"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.LSLSpikeRateInputAdapter.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lsl_input</span><span class="p">:</span> <span class="n">LSLInput</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create an adapter for a given LSL input.</span>
 
 <span class="sd">        Args:</span>
@@ -172,11 +172,11 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Disconnect from the LSL input stream.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lsl_input</span><span class="o">.</span><span class="n">disconnect</span><span class="p">()</span>
 
-<div class="viewcode-block" id="LSLSpikeRateInputAdapter.connect"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.LSLSpikeRateInputAdapter.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="LSLSpikeRateInputAdapter.connect"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.LSLSpikeRateInputAdapter.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Connect to the LSL input stream.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lsl_input</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="LSLSpikeRateInputAdapter.read"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.LSLSpikeRateInputAdapter.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ndarray</span><span class="p">]:</span>
+<div class="viewcode-block" id="LSLSpikeRateInputAdapter.read"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.LSLSpikeRateInputAdapter.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Connect to the LSL input stream.</span>
 
 <span class="sd">        Returns:</span>
@@ -189,7 +189,7 @@
         <span class="k">return</span> <span class="kc">None</span></div></div>
 
 
-<div class="viewcode-block" id="SpikeRateTestingInput"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.SpikeRateTestingInput">[docs]</a><span class="k">class</span> <span class="nc">SpikeRateTestingInput</span><span class="p">(</span><span class="n">SpikeRateInput</span><span class="p">):</span>
+<div class="viewcode-block" id="SpikeRateTestingInput"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.SpikeRateTestingInput">[docs]</a><span class="k">class</span> <span class="nc">SpikeRateTestingInput</span><span class="p">(</span><span class="n">SpikeRateInput</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A constant spike rate input that can be used for testing.</span>
 
 <span class="sd">    Generates spike rates so that spikes are more likely to happen</span>
@@ -197,7 +197,7 @@
 <span class="sd">    The spike rate for a channel is always constant.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="SpikeRateTestingInput.__init__"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.SpikeRateTestingInput.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n_units</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<div class="viewcode-block" id="SpikeRateTestingInput.__init__"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.SpikeRateTestingInput.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n_units</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a testing spike rate input.</span>
 
 <span class="sd">        Args:</span>
@@ -217,7 +217,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_channels</span>
 
-<div class="viewcode-block" id="SpikeRateTestingInput.read"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.SpikeRateTestingInput.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ndarray</span><span class="p">]:</span>
+<div class="viewcode-block" id="SpikeRateTestingInput.read"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.SpikeRateTestingInput.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Read spike rates, one per channel.</span>
 
 <span class="sd">        Returns:</span>
@@ -233,7 +233,7 @@
         <span class="k">return</span> <span class="n">rates</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="SpikeEvents"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.SpikeEvents">[docs]</a><span class="nd">@dataclass</span>
+<div class="viewcode-block" id="SpikeEvents"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.SpikeEvents">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">SpikeEvents</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Spike events that are generated during an execution of :class:`ProcessOutput`.</span>
 
@@ -264,7 +264,7 @@
 <span class="sd">    The values are the amplitudes of the spike waveforms in counts.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="SpikeEvents.SpikeEvent"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.SpikeEvents.SpikeEvent">[docs]</a>    <span class="k">class</span> <span class="nc">SpikeEvent</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<div class="viewcode-block" id="SpikeEvents.SpikeEvent"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.SpikeEvents.SpikeEvent">[docs]</a>    <span class="k">class</span> <span class="nc">SpikeEvent</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;A single spike event.&quot;&quot;&quot;</span>
 
         <span class="n">time_idx</span><span class="p">:</span> <span class="nb">int</span>
@@ -302,10 +302,10 @@
         <span class="k">return</span> <span class="n">SpikeEvents</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_idx</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">waveform</span><span class="p">[:,</span> <span class="n">key</span><span class="p">])</span></div>
 
 
-<div class="viewcode-block" id="NoiseData"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.NoiseData">[docs]</a><span class="k">class</span> <span class="nc">NoiseData</span><span class="p">:</span>
+<div class="viewcode-block" id="NoiseData"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.NoiseData">[docs]</a><span class="k">class</span> <span class="nc">NoiseData</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Multi-channel colored noise generator.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="NoiseData.__init__"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.NoiseData.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="NoiseData.__init__"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.NoiseData.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">n_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">beta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -342,7 +342,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_current_index</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_total_samples</span> <span class="o">=</span> <span class="n">samples</span></div>
 
-<div class="viewcode-block" id="NoiseData.get_slice"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.NoiseData.get_slice">[docs]</a>    <span class="k">def</span> <span class="nf">get_slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="NoiseData.get_slice"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.NoiseData.get_slice">[docs]</a>    <span class="k">def</span> <span class="nf">get_slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the next random noise slice of a given size.</span>
 
 <span class="sd">        After computing the current noise slice, the window is advanced by `n_samples`</span>
@@ -364,10 +364,10 @@
         <span class="k">return</span> <span class="n">noise_slice</span></div></div>
 
 
-<div class="viewcode-block" id="ContinuousData"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.ContinuousData">[docs]</a><span class="k">class</span> <span class="nc">ContinuousData</span><span class="p">:</span>
+<div class="viewcode-block" id="ContinuousData"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.ContinuousData">[docs]</a><span class="k">class</span> <span class="nc">ContinuousData</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generator of the electrophysiology raw data.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ContinuousData.Params"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.ContinuousData.Params">[docs]</a>    <span class="nd">@dataclass</span>
+<div class="viewcode-block" id="ContinuousData.Params"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.ContinuousData.Params">[docs]</a>    <span class="nd">@dataclass</span>
     <span class="k">class</span> <span class="nc">Params</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialization parameters for the :class:`ContinuousData` class.&quot;&quot;&quot;</span>
 
@@ -394,7 +394,7 @@
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;Get the LFP downsample rate.&quot;&quot;&quot;</span>
             <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_data_frequency</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">lfp_data_frequency</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ContinuousData.__init__"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.ContinuousData.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">noise_data</span><span class="p">:</span> <span class="n">NoiseData</span><span class="p">,</span> <span class="n">n_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Params</span><span class="p">):</span>
+<div class="viewcode-block" id="ContinuousData.__init__"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.ContinuousData.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">noise_data</span><span class="p">:</span> <span class="n">NoiseData</span><span class="p">,</span> <span class="n">n_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Params</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the ContinuousData class.</span>
 
 <span class="sd">        Args:</span>
@@ -416,7 +416,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_spikes_buffer</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="o">.</span><span class="n">n_samples_waveform</span><span class="p">,</span> <span class="n">n_channels</span><span class="p">)))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_noise_data</span> <span class="o">=</span> <span class="n">noise_data</span></div>
 
-<div class="viewcode-block" id="ContinuousData.get_continuous_data"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.ContinuousData.get_continuous_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_continuous_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">spike_events</span><span class="p">:</span> <span class="n">SpikeEvents</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="ContinuousData.get_continuous_data"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.ContinuousData.get_continuous_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_continuous_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">spike_events</span><span class="p">:</span> <span class="n">SpikeEvents</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get continuous data from spike events and background noise.</span>
 
 <span class="sd">        Args:</span>
@@ -439,7 +439,7 @@
         <span class="n">data</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_noise_data</span><span class="o">.</span><span class="n">get_slice</span><span class="p">((</span><span class="n">n_samples</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_channels</span><span class="p">))</span>  <span class="c1"># add noise</span>
         <span class="k">return</span> <span class="n">data</span></div>
 
-<div class="viewcode-block" id="ContinuousData.get_lfp_data"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.ContinuousData.get_lfp_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_lfp_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="ContinuousData.get_lfp_data"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.ContinuousData.get_lfp_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_lfp_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Filter and downsample raw data to get LFP data.</span>
 
 <span class="sd">        Args:</span>
@@ -498,10 +498,10 @@
         <span class="k">return</span> <span class="n">data</span></div>
 
 
-<div class="viewcode-block" id="Waveforms"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.Waveforms">[docs]</a><span class="k">class</span> <span class="nc">Waveforms</span><span class="p">:</span>
+<div class="viewcode-block" id="Waveforms"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Waveforms">[docs]</a><span class="k">class</span> <span class="nc">Waveforms</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Spike waveforms loader.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Waveforms.Params"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.Waveforms.Params">[docs]</a>    <span class="nd">@dataclass</span>
+<div class="viewcode-block" id="Waveforms.Params"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Waveforms.Params">[docs]</a>    <span class="nd">@dataclass</span>
     <span class="k">class</span> <span class="nc">Params</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialization parameters for the :class:`Waveforms` class.&quot;&quot;&quot;</span>
 
@@ -529,7 +529,7 @@
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;The waveform prototypes IDs.&quot;&quot;&quot;</span>
             <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prototypes_definitions</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="Waveforms.__init__"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.Waveforms.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Params</span><span class="p">,</span> <span class="n">n_units</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<div class="viewcode-block" id="Waveforms.__init__"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Waveforms.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Params</span><span class="p">,</span> <span class="n">n_units</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize Waveforms class.</span>
 
 <span class="sd">        Args:</span>
@@ -540,7 +540,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">n_units</span> <span class="o">=</span> <span class="n">n_units</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">waveforms</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_waveforms</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Waveforms.get_spike_waveforms"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.Waveforms.get_spike_waveforms">[docs]</a>    <span class="k">def</span> <span class="nf">get_spike_waveforms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">units</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="Waveforms.get_spike_waveforms"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Waveforms.get_spike_waveforms">[docs]</a>    <span class="k">def</span> <span class="nf">get_spike_waveforms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">units</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the spike waveforms for a given list of units.</span>
 
 <span class="sd">        Args:</span>
@@ -571,7 +571,7 @@
         <span class="k">return</span> <span class="n">unit_waveforms</span></div>
 
 
-<div class="viewcode-block" id="Spikes"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.Spikes">[docs]</a><span class="k">class</span> <span class="nc">Spikes</span><span class="p">:</span>
+<div class="viewcode-block" id="Spikes"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Spikes">[docs]</a><span class="k">class</span> <span class="nc">Spikes</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Spike generator.</span>
 
 <span class="sd">    This class generates random spike events according to unit spike rates</span>
@@ -581,7 +581,7 @@
 <span class="sd">    the spikes generated in the previous time interval.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Spikes.Params"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.Spikes.Params">[docs]</a>    <span class="nd">@dataclass</span>
+<div class="viewcode-block" id="Spikes.Params"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Spikes.Params">[docs]</a>    <span class="nd">@dataclass</span>
     <span class="k">class</span> <span class="nc">Params</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialization parameters for the :class:`Spikes` class.&quot;&quot;&quot;</span>
 
@@ -597,7 +597,7 @@
         <span class="n">n_samples_waveform</span><span class="p">:</span> <span class="nb">int</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The number of samples in the spike waveform.&quot;&quot;&quot;</span></div>
 
-<div class="viewcode-block" id="Spikes.__init__"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.Spikes.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">waveforms</span><span class="p">:</span> <span class="n">Waveforms</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Params</span><span class="p">):</span>
+<div class="viewcode-block" id="Spikes.__init__"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Spikes.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">waveforms</span><span class="p">:</span> <span class="n">Waveforms</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Params</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize Spikes class.</span>
 
 <span class="sd">        Args:</span>
@@ -672,7 +672,7 @@
         <span class="n">time_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">time_idx</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">time_idx</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">units</span><span class="p">,</span> <span class="n">time_idx</span>
 
-<div class="viewcode-block" id="Spikes.generate_spikes"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.Spikes.generate_spikes">[docs]</a>    <span class="k">def</span> <span class="nf">generate_spikes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rates</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpikeEvents</span><span class="p">:</span>
+<div class="viewcode-block" id="Spikes.generate_spikes"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Spikes.generate_spikes">[docs]</a>    <span class="k">def</span> <span class="nf">generate_spikes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rates</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpikeEvents</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate spikes for the given rates and a given number of samples.</span>
 
 <span class="sd">        Spike times are calculated using the spike rate input for each channel.</span>
@@ -711,7 +711,7 @@
         <span class="k">return</span> <span class="n">spk_per_sec</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="o">.</span><span class="n">raw_data_frequency</span></div>
 
 
-<div class="viewcode-block" id="ProcessOutput"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.ProcessOutput">[docs]</a><span class="k">class</span> <span class="nc">ProcessOutput</span><span class="p">:</span>
+<div class="viewcode-block" id="ProcessOutput"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.ProcessOutput">[docs]</a><span class="k">class</span> <span class="nc">ProcessOutput</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Process that reads spike rates and outputs spiking data.</span>
 
 <span class="sd">    The process can be started by calling the :meth:`start` method.</span>
@@ -719,7 +719,7 @@
 <span class="sd">    the LFP data stream and spike events stream.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ProcessOutput.Params"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.ProcessOutput.Params">[docs]</a>    <span class="nd">@dataclass</span>
+<div class="viewcode-block" id="ProcessOutput.Params"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.ProcessOutput.Params">[docs]</a>    <span class="nd">@dataclass</span>
     <span class="k">class</span> <span class="nc">Params</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialization parameters for the :class:`ProcessOutput` class.&quot;&quot;&quot;</span>
 
@@ -740,7 +740,7 @@
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;The interval at which to stream data to the LSL outlets.&quot;&quot;&quot;</span>
             <span class="k">return</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">lsl_chunk_frequency</span></div>
 
-<div class="viewcode-block" id="ProcessOutput.LSLOutputs"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.ProcessOutput.LSLOutputs">[docs]</a>    <span class="nd">@dataclass</span>
+<div class="viewcode-block" id="ProcessOutput.LSLOutputs"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.ProcessOutput.LSLOutputs">[docs]</a>    <span class="nd">@dataclass</span>
     <span class="k">class</span> <span class="nc">LSLOutputs</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Possible LSL output streams.&quot;&quot;&quot;</span>
 
@@ -753,7 +753,7 @@
         <span class="n">spike_events</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LSLOutputDevice</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The spike events stream.&quot;&quot;&quot;</span></div>
 
-<div class="viewcode-block" id="ProcessOutput.__init__"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.ProcessOutput.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="ProcessOutput.__init__"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.ProcessOutput.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">continuous_data</span><span class="p">:</span> <span class="n">ContinuousData</span><span class="p">,</span>
         <span class="n">spikes</span><span class="p">:</span> <span class="n">Spikes</span><span class="p">,</span>
@@ -788,7 +788,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_timer</span> <span class="o">=</span> <span class="n">Timer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="o">.</span><span class="n">lsl_chunk_interval</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_should_stop</span> <span class="o">=</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="ProcessOutput.start"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.ProcessOutput.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ProcessOutput.start"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.ProcessOutput.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Start the process.</span>
 
 <span class="sd">        The process keeps iterating until the :meth:`stop` method is called.</span>
@@ -804,7 +804,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_execute</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_timer</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="ProcessOutput.stop"><a class="viewcode-back" href="../../nds/nds.html#nds.ephys_generator.ProcessOutput.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ProcessOutput.stop"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.ProcessOutput.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop the process.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_should_stop</span> <span class="o">=</span> <span class="kc">True</span></div>
 

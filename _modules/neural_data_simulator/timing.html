@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>nds.timing &mdash; Neural Data Simulator 0.1.2 documentation</title>
+  <title>neural_data_simulator.timing &mdash; Neural Data Simulator 0.2.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/sg_gallery.css" type="text/css" />
@@ -73,7 +73,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../nds/modules.html">Neural Data Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../neural_data_simulator/modules.html">Neural Data Simulator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tools/modules.html">Example Implementations and Utilities</a></li>
 </ul>
 
@@ -92,7 +92,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">nds.timing</li>
+      <li class="breadcrumb-item active">neural_data_simulator.timing</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -101,13 +101,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for nds.timing</h1><div class="highlight"><pre>
+  <h1>Source code for neural_data_simulator.timing</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Implement an accurate timer class that works across platforms.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">time</span>
 
 
-<div class="viewcode-block" id="Timer"><a class="viewcode-back" href="../../nds/nds.html#nds.timing.Timer">[docs]</a><span class="k">class</span> <span class="nc">Timer</span><span class="p">:</span>
+<div class="viewcode-block" id="Timer"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.timing.Timer">[docs]</a><span class="k">class</span> <span class="nc">Timer</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A simple timer class.</span>
 
 <span class="sd">    It has a custom implementation for the python&#39;s sleep method by adding a cpu</span>
@@ -115,7 +115,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Timer.__init__"><a class="viewcode-back" href="../../nds/nds.html#nds.timing.Timer.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">period</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">max_cpu_buffer</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.005</span><span class="p">):</span>
+<div class="viewcode-block" id="Timer.__init__"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.timing.Timer.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">period</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">max_cpu_buffer</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.005</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize timer class.</span>
 
 <span class="sd">        Args:</span>
@@ -127,13 +127,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">period_ns</span> <span class="o">=</span> <span class="n">period</span> <span class="o">*</span> <span class="mf">1e9</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">max_cpu_buffer_ns</span> <span class="o">=</span> <span class="n">max_cpu_buffer</span> <span class="o">*</span> <span class="mf">1e9</span></div>
 
-<div class="viewcode-block" id="Timer.start"><a class="viewcode-back" href="../../nds/nds.html#nds.timing.Timer.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="Timer.start"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.timing.Timer.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Start the timer.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_start_time_ns</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter_ns</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_next_loop_ns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start_time_ns</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">period_ns</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">jitter_ns</span> <span class="o">=</span> <span class="mf">0.0</span></div>
 
-<div class="viewcode-block" id="Timer.wait"><a class="viewcode-back" href="../../nds/nds.html#nds.timing.Timer.wait">[docs]</a>    <span class="k">def</span> <span class="nf">wait</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="Timer.wait"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.timing.Timer.wait">[docs]</a>    <span class="k">def</span> <span class="nf">wait</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Wait until the end of the next timer loop.</span>
 
 <span class="sd">        It uses very small sleep intervals to avoid jitters caused by the</span>
@@ -144,7 +144,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_next_loop_ns</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">period_ns</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">jitter_ns</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">previous_loop</span> <span class="o">-</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter_ns</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="Timer.total_elapsed_time"><a class="viewcode-back" href="../../nds/nds.html#nds.timing.Timer.total_elapsed_time">[docs]</a>    <span class="k">def</span> <span class="nf">total_elapsed_time</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<div class="viewcode-block" id="Timer.total_elapsed_time"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.timing.Timer.total_elapsed_time">[docs]</a>    <span class="k">def</span> <span class="nf">total_elapsed_time</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get total time since the `start` function call.</span>
 
 <span class="sd">        Returns:</span>
@@ -167,7 +167,7 @@
             <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="get_timer"><a class="viewcode-back" href="../../nds/nds.html#nds.timing.get_timer">[docs]</a><span class="k">def</span> <span class="nf">get_timer</span><span class="p">(</span><span class="n">loop_time</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.02</span><span class="p">,</span> <span class="n">max_cpu_buffer</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.005</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Timer</span><span class="p">:</span>
+<div class="viewcode-block" id="get_timer"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.timing.get_timer">[docs]</a><span class="k">def</span> <span class="nf">get_timer</span><span class="p">(</span><span class="n">loop_time</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.02</span><span class="p">,</span> <span class="n">max_cpu_buffer</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.005</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Timer</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get timer object.</span>
 
 <span class="sd">    Args:</span>
@@ -177,7 +177,8 @@
 <span class="sd">          call (in seconds). Defaults to 0.005.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        An instance of the :class:`nds.timing.Timer` class based on input parameters.</span>
+<span class="sd">        An instance of the :class:`neural_data_simulator.timing.Timer` class based on</span>
+<span class="sd">        input parameters.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">Timer</span><span class="p">(</span><span class="n">loop_time</span><span class="p">,</span> <span class="n">max_cpu_buffer</span><span class="p">)</span></div>
 </pre></div>
