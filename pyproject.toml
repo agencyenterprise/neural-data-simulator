@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "neural-data-simulator"
-version = "0.1.1"
+version = "0.1.2"
 description = "Electrophysiology simulator data for developing Brain-Computer Interfaces"
 authors = ["AE Studio <bci@ae.studio>", "Chadwick Boulay <chadwick.boulay@gmail.com>"]
 maintainers = ["Chadwick Boulay <chadwick.boulay@gmail.com>", "AE Studio <bci@ae.studio>"]
@@ -20,7 +20,7 @@ classifiers = [
     "Operating System :: POSIX :: Linux",
 ]
 
-[project.urls]
+[tool.poetry.urls]
 "Homepage" = "https://github.com/agencyenterprise/neural-data-simulator"
 "Documentation" = "https://agencyenterprise.github.io/neural-data-simulator/"
 "Bug Tracker" = "https://github.com/agencyenterprise/neural-data-simulator/issues"
