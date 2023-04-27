@@ -10,18 +10,18 @@ from decoder.decoders import PersistedFileDecoderModel
 from pydantic import BaseModel
 from pydantic_yaml import VersionedYamlModel
 
-from nds import inputs
-from nds import outputs
-from nds import timing
-from nds.outputs import StreamConfig
-from nds.settings import LogLevel
-from nds.settings import LSLInputModel
-from nds.settings import LSLOutputModel
-from nds.settings import TimerModel
-from nds.util.runtime import configure_logger
-from nds.util.runtime import get_abs_path
-from nds.util.runtime import open_connection
-from nds.util.settings_loader import get_script_settings
+from neural_data_simulator import inputs
+from neural_data_simulator import outputs
+from neural_data_simulator import timing
+from neural_data_simulator.outputs import StreamConfig
+from neural_data_simulator.settings import LogLevel
+from neural_data_simulator.settings import LSLInputModel
+from neural_data_simulator.settings import LSLOutputModel
+from neural_data_simulator.settings import TimerModel
+from neural_data_simulator.util.runtime import configure_logger
+from neural_data_simulator.util.runtime import get_abs_path
+from neural_data_simulator.util.runtime import open_connection
+from neural_data_simulator.util.settings_loader import get_script_settings
 
 logger = logging.getLogger(__name__)
 

@@ -2,7 +2,7 @@
 import numpy as np
 import pytest
 
-from nds.samples import Samples
+from neural_data_simulator.samples import Samples
 
 
 class TestSamples:

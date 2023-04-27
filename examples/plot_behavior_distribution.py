@@ -4,7 +4,7 @@
 Visualize distribution of velocities
 =========================================
 
-.. currentmodule:: nds
+.. currentmodule:: neural_data_simulator
 
 The goal of this example is to show the distribution of velocities used to train the
 model and compare it with the distribution of the velocities while running the center

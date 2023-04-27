@@ -7,12 +7,12 @@ from numpy import ndarray
 import numpy as np
 import pylsl
 
-from nds.filters import LowpassFilter
-from nds.health_checker import HealthChecker
-from nds.inputs import LSLInput
-from nds.outputs import LSLOutputDevice
-from nds.timing import Timer
-from nds.util.buffer import RingBuffer
+from neural_data_simulator.filters import LowpassFilter
+from neural_data_simulator.health_checker import HealthChecker
+from neural_data_simulator.inputs import LSLInput
+from neural_data_simulator.outputs import LSLOutputDevice
+from neural_data_simulator.timing import Timer
+from neural_data_simulator.util.buffer import RingBuffer
 
 
 class SpikeRateInput(Protocol):

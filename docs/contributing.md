@@ -34,7 +34,7 @@ Install the dependencies by running the following command in a shell within the 
 poetry install
 ```
 
-This will resolve and install the dependencies from `poetry.lock` and will install the `nds` package in editable mode.
+This will resolve and install the dependencies from `poetry.lock` and will install the `neural-data-simulator` package in editable mode.
 
 ```{note}
 On Windows you might have to install [Microsoft C++ Build Tools - Visual Studio](https://visualstudio.microsoft.com/visual-cpp-build-tools/) to run the command above successfully.

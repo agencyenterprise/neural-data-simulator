@@ -2,7 +2,7 @@
 import numpy as np
 import pytest
 
-from nds.util.buffer import RingBuffer
+from neural_data_simulator.util.buffer import RingBuffer
 
 
 class TestRingBuffer:

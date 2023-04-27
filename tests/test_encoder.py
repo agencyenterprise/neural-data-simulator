@@ -3,10 +3,10 @@ from unittest.mock import patch
 
 import numpy as np
 
-import nds.encoder as encoder
-import nds.inputs as inputs
-import nds.outputs as outputs
-from nds.samples import Samples
+import neural_data_simulator.encoder as encoder
+import neural_data_simulator.inputs as inputs
+import neural_data_simulator.outputs as outputs
+from neural_data_simulator.samples import Samples
 
 
 class FakeInput(inputs.Input):

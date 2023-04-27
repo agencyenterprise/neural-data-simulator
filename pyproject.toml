@@ -1,11 +1,11 @@
 [tool.poetry]
 name = "neural-data-simulator"
-version = "0.1.2"
+version = "0.2.0"
 description = "Electrophysiology simulator data for developing Brain-Computer Interfaces"
 authors = ["AE Studio <bci@ae.studio>", "Chadwick Boulay <chadwick.boulay@gmail.com>"]
 maintainers = ["Chadwick Boulay <chadwick.boulay@gmail.com>", "AE Studio <bci@ae.studio>"]
 packages = [
-    {include = "nds", from = "src"},
+    {include = "neural_data_simulator", from = "src"},
     {include = "decoder", from = "src"},
     {include = "recorder", from = "src"},
     {include = "tasks", from = "src"},
@@ -72,10 +72,10 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-nds_post_install_config = "nds.scripts.post_install_config:run"
-encoder = "nds.scripts.run_encoder:run"
-streamer = "nds.scripts.run_streamer:run"
-ephys_generator = "nds.scripts.run_ephys_generator:run"
+nds_post_install_config = "neural_data_simulator.scripts.post_install_config:run"
+encoder = "neural_data_simulator.scripts.run_encoder:run"
+streamer = "neural_data_simulator.scripts.run_streamer:run"
+ephys_generator = "neural_data_simulator.scripts.run_ephys_generator:run"
 decoder = "decoder.run_decoder:run"
 recorder = "recorder.run_recorder:run"
 center_out_reach = "tasks.run_center_out_reach:run"
@@ -100,7 +100,7 @@ extend-exclude = """(
 [tool.isort]
 profile = "google"
 src_paths = "."
-known_first_party = "nds"
+known_first_party = "neural_data_simulator"
 line_length = 88
 multi_line_output = 3
 include_trailing_comma = true

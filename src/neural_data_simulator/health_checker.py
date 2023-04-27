@@ -4,7 +4,7 @@ import time
 
 import numpy as np
 
-from nds.util.circular_dequeue import CircularDeque
+from neural_data_simulator.util.circular_dequeue import CircularDeque
 
 logger = logging.getLogger(__name__)
 

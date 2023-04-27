@@ -4,7 +4,7 @@
 Collect data to train your own decoder
 =========================================
 
-.. currentmodule:: nds
+.. currentmodule:: neural_data_simulator
 
 The goal of this example is to show how you can run an open loop simulation and collect the electrophysiology data
 needed for training your own decoder.

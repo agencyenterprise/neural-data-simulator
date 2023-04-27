@@ -9,12 +9,12 @@ from unittest.mock import Mock
 import pylsl
 import pytest
 
-import nds
-from nds.ephys_generator import ContinuousData
-from nds.ephys_generator import Spikes
-from nds.scripts import run_ephys_generator
-from nds.settings import Settings
-from nds.util import settings_loader
+import neural_data_simulator
+from neural_data_simulator.ephys_generator import ContinuousData
+from neural_data_simulator.ephys_generator import Spikes
+from neural_data_simulator.scripts import run_ephys_generator
+from neural_data_simulator.settings import Settings
+from neural_data_simulator.util import settings_loader
 
 
 @pytest.fixture(autouse=True)
@@ -33,14 +33,15 @@ def fake_parse_args(monkeypatch: pytest.MonkeyPatch) -> argparse.Namespace:
 def mock_get_script_settings(monkeypatch: pytest.MonkeyPatch):
     """Mock get_script_settings to return the default settings."""
     default_settings: Settings = settings_loader.get_script_settings(
-        Path(f"{os.path.dirname(nds.__file__)}/config/settings.yaml"),
+        Path(f"{os.path.dirname(neural_data_simulator.__file__)}/config/settings.yaml"),
         "settings.yaml",
         Settings,
     )
     get_script_settings_mock = Mock()
     get_script_settings_mock.return_value = default_settings
     monkeypatch.setattr(
-        "nds.scripts.run_ephys_generator.get_script_settings", get_script_settings_mock
+        "neural_data_simulator.scripts.run_ephys_generator.get_script_settings",
+        get_script_settings_mock,
     )
     return get_script_settings_mock
 
@@ -50,7 +51,8 @@ def mock_process_output(monkeypatch):
     """Mock the process that runs the ephys generator."""
     process_output_mock = Mock()
     monkeypatch.setattr(
-        "nds.scripts.run_ephys_generator.ProcessOutput", process_output_mock
+        "neural_data_simulator.scripts.run_ephys_generator.ProcessOutput",
+        process_output_mock,
     )
     return process_output_mock
 

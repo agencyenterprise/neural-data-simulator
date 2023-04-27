@@ -18,11 +18,11 @@ import plugins
 import pooch
 import tasks
 
-import nds
-from nds.util.runtime import get_abs_path
-from nds.util.runtime import get_configs_dir
-from nds.util.runtime import get_plugins_dir
-from nds.util.runtime import get_sample_data_dir
+import neural_data_simulator
+from neural_data_simulator.util.runtime import get_abs_path
+from neural_data_simulator.util.runtime import get_configs_dir
+from neural_data_simulator.util.runtime import get_plugins_dir
+from neural_data_simulator.util.runtime import get_sample_data_dir
 
 plugin_files = [
     ("model.py", plugins.__file__),
@@ -37,9 +37,9 @@ plugin_test_files = [
 
 
 core_configs = [
-    ("settings.yaml", nds.__file__),
-    ("settings_streamer.yaml", nds.__file__),
-    ("lsl.config", nds.__file__),
+    ("settings.yaml", neural_data_simulator.__file__),
+    ("settings_streamer.yaml", neural_data_simulator.__file__),
+    ("lsl.config", neural_data_simulator.__file__),
 ]
 
 extras_configs = [

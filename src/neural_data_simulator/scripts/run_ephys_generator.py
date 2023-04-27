@@ -1,8 +1,8 @@
 r"""Script that starts the ephys generator.
 
 The ephys generator default configuration is located in `NDS_HOME/settings.yaml`
-(see :mod:`nds.scripts.post_install_config`). The script can use different
-config file specified via the `\--settings-path` argument.
+(see :mod:`neural_data_simulator.scripts.post_install_config`). The script can use
+different config file specified via the `\--settings-path` argument.
 
 The config file has an `ephys_generator` section where the settings for the input,
 output, noise, etc. can be adjusted. By default, the ephys generator expects to read
@@ -17,24 +17,24 @@ from typing import cast, Optional
 
 import numpy as np
 
-from nds import inputs
-from nds import outputs
-from nds.ephys_generator import ContinuousData
-from nds.ephys_generator import LSLSpikeRateInputAdapter
-from nds.ephys_generator import NoiseData
-from nds.ephys_generator import ProcessOutput
-from nds.ephys_generator import SpikeRateInput
-from nds.ephys_generator import SpikeRateTestingInput
-from nds.ephys_generator import Spikes
-from nds.ephys_generator import Waveforms
-from nds.health_checker import HealthChecker
-from nds.outputs import StreamConfig
-from nds.settings import EphysGeneratorEndpointType
-from nds.settings import EphysGeneratorSettings
-from nds.settings import Settings
-from nds.util.runtime import configure_logger
-from nds.util.runtime import unwrap
-from nds.util.settings_loader import get_script_settings
+from neural_data_simulator import inputs
+from neural_data_simulator import outputs
+from neural_data_simulator.ephys_generator import ContinuousData
+from neural_data_simulator.ephys_generator import LSLSpikeRateInputAdapter
+from neural_data_simulator.ephys_generator import NoiseData
+from neural_data_simulator.ephys_generator import ProcessOutput
+from neural_data_simulator.ephys_generator import SpikeRateInput
+from neural_data_simulator.ephys_generator import SpikeRateTestingInput
+from neural_data_simulator.ephys_generator import Spikes
+from neural_data_simulator.ephys_generator import Waveforms
+from neural_data_simulator.health_checker import HealthChecker
+from neural_data_simulator.outputs import StreamConfig
+from neural_data_simulator.settings import EphysGeneratorEndpointType
+from neural_data_simulator.settings import EphysGeneratorSettings
+from neural_data_simulator.settings import Settings
+from neural_data_simulator.util.runtime import configure_logger
+from neural_data_simulator.util.runtime import unwrap
+from neural_data_simulator.util.settings_loader import get_script_settings
 
 logger = logging.getLogger(__name__)
 

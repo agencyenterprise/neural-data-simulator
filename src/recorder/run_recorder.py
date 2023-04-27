@@ -6,7 +6,7 @@ import time
 
 import numpy as np
 
-from nds import inputs
+from neural_data_simulator import inputs
 
 
 class LSLStreamRecorder:

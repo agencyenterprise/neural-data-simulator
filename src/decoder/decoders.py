@@ -7,11 +7,11 @@ import joblib
 from numpy import ndarray
 import numpy as np
 
-from nds.filters import BandpassFilter
-from nds.filters import GaussianFilter
-from nds.filters import LowpassFilter
-from nds.samples import Samples
-from nds.util.buffer import RingBuffer
+from neural_data_simulator.filters import BandpassFilter
+from neural_data_simulator.filters import GaussianFilter
+from neural_data_simulator.filters import LowpassFilter
+from neural_data_simulator.samples import Samples
+from neural_data_simulator.util.buffer import RingBuffer
 
 logger = logging.getLogger(__name__)
 
@@ -21,7 +21,8 @@ class DecoderModel(Protocol):
 
     A `Decoder model` predicts behavior data from spike rate data.
 
-    The Decoder processes data in chunks represented as :class:`nds.samples.Samples`.
+    The Decoder processes data in chunks represented as
+    :class:`neural_data_simulator.samples.Samples`.
     One chunk may contain several spike rate data points (n_samples) across multiple
     units (n_units). The :meth:`predict` method is called for each chunk in order to
     transform the spike rate data into behavior data (n_samples) across multiple axes
@@ -38,11 +39,11 @@ class DecoderModel(Protocol):
         """Predict behavior from spike rate input.
 
         Args:
-            data: Spike rate data as :class:`nds.samples.Samples` with shape
-                (n_samples, n_units).
+            data: Spike rate data as :class:`neural_data_simulator.samples.Samples`
+                with shape (n_samples, n_units).
 
         Returns:
-            Behavior data as :class:`nds.samples.Samples` with shape
+            Behavior data as :class:`neural_data_simulator.samples.Samples` with shape
             (n_samples, n_axes). For example, in case of modeling velocities in a
             horizontal and vertical direction (2 axes), the returned data is a 2D
             array with shape (n_samples, 2).

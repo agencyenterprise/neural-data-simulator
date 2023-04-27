@@ -1,6 +1,6 @@
 """Preprocessor for LSL Gamepad app for velocity tuning model."""
-from nds.encoder import Processor
-from nds.samples import Samples
+from neural_data_simulator.encoder import Processor
+from neural_data_simulator.samples import Samples
 
 
 class GamepadPreprocessor(Processor):

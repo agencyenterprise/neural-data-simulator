@@ -8,8 +8,8 @@ from numpy import ndarray
 import numpy as np
 import pylsl
 
-from nds.samples import Samples
-from nds.settings import LSLOutputModel
+from neural_data_simulator.samples import Samples
+from neural_data_simulator.settings import LSLOutputModel
 
 
 class Output(abc.ABC):
@@ -102,7 +102,8 @@ class ConsoleOutput(Output):
         """Send data to a file without index or header.
 
         Args:
-            samples: :class:`nds.samples.Samples` dataclass with timestamps and data.
+            samples: :class:`neural_data_simulator.samples.Samples` dataclass with
+              timestamps and data.
         """
         timestamps_and_data = np.column_stack((samples.timestamps, samples.data))
         print(np.array2string(timestamps_and_data))
@@ -144,7 +145,7 @@ class FileOutput(Output):
         """Write the samples into the file.
 
         Args:
-            samples: :class:`nds.samples.Samples` dataclass.
+            samples: :class:`neural_data_simulator.samples.Samples` dataclass.
         """
         if self.file is not None:
             timestamps_and_data = np.column_stack((samples.timestamps, samples.data))
@@ -194,10 +195,11 @@ class StreamConfig:
         sampling_rate: Union[float, Callable],
         n_channels: int,
     ):
-        """Create a StreamConfig from an :class:`nds.settings.LSLOutputModel`.
+        """Create a StreamConfig from an :class:`neural_data_simulator.settings.LSLOutputModel`.
 
         Args:
-            lsl_settings: :class:`nds.settings.LSLOutputModel` instance.
+            lsl_settings: :class:`neural_data_simulator.settings.LSLOutputModel`
+              instance.
             sampling_rate: Sampling rate in Hz.
             n_channels: Number of channels.
         """
@@ -222,10 +224,10 @@ class LSLOutputDevice(Output):
     """An output device that can be used to stream data via LSL."""
 
     def __init__(self, stream_config: StreamConfig):
-        """Initialize the LSL Output Device from a :class:`nds.outputs.StreamConfig`.
+        """Initialize the LSL Output Device from a StreamConfig.
 
         Args:
-            stream_config: :class:`nds.outputs.StreamConfig` instance.
+            stream_config: :class:`neural_data_simulator.outputs.StreamConfig` instance.
         """
         self.logger = logging.getLogger(__name__)
         self._stream_config = stream_config
@@ -289,7 +291,8 @@ class LSLOutputDevice(Output):
         """Push the data to the LSL outlet.
 
         Args:
-            samples: :class:`nds.samples.Samples` dataclass with timestamps and data.
+            samples: :class:`neural_data_simulator.samples.Samples` dataclass with
+              timestamps and data.
 
         Raises:
             ValueError: LSL StreamOutlet is not connected. `connect` should be called

@@ -6,8 +6,8 @@ from pathlib import Path
 
 import pytest
 
-from nds.scripts import post_install_config
-from nds.util import runtime
+from neural_data_simulator.scripts import post_install_config
+from neural_data_simulator.util import runtime
 
 
 @pytest.fixture(autouse=True)
@@ -43,7 +43,9 @@ def fake_pooch_retrieve(monkeypatch: pytest.MonkeyPatch, tmp_path) -> None:
         Path(file_path).touch()
         return file_path
 
-    monkeypatch.setattr("nds.scripts.post_install_config.pooch.retrieve", retrieve)
+    monkeypatch.setattr(
+        "neural_data_simulator.scripts.post_install_config.pooch.retrieve", retrieve
+    )
 
 
 @pytest.fixture()

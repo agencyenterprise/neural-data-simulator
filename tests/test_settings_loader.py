@@ -8,8 +8,8 @@ from unittest.mock import patch
 from pydantic_yaml import VersionedYamlModel
 import pytest
 
-from nds.util import settings_loader
-from nds.util.runtime import NDS_HOME
+from neural_data_simulator.util import settings_loader
+from neural_data_simulator.util.runtime import NDS_HOME
 
 
 class _SettingsModel(VersionedYamlModel):

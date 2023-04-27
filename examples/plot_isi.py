@@ -4,7 +4,7 @@
 Visualize inter-spike interval (ISI)
 =========================================
 
-.. currentmodule:: nds
+.. currentmodule:: neural_data_simulator
 
 The goal of this example is to calculate and plot the inter-spike interval (ISI) for a given channel
 of the raw data.

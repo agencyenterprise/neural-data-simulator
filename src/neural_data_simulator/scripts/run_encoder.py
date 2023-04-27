@@ -1,8 +1,8 @@
 r"""Script that starts the encoder.
 
 The encoder default configuration is located in `NDS_HOME/settings.yaml`
-(see :mod:`nds.scripts.post_install_config`). The script can use different
-config file specified via the `\--settings-path` argument.
+(see :mod:`neural_data_simulator.scripts.post_install_config`). The script can use
+different config file specified via the `\--settings-path` argument.
 
 The config file has an `encoder` section where the settings for the model,
 input and output can be adjusted. By default, the encoder expects to read
@@ -20,24 +20,24 @@ from typing import Callable, cast, Optional, Union
 
 import numpy as np
 
-from nds import encoder
-from nds import inputs
-from nds import models
-from nds import outputs
-from nds import runner
-from nds import timing
-from nds.outputs import LSLOutputDevice
-from nds.outputs import StreamConfig
-from nds.samples import Samples
-from nds.scripts.errors import InvalidPluginError
-from nds.settings import EncoderEndpointType
-from nds.settings import EncoderSettings
-from nds.settings import LSLOutputModel
-from nds.settings import Settings
-from nds.util.runtime import configure_logger
-from nds.util.runtime import get_abs_path
-from nds.util.runtime import unwrap
-from nds.util.settings_loader import get_script_settings
+from neural_data_simulator import encoder
+from neural_data_simulator import inputs
+from neural_data_simulator import models
+from neural_data_simulator import outputs
+from neural_data_simulator import runner
+from neural_data_simulator import timing
+from neural_data_simulator.outputs import LSLOutputDevice
+from neural_data_simulator.outputs import StreamConfig
+from neural_data_simulator.samples import Samples
+from neural_data_simulator.scripts.errors import InvalidPluginError
+from neural_data_simulator.settings import EncoderEndpointType
+from neural_data_simulator.settings import EncoderSettings
+from neural_data_simulator.settings import LSLOutputModel
+from neural_data_simulator.settings import Settings
+from neural_data_simulator.util.runtime import configure_logger
+from neural_data_simulator.util.runtime import get_abs_path
+from neural_data_simulator.util.runtime import unwrap
+from neural_data_simulator.util.settings_loader import get_script_settings
 
 logger = logging.getLogger(__name__)
 
@@ -167,7 +167,7 @@ def _setup_model(encoder_settings: EncoderSettings) -> models.EncoderModel:
         encoder_settings: The encoder settings with the model path.
 
     Returns:
-        An instance of an :class:`nds.models.EncoderModel`.
+        An instance of an :class:`neural_data_simulator.models.EncoderModel`.
     """
     return _load_plugin_model(encoder_settings.model)
 

@@ -5,9 +5,9 @@ import os
 from pathlib import Path
 from typing import Any, Optional, Union
 
-from nds.inputs import Input
-from nds.outputs import Output
-from nds.settings import LogLevel
+from neural_data_simulator.inputs import Input
+from neural_data_simulator.outputs import Output
+from neural_data_simulator.settings import LogLevel
 
 logger = logging.getLogger(__name__)
 
