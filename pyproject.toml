@@ -20,7 +20,7 @@ classifiers = [
     "Operating System :: POSIX :: Linux",
 ]
 
-[project.urls]
+[tool.poetry.urls]
 "Homepage" = "https://github.com/agencyenterprise/neural-data-simulator"
 "Documentation" = "https://agencyenterprise.github.io/neural-data-simulator/"
 "Bug Tracker" = "https://github.com/agencyenterprise/neural-data-simulator/issues"
