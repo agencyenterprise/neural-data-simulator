@@ -78,7 +78,7 @@ For visualizing the data streams in real-time we recommend installing the open-e
 
 ## Troubleshooting
 
-If you have any issues running or installing NDS, please submit them via [NDS GitHub Issues](https://github.com/agencyenterprise/neural-data-simulator/issues) and we will endeavour to solve them together. 
+If you have any issues running or installing NDS, please submit them via [NDS GitHub Issues](https://github.com/agencyenterprise/neural-data-simulator/issues) and we will endeavor to solve them together. 
 Below are some common troubleshooting issues and solutions.
 
 ### Windows
