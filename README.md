@@ -9,6 +9,8 @@ The Neural Data Simulator is a real-time system for generating electrophysiology
 
 See the [documentation](https://agencyenterprise.github.io/neural-data-simulator/) for a complete system overview, installation instructions, and API details.
 
+<img width="1546" alt="Architecture" src="https://user-images.githubusercontent.com/748691/235443635-a41fcc3e-b156-4be3-9820-3bcb21329556.png">
+
 ## Installation
 
 Ensure that Python `>=3.9` and `<3.12` is installed. Then, proceed to install LSL:
