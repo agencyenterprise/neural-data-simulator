@@ -83,4 +83,4 @@ Below are some common troubleshooting issues and solutions.
 
 ### Windows
 
-- If you receive an error that pygame cannot load directx, try running `set SDL_VIDEODRIVER=windows` before executing `run_closed_loop`.
+- If you receive a `pygame.error: directx not available`, try running `set SDL_VIDEODRIVER=windows` before executing `run_closed_loop`.
