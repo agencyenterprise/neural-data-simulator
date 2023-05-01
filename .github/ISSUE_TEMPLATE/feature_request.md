@@ -6,17 +6,11 @@ labels: feature
 assignees: ""
 ---
 
-<!--
-    Thank you for submitting a feature request!
--->
-
-<!-- All the below steps should be completed before submitting your issue. Checked checkbox should look like this: [x] -->
-
-- [ ] I have searched the [issues](https://github.com/agencyenterprise/neural-data-simulator/issues) of this repo and believe that this is not a duplicate.
-
 ## Describe the new feature or enhancement
 
 _Please provide a clear and concise description of what you want to add or change._
+
+_Please describe how you would use this new feature._
 
 ## Describe your proposed implementation
 
