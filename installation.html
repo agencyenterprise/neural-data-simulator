@@ -50,6 +50,10 @@
 <li class="toctree-l2"><a class="reference internal" href="#matplotlib">Matplotlib</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#post-installation-script">Post-installation script</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#visualization-tools">Visualization tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#windows">Windows</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="running_bci.html">Quick Start</a></li>
@@ -177,6 +181,17 @@
 <section id="visualization-tools">
 <h2>Visualization tools<a class="headerlink" href="#visualization-tools" title="Permalink to this heading"></a></h2>
 <p>For visualizing the data streams in real-time we recommend installing the open-ephys package with the LSL plugin and configuring it as described in <a class="reference internal" href="visualization.html"><span class="std std-doc">Visualizing Data</span></a>.</p>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this heading"></a></h2>
+<p>If you have any issues running or installing NDS, please submit them via <a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/issues">NDS GitHub Issues</a> and we will endeavor to solve them together.
+Below are some common troubleshooting issues and solutions.</p>
+<section id="windows">
+<h3>Windows<a class="headerlink" href="#windows" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>If you receive a <code class="docutils literal notranslate"><span class="pre">pygame.error:</span> <span class="pre">directx</span> <span class="pre">not</span> <span class="pre">available</span></code>, try running <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">SDL_VIDEODRIVER=windows</span></code> before executing <code class="docutils literal notranslate"><span class="pre">run_closed_loop</span></code>.</p></li>
+</ul>
+</section>
 </section>
 </section>
 

@@ -74,3 +74,13 @@ An internet connection is required to download the sample data. If you are worki
 ## Visualization tools
 
 For visualizing the data streams in real-time we recommend installing the open-ephys package with the LSL plugin and configuring it as described in [Visualizing Data](visualization.md).
+
+
+## Troubleshooting
+
+If you have any issues running or installing NDS, please submit them via [NDS GitHub Issues](https://github.com/agencyenterprise/neural-data-simulator/issues) and we will endeavor to solve them together. 
+Below are some common troubleshooting issues and solutions.
+
+### Windows
+
+- If you receive a `pygame.error: directx not available`, try running `set SDL_VIDEODRIVER=windows` before executing `run_closed_loop`.
