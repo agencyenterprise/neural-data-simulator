@@ -14,6 +14,32 @@ jobs:
           command: |
             curl -sSL https://install.python-poetry.org | python3 -
 
+      - run:
+          name: Install dependencies
+          command: |
+            poetry install --no-interaction --no-root
+
+      - run:
+          name: Install library
+          command: |
+            poetry install --no-interaction
+
+      - run:
+          name: Install liblsl
+          command: |
+            curl -OL https://github.com/sccn/liblsl/releases/download/v1.16.1/liblsl-1.16.1-focal_amd64.deb
+            sudo apt install -y ./liblsl-1.16.1-focal_amd64.deb
+
+      - run:
+          name: Post install config
+          command: |
+            poetry run nds_post_install_config
+      
+      - run:
+          name: Build HTML
+          command: |
+            make htmldoc
+
 workflows:
   version: 2
 
