@@ -23,6 +23,8 @@ jobs:
           name: Install liblsl
           command: |
             curl -OL https://github.com/sccn/liblsl/releases/download/v1.16.1/liblsl-1.16.1-focal_amd64.deb
+            sudo apt-get update
+            sudo apt-get install -y libpugixml1v5
             sudo apt install -y ./liblsl-1.16.1-focal_amd64.deb
 
       - run:
