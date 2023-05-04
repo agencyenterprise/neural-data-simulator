@@ -26,6 +26,11 @@ class InputHandler:
         self.event_handlers = dict()
         self.joystick_input = JoystickInput()
 
+    @property
+    def input_device_name(self):
+        """Get the name of the input device."""
+        return "joystick" if self.joystick_input.joystick else "mouse"
+
     def set_handler_for_event(self, event: InputEvent, handler: Callable):
         """Set a function as a handler for a specific input event."""
         self.event_handlers[event] = handler
