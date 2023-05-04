@@ -18,7 +18,7 @@ jobs:
           name: Install dependencies
           command: |
             poetry config virtualenvs.in-project true
-            poetry install --no-interaction --no-root
+            poetry install --no-interaction --no-root -v
 
       - run:
           name: Install library
@@ -35,7 +35,7 @@ jobs:
           name: Post install config
           command: |
             poetry run nds_post_install_config
-      
+
       - run:
           name: Build HTML
           command: |
