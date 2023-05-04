@@ -42,6 +42,10 @@ jobs:
           command: |
             make htmldoc
 
+      - store_artifacts:
+          path: docs/html/
+          destination: html
+
 workflows:
   version: 2
 
