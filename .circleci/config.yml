@@ -1,0 +1,54 @@
+# Tagging a commit with [circle front] will build the front page and perform tests-doc.
+# Tagging a commit with [circle full] will build everything.
+version: 2.1
+
+jobs:
+  build_docs:
+    docker:
+      - image: cimg/base:current-22.04
+    steps:
+      - checkout
+
+      - run:
+          name: Install the latest version of Poetry
+          command: |
+            curl -sSL https://install.python-poetry.org | python3 -
+
+      - run:
+          name: Install dependencies
+          command: |
+            poetry install --no-ansi
+
+      - run:
+          name: Install liblsl
+          command: |
+            curl -OL https://github.com/sccn/liblsl/releases/download/v1.16.1/liblsl-1.16.1-focal_amd64.deb
+            sudo apt-get update
+            sudo apt-get install -y libpugixml1v5
+            sudo apt install -y ./liblsl-1.16.1-focal_amd64.deb
+
+      - run:
+          name: Post install config
+          command: |
+            poetry run nds_post_install_config
+
+      - run:
+          name: Install libenchant
+          command: |
+            sudo apt-get install -y libenchant-2-2
+
+      - run:
+          name: Build HTML
+          command: |
+            make htmldoc
+
+      - store_artifacts:
+          path: docs/html/
+          destination: html
+
+workflows:
+  version: 2
+
+  default:
+    jobs:
+      - build_docs
