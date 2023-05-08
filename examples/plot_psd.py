@@ -65,12 +65,25 @@ CHANNEL = 20
 SAMPLING_RATE = 30000
 
 # %%
-# Plot data
-# ----------
+# Estimate PSD using scipy
+# -------------------------
 import matplotlib.pyplot as plt
 from scipy import signal
 
 (f, S) = signal.welch(raw_data[:, CHANNEL], SAMPLING_RATE, nperseg=2**18)
+
+plt.semilogy(f, S)
+plt.xlim([0, 1000])
+plt.xlabel("frequency [Hz]")
+plt.ylabel("PSD [V**2/Hz]")
+plt.show()
+
+# %%
+# Estimate PSD using NDS
+# -----------------------
+from neural_data_simulator.noise import calc_psd
+
+(f, S) = calc_psd(raw_data[:, CHANNEL], SAMPLING_RATE)
 
 plt.semilogy(f, S)
 plt.xlim([0, 1000])

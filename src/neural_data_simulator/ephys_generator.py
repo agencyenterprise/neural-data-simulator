@@ -2,7 +2,6 @@
 from dataclasses import dataclass
 from typing import Dict, List, NamedTuple, Optional, Protocol, Tuple
 
-import colorednoise
 from numpy import ndarray
 import numpy as np
 import pylsl
@@ -10,6 +9,7 @@ import pylsl
 from neural_data_simulator.filters import LowpassFilter
 from neural_data_simulator.health_checker import HealthChecker
 from neural_data_simulator.inputs import LSLInput
+from neural_data_simulator.noise import NoiseGenerator
 from neural_data_simulator.outputs import LSLOutputDevice
 from neural_data_simulator.timing import Timer
 from neural_data_simulator.util.buffer import RingBuffer
@@ -199,42 +199,28 @@ class SpikeEvents:
 
 
 class NoiseData:
-    """Multi-channel colored noise generator."""
+    """Multi-channel noise generator."""
 
     def __init__(
         self,
         n_channels: int,
-        beta: float,
-        standard_deviation: float,
-        fmin: float,
         samples: int,
-        random_seed: Optional[int],
+        generator: NoiseGenerator,
     ) -> None:
         """Initialize the noise generator.
 
-        Gaussian distributed noise will be pre-generated on all channels.
+        A given number of noise samples will be pre-generated on all channels.
 
         Args:
             n_channels: The number of channels.
-            beta: The power-spectrum of the generated noise is proportional to
-                (1 / f)**beta.
-            standard_deviation: The desired standard deviation of the noise.
-            fmin: Low-frequency cutoff. `fmin` is normalized frequency and the range is
-                between `1/samples` and `0.5`, which corresponds to the Nyquist
-                frequency.
             samples: The number of samples to generate per channel.
-            random_seed: The random seed to use. Use a fixed seed
-                for reproducible results.
+            generator: The noise generator to use.
         """
         noise_data = []
         for _ in range(n_channels):
-            noise_data.append(
-                colorednoise.powerlaw_psd_gaussian(
-                    beta, samples, fmin=fmin, random_state=random_seed
-                )
-            )
+            noise_data.append(generator.generate(samples))
         self._n_channels = n_channels
-        self._noise_data = np.array(noise_data).T * standard_deviation
+        self._noise_data = np.array(noise_data).T
         self._current_index = 0
         self._total_samples = samples
 
@@ -356,8 +342,7 @@ class ContinuousData:
             self.lfp_current_index = (
                 downsample_indexes[-1] + self._params.lfp_downsample_rate - n_samples
             )
-        d = data_filtered[downsample_indexes, :]
-        return d
+        return data_filtered[downsample_indexes, :]
 
     def _combine_same_channel_units(self, spikes: ndarray):
         return np.add.reduceat(spikes, self.spike_to_channel_idxs, axis=1)

@@ -143,3 +143,5 @@ th
 Nyquist
 pyright
 directx
+PSD
+FFT

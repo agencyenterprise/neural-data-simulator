@@ -1,4 +1,4 @@
-version: 1.0.0
+version: 1.0.1
 
 # possible values are CRITICAL, ERROR, WARNING, INFO, DEBUG
 log_level: "INFO"
@@ -110,14 +110,25 @@ ephys_generator:
           model: "Simulated"
           id: 0
 
-  # Gaussian (1/f)**beta noise settings
   noise:
-    # exponent
-    beta: 1.5
-    # noise standard deviation
+    # possible values can be "none", "gaussian" or "file"
+    type: "gaussian"
+
+    file:
+      path: "psd.npz"
+      psd_array_name: "PSD"
+
+    # Gaussian (1/f)**beta noise settings
+    gaussian:
+      # exponent
+      beta: 1.5
+      # low-frequency cutoff. The power-spectrum below fmin is flat.
+      # The range of fmin is between `1/samples` and `0.5`
+      fmin: 0.0001
+
+    # noise standard deviation in uV
     standard_deviation: 40.0
-    # low-frequency cutoff. The power-spectrum below fmin is flat.
-    fmin: 0.0001
+
     # unique noise samples to generate per channel
     samples: 262144
 

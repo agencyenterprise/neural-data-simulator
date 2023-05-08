@@ -7,6 +7,8 @@ from pydantic import validator
 from pydantic_yaml import VersionedYamlModel
 from pydantic_yaml import YamlStrEnum
 
+from neural_data_simulator.errors import UnexpectedSettingsVersion
+
 
 class LogLevel(YamlStrEnum):
     """Possible log levels."""
@@ -48,6 +50,14 @@ class LSLChannelFormatType(YamlStrEnum):
     _INT16 = "int16"
     _INT32 = "int32"
     _INT64 = "int64"
+
+
+class NoiseType(YamlStrEnum):
+    """Possible types for noise generation."""
+
+    NONE = "none"
+    GAUSSIAN = "gaussian"
+    FILE = "file"
 
 
 class TimerModel(BaseModel):
@@ -209,9 +219,22 @@ class EphysGeneratorSettings(BaseModel):
     class Noise(BaseModel):
         """Settings for the ephys generator noise."""
 
-        beta: float
+        class File(BaseModel):
+            """Settings for loading a noise file."""
+
+            path: str
+            psd_array_name: str
+
+        class Gaussian(BaseModel):
+            """Settings for Gaussian 1/f noise."""
+
+            beta: float
+            fmin: float
+
+        type: NoiseType
+        gaussian: Optional[Gaussian]
+        file: Optional[File]
         standard_deviation: float
-        fmin: float
         samples: int
 
     waveforms: Waveforms
@@ -244,6 +267,13 @@ class EphysGeneratorSettings(BaseModel):
 
 class Settings(VersionedYamlModel):
     """All settings for the NDS main package."""
+
+    @validator("version")
+    def _expected_settings_version(cls, v):
+        expected_version = "1.0.1"
+        if v != expected_version:
+            raise UnexpectedSettingsVersion(v, expected_version)
+        return v
 
     log_level: LogLevel
     timer: TimerModel

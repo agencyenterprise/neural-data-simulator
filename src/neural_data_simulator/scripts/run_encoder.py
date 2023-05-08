@@ -26,10 +26,10 @@ from neural_data_simulator import models
 from neural_data_simulator import outputs
 from neural_data_simulator import runner
 from neural_data_simulator import timing
+from neural_data_simulator.errors import InvalidPluginError
 from neural_data_simulator.outputs import LSLOutputDevice
 from neural_data_simulator.outputs import StreamConfig
 from neural_data_simulator.samples import Samples
-from neural_data_simulator.scripts.errors import InvalidPluginError
 from neural_data_simulator.settings import EncoderEndpointType
 from neural_data_simulator.settings import EncoderSettings
 from neural_data_simulator.settings import LSLOutputModel
