@@ -319,7 +319,7 @@ ephys_generator:
 ### Noise
 
 `Ephys generator` can simulate either `1/f gaussian noise` or random noise based on a customizable Power Spectral Density (PSD).
-In addition to specifying the type of noise, you can also adjust the noise standard deviation and the number of unique noise samples to pregenerate per channel.
+In addition to specifying the type of noise, you can also adjust the noise's standard deviation and the number of unique noise samples to pregenerate per channel.
 
 ```
 ephys_generator:
