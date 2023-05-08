@@ -9,6 +9,7 @@ import numpy as np
 from pydantic import BaseModel
 from pydantic import validator
 from pydantic_yaml import VersionedYamlModel
+from tasks.center_out_reach.input_events import InputHandler
 from tasks.center_out_reach.metrics import MetricsCollector
 from tasks.center_out_reach.scalers import PixelsToMetersConverter
 from tasks.center_out_reach.scalers import StandardVelocityScaler
@@ -200,13 +201,17 @@ def _parse_rich_text(text: str, default_text_color: str):
 
 
 def _get_menu_text(
-    default_text_color, actual_cursor_color, decoded_cursor_color, target_color
+    default_text_color,
+    actual_cursor_color,
+    decoded_cursor_color,
+    target_color,
+    input_device,
 ):
     text = (
         f"\nWelcome to the Center Out Reaching Task!\n\n"
         f"Press the <Start> button to begin.\n\n"
         f"Two cursors will be presented: the [input cursor]({actual_cursor_color})"
-        f" that\n directly follows your mouse movements (and can be toggled\n"
+        f" that\n directly follows your {input_device} movements (and can be toggled\n"
         f" on and off by pressing `c` on the keyboard), and the\n"
         f" [decoded cursor]({decoded_cursor_color}) that is the decoded from the"
         f" simulated\n spikes from the [input cursor]({actual_cursor_color})"
@@ -220,12 +225,12 @@ def _get_menu_text(
     return _parse_rich_text(text, default_text_color)
 
 
-def _get_training_text(default_text_color, target_color):
+def _get_training_text(default_text_color, target_color, input_device):
     text = (
         f"\nWelcome to the Center Out Reaching Task!\n\n"
         f"Press the <Start> button to begin.\n\n"
         f"In open loop mode, the cursor follows your\n"
-        f"mouse movements.\n\nYour goal is to reach and stay within the"
+        f"{input_device} movements.\n\nYour goal is to reach and stay within the"
         f" [target]({target_color}) using the\n"
         f" cursor"
         f" until the next [target]({target_color}) is presented.\n\n"
@@ -313,17 +318,19 @@ def run():
         metrics_collector = None
 
     with_decoded_cursor = settings.center_out_reach.input.enabled
+
+    user_input = InputHandler()
     if with_decoded_cursor:
         menu_text = _get_menu_text(
             "black",
             actual_cursor_color,
             decoded_cursor_color,
             window_settings.colors.target,
+            user_input.input_device_name,
         )
     else:
         menu_text = _get_training_text(
-            "black",
-            window_settings.colors.target,
+            "black", window_settings.colors.target, user_input.input_device_name
         )
 
     with open_connection(data_output), open_connection(data_input):
@@ -337,7 +344,7 @@ def run():
             with_decoded_cursor,
             metrics_collector,
         )
-        task_runner.run(task_state)
+        task_runner.run(task_state, user_input)
 
         if not task_window.show_menu_screen and _metrics_enabled(settings):
             unwrap(metrics_collector).plot_metrics(task_window.target_positions)

@@ -109,13 +109,13 @@ class TaskRunner:
         """Signal the loop that it should stop."""
         self.should_stop_loop = True
 
-    def run(self, task_state: TaskState):
+    def run(self, task_state: TaskState, user_input: InputHandler):
         """Start the loop.
 
         Args:
             task_state: The state machine that should be updated by the loop.
+            user_input: The user input controller for actual cursor.
         """
-        user_input = InputHandler()
         task_window = task_state.task_window
 
         user_input.set_handler_for_event(InputEvent.EXIT, self.stop)
