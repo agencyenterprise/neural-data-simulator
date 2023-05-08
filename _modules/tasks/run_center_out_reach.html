@@ -113,6 +113,7 @@
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">validator</span>
 <span class="kn">from</span> <span class="nn">pydantic_yaml</span> <span class="kn">import</span> <span class="n">VersionedYamlModel</span>
+<span class="kn">from</span> <span class="nn">tasks.center_out_reach.input_events</span> <span class="kn">import</span> <span class="n">InputHandler</span>
 <span class="kn">from</span> <span class="nn">tasks.center_out_reach.metrics</span> <span class="kn">import</span> <span class="n">MetricsCollector</span>
 <span class="kn">from</span> <span class="nn">tasks.center_out_reach.scalers</span> <span class="kn">import</span> <span class="n">PixelsToMetersConverter</span>
 <span class="kn">from</span> <span class="nn">tasks.center_out_reach.scalers</span> <span class="kn">import</span> <span class="n">StandardVelocityScaler</span>
@@ -304,13 +305,17 @@
 
 
 <span class="k">def</span> <span class="nf">_get_menu_text</span><span class="p">(</span>
-    <span class="n">default_text_color</span><span class="p">,</span> <span class="n">actual_cursor_color</span><span class="p">,</span> <span class="n">decoded_cursor_color</span><span class="p">,</span> <span class="n">target_color</span>
+    <span class="n">default_text_color</span><span class="p">,</span>
+    <span class="n">actual_cursor_color</span><span class="p">,</span>
+    <span class="n">decoded_cursor_color</span><span class="p">,</span>
+    <span class="n">target_color</span><span class="p">,</span>
+    <span class="n">input_device</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="n">text</span> <span class="o">=</span> <span class="p">(</span>
         <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Welcome to the Center Out Reaching Task!</span><span class="se">\n\n</span><span class="s2">&quot;</span>
         <span class="sa">f</span><span class="s2">&quot;Press the &lt;Start&gt; button to begin.</span><span class="se">\n\n</span><span class="s2">&quot;</span>
         <span class="sa">f</span><span class="s2">&quot;Two cursors will be presented: the [input cursor](</span><span class="si">{</span><span class="n">actual_cursor_color</span><span class="si">}</span><span class="s2">)&quot;</span>
-        <span class="sa">f</span><span class="s2">&quot; that</span><span class="se">\n</span><span class="s2"> directly follows your mouse movements (and can be toggled</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot; that</span><span class="se">\n</span><span class="s2"> directly follows your </span><span class="si">{</span><span class="n">input_device</span><span class="si">}</span><span class="s2"> movements (and can be toggled</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="sa">f</span><span class="s2">&quot; on and off by pressing `c` on the keyboard), and the</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="sa">f</span><span class="s2">&quot; [decoded cursor](</span><span class="si">{</span><span class="n">decoded_cursor_color</span><span class="si">}</span><span class="s2">) that is the decoded from the&quot;</span>
         <span class="sa">f</span><span class="s2">&quot; simulated</span><span class="se">\n</span><span class="s2"> spikes from the [input cursor](</span><span class="si">{</span><span class="n">actual_cursor_color</span><span class="si">}</span><span class="s2">)&quot;</span>
@@ -324,12 +329,12 @@
     <span class="k">return</span> <span class="n">_parse_rich_text</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">default_text_color</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_get_training_text</span><span class="p">(</span><span class="n">default_text_color</span><span class="p">,</span> <span class="n">target_color</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_get_training_text</span><span class="p">(</span><span class="n">default_text_color</span><span class="p">,</span> <span class="n">target_color</span><span class="p">,</span> <span class="n">input_device</span><span class="p">):</span>
     <span class="n">text</span> <span class="o">=</span> <span class="p">(</span>
         <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Welcome to the Center Out Reaching Task!</span><span class="se">\n\n</span><span class="s2">&quot;</span>
         <span class="sa">f</span><span class="s2">&quot;Press the &lt;Start&gt; button to begin.</span><span class="se">\n\n</span><span class="s2">&quot;</span>
         <span class="sa">f</span><span class="s2">&quot;In open loop mode, the cursor follows your</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="sa">f</span><span class="s2">&quot;mouse movements.</span><span class="se">\n\n</span><span class="s2">Your goal is to reach and stay within the&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">input_device</span><span class="si">}</span><span class="s2"> movements.</span><span class="se">\n\n</span><span class="s2">Your goal is to reach and stay within the&quot;</span>
         <span class="sa">f</span><span class="s2">&quot; [target](</span><span class="si">{</span><span class="n">target_color</span><span class="si">}</span><span class="s2">) using the</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="sa">f</span><span class="s2">&quot; cursor&quot;</span>
         <span class="sa">f</span><span class="s2">&quot; until the next [target](</span><span class="si">{</span><span class="n">target_color</span><span class="si">}</span><span class="s2">) is presented.</span><span class="se">\n\n</span><span class="s2">&quot;</span>
@@ -417,17 +422,19 @@
         <span class="n">metrics_collector</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="n">with_decoded_cursor</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">center_out_reach</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">enabled</span>
+
+    <span class="n">user_input</span> <span class="o">=</span> <span class="n">InputHandler</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">with_decoded_cursor</span><span class="p">:</span>
         <span class="n">menu_text</span> <span class="o">=</span> <span class="n">_get_menu_text</span><span class="p">(</span>
             <span class="s2">&quot;black&quot;</span><span class="p">,</span>
             <span class="n">actual_cursor_color</span><span class="p">,</span>
             <span class="n">decoded_cursor_color</span><span class="p">,</span>
             <span class="n">window_settings</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">target</span><span class="p">,</span>
+            <span class="n">user_input</span><span class="o">.</span><span class="n">input_device_name</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">menu_text</span> <span class="o">=</span> <span class="n">_get_training_text</span><span class="p">(</span>
-            <span class="s2">&quot;black&quot;</span><span class="p">,</span>
-            <span class="n">window_settings</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">target</span><span class="p">,</span>
+            <span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">window_settings</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">user_input</span><span class="o">.</span><span class="n">input_device_name</span>
         <span class="p">)</span>
 
     <span class="k">with</span> <span class="n">open_connection</span><span class="p">(</span><span class="n">data_output</span><span class="p">),</span> <span class="n">open_connection</span><span class="p">(</span><span class="n">data_input</span><span class="p">):</span>
@@ -441,7 +448,7 @@
             <span class="n">with_decoded_cursor</span><span class="p">,</span>
             <span class="n">metrics_collector</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">task_runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task_state</span><span class="p">)</span>
+        <span class="n">task_runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task_state</span><span class="p">,</span> <span class="n">user_input</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">task_window</span><span class="o">.</span><span class="n">show_menu_screen</span> <span class="ow">and</span> <span class="n">_metrics_enabled</span><span class="p">(</span><span class="n">settings</span><span class="p">):</span>
             <span class="n">unwrap</span><span class="p">(</span><span class="n">metrics_collector</span><span class="p">)</span><span class="o">.</span><span class="n">plot_metrics</span><span class="p">(</span><span class="n">task_window</span><span class="o">.</span><span class="n">target_positions</span><span class="p">)</span>

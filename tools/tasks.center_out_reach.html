@@ -245,6 +245,12 @@ the ‘c’ key. The task can be stopped by pressing the ‘ESC’ key.</p>
 <dd><p>Create a new instance.</p>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="tasks.center_out_reach.input_events.InputHandler.input_device_name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">input_device_name</span></span><a class="headerlink" href="#tasks.center_out_reach.input_events.InputHandler.input_device_name" title="Permalink to this definition"></a></dt>
+<dd><p>Get the name of the input device.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="tasks.center_out_reach.input_events.InputHandler.set_handler_for_event">
 <span class="sig-name descname"><span class="pre">set_handler_for_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tasks.center_out_reach.input_events.InputEvent" title="tasks.center_out_reach.input_events.InputEvent"><span class="pre">InputEvent</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">handler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tasks/center_out_reach/input_events.html#InputHandler.set_handler_for_event"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tasks.center_out_reach.input_events.InputHandler.set_handler_for_event" title="Permalink to this definition"></a></dt>
@@ -687,11 +693,14 @@ may be defined in a concrete implementation of this protocol if needed.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="tasks.center_out_reach.task_runner.TaskRunner.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tasks.center_out_reach.task_state.TaskState" title="tasks.center_out_reach.task_state.TaskState"><span class="pre">TaskState</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tasks/center_out_reach/task_runner.html#TaskRunner.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tasks.center_out_reach.task_runner.TaskRunner.run" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tasks.center_out_reach.task_state.TaskState" title="tasks.center_out_reach.task_state.TaskState"><span class="pre">TaskState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tasks.center_out_reach.input_events.InputHandler" title="tasks.center_out_reach.input_events.InputHandler"><span class="pre">InputHandler</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tasks/center_out_reach/task_runner.html#TaskRunner.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tasks.center_out_reach.task_runner.TaskRunner.run" title="Permalink to this definition"></a></dt>
 <dd><p>Start the loop.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>task_state</strong> – The state machine that should be updated by the loop.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>task_state</strong> – The state machine that should be updated by the loop.</p></li>
+<li><p><strong>user_input</strong> – The user input controller for actual cursor.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>

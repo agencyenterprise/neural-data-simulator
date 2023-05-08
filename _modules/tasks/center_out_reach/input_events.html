@@ -130,6 +130,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">event_handlers</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">joystick_input</span> <span class="o">=</span> <span class="n">JoystickInput</span><span class="p">()</span></div>
 
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">input_device_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the name of the input device.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;joystick&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">joystick_input</span><span class="o">.</span><span class="n">joystick</span> <span class="k">else</span> <span class="s2">&quot;mouse&quot;</span>
+
 <div class="viewcode-block" id="InputHandler.set_handler_for_event"><a class="viewcode-back" href="../../../tools/tasks.center_out_reach.html#tasks.center_out_reach.input_events.InputHandler.set_handler_for_event">[docs]</a>    <span class="k">def</span> <span class="nf">set_handler_for_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">InputEvent</span><span class="p">,</span> <span class="n">handler</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set a function as a handler for a specific input event.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">event_handlers</span><span class="p">[</span><span class="n">event</span><span class="p">]</span> <span class="o">=</span> <span class="n">handler</span></div>

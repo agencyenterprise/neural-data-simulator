@@ -213,13 +213,13 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Signal the loop that it should stop.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">should_stop_loop</span> <span class="o">=</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="TaskRunner.run"><a class="viewcode-back" href="../../../tools/tasks.center_out_reach.html#tasks.center_out_reach.task_runner.TaskRunner.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_state</span><span class="p">:</span> <span class="n">TaskState</span><span class="p">):</span>
+<div class="viewcode-block" id="TaskRunner.run"><a class="viewcode-back" href="../../../tools/tasks.center_out_reach.html#tasks.center_out_reach.task_runner.TaskRunner.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_state</span><span class="p">:</span> <span class="n">TaskState</span><span class="p">,</span> <span class="n">user_input</span><span class="p">:</span> <span class="n">InputHandler</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Start the loop.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            task_state: The state machine that should be updated by the loop.</span>
+<span class="sd">            user_input: The user input controller for actual cursor.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">user_input</span> <span class="o">=</span> <span class="n">InputHandler</span><span class="p">()</span>
         <span class="n">task_window</span> <span class="o">=</span> <span class="n">task_state</span><span class="o">.</span><span class="n">task_window</span>
 
         <span class="n">user_input</span><span class="o">.</span><span class="n">set_handler_for_event</span><span class="p">(</span><span class="n">InputEvent</span><span class="o">.</span><span class="n">EXIT</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">)</span>
