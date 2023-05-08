@@ -145,3 +145,4 @@ pyright
 directx
 PSD
 FFT
+pregenerate
