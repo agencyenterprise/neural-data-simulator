@@ -6,6 +6,7 @@ from pathlib import Path
 from unittest.mock import call
 from unittest.mock import Mock
 
+import numpy as np
 import pylsl
 import pytest
 
@@ -13,8 +14,22 @@ import neural_data_simulator
 from neural_data_simulator.ephys_generator import ContinuousData
 from neural_data_simulator.ephys_generator import Spikes
 from neural_data_simulator.scripts import run_ephys_generator
+from neural_data_simulator.settings import EphysGeneratorSettings
 from neural_data_simulator.settings import Settings
 from neural_data_simulator.util import settings_loader
+
+psd = {
+    "PSD": np.array([1, 0.5, 0]),
+}
+
+
+@pytest.fixture(autouse=True)
+def mock_numpy_load(monkeypatch: pytest.MonkeyPatch):
+    """Mock numpy load."""
+    numpy_load_mock = Mock()
+    monkeypatch.setattr("numpy.load", numpy_load_mock)
+    numpy_load_mock.side_effect = [psd]
+    return numpy_load_mock
 
 
 @pytest.fixture(autouse=True)
@@ -74,6 +89,11 @@ def fake_spike_rates_outlet():
 class TestRunEphysGenerator:
     """Test execution of the run_ephys_generator script."""
 
+    def _get_ephys_generator_settings(
+        self, mock_get_script_settings
+    ) -> EphysGeneratorSettings:
+        return mock_get_script_settings.return_value.ephys_generator
+
     def test_run_ephys_generator(self, mock_process_output):
         """Test run with default config."""
         run_ephys_generator.run()
@@ -104,3 +124,12 @@ class TestRunEphysGenerator:
         )
         assert po_start == call().start()
         assert po_stop == call().stop()
+
+    def test_run_ephys_generator_with_noise_from_psd(self, mock_get_script_settings):
+        """Test run with default config."""
+        ephys_generator_settings = self._get_ephys_generator_settings(
+            mock_get_script_settings
+        )
+        ephys_generator_settings.noise.type = "file"
+
+        run_ephys_generator.run()
