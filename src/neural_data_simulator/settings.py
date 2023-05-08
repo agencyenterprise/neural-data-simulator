@@ -264,6 +264,20 @@ class EphysGeneratorSettings(BaseModel):
             raise ValueError("Testing type must have a testing object")
         return input_value
 
+    @validator("noise")
+    def _noise_type_gaussian_must_have_a_gaussian_object(cls, noise_value):
+        if noise_value.type == NoiseType.GAUSSIAN and not noise_value.gaussian:
+            raise ValueError(
+                f"noise type `{NoiseType.GAUSSIAN}` must have a `gaussian` object"
+            )
+        return noise_value
+
+    @validator("noise")
+    def _noise_type_file_must_have_a_file_object(cls, noise_value):
+        if noise_value.type == NoiseType.FILE and not noise_value.file:
+            raise ValueError(f"noise type `{NoiseType.FILE}` must have a `file` object")
+        return noise_value
+
 
 class Settings(VersionedYamlModel):
     """All settings for the NDS main package."""
