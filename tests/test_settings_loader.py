@@ -8,6 +8,7 @@ from unittest.mock import patch
 from pydantic_yaml import VersionedYamlModel
 import pytest
 
+from neural_data_simulator.settings import Settings
 from neural_data_simulator.util import settings_loader
 from neural_data_simulator.util.runtime import NDS_HOME
 
@@ -58,4 +59,13 @@ class TestSettingsLoader:
         with pytest.raises(FileNotFoundError):
             settings_loader.get_script_settings(
                 settings_file, "test_settings.yaml", _SettingsModel
+            )
+
+    def test_settings_loader_raises_value_error_for_wrong_version(self, mock_open):
+        """Test calling the settings_loader with an unexpected settings version."""
+        settings_file = Path("some/path/on/disk")
+        with pytest.raises(ValueError):
+            # Settings model expects version 1.0.1 and we are passing 1.0.0
+            settings_loader.get_script_settings(
+                settings_file, "test_settings.yaml", Settings
             )

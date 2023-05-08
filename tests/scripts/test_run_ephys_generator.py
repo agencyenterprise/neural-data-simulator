@@ -126,7 +126,7 @@ class TestRunEphysGenerator:
         assert po_stop == call().stop()
 
     def test_run_ephys_generator_with_noise_from_psd(self, mock_get_script_settings):
-        """Test run with default config."""
+        """Test run with a config where the noise is generated from a PSD file."""
         ephys_generator_settings = self._get_ephys_generator_settings(
             mock_get_script_settings
         )
