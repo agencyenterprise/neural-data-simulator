@@ -318,26 +318,57 @@ ephys_generator:
 
 ### Noise
 
-Noise is being generated with the help of the [colorednoise](https://github.com/felixpatzelt/colorednoise) library. The following noise characteristics can be adjusted:
+`Ephys generator` can simulate either `1/f gaussian noise` or random noise based on a customizable Power Spectral Density (PSD).
+In addition to specifying the type of noise, you can also adjust the noise standard deviation and the number of unique noise samples to pregenerate per channel.
 
 ```
 ephys_generator:
-  # Gaussian (1/f)**beta noise settings
   noise:
-    # exponent
-    beta: 1.5
-    # noise standard deviation
+    # possible values can be "none", "gaussian" or "file"
+    type: "gaussian"
+
+    # noise standard deviation in uV
     standard_deviation: 40.0
-    # low-frequency cutoff. The power-spectrum below fmin is flat.
-    fmin: 0.0001
+
     # unique noise samples to generate per channel
-    # the noise is repeated if the samples are all used
     samples: 262144
+```
+
+#### 1/f gaussian noise
+
+1/f gaussian noise is being generated with the help of the [colorednoise](https://github.com/felixpatzelt/colorednoise) library. The following noise characteristics can be adjusted:
+
+```
+ephys_generator:
+  noise:
+    # Gaussian (1/f)**beta noise settings
+    gaussian:
+      # exponent
+      beta: 1.5
+      # low-frequency cutoff. The power-spectrum below fmin is flat.
+      # The range of fmin is between `1/samples` and `0.5`
+      fmin: 0.0001
 ```
 
 For example here's how changing the `beta` can impact the output raw data:
 
 ![diagram](images/Noise_beta.png)
+
+#### Noise based on a PSD input file
+
+For `ephys generator` to simulate noise based on your own PSD, apply the following configuration:
+
+```
+ephys_generator:
+  noise:
+    type: "file"
+    file:
+      path: "psd.npz"
+      psd_array_name: "PSD"
+```
+
+The `npz` file is expected to include an array with the one sided PSD values corresponding to the normalized frequencies in the [0, 0.5] interval, where 0.5 corresponds to the Nyquist frequency.
+For an example of how to extract the PSD and save it to a file in the correct format, see {ref}`Generate a noise file that can be loaded by NDS`.
 
 ### Loading custom spike waveforms
 

@@ -26,7 +26,7 @@ def synthesize_signal(psd_one_sided: ndarray, n_samples: int) -> ndarray:
     return _freq_to_time(freq_spectrum, n_samples_psd_one_sided)
 
 
-def calc_psd(y: ndarray, fs: int) -> Tuple[ndarray, ndarray]:
+def calc_psd(y: ndarray, fs: float) -> Tuple[ndarray, ndarray]:
     """Calculate the power spectral density of a signal.
 
     Args:

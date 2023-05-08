@@ -60,22 +60,25 @@ synth_noise = synth_noise - np.mean(synth_noise)
 
 _, PSD_synth = calc_psd(synth_noise, fs)
 
-# Plot input and resulted PSD
-plt.loglog(frequencies, PSD)
-plt.ylim(1e-8, 1e-1)
-plt.xlabel("frequency [Hz]")
-plt.legend(["PSD of recorded noise"])
-plt.show()
-
-plt.loglog(frequencies, PSD_synth)
-plt.ylim(1e-8, 1e-1)
-plt.xlabel("frequency [Hz]")
-plt.legend(["PSD of synthesized noise"])
-plt.show()
-
 # Plot time series
 plt.plot(recorded_noise[0:10000])
 plt.plot(synth_noise[0:10000])
 plt.legend(["Recorded noise", "Synthesized noise"])
 plt.xlabel("time [s]")
+plt.show()
+# %%
+# Validate that the PSD of the synthesized noise matches the input PSD
+# --------------------------------------------------------------------
+
+# normalize frequencies to the interval [0, 0.5],
+# where 0.5 corresponds to the Nyquist frequency
+normalized_frequencies = frequencies / fs
+
+# Plot input and resulted PSD
+plt.loglog(normalized_frequencies, PSD)
+plt.loglog(normalized_frequencies, PSD_synth)
+plt.legend(["PSD of recorded noise", "PSD of synthesized noise"])
+plt.xlabel("frequency [Hz]")
+plt.tight_layout()
+
 plt.show()

@@ -29,7 +29,7 @@ See [Loading custom spike waveform](configuring.md#loading-custom-spike-waveform
 
 ## Background noise
 
-Background noise is calculated using a gaussian distributed noise. The power law for the noise generation is configurable as well as the standard deviation of the noise. Currently, the noise for each channel is generated when starting NDS and samples are fetched as needed during execution, and restarted when all generated noise was used. The number of noise samples generated are also configurable and recommended to be large compared to the raw data frequency so the noise repetition is not noticeable.
+Background noise can be generated either based on a configurable power law using a gaussian distribution or from a Power Spectral Density (PSD) file. The PSD file should be used in order to replicate the noise characteristics of an actual recording system. Currently, the noise for each channel is generated when starting NDS and samples are fetched as needed during execution, and restarted when all generated noise was used. The number of noise samples generated are also configurable and recommended to be large compared to the raw data frequency so the noise repetition is not noticeable.
 
 See [Noise](configuring.md#noise) configuration for details.
 
