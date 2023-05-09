@@ -33,9 +33,11 @@ from neural_data_simulator.settings import EphysGeneratorEndpointType
 from neural_data_simulator.settings import EphysGeneratorSettings
 from neural_data_simulator.settings import Settings
 from neural_data_simulator.util.runtime import configure_logger
+from neural_data_simulator.util.runtime import initialize_logger
 from neural_data_simulator.util.runtime import unwrap
 from neural_data_simulator.util.settings_loader import get_script_settings
 
+SCRIPT_NAME = "nds-ephys-generator"
 logger = logging.getLogger(__name__)
 
 
@@ -144,6 +146,7 @@ def _set_random_seed(random_seed: Optional[int]):
 
 def run():
     """Load the configuration and start the ephys generator."""
+    initialize_logger(SCRIPT_NAME)
     parser = argparse.ArgumentParser(description="Run ephys generator.")
     parser.add_argument(
         "--settings-path",
@@ -157,7 +160,7 @@ def run():
         ),
     )
     _set_random_seed(settings.ephys_generator.random_seed)
-    configure_logger("nds-ephys-generator", settings.log_level)
+    configure_logger(SCRIPT_NAME, settings.log_level)
 
     if settings.ephys_generator.input.type == EphysGeneratorEndpointType.LSL:
         lsl_input_settings = unwrap(settings.ephys_generator.input.lsl)

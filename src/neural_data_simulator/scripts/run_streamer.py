@@ -32,9 +32,11 @@ from neural_data_simulator.settings import LSLChannelFormatType
 from neural_data_simulator.settings import LSLOutputModel
 from neural_data_simulator.util.runtime import configure_logger
 from neural_data_simulator.util.runtime import get_abs_path
+from neural_data_simulator.util.runtime import initialize_logger
 from neural_data_simulator.util.runtime import unwrap
 from neural_data_simulator.util.settings_loader import get_script_settings
 
+SCRIPT_NAME = "nds-streamer"
 logger = logging.getLogger(__name__)
 
 
@@ -284,6 +286,7 @@ def _get_irregular_stream_config(
 
 def run():
     """Load the configuration and start the streamer."""
+    initialize_logger(SCRIPT_NAME)
     parser = argparse.ArgumentParser(description="Run streamer.")
     parser.add_argument(
         "--settings-path",
@@ -296,7 +299,7 @@ def run():
             parser.parse_args().settings_path, "settings_streamer.yaml", _Settings
         ),
     )
-    configure_logger("nds-streamer", settings.log_level)
+    configure_logger(SCRIPT_NAME, settings.log_level)
 
     if settings.streamer.input_type == StreamerInputType.NPZ.value:
         input_settings = unwrap(settings.streamer.npz).input

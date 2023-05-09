@@ -36,9 +36,11 @@ from neural_data_simulator.settings import LSLOutputModel
 from neural_data_simulator.settings import Settings
 from neural_data_simulator.util.runtime import configure_logger
 from neural_data_simulator.util.runtime import get_abs_path
+from neural_data_simulator.util.runtime import initialize_logger
 from neural_data_simulator.util.runtime import unwrap
 from neural_data_simulator.util.settings_loader import get_script_settings
 
+SCRIPT_NAME = "nds-encoder"
 logger = logging.getLogger(__name__)
 
 
@@ -214,6 +216,7 @@ def _setup_LSL_output(
 
 def run():
     """Load the configuration and start the encoder."""
+    initialize_logger(SCRIPT_NAME)
     parser = argparse.ArgumentParser(description="Run encoder.")
     parser.add_argument(
         "--settings-path",
@@ -226,7 +229,7 @@ def run():
             parser.parse_args().settings_path, "settings.yaml", Settings
         ),
     )
-    configure_logger("nds-encoder", settings.log_level)
+    configure_logger(SCRIPT_NAME, settings.log_level)
 
     if settings.encoder.input.type == EncoderEndpointType.FILE:
         input_file = unwrap(settings.encoder.input.file)

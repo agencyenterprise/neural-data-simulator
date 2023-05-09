@@ -25,10 +25,12 @@ from neural_data_simulator.settings import LogLevel
 from neural_data_simulator.settings import LSLInputModel
 from neural_data_simulator.settings import LSLOutputModel
 from neural_data_simulator.util.runtime import configure_logger
+from neural_data_simulator.util.runtime import initialize_logger
 from neural_data_simulator.util.runtime import open_connection
 from neural_data_simulator.util.runtime import unwrap
 from neural_data_simulator.util.settings_loader import get_script_settings
 
+SCRIPT_NAME = "nds-center-out-reach"
 logger = logging.getLogger(__name__)
 
 
@@ -249,6 +251,7 @@ def _metrics_enabled(settings: _Settings) -> bool:
 
 def run():
     """Run the center-out reach task GUI."""
+    initialize_logger(SCRIPT_NAME)
     parser = argparse.ArgumentParser(description="Run GUI.")
     parser.add_argument(
         "--settings-path",
@@ -264,7 +267,7 @@ def run():
             _Settings,
         ),
     )
-    configure_logger("nds-center-out-reach", settings.log_level)
+    configure_logger(SCRIPT_NAME, settings.log_level)
 
     if settings.center_out_reach.input.enabled:
         lsl_input_settings = unwrap(settings.center_out_reach.input.lsl)
