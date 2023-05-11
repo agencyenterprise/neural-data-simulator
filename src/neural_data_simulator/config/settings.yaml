@@ -1,4 +1,4 @@
-version: 1.0.1
+version: 1.1.0
 
 # possible values are CRITICAL, ERROR, WARNING, INFO, DEBUG
 log_level: "INFO"

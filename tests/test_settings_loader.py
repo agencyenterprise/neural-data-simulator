@@ -8,6 +8,7 @@ from unittest.mock import patch
 from pydantic_yaml import VersionedYamlModel
 import pytest
 
+from neural_data_simulator.errors import SettingsMigrationError
 from neural_data_simulator.settings import Settings
 from neural_data_simulator.util import settings_loader
 from neural_data_simulator.util.runtime import NDS_HOME
@@ -61,11 +62,12 @@ class TestSettingsLoader:
                 settings_file, "test_settings.yaml", _SettingsModel
             )
 
-    def test_settings_loader_raises_value_error_for_wrong_version(self, mock_open):
+    def test_settings_loader_raises_migration_error_for_wrong_version(self, mock_open):
         """Test calling the settings_loader with an unexpected settings version."""
         settings_file = Path("some/path/on/disk")
-        with pytest.raises(ValueError):
-            # Settings model expects version 1.0.1 and we are passing 1.0.0
+        with pytest.raises(SettingsMigrationError):
+            # Settings model expects a newer version than 1.0.0
+            # but no migration is found for the file `test_settings.yaml`
             settings_loader.get_script_settings(
                 settings_file, "test_settings.yaml", Settings
             )

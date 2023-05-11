@@ -284,7 +284,7 @@ class Settings(VersionedYamlModel):
 
     @validator("version")
     def _expected_settings_version(cls, v):
-        expected_version = "1.0.1"
+        expected_version = "1.1.0"
         if v != expected_version:
             raise UnexpectedSettingsVersion(v, expected_version)
         return v
