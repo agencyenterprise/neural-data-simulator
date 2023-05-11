@@ -136,9 +136,11 @@
 <span class="kn">from</span> <span class="nn">neural_data_simulator.settings</span> <span class="kn">import</span> <span class="n">LSLOutputModel</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">configure_logger</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">get_abs_path</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">initialize_logger</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">unwrap</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.settings_loader</span> <span class="kn">import</span> <span class="n">get_script_settings</span>
 
+<span class="n">SCRIPT_NAME</span> <span class="o">=</span> <span class="s2">&quot;nds-streamer&quot;</span>
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
@@ -388,6 +390,7 @@
 
 <div class="viewcode-block" id="run"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.scripts.html#neural_data_simulator.scripts.run_streamer.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the configuration and start the streamer.&quot;&quot;&quot;</span>
+    <span class="n">initialize_logger</span><span class="p">(</span><span class="n">SCRIPT_NAME</span><span class="p">)</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Run streamer.&quot;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--settings-path&quot;</span><span class="p">,</span>
@@ -400,7 +403,7 @@
             <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span><span class="o">.</span><span class="n">settings_path</span><span class="p">,</span> <span class="s2">&quot;settings_streamer.yaml&quot;</span><span class="p">,</span> <span class="n">_Settings</span>
         <span class="p">),</span>
     <span class="p">)</span>
-    <span class="n">configure_logger</span><span class="p">(</span><span class="s2">&quot;nds-streamer&quot;</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">log_level</span><span class="p">)</span>
+    <span class="n">configure_logger</span><span class="p">(</span><span class="n">SCRIPT_NAME</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">log_level</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">streamer</span><span class="o">.</span><span class="n">input_type</span> <span class="o">==</span> <span class="n">StreamerInputType</span><span class="o">.</span><span class="n">NPZ</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
         <span class="n">input_settings</span> <span class="o">=</span> <span class="n">unwrap</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">streamer</span><span class="o">.</span><span class="n">npz</span><span class="p">)</span><span class="o">.</span><span class="n">input</span>

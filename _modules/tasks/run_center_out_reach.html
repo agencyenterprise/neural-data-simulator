@@ -129,10 +129,12 @@
 <span class="kn">from</span> <span class="nn">neural_data_simulator.settings</span> <span class="kn">import</span> <span class="n">LSLInputModel</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.settings</span> <span class="kn">import</span> <span class="n">LSLOutputModel</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">configure_logger</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">initialize_logger</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">open_connection</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">unwrap</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.settings_loader</span> <span class="kn">import</span> <span class="n">get_script_settings</span>
 
+<span class="n">SCRIPT_NAME</span> <span class="o">=</span> <span class="s2">&quot;nds-center-out-reach&quot;</span>
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
@@ -353,6 +355,7 @@
 
 <div class="viewcode-block" id="run"><a class="viewcode-back" href="../../tools/tasks.html#tasks.run_center_out_reach.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Run the center-out reach task GUI.&quot;&quot;&quot;</span>
+    <span class="n">initialize_logger</span><span class="p">(</span><span class="n">SCRIPT_NAME</span><span class="p">)</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Run GUI.&quot;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--settings-path&quot;</span><span class="p">,</span>
@@ -368,7 +371,7 @@
             <span class="n">_Settings</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">)</span>
-    <span class="n">configure_logger</span><span class="p">(</span><span class="s2">&quot;nds-center-out-reach&quot;</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">log_level</span><span class="p">)</span>
+    <span class="n">configure_logger</span><span class="p">(</span><span class="n">SCRIPT_NAME</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">log_level</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">center_out_reach</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span>
         <span class="n">lsl_input_settings</span> <span class="o">=</span> <span class="n">unwrap</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">center_out_reach</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">lsl</span><span class="p">)</span>
