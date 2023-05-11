@@ -1,8 +1,10 @@
 """Functions commonly used by scripts."""
 import contextlib
 import logging
+from logging.handlers import MemoryHandler
 import os
 from pathlib import Path
+import sys
 from typing import Any, Optional, Union
 
 from neural_data_simulator.inputs import Input
@@ -14,12 +16,39 @@ logger = logging.getLogger(__name__)
 NDS_HOME = os.path.join(os.path.expanduser("~"), ".nds")
 
 
+def initialize_logger(script_name: str):
+    """Initialize the logger.
+
+    Store log messages in memory until the logger is configured.
+    """
+    root_logger = logging.getLogger()
+    root_logger.setLevel(logging.NOTSET)
+    handler = logging.StreamHandler(sys.stderr)
+    handler.setFormatter(logging.Formatter(_get_log_message_format(script_name)))
+    temp_handler = MemoryHandler(1000, target=handler)
+    root_logger.addHandler(temp_handler)
+
+
 def configure_logger(script_name: str, log_level: LogLevel):
     """Set up the logger."""
+    root_logger = logging.getLogger()
+    for handler in root_logger.handlers:
+        if isinstance(handler, MemoryHandler):
+            level = logging._nameToLevel[log_level.value.upper()]
+            filtered_buffer = filter(
+                lambda record: record.levelno >= level, handler.buffer
+            )
+            handler.buffer = list(filtered_buffer)
+            break
+
     logging.basicConfig(
-        format=f"%(levelname)s [{script_name}]: %(message)s", level=log_level.value
+        format=_get_log_message_format(script_name), level=log_level.value, force=True
     )
     os.environ["LSLAPICFG"] = os.path.join(NDS_HOME, "lsl.config")
+
+
+def _get_log_message_format(script_name: str):
+    return f"%(levelname)s [{script_name}]: %(message)s"
 
 
 def get_abs_path(

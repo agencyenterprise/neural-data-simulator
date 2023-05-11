@@ -20,9 +20,11 @@ from neural_data_simulator.settings import LSLOutputModel
 from neural_data_simulator.settings import TimerModel
 from neural_data_simulator.util.runtime import configure_logger
 from neural_data_simulator.util.runtime import get_abs_path
+from neural_data_simulator.util.runtime import initialize_logger
 from neural_data_simulator.util.runtime import open_connection
 from neural_data_simulator.util.settings_loader import get_script_settings
 
+SCRIPT_NAME = "nds-decoder"
 logger = logging.getLogger(__name__)
 
 
@@ -114,6 +116,7 @@ def _setup_decoder(
 
 def run():
     """Run the decoder loop."""
+    initialize_logger(SCRIPT_NAME)
     parser = argparse.ArgumentParser(description="Run decoder.")
     parser.add_argument(
         "--settings-path",
@@ -127,7 +130,7 @@ def run():
             parser.parse_args().settings_path, "settings_decoder.yaml", _Settings
         ),
     )
-    configure_logger("nds-decoder", settings.log_level)
+    configure_logger(SCRIPT_NAME, settings.log_level)
 
     timer_settings = settings.timer
     timer = timing.get_timer(timer_settings.loop_time, timer_settings.max_cpu_buffer)
