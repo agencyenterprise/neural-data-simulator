@@ -133,3 +133,12 @@ class TestRunEphysGenerator:
         ephys_generator_settings.noise.type = "file"
 
         run_ephys_generator.run()
+
+    def test_run_ephys_generator_with_no_noise(self, mock_get_script_settings):
+        """Test run with a config where no noise should be generated."""
+        ephys_generator_settings = self._get_ephys_generator_settings(
+            mock_get_script_settings
+        )
+        ephys_generator_settings.noise.type = "none"
+
+        run_ephys_generator.run()
