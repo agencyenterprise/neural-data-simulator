@@ -1,4 +1,5 @@
 """Collect and plot velocities resulted from running the task."""
+import time
 import math
 from typing import List, Tuple
 
@@ -47,6 +48,9 @@ class MetricsCollector:
 
         self.actual_cursor_color = actual_cursor_color
         self.decoded_cursor_color = decoded_cursor_color
+
+    def start_total_time(self):
+        self.initial_time = time.time()
 
     def clear_data(self):
         """Remove all recorded data so far."""
@@ -232,6 +236,11 @@ class MetricsCollector:
         Args:
             targets: List of target positions in pixels.
         """
+        end_time = time.time()
+        total_time = int(end_time - self.initial_time)
+
+        print(f"Total time playing: {total_time}s")
+
         h_lag = self._get_lag(
             self.actual_velocities[:, 0], self.decoded_velocities[:, 0]
         )
@@ -261,7 +270,7 @@ class MetricsCollector:
             self.window_rect[0] / dpi,
             self.window_rect[1] / dpi,
         )
-        plt.figure(num="Velocities overview", dpi=dpi, figsize=fig_size)
+        plt.figure(num=f"Velocities overview (Played for {total_time}s)", dpi=dpi, figsize=fig_size)
 
         plt.subplot(2, 1, 1)
         self._plot_velocities(
@@ -284,7 +293,7 @@ class MetricsCollector:
         plt.tight_layout()
         plt.show()
 
-        plt.figure(num="Trajectories overview", dpi=dpi, figsize=fig_size)
+        plt.figure(num=f"Trajectories overview (Played for {total_time}s)", dpi=dpi, figsize=fig_size)
         self._plot_positions(targets)
         plt.tight_layout()
         plt.show()

@@ -337,7 +337,7 @@ def run():
         )
 
     with open_connection(data_output), open_connection(data_input):
-        task_window = TaskWindow(window_rect, window_params, menu_text)
+        task_window = TaskWindow(window_rect, window_params, menu_text, metrics_collector.start_total_time)
         task_state = TaskState(task_window, state_params)
         task_runner = TaskRunner(
             sampling_rate,

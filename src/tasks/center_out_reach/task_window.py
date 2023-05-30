@@ -2,7 +2,7 @@
 
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Dict, List, NamedTuple, Optional, Tuple
+from typing import Dict, List, NamedTuple, Optional, Tuple, Callable
 
 import numpy as np
 import pygame
@@ -84,9 +84,11 @@ class TaskWindow:
         window_rect: Tuple[int, int],
         params: Params,
         menu_text: Optional[List[Dict[str, str]]] = None,
+        game_start_callback: Optional[Callable[[], None]] = None,
     ):
         """Create a new instance."""
         pygame.init()
+        self.game_start_callback = game_start_callback
 
         self.show_menu_screen = True
         self.font = pygame.font.Font(pygame.font.get_default_font(), params.font_size)
@@ -172,12 +174,15 @@ class TaskWindow:
                     + self.params.button_offset_top
                 ),
             ),
-            lambda: pygame.event.post(pygame.event.Event(pygame.QUIT)),
+            self.post_quit,
         )
 
         self.menu_button_sprite_group = pygame.sprite.Group()
         self.menu_button_sprite_group.add(self.start_button)
         self.menu_button_sprite_group.add(self.quit_button)
+
+    def post_quit(self):
+        pygame.event.post(pygame.event.Event(pygame.QUIT))
 
     def show_hint(self, hint: Optional[List[Dict[str, str]]]):
         """Show/Hide a rich text at the top of the screen.
@@ -196,6 +201,9 @@ class TaskWindow:
         self.show_menu_screen = False
         self._grab_and_hide_cursor()
         self.show_hint(None)
+        if self.game_start_callback:
+            print('starting game')
+            self.game_start_callback()
 
     def _grab_and_hide_cursor(self):
         pygame.mouse.set_visible(False)

@@ -1,6 +1,7 @@
 """The state machine for the BCI task."""
-
 from __future__ import annotations
+
+import os
 
 from abc import abstractmethod
 from dataclasses import dataclass
@@ -322,6 +323,11 @@ class TaskState:
         self.state_machine = StateMachine(states)
         self.state_machine.enter(states[0])
 
+    def is_max_target_hit(self) -> bool:
+        if max_target_hit := os.environ.get('MAX_TARGET_HIT'):
+            return self.trial_counter == int(max_target_hit)
+        return False
+
     def advance(self):
         """Try to advance the state machine to the next state.
 
@@ -338,4 +344,6 @@ class TaskState:
                 and self.task_window.is_target_centered
             ):
                 self.trial_counter += 1
+                if self.is_max_target_hit():
+                    self.task_window.post_quit()
             self.state_machine.enter(next_state)
