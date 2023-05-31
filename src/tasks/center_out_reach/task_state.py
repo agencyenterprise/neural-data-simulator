@@ -242,7 +242,6 @@ class InTarget(BaseState):
         if isinstance(s, WaitingForCue) and (
             self.time_in_state > self.params.target_holding_time
         ):
-            print("stayed in target")
             self.task_state._stayed_in_target()
         return (
             isinstance(s, WaitingForCue)
@@ -333,7 +332,6 @@ class TaskState:
 
     def _stayed_in_target(self):
         self.reached_counter[self.trial_counter] += 1
-        print("reached counter:", self.reached_counter)
 
     def _is_max_target_hit(self) -> bool:
         if max_target_hit := os.environ.get("MAX_TARGET_HIT"):

@@ -1,5 +1,7 @@
 """Collect and plot velocities resulted from running the task."""
+import csv
 import math
+import os
 import time
 from typing import List, Tuple
 
@@ -10,6 +12,8 @@ import numpy as np
 from scipy import signal
 from sklearn.metrics import r2_score
 from tasks.center_out_reach.scalers import PixelsToMetersConverter
+
+MAX_SCOREBOARD_ENTRIES = 10
 
 
 class MetricsCollector:
@@ -157,6 +161,83 @@ class MetricsCollector:
         lag = lags[np.argmax(correlation)]
         return abs(lag)
 
+    def _get_player_name(self):
+        return os.environ.get("PLAYER_NAME", f"user-{np.random.randint(1000)}")
+
+    def _store_time(self, player_name, total_time):
+        row = {"player_name": player_name, "play_time": total_time}
+
+        new_file = False
+        if not os.path.exists("scoreboard.csv"):
+            new_file = True
+
+        with open("scoreboard.csv", "a", newline="") as f:
+            writer = csv.DictWriter(f, fieldnames=row.keys())
+            if new_file:
+                writer.writeheader()
+            writer.writerow(row)
+
+    def _load_scoreboard(self):
+        score_board = []
+        with open("scoreboard.csv", "r") as file:
+            csv_file = csv.DictReader(file)
+            for row in csv_file:
+                score_board.append(dict(row))
+        sorted_score_board = sorted(score_board, key=lambda x: float(x["play_time"]))
+        return sorted_score_board
+
+    def _plot_results(self, player_name, total_time):
+        sorted_score_board = self._load_scoreboard()
+
+        data = []
+        positions = []
+        current_player_index = None
+        for position, score in enumerate(sorted_score_board):
+            display_position = position + 1
+            if score["player_name"] == player_name:
+                data.append(["You!!", f"{total_time}s"])
+                current_player_index = position
+            else:
+                data.append([score["player_name"], f"{score['play_time']}s"])
+
+            positions.append(display_position)
+            if len(positions) == MAX_SCOREBOARD_ENTRIES:
+                break
+
+        if current_player_index is None:
+            # player was not in the top 10
+            user_position = next(
+                (
+                    index
+                    for (index, d) in enumerate(sorted_score_board)
+                    if d["player_name"] == player_name
+                ),
+                None,
+            )
+            current_player_index = MAX_SCOREBOARD_ENTRIES
+            positions.append(user_position + 1)
+            data.append(["You!!", f"{total_time}s"])
+
+        fig, ax = plt.subplots()
+        fig.suptitle("Scoreboard")
+        fig.patch.set_visible(False)
+        ax.axis("off")
+        ax.axis("tight")
+
+        columns = ("Player", "Play time")
+        colors = plt.cm.BuPu(np.linspace(0, 0.5, len(data)))
+        colors[current_player_index] = plt.cm.Reds(0.5)
+
+        plt.table(
+            cellText=data,
+            rowLabels=positions,
+            colLabels=columns,
+            rowColours=colors,
+            loc="center",
+        )
+        fig.tight_layout()
+        plt.show()
+
     def _plot_positions(self, targets):
         actual_positions = np.array(
             [
@@ -237,9 +318,12 @@ class MetricsCollector:
             targets: List of target positions in pixels.
         """
         end_time = time.time()
-        total_time = int(end_time - self.initial_time)
+        total_time = f"{(end_time - self.initial_time):.3f}"
 
         print(f"Total time playing: {total_time}s")
+        player_name = self._get_player_name()
+        self._store_time(player_name, total_time)
+        self._plot_results(player_name, total_time)
 
         h_lag = self._get_lag(
             self.actual_velocities[:, 0], self.decoded_velocities[:, 0]
