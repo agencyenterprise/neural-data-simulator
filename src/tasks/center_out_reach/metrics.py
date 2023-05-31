@@ -1,6 +1,6 @@
 """Collect and plot velocities resulted from running the task."""
-import time
 import math
+import time
 from typing import List, Tuple
 
 import matplotlib.colors as mcolors
@@ -49,7 +49,7 @@ class MetricsCollector:
         self.actual_cursor_color = actual_cursor_color
         self.decoded_cursor_color = decoded_cursor_color
 
-    def start_total_time(self):
+    def _start_time_counting(self):
         self.initial_time = time.time()
 
     def clear_data(self):
@@ -270,7 +270,11 @@ class MetricsCollector:
             self.window_rect[0] / dpi,
             self.window_rect[1] / dpi,
         )
-        plt.figure(num=f"Velocities overview (Played for {total_time}s)", dpi=dpi, figsize=fig_size)
+        plt.figure(
+            num=f"Velocities overview (Played for {total_time}s)",
+            dpi=dpi,
+            figsize=fig_size,
+        )
 
         plt.subplot(2, 1, 1)
         self._plot_velocities(
@@ -293,7 +297,11 @@ class MetricsCollector:
         plt.tight_layout()
         plt.show()
 
-        plt.figure(num=f"Trajectories overview (Played for {total_time}s)", dpi=dpi, figsize=fig_size)
+        plt.figure(
+            num=f"Trajectories overview (Played for {total_time}s)",
+            dpi=dpi,
+            figsize=fig_size,
+        )
         self._plot_positions(targets)
         plt.tight_layout()
         plt.show()

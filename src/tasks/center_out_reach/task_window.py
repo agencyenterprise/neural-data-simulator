@@ -2,7 +2,7 @@
 
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Dict, List, NamedTuple, Optional, Tuple, Callable
+from typing import Callable, Dict, List, NamedTuple, Optional, Tuple
 
 import numpy as np
 import pygame
@@ -174,14 +174,14 @@ class TaskWindow:
                     + self.params.button_offset_top
                 ),
             ),
-            self.post_quit,
+            self._post_quit,
         )
 
         self.menu_button_sprite_group = pygame.sprite.Group()
         self.menu_button_sprite_group.add(self.start_button)
         self.menu_button_sprite_group.add(self.quit_button)
 
-    def post_quit(self):
+    def _post_quit(self):
         pygame.event.post(pygame.event.Event(pygame.QUIT))
 
     def show_hint(self, hint: Optional[List[Dict[str, str]]]):
@@ -202,7 +202,7 @@ class TaskWindow:
         self._grab_and_hide_cursor()
         self.show_hint(None)
         if self.game_start_callback:
-            print('starting game')
+            print("starting game")
             self.game_start_callback()
 
     def _grab_and_hide_cursor(self):

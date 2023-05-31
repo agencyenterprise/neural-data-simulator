@@ -1,10 +1,10 @@
 """The state machine for the BCI task."""
 from __future__ import annotations
 
-import os
-
 from abc import abstractmethod
+from collections import defaultdict
 from dataclasses import dataclass
+import os
 import time
 from typing import Optional, Protocol
 
@@ -92,10 +92,12 @@ class BaseState(State):
         self,
         task_window: TaskWindow,
         params: StateParams,
+        task_state: TaskState,
     ) -> None:
         """Create a new instance."""
         self.task_window = task_window
         self.params = params
+        self.task_state = task_state
         self.time_entered_state: Optional[float] = None
         self.time_started_trial: Optional[float] = None
 
@@ -237,6 +239,11 @@ class InTarget(BaseState):
           - to the WaitingForCue state if the trial has timed out.
           - to the Reaching state if the cursor is no longer over the target.
         """
+        if isinstance(s, WaitingForCue) and (
+            self.time_in_state > self.params.target_holding_time
+        ):
+            print("stayed in target")
+            self.task_state._stayed_in_target()
         return (
             isinstance(s, WaitingForCue)
             and (
@@ -311,21 +318,26 @@ class TaskState:
         """Initialize the state with parameters and display it in given window."""
         self.task_window = task_window
         self.trial_counter = 0
+        self.reached_counter = defaultdict(int)
 
         states: list[State] = [
-            MenuScreen(task_window, params),
-            WaitingToBegin(task_window, params),
-            WaitingForCue(task_window, params),
-            Reaching(task_window, params),
-            InTarget(task_window, params),
+            MenuScreen(task_window, params, self),
+            WaitingToBegin(task_window, params, self),
+            WaitingForCue(task_window, params, self),
+            Reaching(task_window, params, self),
+            InTarget(task_window, params, self),
         ]
 
         self.state_machine = StateMachine(states)
         self.state_machine.enter(states[0])
 
-    def is_max_target_hit(self) -> bool:
-        if max_target_hit := os.environ.get('MAX_TARGET_HIT'):
-            return self.trial_counter == int(max_target_hit)
+    def _stayed_in_target(self):
+        self.reached_counter[self.trial_counter] += 1
+        print("reached counter:", self.reached_counter)
+
+    def _is_max_target_hit(self) -> bool:
+        if max_target_hit := os.environ.get("MAX_TARGET_HIT"):
+            return list(self.reached_counter.values()).count(2) == int(max_target_hit)
         return False
 
     def advance(self):
@@ -344,6 +356,6 @@ class TaskState:
                 and self.task_window.is_target_centered
             ):
                 self.trial_counter += 1
-                if self.is_max_target_hit():
-                    self.task_window.post_quit()
+                if self._is_max_target_hit():
+                    self.task_window._post_quit()
             self.state_machine.enter(next_state)
