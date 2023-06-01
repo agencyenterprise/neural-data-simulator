@@ -161,8 +161,14 @@ class MetricsCollector:
         lag = lags[np.argmax(correlation)]
         return abs(lag)
 
-    def _get_player_name(self):
-        return os.environ.get("PLAYER_NAME", f"user-{np.random.randint(1000)}")
+    def _get_player_name(self) -> str:
+        player_names = [score["player_name"] for score in self._load_scoreboard()]
+        player_name = os.environ.get("PLAYER_NAME", f"user-{np.random.randint(1000)}")
+        if player_name in player_names:
+            print("Player name already exists, adding random number to it")
+            player_name = f"{player_name}-{np.random.randint(1000)}"
+        print("Player name:", player_name)
+        return player_name
 
     def _store_time(self, player_name, total_time):
         row = {"player_name": player_name, "play_time": total_time}
