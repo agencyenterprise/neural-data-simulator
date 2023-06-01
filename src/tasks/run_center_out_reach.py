@@ -355,7 +355,9 @@ def run():
         task_runner.run(task_state, user_input)
 
         if not task_window.show_menu_screen and _metrics_enabled(settings):
-            unwrap(metrics_collector).plot_metrics(task_window.target_positions)
+            unwrap(metrics_collector).plot_metrics(
+                task_window.target_positions, task_state.reached_required_hits
+            )
 
         task_window.leave()
 

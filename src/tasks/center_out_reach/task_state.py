@@ -318,6 +318,7 @@ class TaskState:
         self.task_window = task_window
         self.trial_counter = 0
         self.reached_counter = defaultdict(int)
+        self.reached_required_hits = False
 
         states: list[State] = [
             MenuScreen(task_window, params, self),
@@ -335,7 +336,10 @@ class TaskState:
 
     def _is_max_target_hit(self) -> bool:
         if max_target_hit := os.environ.get("MAX_TARGET_HIT"):
-            return list(self.reached_counter.values()).count(2) == int(max_target_hit)
+            self.reached_required_hits = list(self.reached_counter.values()).count(
+                2
+            ) == int(max_target_hit)
+            return self.reached_required_hits
         return False
 
     def advance(self):

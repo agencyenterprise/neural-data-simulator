@@ -317,7 +317,7 @@ class MetricsCollector:
         )
         legend.legendHandles[-1].set_sizes([40])
 
-    def plot_metrics(self, targets):
+    def plot_metrics(self, targets, reached_required_hits: bool):
         """Show velocities plot and R-values.
 
         Args:
@@ -327,9 +327,14 @@ class MetricsCollector:
         total_time = f"{(end_time - self.initial_time):.3f}"
 
         print(f"Total time playing: {total_time}s")
-        player_name = self._get_player_name()
-        self._store_time(player_name, total_time)
-        self._plot_results(player_name, total_time)
+        if reached_required_hits:
+            player_name = self._get_player_name()
+            self._store_time(player_name, total_time)
+            self._plot_results(player_name, total_time)
+        else:
+            print("********************")
+            print("Not storing score because you did not reach the required hits")
+            print("********************")
 
         h_lag = self._get_lag(
             self.actual_velocities[:, 0], self.decoded_velocities[:, 0]
