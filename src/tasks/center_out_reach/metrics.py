@@ -162,7 +162,10 @@ class MetricsCollector:
         return abs(lag)
 
     def _get_player_name(self) -> str:
-        player_names = [score["player_name"] for score in self._load_scoreboard()]
+        try:
+            player_names = [score["player_name"] for score in self._load_scoreboard()]
+        except FileNotFoundError:
+            player_names = []
         player_name = os.environ.get("PLAYER_NAME", f"user-{np.random.randint(1000)}")
         if player_name in player_names:
             print("Player name already exists, adding random number to it")
