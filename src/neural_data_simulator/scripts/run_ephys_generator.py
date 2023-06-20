@@ -28,11 +28,16 @@ from neural_data_simulator.ephys_generator import SpikeRateTestingInput
 from neural_data_simulator.ephys_generator import Spikes
 from neural_data_simulator.ephys_generator import Waveforms
 from neural_data_simulator.health_checker import HealthChecker
+from neural_data_simulator.noise import GaussianNoiseGenerator
+from neural_data_simulator.noise import PSDNoiseGenerator
+from neural_data_simulator.noise import ZeroNoiseGenerator
 from neural_data_simulator.outputs import StreamConfig
 from neural_data_simulator.settings import EphysGeneratorEndpointType
 from neural_data_simulator.settings import EphysGeneratorSettings
+from neural_data_simulator.settings import NoiseType
 from neural_data_simulator.settings import Settings
 from neural_data_simulator.util.runtime import configure_logger
+from neural_data_simulator.util.runtime import get_abs_path
 from neural_data_simulator.util.runtime import initialize_logger
 from neural_data_simulator.util.runtime import unwrap
 from neural_data_simulator.util.settings_loader import get_script_settings
@@ -206,14 +211,31 @@ def run():
 
     process_output_params = _get_process_output_params(settings.ephys_generator)
 
-    noise_settings = settings.ephys_generator.noise
+    noise_type = settings.ephys_generator.noise.type
+
+    if noise_type == NoiseType.NONE:
+        noise_generator = ZeroNoiseGenerator()
+    elif noise_type == NoiseType.GAUSSIAN:
+        noise_settings = unwrap(settings.ephys_generator.noise.gaussian)
+        noise_generator = GaussianNoiseGenerator(
+            noise_settings.beta,
+            settings.ephys_generator.noise.standard_deviation,
+            noise_settings.fmin,
+            settings.ephys_generator.random_seed,
+        )
+    elif noise_type == NoiseType.FILE:
+        noise_settings = unwrap(settings.ephys_generator.noise.file)
+        psd = np.load(get_abs_path(noise_settings.path))[noise_settings.psd_array_name]
+        noise_generator = PSDNoiseGenerator(
+            psd, settings.ephys_generator.noise.standard_deviation
+        )
+    else:
+        raise ValueError(f"Unexpected noise type {noise_type}")
+
     noise_data = NoiseData(
         spike_rate_input.channel_count,
-        noise_settings.beta,
-        noise_settings.standard_deviation,
-        noise_settings.fmin,
-        noise_settings.samples,
-        settings.ephys_generator.random_seed,
+        settings.ephys_generator.noise.samples,
+        noise_generator,
     )
 
     continuous_data = ContinuousData(

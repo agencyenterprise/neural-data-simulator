@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "neural-data-simulator"
-version = "0.2.0"
+version = "0.3.0-dev"
 description = "Electrophysiology simulator data for developing Brain-Computer Interfaces"
 authors = ["AE Studio <bci@ae.studio>", "Chadwick Boulay <chadwick.boulay@gmail.com>"]
 maintainers = ["Chadwick Boulay <chadwick.boulay@gmail.com>", "AE Studio <bci@ae.studio>"]
@@ -42,6 +42,7 @@ matplotlib = "^3.7.1"
 scikit-learn = "1.2.1"
 screeninfo = "0.8.1"
 pyobjc-framework-Quartz = { version = "*", platform = "darwin" }
+ruamel-yaml = "^0.17.26"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"

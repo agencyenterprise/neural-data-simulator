@@ -7,6 +7,8 @@ from pydantic import validator
 from pydantic_yaml import VersionedYamlModel
 from pydantic_yaml import YamlStrEnum
 
+from neural_data_simulator.errors import UnexpectedSettingsVersion
+
 
 class LogLevel(YamlStrEnum):
     """Possible log levels."""
@@ -48,6 +50,14 @@ class LSLChannelFormatType(YamlStrEnum):
     _INT16 = "int16"
     _INT32 = "int32"
     _INT64 = "int64"
+
+
+class NoiseType(YamlStrEnum):
+    """Possible types for noise generation."""
+
+    NONE = "none"
+    GAUSSIAN = "gaussian"
+    FILE = "file"
 
 
 class TimerModel(BaseModel):
@@ -209,9 +219,22 @@ class EphysGeneratorSettings(BaseModel):
     class Noise(BaseModel):
         """Settings for the ephys generator noise."""
 
-        beta: float
+        class File(BaseModel):
+            """Settings for loading a noise file."""
+
+            path: str
+            psd_array_name: str
+
+        class Gaussian(BaseModel):
+            """Settings for Gaussian 1/f noise."""
+
+            beta: float
+            fmin: float
+
+        type: NoiseType
+        gaussian: Optional[Gaussian]
+        file: Optional[File]
         standard_deviation: float
-        fmin: float
         samples: int
 
     waveforms: Waveforms
@@ -241,9 +264,30 @@ class EphysGeneratorSettings(BaseModel):
             raise ValueError("Testing type must have a testing object")
         return input_value
 
+    @validator("noise")
+    def _noise_type_gaussian_must_have_a_gaussian_object(cls, noise_value):
+        if noise_value.type == NoiseType.GAUSSIAN and not noise_value.gaussian:
+            raise ValueError(
+                f"noise type `{NoiseType.GAUSSIAN}` must have a `gaussian` object"
+            )
+        return noise_value
+
+    @validator("noise")
+    def _noise_type_file_must_have_a_file_object(cls, noise_value):
+        if noise_value.type == NoiseType.FILE and not noise_value.file:
+            raise ValueError(f"noise type `{NoiseType.FILE}` must have a `file` object")
+        return noise_value
+
 
 class Settings(VersionedYamlModel):
     """All settings for the NDS main package."""
+
+    @validator("version")
+    def _expected_settings_version(cls, v):
+        expected_version = "1.1.0"
+        if v != expected_version:
+            raise UnexpectedSettingsVersion(v, expected_version)
+        return v
 
     log_level: LogLevel
     timer: TimerModel
