@@ -1,5 +1,11 @@
 """Run all components of the BCI closed loop."""
 import subprocess
+import sys
+
+
+def start_process(command):
+    """Start a new process passing this current process arguments."""
+    return subprocess.Popen([command] + sys.argv[1:])
 
 
 def run():
@@ -16,10 +22,10 @@ def run():
         print('pip install "neural-data-simulator[extras]"')
         return
 
-    encoder = subprocess.Popen(["encoder"])
-    ephys = subprocess.Popen(["ephys_generator"])
-    decoder = subprocess.Popen(["decoder"])
-    center_out_reach = subprocess.Popen(["center_out_reach"])
+    encoder = start_process("encoder")
+    ephys = start_process("ephys_generator")
+    decoder = start_process("decoder")
+    center_out_reach = start_process("center_out_reach")
 
     center_out_reach.wait()
     encoder.kill()
