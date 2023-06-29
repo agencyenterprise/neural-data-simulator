@@ -258,11 +258,16 @@ def run():
         type=Path,
         help="Path to the settings_center_out_reach.yaml file.",
     )
-
+    parser.add_argument(
+        "--pipe",
+        type=Path,
+        help="Path to the pipe file that will receive control messages.",
+    )
+    args = parser.parse_args()
     settings = cast(
         _Settings,
         get_script_settings(
-            parser.parse_args().settings_path,
+            args.settings_path,
             "settings_center_out_reach.yaml",
             _Settings,
         ),
@@ -336,22 +341,40 @@ def run():
             "black", window_settings.colors.target, user_input.input_device_name
         )
 
-    with open_connection(data_output), open_connection(data_input):
-        task_window = TaskWindow(window_rect, window_params, menu_text)
-        task_state = TaskState(task_window, state_params)
-        task_runner = TaskRunner(
-            sampling_rate,
-            data_input,
-            data_output,
-            velocity_scaler,
-            with_decoded_cursor,
-            metrics_collector,
-        )
-        task_runner.run(task_state, user_input)
+    interrupted = False
+    task_window = None
+    try:
+        with open_connection(data_output), open_connection(data_input):
+            task_window = TaskWindow(window_rect, window_params, menu_text)
+            task_state = TaskState(task_window, state_params)
+            task_runner = TaskRunner(
+                sampling_rate,
+                data_input,
+                data_output,
+                velocity_scaler,
+                with_decoded_cursor,
+                metrics_collector,
+            )
+            logger.info("Running task")
+            task_runner.run(task_state, user_input)
+    except KeyboardInterrupt:
+        logger.info("CTRL+C received. Exiting...")
+        interrupted = True
 
-        if not task_window.show_menu_screen and _metrics_enabled(settings):
-            unwrap(metrics_collector).plot_metrics(task_window.target_positions)
+    # This is used as a signal to a parent process that the main task has finished
+    if args.pipe is not None:
+        with open(args.pipe, "w") as pipe:
+            pipe.writelines(["main_task_finished"])
 
+    if (
+        not interrupted
+        and task_window is not None
+        and not task_window.show_menu_screen
+        and _metrics_enabled(settings)
+    ):
+        unwrap(metrics_collector).plot_metrics(task_window.target_positions)
+
+    if task_window is not None:
         task_window.leave()
 
 
