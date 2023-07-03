@@ -41,4 +41,4 @@ htmldoc: apidoc
 	poetry run make -C docs html
 
 run-closed-loop:
-	poetry run encoder & poetry run ephys_generator & poetry run decoder & poetry run center_out_reach; pkill -f decoder; pkill -f ephys_generator; pkill -f encoder
+	poetry run run_closed_loop
