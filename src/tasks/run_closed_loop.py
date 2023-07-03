@@ -33,15 +33,17 @@ def _create_pipe_file(pipe_name: str) -> tuple[str, str]:
 
 
 def _wait_for_pipe_message(pipe_path: str, pipe_message: str) -> bool:
-    """
-    Wait for the specified pipe_message in the specified pipe_path file.
-    Returns True if the message was found, False if the process was interrupted.
+    """Wait for a pipe message in a pipe file.
+
+    :param pipe_path: Path to the pipe file.
+    :param pipe_message:  Message to wait for.
+    :returns: True if the message was found, False if the process was interrupted.
     """
     try:
         with open(pipe_path, "r") as center_out_reach_pipe:
             for line in center_out_reach_pipe:
                 if pipe_message in line:
-                    logger.info("Main task finished")
+                    logger.info(f"Message {pipe_message} received")
                     break
     except KeyboardInterrupt:
         logger.info("CTRL+C received. Exiting...")
