@@ -22,7 +22,7 @@ def _terminate_process(label: str, popen_process: subprocess.Popen, timeout: int
         popen_process.kill()
 
 
-def _create_pipe_file(pipe_name: str):
+def _create_pipe_file(pipe_name: str) -> tuple[str, str]:
     temp_dir = tempfile.mkdtemp()
     pipe_path = os.path.join(temp_dir, pipe_name)
     os.mkfifo(pipe_path)
