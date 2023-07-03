@@ -11,6 +11,9 @@ from neural_data_simulator.util.runtime import initialize_logger
 SCRIPT_NAME = "nds-run-closed-loop"
 logger = logging.getLogger(__name__)
 
+# This is the pipe message indicating that the main task has finished
+MAIN_TASK_FINISHED_PIPE_MSG = "main_task_finished"
+
 
 def _terminate_process(label: str, popen_process: subprocess.Popen, timeout: int = 5):
     logger.info(f"Terminating {label}")
@@ -29,11 +32,15 @@ def _create_pipe_file(pipe_name: str) -> tuple[str, str]:
     return (temp_dir, pipe_path)
 
 
-def _wait_for_main_task_finish(pipe_path: str):
+def _wait_for_pipe_message(pipe_path: str, pipe_message: str) -> bool:
+    """
+    Wait for the specified pipe_message in the specified pipe_path file.
+    Returns True if the message was found, False if the process was interrupted.
+    """
     try:
         with open(pipe_path, "r") as center_out_reach_pipe:
             for line in center_out_reach_pipe:
-                if "main_task_finished" in line:
+                if pipe_message in line:
                     logger.info("Main task finished")
                     break
     except KeyboardInterrupt:
@@ -70,7 +77,10 @@ def run():
     )
     logger.info("Modules started")
 
-    main_task_finished = _wait_for_main_task_finish(center_out_reach_pipe_path)
+    main_task_finished = _wait_for_pipe_message(
+        center_out_reach_pipe_path,
+        MAIN_TASK_FINISHED_PIPE_MSG,
+    )
     _terminate_process("encoder", encoder)
     _terminate_process("ephys_generator", ephys)
     _terminate_process("decoder", decoder)
