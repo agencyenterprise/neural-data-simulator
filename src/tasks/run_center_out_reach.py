@@ -364,7 +364,7 @@ def run():
     # This is used as a signal to a parent process that the main task has finished
     if args.pipe is not None:
         with open(args.pipe, "w") as pipe:
-            pipe.writelines(["main_task_finished"])
+            pipe.write("main_task_finished\n")
 
     if (
         not interrupted
