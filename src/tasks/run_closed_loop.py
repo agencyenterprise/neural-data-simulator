@@ -9,7 +9,7 @@ def _parse_args():
     parser.add_argument(
         "--nds-settings-path",
         type=Path,
-        help="Path to a settings.yaml file with the NDS config.",
+        help="Path to the yaml file containing the NDS config.",
     )
     parser.add_argument(
         "--decoder-settings-path",
