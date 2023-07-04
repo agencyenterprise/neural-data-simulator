@@ -66,7 +66,7 @@ def run():
                         logger.info("Main task finished")
                         break
                     if center_out_reach.poll() is not None:
-                        logger.info(f"Main task stopped unexpectedly.")
+                        logger.info("Main task stopped unexpectedly.")
                         break
                     time.sleep(0.5)
         except KeyboardInterrupt:
