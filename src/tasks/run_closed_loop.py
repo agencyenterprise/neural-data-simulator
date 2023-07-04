@@ -24,11 +24,10 @@ def _parse_args():
     return parser.parse_args()
 
 
-def _build_param_from_arg(args, arg_property, param_name):
+def _build_param_from_arg(arg_value, param_name):
     params = []
-    attr_value = getattr(args, arg_property, None)
-    if attr_value is not None:
-        params = [param_name, str(attr_value)]
+    if arg_value is not None:
+        params = [param_name, str(arg_value)]
     return params
 
 
@@ -50,11 +49,11 @@ def run():
 
     SETTINGS_PATH_PARAM = "--settings-path"
 
-    nds_params = _build_param_from_arg(args, "nds_settings_path", SETTINGS_PATH_PARAM)
+    nds_params = _build_param_from_arg(args.nds_settings_path, SETTINGS_PATH_PARAM)
     decoder_params = _build_param_from_arg(
-        args, "decoder_settings_path", SETTINGS_PATH_PARAM
+        args.decoder_settings_path, SETTINGS_PATH_PARAM
     )
-    task_params = _build_param_from_arg(args, "task_settings_path", SETTINGS_PATH_PARAM)
+    task_params = _build_param_from_arg(args.task_settings_path, SETTINGS_PATH_PARAM)
 
     encoder = subprocess.Popen(["encoder"] + nds_params)
     ephys = subprocess.Popen(["ephys_generator"] + nds_params)
