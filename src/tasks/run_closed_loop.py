@@ -14,7 +14,7 @@ def _parse_args():
     parser.add_argument(
         "--decoder-settings-path",
         type=Path,
-        help="Path to a settings.yaml file with the decoder config.",
+        help="Path to the yaml file containing the decoder config.",
     )
     parser.add_argument(
         "--task-settings-path",
