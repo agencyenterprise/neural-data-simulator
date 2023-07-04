@@ -3,6 +3,7 @@ import logging
 import os
 import subprocess
 import tempfile
+import time
 
 from neural_data_simulator.settings import LogLevel
 from neural_data_simulator.util.runtime import configure_logger
@@ -25,33 +26,28 @@ def _terminate_process(label: str, popen_process: subprocess.Popen, timeout: int
         popen_process.kill()
 
 
-def _create_pipe_file(pipe_name: str) -> tuple[str, str]:
-    temp_dir = tempfile.mkdtemp()
-    pipe_path = os.path.join(temp_dir, pipe_name)
-    os.mkfifo(pipe_path)
-    return (temp_dir, pipe_path)
-
-
-def _wait_for_pipe_message(pipe_path: str, pipe_message: str) -> bool:
-    """Wait for a pipe message in a pipe file.
+def _block_until_message(file_path: str, message: str) -> bool:
+    """Block until a message is received in a file.
 
     Args:
-        pipe_path: Path to the pipe file.
-        pipe_message:  Message to wait for.
+        file_path: The path to the file to read.
+        message:  Message to wait for.
 
     Returns:
-        True if the message was found, False if the process was interrupted.
+        True if the message was received, False otherwise.
     """
     try:
-        with open(pipe_path, "r") as center_out_reach_pipe:
-            for line in center_out_reach_pipe:
-                if pipe_message in line:
-                    logger.info(f"Message {pipe_message} received")
-                    break
+        with open(file_path, "r") as file:
+            while True:
+                line = file.readline()
+                if message in line:
+                    logger.info(f"Message {message} received")
+                    return True
+                time.sleep(0.5)
+
     except KeyboardInterrupt:
         logger.info("CTRL+C received. Exiting...")
         return False
-    return True
 
 
 def run():
@@ -76,27 +72,29 @@ def run():
     ephys = subprocess.Popen(["ephys_generator"])
     decoder = subprocess.Popen(["decoder"])
 
-    temp_dir, center_out_reach_pipe_path = _create_pipe_file("center_out_reach")
-    center_out_reach = subprocess.Popen(
-        ["center_out_reach", "--pipe", center_out_reach_pipe_path]
-    )
-    logger.info("Modules started")
+    with tempfile.TemporaryDirectory() as temp_dir:
+        control_file_path = os.path.join(temp_dir, "center_out_reach_control_file")
+        open(control_file_path, "x")
 
-    main_task_finished = _wait_for_pipe_message(
-        center_out_reach_pipe_path,
-        MAIN_TASK_FINISHED_PIPE_MSG,
-    )
-    _terminate_process("encoder", encoder)
-    _terminate_process("ephys_generator", ephys)
-    _terminate_process("decoder", decoder)
-    if not main_task_finished:
-        _terminate_process("center_out_reach", center_out_reach)
-    else:
-        logger.info("Waiting for center_out_reach")
-        center_out_reach.wait()
+        center_out_reach = subprocess.Popen(
+            ["center_out_reach", "--control-file", control_file_path]
+        )
+        logger.info("Modules started")
 
-    os.remove(center_out_reach_pipe_path)
-    os.rmdir(temp_dir)
+        message_received = _block_until_message(
+            control_file_path, MAIN_TASK_FINISHED_PIPE_MSG
+        )
+
+        _terminate_process("encoder", encoder)
+        _terminate_process("ephys_generator", ephys)
+        _terminate_process("decoder", decoder)
+
+        if not message_received:
+            _terminate_process("center_out_reach", center_out_reach)
+        else:
+            logger.info("Waiting for center_out_reach")
+            center_out_reach.wait()
+
     logger.info("Done")
 
 

@@ -259,9 +259,9 @@ def run():
         help="Path to the settings_center_out_reach.yaml file.",
     )
     parser.add_argument(
-        "--pipe",
+        "--control-file",
         type=Path,
-        help="Path to the pipe file that will receive control messages.",
+        help="Path to the control file that will receive control messages.",
     )
     args = parser.parse_args()
     settings = cast(
@@ -362,9 +362,9 @@ def run():
         interrupted = True
 
     # This is used as a signal to a parent process that the main task has finished
-    if args.pipe is not None:
-        with open(args.pipe, "w") as pipe:
-            pipe.write("main_task_finished\n")
+    if args.control_file is not None:
+        with open(args.control_file, "w") as control_file:
+            control_file.write("main_task_finished\n")
 
     if (
         not interrupted
