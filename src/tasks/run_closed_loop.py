@@ -13,7 +13,7 @@ SCRIPT_NAME = "nds-run-closed-loop"
 logger = logging.getLogger(__name__)
 
 # This is the pipe message indicating that the main task has finished
-MAIN_TASK_FINISHED_PIPE_MSG = "main_task_finished"
+MAIN_TASK_FINISHED_MSG = "main_task_finished"
 
 
 def _terminate_process(label: str, popen_process: subprocess.Popen, timeout: int = 5):
@@ -62,7 +62,7 @@ def run():
             with open(control_file_path, "r") as file:
                 while True:
                     line = file.readline()
-                    if MAIN_TASK_FINISHED_PIPE_MSG in line:
+                    if MAIN_TASK_FINISHED_MSG in line:
                         logger.info("Main task finished")
                         break
                     if center_out_reach.poll() is not None:
