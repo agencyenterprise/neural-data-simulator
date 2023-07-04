@@ -26,30 +26,6 @@ def _terminate_process(label: str, popen_process: subprocess.Popen, timeout: int
         popen_process.kill()
 
 
-def _block_until_message(file_path: str, message: str) -> bool:
-    """Block until a message is received in a file.
-
-    Args:
-        file_path: The path to the file to read.
-        message:  Message to wait for.
-
-    Returns:
-        True if the message was received, False otherwise.
-    """
-    try:
-        with open(file_path, "r") as file:
-            while True:
-                line = file.readline()
-                if message in line:
-                    logger.info(f"Message {message} received")
-                    return True
-                time.sleep(0.5)
-
-    except KeyboardInterrupt:
-        logger.info("CTRL+C received. Exiting...")
-        return False
-
-
 def run():
     """Start all components."""
     try:
@@ -81,17 +57,27 @@ def run():
         )
         logger.info("Modules started")
 
-        message_received = _block_until_message(
-            control_file_path, MAIN_TASK_FINISHED_PIPE_MSG
-        )
+        try:
+            logger.info("Waiting for main task")
+            with open(control_file_path, "r") as file:
+                while True:
+                    line = file.readline()
+                    if MAIN_TASK_FINISHED_PIPE_MSG in line:
+                        logger.info("Main task finished")
+                        break
+                    if center_out_reach.poll() is not None:
+                        logger.info(f"Main task stopped unexpectedly.")
+                        break
+                    time.sleep(0.5)
+        except KeyboardInterrupt:
+            logger.info("CTRL+C received. Exiting...")
+            _terminate_process("center_out_reach", center_out_reach)
 
         _terminate_process("encoder", encoder)
         _terminate_process("ephys_generator", ephys)
         _terminate_process("decoder", decoder)
 
-        if not message_received:
-            _terminate_process("center_out_reach", center_out_reach)
-        else:
+        if center_out_reach.poll() is None:
             logger.info("Waiting for center_out_reach")
             center_out_reach.wait()
 
