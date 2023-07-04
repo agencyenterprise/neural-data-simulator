@@ -19,7 +19,7 @@ def _parse_args():
     parser.add_argument(
         "--task-settings-path",
         type=Path,
-        help="Path to the settings.yaml file with the task config.",
+        help="Path to the yaml file containing the task config.",
     )
     return parser.parse_args()
 
