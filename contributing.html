@@ -78,6 +78,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#using-the-environment">Using the environment</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#process">Process</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#versioning">Versioning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#automatic-release">Automatic release</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#code-requirements-and-conventions">Code requirements and conventions</a></li>
 </ul>
 </li>
@@ -193,6 +198,33 @@ Please contribute to NDS by creating GitHub issues or by submitting pull request
 <p>By default, the encoder expects to consume an LSL stream, if you prefer to read from a file set this <a class="reference internal" href="configuring.html#prerecorded-behavior-file"><span class="std std-ref">configuration</span></a>.</p>
 </div>
 <p>If you are already using your own virtual environment, you should not need to change anything.</p>
+</section>
+</section>
+<section id="process">
+<h2>Process<a class="headerlink" href="#process" title="Permalink to this heading"></a></h2>
+<section id="versioning">
+<h3>Versioning<a class="headerlink" href="#versioning" title="Permalink to this heading"></a></h3>
+<p>NDS uses <a class="reference external" href="https://en.wikipedia.org/wiki/Software_versioning#Semantic_versioning">semantic versioning</a> to identify its releases.</p>
+<p>We use the <a class="reference external" href="https://github.com/rymndhng/release-on-push-action/tree/master/">release on push</a> github action to generate the new version for each release. This github action generates the version based on a pull request label assigned before merge. The supported labels are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">release-patch</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">release-minor</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">release-major</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">norelease</span></code></p></li>
+</ul>
+</section>
+<section id="automatic-release">
+<h3>Automatic release<a class="headerlink" href="#automatic-release" title="Permalink to this heading"></a></h3>
+<p>Merged pull requests with one of the labels <code class="docutils literal notranslate"><span class="pre">release-patch</span></code>, <code class="docutils literal notranslate"><span class="pre">release-minor</span></code> or <code class="docutils literal notranslate"><span class="pre">release-major</span></code> will trigger a release job on CI.</p>
+<p>The release job will:</p>
+<ol class="arabic simple">
+<li><p>generate a new package version using semantic versioning provided by <a class="reference external" href="https://github.com/rymndhng/release-on-push-action/tree/master/">release on push</a></p></li>
+<li><p>update the <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> version using <code class="docutils literal notranslate"><span class="pre">poetry</span></code></p></li>
+<li><p>commit the updated <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> file using the <a class="reference external" href="https://github.com/stefanzweifel/git-auto-commit-action/tree/v4/">git-auto-commit action</a></p></li>
+<li><p>push the package to pypi using <a class="reference external" href="https://github.com/JRubics/poetry-publish">poetry publish</a></p></li>
+<li><p>build a new docker image and tag it with the previously generated semantic version</p></li>
+</ol>
+<p>Pull requests merged with the tag <code class="docutils literal notranslate"><span class="pre">norelease</span></code> will not trigger any of the actions listed above.</p>
 </section>
 </section>
 <section id="code-requirements-and-conventions">
