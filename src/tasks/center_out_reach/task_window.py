@@ -201,6 +201,15 @@ class TaskWindow:
         pygame.mouse.set_visible(False)
         pygame.event.set_grab(True)
 
+    def _release_and_show_cursor(self):
+        pygame.mouse.set_visible(True)
+        pygame.event.set_grab(False)
+
+    def stop_task(self):
+        """Stop the task."""
+        self._release_and_show_cursor()
+        pygame.display.quit()
+
     def _set_window_size_background_and_title(self) -> pygame.surface.Surface:
         screen = pygame.display.set_mode(self.window_size)
         screen.fill(self.params.background_color)

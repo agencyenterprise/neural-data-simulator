@@ -170,3 +170,4 @@ class TaskRunner:
             # The rest of the time we use our precise timer to wait so that
             # we can output at exactly sample_rate with as little jitter as possible
             task_window.tick(self.sample_rate * 2)
+        task_window.stop_task()
