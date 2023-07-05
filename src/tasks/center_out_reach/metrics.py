@@ -6,6 +6,7 @@ import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
 from numpy import ndarray
 import numpy as np
+import pygame
 from scipy import signal
 from sklearn.metrics import r2_score
 from tasks.center_out_reach.scalers import PixelsToMetersConverter
@@ -232,6 +233,7 @@ class MetricsCollector:
         Args:
             targets: List of target positions in pixels.
         """
+        pygame.display.init()
         h_lag = self._get_lag(
             self.actual_velocities[:, 0], self.decoded_velocities[:, 0]
         )

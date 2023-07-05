@@ -1,14 +1,56 @@
-# Publish the python package when project is tagged in the v*.*.* form
-name: Python package
+name: Create a release
 on:
   push:
-    tags:
-      - "v*.*.*"
+    branches:
+      - main
+  workflow_run:
+    workflows: [test, lint]
+    types:
+      - completed
+
 jobs:
-  build:
+  generate-release:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.TAG_CREATOR_API_TOKEN }}
+    outputs:
+      version: ${{ steps.release.outputs.version }}
     steps:
-      - uses: actions/checkout@v2
+      - id: release
+        uses: rymndhng/release-on-push-action@master
+        with:
+          bump_version_scheme: norelease
+          release_name: "NDS <RELEASE_TAG>"
+
+  push-release:
+    if: needs.generate-release.outputs.version != ''
+    runs-on: ubuntu-latest
+    needs: generate-release
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3.5.2
+        with:
+          ref: ${{ github.ref }}
+          token: ${{ secrets.TAG_CREATOR_API_TOKEN }}
+
+      - name: Setup python
+        uses: actions/setup-python@v4.6.1
+        with:
+          python-version: "3.10"
+
+      - name: Install poetry
+        uses: abatilo/actions-poetry@v2
+
+      - name: Update poetry version
+        run: |
+          poetry version ${{ needs.generate-release.outputs.version }}
+
+      - name: Commit poetry version
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Poetry version updated
+          file_pattern: pyproject.toml
+
       - name: Build and publish to pypi
         uses: JRubics/poetry-publish@v1.16
         with:
