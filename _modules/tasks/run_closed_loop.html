@@ -103,7 +103,36 @@
              
   <h1>Source code for tasks.run_closed_loop</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Run all components of the BCI closed loop.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
+
+
+<span class="k">def</span> <span class="nf">_parse_args</span><span class="p">():</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Run closed loop.&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--nds-settings-path&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to the yaml file containing the NDS config.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--decoder-settings-path&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to the yaml file containing the decoder config.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--task-settings-path&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to the yaml file containing the task config.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">_build_param_from_arg</span><span class="p">(</span><span class="n">arg_value</span><span class="p">,</span> <span class="n">param_name</span><span class="p">):</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">arg_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="n">param_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">arg_value</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">params</span>
 
 
 <div class="viewcode-block" id="run"><a class="viewcode-back" href="../../tools/tasks.html#tasks.run_closed_loop.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
@@ -120,10 +149,20 @@
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pip install &quot;neural-data-simulator[extras]&quot;&#39;</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">encoder</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s2">&quot;encoder&quot;</span><span class="p">])</span>
-    <span class="n">ephys</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s2">&quot;ephys_generator&quot;</span><span class="p">])</span>
-    <span class="n">decoder</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s2">&quot;decoder&quot;</span><span class="p">])</span>
-    <span class="n">center_out_reach</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s2">&quot;center_out_reach&quot;</span><span class="p">])</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">_parse_args</span><span class="p">()</span>
+
+    <span class="n">SETTINGS_PATH_PARAM</span> <span class="o">=</span> <span class="s2">&quot;--settings-path&quot;</span>
+
+    <span class="n">nds_params</span> <span class="o">=</span> <span class="n">_build_param_from_arg</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">nds_settings_path</span><span class="p">,</span> <span class="n">SETTINGS_PATH_PARAM</span><span class="p">)</span>
+    <span class="n">decoder_params</span> <span class="o">=</span> <span class="n">_build_param_from_arg</span><span class="p">(</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">decoder_settings_path</span><span class="p">,</span> <span class="n">SETTINGS_PATH_PARAM</span>
+    <span class="p">)</span>
+    <span class="n">task_params</span> <span class="o">=</span> <span class="n">_build_param_from_arg</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">task_settings_path</span><span class="p">,</span> <span class="n">SETTINGS_PATH_PARAM</span><span class="p">)</span>
+
+    <span class="n">encoder</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s2">&quot;encoder&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">nds_params</span><span class="p">)</span>
+    <span class="n">ephys</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s2">&quot;ephys_generator&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">nds_params</span><span class="p">)</span>
+    <span class="n">decoder</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s2">&quot;decoder&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">decoder_params</span><span class="p">)</span>
+    <span class="n">center_out_reach</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s2">&quot;center_out_reach&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">task_params</span><span class="p">)</span>
 
     <span class="n">center_out_reach</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
     <span class="n">encoder</span><span class="o">.</span><span class="n">kill</span><span class="p">()</span>
