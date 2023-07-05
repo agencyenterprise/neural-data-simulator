@@ -31,6 +31,7 @@ ephys
 Ephys
 filepath
 gamepad
+github
 highpass
 hstack
 int16
@@ -68,6 +69,7 @@ putatively
 pydantic
 pygame
 pylsl
+pypi
 pyplot
 readouterr
 reproducibility
