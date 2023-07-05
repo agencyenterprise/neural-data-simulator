@@ -110,6 +110,7 @@
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ndarray</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pygame</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">signal</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">r2_score</span>
 <span class="kn">from</span> <span class="nn">tasks.center_out_reach.scalers</span> <span class="kn">import</span> <span class="n">PixelsToMetersConverter</span>
@@ -336,6 +337,7 @@
 <span class="sd">        Args:</span>
 <span class="sd">            targets: List of target positions in pixels.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
         <span class="n">h_lag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_lag</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">actual_velocities</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">decoded_velocities</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
         <span class="p">)</span>
