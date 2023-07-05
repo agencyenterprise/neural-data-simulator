@@ -101,6 +101,33 @@ By default, the encoder expects to consume an LSL stream, if you prefer to read 
 
 If you are already using your own virtual environment, you should not need to change anything.
 
+## Process
+
+### Versioning
+
+NDS uses [semantic versioning](https://en.wikipedia.org/wiki/Software_versioning#Semantic_versioning) to identify its releases.
+
+We use the [release on push](https://github.com/rymndhng/release-on-push-action/tree/master/) github action to generate the new version for each release. This github action generates the version based on a pull request label assigned before merge. The supported labels are:
+
+- `release-patch`
+- `release-minor`
+- `release-major`
+- `norelease`
+
+### Automatic release
+
+Merged pull requests with one of the labels `release-patch`, `release-minor` or `release-major` will trigger a release job on CI.
+
+The release job will:
+
+1. generate a new package version using semantic versioning provided by [release on push](https://github.com/rymndhng/release-on-push-action/tree/master/)
+1. update the `pyproject.toml` version using `poetry`
+1. commit the updated `pyproject.toml` file using the [git-auto-commit action](https://github.com/stefanzweifel/git-auto-commit-action/tree/v4/)
+1. push the package to pypi using [poetry publish](https://github.com/JRubics/poetry-publish)
+1. build a new docker image and tag it with the previously generated semantic version
+
+Pull requests merged with the tag `norelease` will not trigger any of the actions listed above.
+
 ## Code requirements and conventions
 
 ```{note}

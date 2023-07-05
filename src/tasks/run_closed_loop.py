@@ -1,6 +1,8 @@
 """Run all components of the BCI closed loop."""
+import argparse
 import logging
 import os
+from pathlib import Path
 import subprocess
 import tempfile
 import time
@@ -21,9 +23,36 @@ def _terminate_process(label: str, popen_process: subprocess.Popen, timeout: int
     popen_process.terminate()
     try:
         popen_process.wait(timeout)
-    except subprocess.TimeoutExpired:
+    except (subprocess.TimeoutExpired, KeyboardInterrupt):
         logger.warning(f"{label} did not terminate in time. Killing it")
         popen_process.kill()
+
+
+def _parse_args():
+    parser = argparse.ArgumentParser(description="Run closed loop.")
+    parser.add_argument(
+        "--nds-settings-path",
+        type=Path,
+        help="Path to the yaml file containing the NDS config.",
+    )
+    parser.add_argument(
+        "--decoder-settings-path",
+        type=Path,
+        help="Path to the yaml file containing the decoder config.",
+    )
+    parser.add_argument(
+        "--task-settings-path",
+        type=Path,
+        help="Path to the yaml file containing the task config.",
+    )
+    return parser.parse_args()
+
+
+def _build_param_from_arg(arg_value, param_name):
+    params = []
+    if arg_value is not None:
+        params = [param_name, str(arg_value)]
+    return params
 
 
 def run():
@@ -43,17 +72,27 @@ def run():
     initialize_logger(SCRIPT_NAME)
     configure_logger(SCRIPT_NAME, LogLevel._INFO)
 
+    args = _parse_args()
+
+    SETTINGS_PATH_PARAM = "--settings-path"
+
+    nds_params = _build_param_from_arg(args.nds_settings_path, SETTINGS_PATH_PARAM)
+    decoder_params = _build_param_from_arg(
+        args.decoder_settings_path, SETTINGS_PATH_PARAM
+    )
+    task_params = _build_param_from_arg(args.task_settings_path, SETTINGS_PATH_PARAM)
+
     logger.info("Starting modules")
-    encoder = subprocess.Popen(["encoder"])
-    ephys = subprocess.Popen(["ephys_generator"])
-    decoder = subprocess.Popen(["decoder"])
+    encoder = subprocess.Popen(["encoder"] + nds_params)
+    ephys = subprocess.Popen(["ephys_generator"] + nds_params)
+    decoder = subprocess.Popen(["decoder"] + decoder_params)
 
     with tempfile.TemporaryDirectory() as temp_dir:
         control_file_path = os.path.join(temp_dir, "center_out_reach_control_file")
         open(control_file_path, "x")
 
         center_out_reach = subprocess.Popen(
-            ["center_out_reach", "--control-file", control_file_path]
+            ["center_out_reach", "--control-file", control_file_path] + task_params
         )
         logger.info("Modules started")
 
