@@ -16,10 +16,10 @@ def run():
         print('pip install "neural-data-simulator[extras]"')
         return
 
-    encoder = subprocess.Popen(["encoder"])
-    ephys = subprocess.Popen(["ephys_generator"])
-    decoder = subprocess.Popen(["decoder"])
-    center_out_reach = subprocess.Popen(["center_out_reach"])
+    encoder = subprocess.Popen(["encoder"], shell=True)
+    ephys = subprocess.Popen(["ephys_generator"], shell=True)
+    decoder = subprocess.Popen(["decoder"], shell=True)
+    center_out_reach = subprocess.Popen(["center_out_reach"], shell=True)
 
     center_out_reach.wait()
     encoder.kill()
