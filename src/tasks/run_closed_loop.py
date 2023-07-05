@@ -1,5 +1,10 @@
 """Run all components of the BCI closed loop."""
 import subprocess
+import sys
+
+
+def _run_process(args) -> subprocess.Popen:
+    return subprocess.Popen(args, shell=sys.platform == "win32")
 
 
 def run():
@@ -16,10 +21,10 @@ def run():
         print('pip install "neural-data-simulator[extras]"')
         return
 
-    encoder = subprocess.Popen(["encoder"], shell=True)
-    ephys = subprocess.Popen(["ephys_generator"], shell=True)
-    decoder = subprocess.Popen(["decoder"], shell=True)
-    center_out_reach = subprocess.Popen(["center_out_reach"], shell=True)
+    encoder = _run_process(["encoder"])
+    ephys = _run_process(["ephys_generator"])
+    decoder = _run_process(["decoder"])
+    center_out_reach = _run_process(["center_out_reach"])
 
     center_out_reach.wait()
     encoder.kill()
