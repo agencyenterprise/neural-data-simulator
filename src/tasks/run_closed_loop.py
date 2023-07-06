@@ -2,6 +2,11 @@
 import argparse
 from pathlib import Path
 import subprocess
+import sys
+
+
+def _run_process(args) -> subprocess.Popen:
+    return subprocess.Popen(args, shell=sys.platform == "win32")
 
 
 def _parse_args():
@@ -55,10 +60,10 @@ def run():
     )
     task_params = _build_param_from_arg(args.task_settings_path, SETTINGS_PATH_PARAM)
 
-    encoder = subprocess.Popen(["encoder"] + nds_params)
-    ephys = subprocess.Popen(["ephys_generator"] + nds_params)
-    decoder = subprocess.Popen(["decoder"] + decoder_params)
-    center_out_reach = subprocess.Popen(["center_out_reach"] + task_params)
+    encoder = _run_process(["encoder"] + nds_params)
+    ephys = _run_process(["ephys_generator"] + nds_params)
+    decoder = _run_process(["decoder"] + decoder_params)
+    center_out_reach = _run_process(["center_out_reach"] + task_params)
 
     center_out_reach.wait()
     encoder.kill()
