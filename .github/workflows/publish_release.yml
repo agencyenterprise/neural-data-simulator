@@ -20,7 +20,6 @@ jobs:
         uses: rymndhng/release-on-push-action@master
         with:
           bump_version_scheme: norelease
-          release_name: "NDS <RELEASE_TAG>"
 
   push-release:
     if: needs.generate-release.outputs.version != ''
