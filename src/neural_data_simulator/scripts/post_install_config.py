@@ -29,6 +29,7 @@ plugin_files = [
     ("preprocessor.py", plugins.__file__),
     ("postprocessor.py", plugins.__file__),
     ("gamepad_preprocessor.py", plugins.__file__),
+    ("custom_script.py", plugins.__file__),
 ]
 
 plugin_test_files = [

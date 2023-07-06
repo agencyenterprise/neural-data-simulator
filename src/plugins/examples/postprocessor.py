@@ -1,5 +1,7 @@
 """Example of a custom Postprocessor implementation."""
-import numpy as np
+
+# This is how a custom script can be imported from the same directory as this one
+import custom_script
 
 from neural_data_simulator.encoder import Processor
 from neural_data_simulator.samples import Samples
@@ -10,8 +12,7 @@ class PassThroughPostprocessor(Processor):
 
     def execute(self, data: Samples) -> Samples:
         """Process the data and return the transformation."""
-        data.data = np.clip(data.data, 0, None)
-        return data
+        return custom_script.run_post_transformation(data)
 
 
 def create_postprocessor() -> Processor:

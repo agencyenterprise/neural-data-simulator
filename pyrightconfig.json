@@ -1,0 +1,11 @@
+{
+    "include": [
+        "src/**/*.py"
+    ],
+    "executionEnvironments": [
+        {
+            "root": ".",
+            "extraPaths": ["src/plugins/examples"]
+        }
+    ]          
+}
