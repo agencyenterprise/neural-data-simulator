@@ -89,8 +89,7 @@ def run():
 
     with tempfile.TemporaryDirectory() as temp_dir:
         control_file_path = os.path.join(temp_dir, "center_out_reach_control_file")
-        open(control_file_path, "x")
-
+        Path(control_file_path).touch(exist_ok=False)
         center_out_reach = subprocess.Popen(
             ["center_out_reach", "--control-file", control_file_path] + task_params
         )
