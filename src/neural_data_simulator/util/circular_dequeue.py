@@ -14,7 +14,7 @@ class CircularDeque:
 
     def append(self, value) -> None:
         """Append a value to the deque."""
-        if len(self.deque) > self.num_elements:
+        if len(self.deque) >= self.num_elements:
             self.deque.popleft()
         self.deque.append(value)
 
