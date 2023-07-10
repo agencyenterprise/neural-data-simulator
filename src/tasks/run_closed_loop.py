@@ -1,7 +1,6 @@
 """Run all components of the BCI closed loop."""
 import argparse
 import logging
-import os
 from pathlib import Path
 import subprocess
 import tempfile
@@ -55,6 +54,20 @@ def _build_param_from_arg(arg_value, param_name):
     return params
 
 
+def _wait_for_center_out_reach_to_finish(control_file, center_out_reach):
+    # TODO: explain what are we checking here
+    logger.info("Waiting for center out reach task")
+    while True:
+        line = str(control_file.readline())
+        if MAIN_TASK_FINISHED_MSG in line:
+            logger.info("Center out reach task finished")
+            break
+        if center_out_reach.poll() is not None:
+            logger.info("Center out reach task stopped unexpectedly.")
+            break
+        time.sleep(0.5)
+
+
 def run():
     """Start all components."""
     try:
@@ -74,51 +87,34 @@ def run():
 
     args = _parse_args()
 
-    SETTINGS_PATH_PARAM = "--settings-path"
-
-    nds_params = _build_param_from_arg(args.nds_settings_path, SETTINGS_PATH_PARAM)
+    nds_params = _build_param_from_arg(args.nds_settings_path, "--settings-path")
     decoder_params = _build_param_from_arg(
-        args.decoder_settings_path, SETTINGS_PATH_PARAM
+        args.decoder_settings_path, "--settings-path"
     )
-    task_params = _build_param_from_arg(args.task_settings_path, SETTINGS_PATH_PARAM)
+    task_params = _build_param_from_arg(args.task_settings_path, "--settings-path")
 
     logger.info("Starting modules")
     encoder = subprocess.Popen(["encoder"] + nds_params)
     ephys = subprocess.Popen(["ephys_generator"] + nds_params)
     decoder = subprocess.Popen(["decoder"] + decoder_params)
 
-    with tempfile.TemporaryDirectory() as temp_dir:
-        control_file_path = os.path.join(temp_dir, "center_out_reach_control_file")
-        open(control_file_path, "x")
-
+    with tempfile.NamedTemporaryFile() as control_file:
         center_out_reach = subprocess.Popen(
-            ["center_out_reach", "--control-file", control_file_path] + task_params
+            ["center_out_reach", "--control-file", control_file.name] + task_params
         )
-        logger.info("Modules started")
-
         try:
-            logger.info("Waiting for main task")
-            with open(control_file_path, "r") as file:
-                while True:
-                    line = file.readline()
-                    if MAIN_TASK_FINISHED_MSG in line:
-                        logger.info("Main task finished")
-                        break
-                    if center_out_reach.poll() is not None:
-                        logger.info("Main task stopped unexpectedly.")
-                        break
-                    time.sleep(0.5)
+            _wait_for_center_out_reach_to_finish(control_file, center_out_reach)
         except KeyboardInterrupt:
             logger.info("CTRL+C received. Exiting...")
             _terminate_process("center_out_reach", center_out_reach)
 
-        _terminate_process("encoder", encoder)
-        _terminate_process("ephys_generator", ephys)
-        _terminate_process("decoder", decoder)
+    _terminate_process("encoder", encoder)
+    _terminate_process("ephys_generator", ephys)
+    _terminate_process("decoder", decoder)
 
-        if center_out_reach.poll() is None:
-            logger.info("Waiting for center_out_reach")
-            center_out_reach.wait()
+    if center_out_reach.poll() is None:
+        logger.info("Waiting for center_out_reach")
+        center_out_reach.wait()
 
     logger.info("Done")
 
