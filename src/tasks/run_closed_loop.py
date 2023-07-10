@@ -55,6 +55,33 @@ def _build_param_from_arg(arg_value, param_name):
     return params
 
 
+def _wait_for_center_out_reach_main_task(
+    control_file_path: str, center_out_reach: subprocess.Popen
+):
+    """Waits for the center_out_reach main task to finish.
+
+    This function is blocking and will only return when the center_out_reach
+    has sent a message indicating that his main task has finished or when
+    the center_out_reach process has stopped unexpectedly, indicating that the
+    main task was also terminated.
+
+    Args:
+        control_file_path (str): Path to the control file.
+        center_out_reach (subprocess.Popen): The center_out_reach process.
+    """
+    logger.info("Waiting for center_out_reach main task")
+    with open(control_file_path, "r") as file:
+        while True:
+            line = str(file.readline())
+            if MAIN_TASK_FINISHED_MSG in line:
+                logger.info("center_out_reach main task finished")
+                break
+            if center_out_reach.poll() is not None:
+                logger.info("center_out_reach stopped unexpectedly.")
+                break
+            time.sleep(0.5)
+
+
 def run():
     """Start all components."""
     try:
@@ -96,17 +123,7 @@ def run():
         logger.info("Modules started")
 
         try:
-            logger.info("Waiting for main task")
-            with open(control_file_path, "r") as file:
-                while True:
-                    line = file.readline()
-                    if MAIN_TASK_FINISHED_MSG in line:
-                        logger.info("Main task finished")
-                        break
-                    if center_out_reach.poll() is not None:
-                        logger.info("Main task stopped unexpectedly.")
-                        break
-                    time.sleep(0.5)
+            _wait_for_center_out_reach_main_task(control_file_path, center_out_reach)
         except KeyboardInterrupt:
             logger.info("CTRL+C received. Exiting...")
             _terminate_process("center_out_reach", center_out_reach)
