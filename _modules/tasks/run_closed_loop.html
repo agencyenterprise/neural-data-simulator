@@ -104,32 +104,8 @@
   <h1>Source code for tasks.run_closed_loop</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Run all components of the BCI closed loop.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">argparse</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
-<span class="kn">import</span> <span class="nn">tempfile</span>
-<span class="kn">import</span> <span class="nn">time</span>
-
-<span class="kn">from</span> <span class="nn">neural_data_simulator.settings</span> <span class="kn">import</span> <span class="n">LogLevel</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">configure_logger</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">initialize_logger</span>
-
-<span class="n">SCRIPT_NAME</span> <span class="o">=</span> <span class="s2">&quot;nds-run-closed-loop&quot;</span>
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-
-<span class="c1"># This is the pipe message indicating that the main task has finished</span>
-<span class="n">MAIN_TASK_FINISHED_MSG</span> <span class="o">=</span> <span class="s2">&quot;main_task_finished&quot;</span>
-
-
-<span class="k">def</span> <span class="nf">_terminate_process</span><span class="p">(</span><span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">popen_process</span><span class="p">:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">):</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Terminating </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">popen_process</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">popen_process</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">timeout</span><span class="p">)</span>
-    <span class="k">except</span> <span class="p">(</span><span class="n">subprocess</span><span class="o">.</span><span class="n">TimeoutExpired</span><span class="p">,</span> <span class="ne">KeyboardInterrupt</span><span class="p">):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2"> did not terminate in time. Killing it&quot;</span><span class="p">)</span>
-        <span class="n">popen_process</span><span class="o">.</span><span class="n">kill</span><span class="p">()</span>
 
 
 <span class="k">def</span> <span class="nf">_parse_args</span><span class="p">():</span>
@@ -159,33 +135,6 @@
     <span class="k">return</span> <span class="n">params</span>
 
 
-<span class="k">def</span> <span class="nf">_wait_for_center_out_reach_main_task</span><span class="p">(</span>
-    <span class="n">control_file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">center_out_reach</span><span class="p">:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span>
-<span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Waits for the center_out_reach main task to finish.</span>
-
-<span class="sd">    This function is blocking and will only return when the center_out_reach</span>
-<span class="sd">    has sent a message indicating that his main task has finished or when</span>
-<span class="sd">    the center_out_reach process has stopped unexpectedly, indicating that the</span>
-<span class="sd">    main task was also terminated.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        control_file_path (str): Path to the control file.</span>
-<span class="sd">        center_out_reach (subprocess.Popen): The center_out_reach process.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Waiting for center_out_reach main task&quot;</span><span class="p">)</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">control_file_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">line</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">readline</span><span class="p">())</span>
-            <span class="k">if</span> <span class="n">MAIN_TASK_FINISHED_MSG</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;center_out_reach main task finished&quot;</span><span class="p">)</span>
-                <span class="k">break</span>
-            <span class="k">if</span> <span class="n">center_out_reach</span><span class="o">.</span><span class="n">poll</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;center_out_reach stopped unexpectedly.&quot;</span><span class="p">)</span>
-                <span class="k">break</span>
-            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
-
-
 <div class="viewcode-block" id="run"><a class="viewcode-back" href="../../tools/tasks.html#tasks.run_closed_loop.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Start all components.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
@@ -200,9 +149,6 @@
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pip install &quot;neural-data-simulator[extras]&quot;&#39;</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">initialize_logger</span><span class="p">(</span><span class="n">SCRIPT_NAME</span><span class="p">)</span>
-    <span class="n">configure_logger</span><span class="p">(</span><span class="n">SCRIPT_NAME</span><span class="p">,</span> <span class="n">LogLevel</span><span class="o">.</span><span class="n">_INFO</span><span class="p">)</span>
-
     <span class="n">args</span> <span class="o">=</span> <span class="n">_parse_args</span><span class="p">()</span>
 
     <span class="n">SETTINGS_PATH_PARAM</span> <span class="o">=</span> <span class="s2">&quot;--settings-path&quot;</span>
@@ -213,34 +159,15 @@
     <span class="p">)</span>
     <span class="n">task_params</span> <span class="o">=</span> <span class="n">_build_param_from_arg</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">task_settings_path</span><span class="p">,</span> <span class="n">SETTINGS_PATH_PARAM</span><span class="p">)</span>
 
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Starting modules&quot;</span><span class="p">)</span>
     <span class="n">encoder</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s2">&quot;encoder&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">nds_params</span><span class="p">)</span>
     <span class="n">ephys</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s2">&quot;ephys_generator&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">nds_params</span><span class="p">)</span>
     <span class="n">decoder</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s2">&quot;decoder&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">decoder_params</span><span class="p">)</span>
+    <span class="n">center_out_reach</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s2">&quot;center_out_reach&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">task_params</span><span class="p">)</span>
 
-    <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">temp_dir</span><span class="p">:</span>
-        <span class="n">control_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">temp_dir</span><span class="p">,</span> <span class="s2">&quot;center_out_reach_control_file&quot;</span><span class="p">)</span>
-        <span class="n">Path</span><span class="p">(</span><span class="n">control_file_path</span><span class="p">)</span><span class="o">.</span><span class="n">touch</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">center_out_reach</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
-            <span class="p">[</span><span class="s2">&quot;center_out_reach&quot;</span><span class="p">,</span> <span class="s2">&quot;--control-file&quot;</span><span class="p">,</span> <span class="n">control_file_path</span><span class="p">]</span> <span class="o">+</span> <span class="n">task_params</span>
-        <span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Modules started&quot;</span><span class="p">)</span>
-
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">_wait_for_center_out_reach_main_task</span><span class="p">(</span><span class="n">control_file_path</span><span class="p">,</span> <span class="n">center_out_reach</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;CTRL+C received. Exiting...&quot;</span><span class="p">)</span>
-            <span class="n">_terminate_process</span><span class="p">(</span><span class="s2">&quot;center_out_reach&quot;</span><span class="p">,</span> <span class="n">center_out_reach</span><span class="p">)</span>
-
-        <span class="n">_terminate_process</span><span class="p">(</span><span class="s2">&quot;encoder&quot;</span><span class="p">,</span> <span class="n">encoder</span><span class="p">)</span>
-        <span class="n">_terminate_process</span><span class="p">(</span><span class="s2">&quot;ephys_generator&quot;</span><span class="p">,</span> <span class="n">ephys</span><span class="p">)</span>
-        <span class="n">_terminate_process</span><span class="p">(</span><span class="s2">&quot;decoder&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">center_out_reach</span><span class="o">.</span><span class="n">poll</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Waiting for center_out_reach&quot;</span><span class="p">)</span>
-            <span class="n">center_out_reach</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
-
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Done&quot;</span><span class="p">)</span></div>
+    <span class="n">center_out_reach</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+    <span class="n">encoder</span><span class="o">.</span><span class="n">kill</span><span class="p">()</span>
+    <span class="n">ephys</span><span class="o">.</span><span class="n">kill</span><span class="p">()</span>
+    <span class="n">decoder</span><span class="o">.</span><span class="n">kill</span><span class="p">()</span></div>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
