@@ -22,6 +22,7 @@ MAIN_TASK_FINISHED_MSG = "main_task_finished"
 def _run_process(args) -> subprocess.Popen:
     return subprocess.Popen(args, shell=sys.platform == "win32")
 
+
 def _terminate_process(label: str, popen_process: subprocess.Popen, timeout: int = 5):
     logger.info(f"Terminating {label}")
     popen_process.terminate()
@@ -30,6 +31,7 @@ def _terminate_process(label: str, popen_process: subprocess.Popen, timeout: int
     except (subprocess.TimeoutExpired, KeyboardInterrupt):
         logger.warning(f"{label} did not terminate in time. Killing it")
         popen_process.kill()
+
 
 def _parse_args():
     parser = argparse.ArgumentParser(description="Run closed loop.")
