@@ -108,6 +108,7 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">tempfile</span>
 <span class="kn">import</span> <span class="nn">time</span>
 
@@ -120,6 +121,10 @@
 
 <span class="c1"># This is the pipe message indicating that the main task has finished</span>
 <span class="n">MAIN_TASK_FINISHED_MSG</span> <span class="o">=</span> <span class="s2">&quot;main_task_finished&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">_run_process</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;win32&quot;</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">_terminate_process</span><span class="p">(</span><span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">popen_process</span><span class="p">:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">):</span>
@@ -214,14 +219,15 @@
     <span class="n">task_params</span> <span class="o">=</span> <span class="n">_build_param_from_arg</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">task_settings_path</span><span class="p">,</span> <span class="n">SETTINGS_PATH_PARAM</span><span class="p">)</span>
 
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Starting modules&quot;</span><span class="p">)</span>
-    <span class="n">encoder</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s2">&quot;encoder&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">nds_params</span><span class="p">)</span>
-    <span class="n">ephys</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s2">&quot;ephys_generator&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">nds_params</span><span class="p">)</span>
-    <span class="n">decoder</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s2">&quot;decoder&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">decoder_params</span><span class="p">)</span>
+
+    <span class="n">encoder</span> <span class="o">=</span> <span class="n">_run_process</span><span class="p">([</span><span class="s2">&quot;encoder&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">nds_params</span><span class="p">)</span>
+    <span class="n">ephys</span> <span class="o">=</span> <span class="n">_run_process</span><span class="p">([</span><span class="s2">&quot;ephys_generator&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">nds_params</span><span class="p">)</span>
+    <span class="n">decoder</span> <span class="o">=</span> <span class="n">_run_process</span><span class="p">([</span><span class="s2">&quot;decoder&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">decoder_params</span><span class="p">)</span>
 
     <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">temp_dir</span><span class="p">:</span>
         <span class="n">control_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">temp_dir</span><span class="p">,</span> <span class="s2">&quot;center_out_reach_control_file&quot;</span><span class="p">)</span>
         <span class="n">Path</span><span class="p">(</span><span class="n">control_file_path</span><span class="p">)</span><span class="o">.</span><span class="n">touch</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">center_out_reach</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
+        <span class="n">center_out_reach</span> <span class="o">=</span> <span class="n">_run_process</span><span class="p">(</span>
             <span class="p">[</span><span class="s2">&quot;center_out_reach&quot;</span><span class="p">,</span> <span class="s2">&quot;--control-file&quot;</span><span class="p">,</span> <span class="n">control_file_path</span><span class="p">]</span> <span class="o">+</span> <span class="n">task_params</span>
         <span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Modules started&quot;</span><span class="p">)</span>
