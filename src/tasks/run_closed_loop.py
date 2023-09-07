@@ -4,6 +4,7 @@ import logging
 import os
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import time
 
@@ -16,6 +17,10 @@ logger = logging.getLogger(__name__)
 
 # This is the pipe message indicating that the main task has finished
 MAIN_TASK_FINISHED_MSG = "main_task_finished"
+
+
+def _run_process(args) -> subprocess.Popen:
+    return subprocess.Popen(args, shell=sys.platform == "win32")
 
 
 def _terminate_process(label: str, popen_process: subprocess.Popen, timeout: int = 5):
@@ -110,14 +115,15 @@ def run():
     task_params = _build_param_from_arg(args.task_settings_path, SETTINGS_PATH_PARAM)
 
     logger.info("Starting modules")
-    encoder = subprocess.Popen(["encoder"] + nds_params)
-    ephys = subprocess.Popen(["ephys_generator"] + nds_params)
-    decoder = subprocess.Popen(["decoder"] + decoder_params)
+
+    encoder = _run_process(["encoder"] + nds_params)
+    ephys = _run_process(["ephys_generator"] + nds_params)
+    decoder = _run_process(["decoder"] + decoder_params)
 
     with tempfile.TemporaryDirectory() as temp_dir:
         control_file_path = os.path.join(temp_dir, "center_out_reach_control_file")
         Path(control_file_path).touch(exist_ok=False)
-        center_out_reach = subprocess.Popen(
+        center_out_reach = _run_process(
             ["center_out_reach", "--control-file", control_file_path] + task_params
         )
         logger.info("Modules started")
