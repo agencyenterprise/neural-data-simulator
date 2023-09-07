@@ -507,12 +507,12 @@ allow us to tell whether our models are improving.
  .. code-block:: none
 
     neg_log_likelihood: Zero rate predictions found. Replacing zeros with 1e-9
-    cobps for original data (i.e. best achievable): 0.4486997123425871
+    cobps for original data (i.e. best achievable): 0.44869971234258726
     cobps for mean per channel (this should be 0 by the co-bps definition): 0.0
-    cobps for mean across all training data: -0.48506622301885105
+    cobps for mean across all training data: -0.48506622301885116
     cobps for random uniform data: -9.126104175688969
-    cobps for simulated data (train data): 0.02553927415256158
-    cobps for simulated data (test data): 0.019769544877821482
+    cobps for simulated data (train data): 0.02553927440612118
+    cobps for simulated data (test data): 0.01976954526713931
 
 
 
@@ -553,10 +553,10 @@ training/testing with real or simulated data to try to extract more information.
 
  .. code-block:: none
 
-    trained on real data, tested on real data: 0.49357481254843066
-    trained on real data, tested on simulated data: 0.7756907304847125
-    trained on simulated data, tested on real data: -1.1142196937517301
-    trained on simulated data, tested on simulated data: 0.9999999999999727
+    trained on real data, tested on real data: 0.4935748125484305
+    trained on real data, tested on simulated data: 0.7756907188111652
+    trained on simulated data, tested on real data: -1.1141248552617382
+    trained on simulated data, tested on simulated data: 0.9999999999999726
 
 
 
@@ -623,8 +623,8 @@ Fit a model to predict velocity from the spiking data.
 
  .. code-block:: none
 
-    trained on real data, tested on real spikes: 0.49357481254843066
-    trained on real data, tested on simulated spikes: 0.7756907304847125
+    trained on real data, tested on real spikes: 0.4935748125484305
+    trained on real data, tested on simulated spikes: 0.7756907188111652
 
 
 
@@ -663,7 +663,7 @@ Dump the model to a file that can be used in the decoder configuration.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 1 minutes  19.417 seconds)
+   **Total running time of the script:** ( 2 minutes  13.035 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_train_encoder_and_decoder_model.py:
