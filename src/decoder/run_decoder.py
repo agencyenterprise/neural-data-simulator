@@ -91,20 +91,26 @@ def _setup_decoder(
     return decoder
 
 
-def run():
-    """Run the decoder loop."""
-    initialize_logger(SCRIPT_NAME)
+def _parse_args_settings_path() -> Path:
+    """Parse command-line arguments for the settings path."""
     parser = argparse.ArgumentParser(description="Run decoder.")
     parser.add_argument(
         "--settings-path",
         type=Path,
         help="Path to the settings_decoder.yaml file.",
     )
+    args = parser.parse_args()
+    return args.settings_path
+
+
+def run():
+    """Run the decoder loop."""
+    initialize_logger(SCRIPT_NAME)
 
     settings = cast(
         _Settings,
         get_script_settings(
-            parser.parse_args().settings_path, "settings_decoder.yaml", _Settings
+            _parse_args_settings_path(), "settings_decoder.yaml", _Settings
         ),
     )
     configure_logger(SCRIPT_NAME, settings.log_level)
