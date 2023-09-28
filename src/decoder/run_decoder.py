@@ -7,7 +7,6 @@ from typing import cast
 
 from decoder.decoders import Decoder
 from decoder.decoders import PersistedFileDecoderModel
-from pydantic import BaseModel
 from pydantic_yaml import VersionedYamlModel
 
 from neural_data_simulator import inputs
@@ -15,8 +14,6 @@ from neural_data_simulator import outputs
 from neural_data_simulator import timing
 from neural_data_simulator.outputs import StreamConfig
 from neural_data_simulator.settings import LogLevel
-from neural_data_simulator.settings import LSLInputModel
-from neural_data_simulator.settings import LSLOutputModel
 from neural_data_simulator.settings import TimerModel
 from neural_data_simulator.util.runtime import configure_logger
 from neural_data_simulator.util.runtime import get_abs_path
@@ -29,27 +26,7 @@ logger = logging.getLogger(__name__)
 
 
 class _Settings(VersionedYamlModel):
-    """Decoder settings."""
-
-    class Decoder(BaseModel):
-        """Decoder settings."""
-
-        class Input(BaseModel):
-            """Decoder input settings."""
-
-            lsl: LSLInputModel
-
-        class Output(BaseModel):
-            """Decoder output settings."""
-
-            sampling_rate: float
-            n_channels: int
-            lsl: LSLOutputModel
-
-        input: Input
-        output: Output
-        model_file: str
-        spike_threshold: float
+    """Decoder app settings."""
 
     log_level: LogLevel
     decoder: Decoder
