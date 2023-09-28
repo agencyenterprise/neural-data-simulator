@@ -7,10 +7,11 @@ from unittest.mock import Mock
 
 import numpy as np
 import pytest
+import streamer
+from streamer import run_streamer
+from streamer import settings
+import streamer.run_streamer
 
-import neural_data_simulator
-from neural_data_simulator.scripts import run_streamer
-import neural_data_simulator.scripts.run_streamer
 from neural_data_simulator.util import settings_loader
 
 
@@ -96,9 +97,7 @@ class BlackrockRawIOFake:
 @pytest.fixture(autouse=True)
 def fake_blackrockrawio(monkeypatch):
     """Override the nnds.scripts.run_streamer.BlackrockRawIO with a fake."""
-    monkeypatch.setattr(
-        neural_data_simulator.scripts.run_streamer, "BlackrockRawIO", BlackrockRawIOFake
-    )
+    monkeypatch.setattr(streamer.run_streamer, "BlackrockRawIO", BlackrockRawIOFake)
 
 
 @pytest.fixture(autouse=True)
@@ -136,7 +135,7 @@ def mock_path_exists(monkeypatch: pytest.MonkeyPatch):
 @pytest.fixture(autouse=True)
 def mock_default_settings(monkeypatch: pytest.MonkeyPatch):
     """Mock get_script_settings to return the default settings."""
-    package_dir = os.path.dirname(neural_data_simulator.__file__)
+    package_dir = os.path.dirname(streamer.__file__)
     default_settings: run_streamer._Settings = settings_loader.get_script_settings(
         Path(f"{package_dir}/config/settings_streamer.yaml"),
         "settings.yaml",
@@ -146,7 +145,7 @@ def mock_default_settings(monkeypatch: pytest.MonkeyPatch):
     get_script_settings_mock = Mock()
     get_script_settings_mock.return_value = default_settings
     monkeypatch.setattr(
-        "neural_data_simulator.scripts.run_streamer.get_script_settings",
+        "streamer.run_streamer.get_script_settings",
         get_script_settings_mock,
     )
     return default_settings
@@ -161,7 +160,5 @@ class TestRunStreamer:
 
     def test_run_blackrock_streamer(self, mock_default_settings):
         """Test run with blackrock config."""
-        mock_default_settings.streamer.input_type = (
-            run_streamer.StreamerInputType.Blackrock
-        )
+        mock_default_settings.streamer.input_type = settings.StreamerInputType.Blackrock
         run_streamer.run()

@@ -8,6 +8,7 @@ packages = [
     {include = "neural_data_simulator", from = "src"},
     {include = "decoder", from = "src"},
     {include = "recorder", from = "src"},
+    {include = "streamer", from = "src"},
     {include = "tasks", from = "src"},
     {include = "plugins", from = "src"},
 ]
@@ -74,7 +75,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.scripts]
 nds_post_install_config = "neural_data_simulator.scripts.post_install_config:run"
 encoder = "neural_data_simulator.scripts.run_encoder:run"
-streamer = "neural_data_simulator.scripts.run_streamer:run"
+streamer = "streamer.run_streamer:run"
 ephys_generator = "neural_data_simulator.scripts.run_ephys_generator:run"
 decoder = "decoder.run_decoder:run"
 recorder = "recorder.run_recorder:run"
