@@ -182,9 +182,8 @@ def _metrics_enabled(settings: _Settings) -> bool:
     )
 
 
-def run():
-    """Run the center-out reach task GUI."""
-    initialize_logger(SCRIPT_NAME)
+def _parse_args() -> argparse.Namespace:
+    """Parse command line arguments."""
     parser = argparse.ArgumentParser(description="Run GUI.")
     parser.add_argument(
         "--settings-path",
@@ -197,6 +196,13 @@ def run():
         help="Path to the control file that will receive control messages.",
     )
     args = parser.parse_args()
+    return args
+
+
+def run():
+    """Run the center-out reach task GUI."""
+    initialize_logger(SCRIPT_NAME)
+    args = _parse_args()
     settings = cast(
         _Settings,
         get_script_settings(
