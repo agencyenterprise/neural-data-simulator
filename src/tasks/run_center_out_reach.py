@@ -3,12 +3,11 @@ import argparse
 import logging
 from pathlib import Path
 import re
-from typing import cast, Optional, Tuple
+from typing import cast, Tuple
 
 import numpy as np
-from pydantic import BaseModel
-from pydantic import validator
 from pydantic_yaml import VersionedYamlModel
+from tasks.center_out_reach.settings import CenterOutReach
 from tasks.center_out_reach.input_events import InputHandler
 from tasks.center_out_reach.metrics import MetricsCollector
 from tasks.center_out_reach.scalers import PixelsToMetersConverter
@@ -22,8 +21,6 @@ from neural_data_simulator import inputs
 from neural_data_simulator import outputs
 from neural_data_simulator.outputs import StreamConfig
 from neural_data_simulator.settings import LogLevel
-from neural_data_simulator.settings import LSLInputModel
-from neural_data_simulator.settings import LSLOutputModel
 from neural_data_simulator.util.runtime import configure_logger
 from neural_data_simulator.util.runtime import initialize_logger
 from neural_data_simulator.util.runtime import open_connection
@@ -35,74 +32,10 @@ logger = logging.getLogger(__name__)
 
 
 class _Settings(VersionedYamlModel):
-    """Center-out reach settings."""
+    """Center-out reach app settings.
 
-    class CenterOutReach(BaseModel):
-        """Center-out reach settings."""
-
-        class Input(BaseModel):
-            """Input settings."""
-
-            enabled: bool
-            lsl: Optional[LSLInputModel]
-
-            @validator("lsl")
-            def _lsl_config_is_set_for_input_enabled(cls, v, values):
-                if not v and values.get("enabled"):
-                    raise ValueError("lsl needs to be configured when input is enabled")
-
-                return v
-
-        class Output(BaseModel):
-            """Output settings."""
-
-            lsl: LSLOutputModel
-
-        class Window(BaseModel):
-            """Window settings."""
-
-            class Colors(BaseModel):
-                """Colors used in the GUI."""
-
-                background: str
-                decoded_cursor: str
-                actual_cursor: str
-                target: str
-                target_waiting_for_cue: str
-                decoded_cursor_on_target: str
-
-            width: Optional[float]
-            height: Optional[float]
-            ppi: Optional[float]
-
-            colors: Colors
-
-        class StandardScaler(BaseModel):
-            """Velocity scaler settings."""
-
-            scale: list[float]
-            mean: list[float]
-
-        class Task(BaseModel):
-            """Task settings."""
-
-            target_radius: float
-            cursor_radius: float
-            radius_to_target: float
-            number_of_targets: int
-
-            delay_to_begin: float
-            delay_waiting_for_cue: float
-            target_holding_time: float
-            max_trial_time: int
-
-        input: Input
-        output: Output
-        sampling_rate: float
-        window: Window
-        with_metrics: bool
-        standard_scaler: StandardScaler
-        task: Task
+    Defines the schema of a `settings_center_out_reach.yaml` file.
+    """
 
     log_level: LogLevel
     center_out_reach: CenterOutReach
@@ -269,7 +202,7 @@ def run():
         get_script_settings(
             args.settings_path,
             "settings_center_out_reach.yaml",
-            _Settings,
+            settings_parser=_Settings,
         ),
     )
     configure_logger(SCRIPT_NAME, settings.log_level)
