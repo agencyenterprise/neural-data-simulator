@@ -7,6 +7,7 @@ from typing import cast
 
 from decoder.decoders import Decoder
 from decoder.decoders import PersistedFileDecoderModel
+from decoder.settings import DecoderSettings
 from pydantic_yaml import VersionedYamlModel
 
 from neural_data_simulator import inputs
@@ -29,7 +30,7 @@ class _Settings(VersionedYamlModel):
     """Decoder app settings."""
 
     log_level: LogLevel
-    decoder: Decoder
+    decoder: DecoderSettings
     timer: TimerModel
 
 
@@ -49,7 +50,7 @@ def _setup_LSL_input(stream_name: str, connection_timeout: float) -> inputs.LSLI
 
 
 def _setup_LSL_output(
-    output_settings: _Settings.Decoder.Output,
+    output_settings: DecoderSettings.Output,
 ) -> outputs.LSLOutputDevice:
     """Prepare output that will make the data available via an LSL stream.
 

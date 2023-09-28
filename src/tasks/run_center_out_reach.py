@@ -70,8 +70,8 @@ def _setup_LSL_output(config: StreamConfig) -> outputs.LSLOutputDevice:
 
 
 def _get_task_window_params(
-    task_settings: _Settings.CenterOutReach.Task,
-    window_settings: _Settings.CenterOutReach.Window,
+    task_settings: CenterOutReach.Task,
+    window_settings: CenterOutReach.Window,
     unit_converter: PixelsToMetersConverter,
 ):
     return TaskWindow.Params(

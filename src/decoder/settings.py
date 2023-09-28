@@ -6,7 +6,7 @@ from neural_data_simulator.settings import LSLInputModel
 from neural_data_simulator.settings import LSLOutputModel
 
 
-class Decoder(BaseModel):
+class DecoderSettings(BaseModel):
     """Decoder settings."""
 
     class Input(BaseModel):
