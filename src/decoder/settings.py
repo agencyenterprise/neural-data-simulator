@@ -1,4 +1,4 @@
-"""Schema for Decoder settings."""""
+"""Schema for Decoder settings."""
 
 from pydantic import BaseModel
 
