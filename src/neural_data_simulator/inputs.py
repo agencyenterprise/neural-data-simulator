@@ -220,7 +220,7 @@ class LSLInput(Input):
         if self._inlet is not None:
             return StreamInfo(self._inlet.info())
         results = pylsl.resolve_stream("name", self._stream_name)
-        if len(results) > 0:
+        if (results is not None) and (len(results) > 0):
             return StreamInfo(results[0])
         raise ValueError("Stream not found")
 
