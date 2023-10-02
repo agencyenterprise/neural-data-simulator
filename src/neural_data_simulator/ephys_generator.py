@@ -230,7 +230,11 @@ class NoiseData:
         for _ in range(n_channels):
             noise_data.append(
                 colorednoise.powerlaw_psd_gaussian(
-                    beta, samples, fmin=fmin, random_state=random_seed
+                    beta,
+                    samples,
+                    # https://github.com/felixpatzelt/colorednoise/pull/17
+                    fmin=fmin,  # type: ignore[arg-type]
+                    random_state=random_seed,
                 )
             )
         self._n_channels = n_channels
