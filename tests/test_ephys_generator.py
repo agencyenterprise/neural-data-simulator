@@ -8,17 +8,17 @@ import pytest
 from neural_data_simulator.ephys_generator import ContinuousData
 from neural_data_simulator.ephys_generator import RingBuffer
 from neural_data_simulator.ephys_generator import Spikes
+from neural_data_simulator.ephys_generator import SpikeTimes
 from neural_data_simulator.ephys_generator import Waveforms
 
 
 @pytest.fixture
 def spike_generator_params():
-    """Get a generic set of parameters for instantiating Spikes."""
+    """Get a generic set of parameters for instantiating Spikes or SpikeTimes."""
     return Spikes.Params(
         raw_data_frequency=30_000,
         n_units_per_channel=1,
         refractory_time=0.001,
-        n_samples_waveform=48,
     )
 
 
@@ -126,15 +126,14 @@ class TestEphysGenerator:
         cls.n_samples = 10
 
     def test_generate_spikes_returns_all_possible_spikes(
-        self, spike_generator_params, spike_rates, waveform_params
+        self, spike_generator_params, spike_rates
     ):
         """Test that all possible spikes are returned if the rates are 1."""
-        waveforms = Waveforms(waveform_params, self.n_channels)
-        spike_generator = Spikes(self.n_channels, waveforms, spike_generator_params)
+        spike_generator = SpikeTimes(self.n_channels, spike_generator_params)
 
         with mock.patch.object(
             # spike chance is 100%
-            Spikes,
+            SpikeTimes,
             "_get_spikes",
             lambda obj, rates, samples: np.ones(samples),
         ):
@@ -149,7 +148,7 @@ class TestEphysGenerator:
             )
 
     def test_generate_spikes_takes_into_account_refractory_period(
-        self, spike_generator_params, spike_rates, waveform_params
+        self, spike_generator_params, spike_rates
     ):
         """Test that spikes in the refractory period are removed."""
         n_channels = 1
@@ -157,13 +156,12 @@ class TestEphysGenerator:
         params = deepcopy(spike_generator_params)
         params.raw_data_frequency = 1
         params.refractory_time = 2
-        waveforms = Waveforms(waveform_params, self.n_channels)
-        spike_generator = Spikes(n_channels, waveforms, params)
+        spike_generator = SpikeTimes(n_channels, params)
         spike_generator.spikes_buffer = RingBuffer(max_samples=100, n_channels=1)
 
         with mock.patch.object(
             # spike chance is 100%
-            Spikes,
+            SpikeTimes,
             "_get_spikes",
             lambda obj, rates, samples: np.ones(samples),
         ):
@@ -171,20 +169,36 @@ class TestEphysGenerator:
             assert np.count_nonzero(spikes.time_idx) == 3
 
     def test_generate_spikes_returns_no_spikes(
-        self, spike_generator_params, spike_rates, waveform_params
+        self, spike_generator_params, spike_rates
     ):
         """Test that no spikes are returned if the rates are 0."""
-        waveforms = Waveforms(waveform_params, self.n_channels)
-        spike_generator = Spikes(self.n_channels, waveforms, spike_generator_params)
+        spike_generator = SpikeTimes(self.n_channels, spike_generator_params)
 
         with mock.patch.object(
             # spike chance is 0%
-            Spikes,
+            SpikeTimes,
             "_get_spikes",
             lambda obj, rates, samples: np.zeros(samples),
         ):
             spikes = spike_generator.generate_spikes(spike_rates, self.n_samples)
             assert len(spikes.time_idx) == 0
+
+    def test_generate_spikes_with_waveforms(
+        self, spike_generator_params, spike_rates, waveform_params
+    ):
+        """Test that all possible spikes are returned if the rates are 1."""
+        waveforms = Waveforms(waveform_params, self.n_channels)
+        spike_generator = Spikes(self.n_channels, waveforms, spike_generator_params)
+
+        with mock.patch.object(
+            # spike chance is 100%
+            SpikeTimes,
+            "_get_spikes",
+            lambda obj, rates, samples: np.ones(samples),
+        ):
+            spikes = spike_generator.generate_spikes(spike_rates, self.n_samples)
+            assert isinstance(spikes.waveform, np.ndarray)
+            assert spikes.waveform.shape[0] == waveform_params.n_samples
 
     def test_get_continuous_data(
         self,
@@ -208,7 +222,7 @@ class TestEphysGenerator:
         spike_generator = Spikes(self.n_channels, waveforms, spike_generator_params)
 
         with mock.patch.object(
-            Spikes, "_get_spikes", lambda obj, rates, samples: np.ones(samples)
+            SpikeTimes, "_get_spikes", lambda obj, rates, samples: np.ones(samples)
         ):
             spikes = spike_generator.generate_spikes(spike_rates, self.n_samples)
             data = continuous_data.get_continuous_data(self.n_samples, spikes)
