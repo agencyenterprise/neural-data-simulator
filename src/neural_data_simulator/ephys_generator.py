@@ -792,6 +792,10 @@ class ProcessOutput:
         if self._last_output_time is None:
             raise ValueError("Last output time is not set.")
 
+        assert (
+            spike_events.waveform is not None
+        ), "SpikeEvents.waveform is required to stream continuous data."
+
         if self._outputs.spike_events is not None and len(spike_events) > 0:
             channels = spike_events.unit.reshape(len(spike_events), 1)
             units = np.zeros((len(spike_events), 1))
