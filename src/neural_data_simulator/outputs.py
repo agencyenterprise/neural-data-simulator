@@ -64,7 +64,7 @@ class Output(abc.ABC):
         ):
             raise ValueError(
                 f"Output expects data with {self.channel_count} channels,"
-                + f" received data with {data.shape[1]} channels"
+                + f" received data with {data.shape[-1]} channels"
             )
 
     def send(self, samples: Samples) -> Samples:
