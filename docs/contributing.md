@@ -156,6 +156,6 @@ Before opening a pull request, please make sure that all of the following requir
 5. type hinting is used on all function and method parameters and return values, excluding tests
 6. docstring usage conforms to the following:
    1. all docstrings should follow [PEP257 Docstring Conventions](https://peps.python.org/pep-0257/)
-   2. all public API classes, functions, methods, and properties have docstrings and follow the [Google Python Style Guide](https://github.com/google/styleguide/blob/gh-pages/pyguide.md#38-comments-and-docstrings)
+   2. all public API classes, functions, methods, and properties have docstrings and follow the [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings)
    3. docstrings on private objects are not required, but are encouraged where they would significantly aid understanding
 7. testing is done using the pytest library, and test coverage should not unnecessarily decrease.
