@@ -6,7 +6,7 @@ from dataclasses import InitVar
 import logging
 import math
 import time
-from typing import List, Optional, Union
+from typing import List, Optional
 
 import numpy as np
 import pylsl
@@ -157,7 +157,7 @@ class StreamInfo:
     channel_count: int = field(init=False)
     """Number of channels in the LSL stream."""
 
-    lsl_stream_info: InitVar[Union[pylsl.stream_info, None]] = None
+    lsl_stream_info: InitVar[pylsl.stream_info]
     """pylsl stream info object."""
 
     def __post_init__(self, lsl_stream_info: pylsl.stream_info):
