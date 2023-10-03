@@ -111,6 +111,7 @@ class StandardVelocityScaler:
 
         """
         velocity = self.standard_scaler.transform(X)
+        assert isinstance(velocity, ndarray)
         return self.unit_converter.pixels_to_millimeters(velocity)
 
     def inverse_transform(self, X: ndarray) -> ndarray:
