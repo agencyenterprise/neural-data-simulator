@@ -5,6 +5,7 @@ from typing import List, Tuple
 import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
 from numpy import ndarray
+import numpy.typing as npt
 import numpy as np
 import pygame
 from scipy import signal
@@ -110,7 +111,7 @@ class MetricsCollector:
         actual_velocities: ndarray,
         actual_velocities_timestamps: ndarray,
         decoded_velocities: ndarray,
-        r2: ndarray,
+        r2: npt.NDArray[np.float_],
         axis: int,
     ):
         mean = np.mean(decoded_velocities[:, axis])
@@ -256,6 +257,10 @@ class MetricsCollector:
             decoded_velocities,
             multioutput="raw_values",
         )
+        # Check type of `r2` to fix static-type conflict with _plot_velocities
+        assert isinstance(r2, np.ndarray) and (
+            r2.dtype == np.float_
+        ), "Expected float array from `r2_score` with `multioutput='raw_values'`."
 
         # default dpi for matplotlib is 100
         dpi = 100

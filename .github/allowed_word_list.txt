@@ -73,6 +73,7 @@ pypi
 pyplot
 readouterr
 reproducibility
+r2
 samples1
 samples2
 searchsorted
