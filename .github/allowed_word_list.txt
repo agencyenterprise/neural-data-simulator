@@ -36,6 +36,7 @@ highpass
 hstack
 int16
 int8
+isort
 jitter
 linalg
 loadtxt
