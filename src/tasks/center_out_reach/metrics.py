@@ -5,8 +5,8 @@ from typing import List, Tuple
 import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
 from numpy import ndarray
-import numpy.typing as npt
 import numpy as np
+import numpy.typing as npt
 import pygame
 from scipy import signal
 from sklearn.metrics import r2_score
