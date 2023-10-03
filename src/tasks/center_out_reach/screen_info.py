@@ -21,9 +21,12 @@ def get_ppmm(monitor: Monitor) -> Optional[Tuple[float, float]]:
 
 
 def _enumerate_macos_monitors() -> Iterable[Monitor]:
-    from AppKit import NSDeviceSize  # pyright: ignore [reportGeneralTypeIssues]
-    from AppKit import NSScreen  # pyright: ignore [reportGeneralTypeIssues]
-    from Quartz import CGDisplayScreenSize  # pyright: ignore [reportGeneralTypeIssues]
+    from AppKit import \
+        NSDeviceSize  # pyright: ignore[reportMissingImports, reportGeneralTypeIssues]
+    from AppKit import \
+        NSScreen  # pyright: ignore[reportMissingImports, reportGeneralTypeIssues]
+    from Quartz import \
+        CGDisplayScreenSize  # pyright: ignore[reportMissingImports, reportGeneralTypeIssues]  # noqa: E501
 
     screens = NSScreen.screens()
     for screen in screens:
