@@ -334,7 +334,11 @@
         <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_channels</span><span class="p">):</span>
             <span class="n">noise_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="n">colorednoise</span><span class="o">.</span><span class="n">powerlaw_psd_gaussian</span><span class="p">(</span>
-                    <span class="n">beta</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="n">fmin</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_seed</span>
+                    <span class="n">beta</span><span class="p">,</span>
+                    <span class="n">samples</span><span class="p">,</span>
+                    <span class="c1"># https://github.com/felixpatzelt/colorednoise/pull/17</span>
+                    <span class="n">fmin</span><span class="o">=</span><span class="n">fmin</span><span class="p">,</span>  <span class="c1"># type: ignore[arg-type]</span>
+                    <span class="n">random_state</span><span class="o">=</span><span class="n">random_seed</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_n_channels</span> <span class="o">=</span> <span class="n">n_channels</span>

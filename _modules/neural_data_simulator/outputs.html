@@ -168,7 +168,7 @@
         <span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;Output expects data with </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">channel_count</span><span class="si">}</span><span class="s2"> channels,&quot;</span>
-                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; received data with </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> channels&quot;</span>
+                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; received data with </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> channels&quot;</span>
             <span class="p">)</span>
 
 <div class="viewcode-block" id="Output.send"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.outputs.Output.send">[docs]</a>    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples</span><span class="p">:</span> <span class="n">Samples</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Samples</span><span class="p">:</span>
@@ -528,7 +528,7 @@
             <span class="nb">type</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
             <span class="n">channel_count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">channel_labels</span><span class="p">),</span>
             <span class="n">nominal_srate</span><span class="o">=</span><span class="n">sample_rate</span><span class="p">,</span>
-            <span class="n">channel_format</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">channel_format</span><span class="p">,</span>
+            <span class="n">channel_format</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">channel_format</span><span class="p">,</span>  <span class="c1"># type: ignore[arg-type]</span>
             <span class="n">source_id</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">source_id</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">channels_xml</span> <span class="o">=</span> <span class="n">out_info</span><span class="o">.</span><span class="n">desc</span><span class="p">()</span><span class="o">.</span><span class="n">append_child</span><span class="p">(</span><span class="s2">&quot;channels&quot;</span><span class="p">)</span>
