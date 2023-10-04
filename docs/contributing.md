@@ -76,7 +76,7 @@ You can do that in one of two ways:
     ```
 
     ```{note}
-       On Windows, if not using the Windows Subsystem for Linux (WSL), you will need to enable `Powershell` to execute scripts via [Set-ExecutionPolicy](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.1).
+       On Windows, if not using the Windows Subsystem for Linux (WSL), you will need to enable `Powershell` to execute scripts via [Set-ExecutionPolicy](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.3&viewFallbackFrom=powershell-7.1).
 
        Before executing `poetry shell`, open a `Powershell` window as administrator and run:
 
