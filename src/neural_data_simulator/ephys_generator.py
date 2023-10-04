@@ -1,6 +1,6 @@
 """This module contains classes that are used to generate spikes from spike rates."""
 from dataclasses import dataclass
-from typing import Dict, List, NamedTuple, Optional, Protocol, Tuple
+from typing import Dict, List, NamedTuple, Optional, Protocol, Tuple, Union
 
 import colorednoise
 from numpy import ndarray
@@ -155,7 +155,7 @@ class SpikeEvents:
     """
 
     waveform: Optional[ndarray]
-    """The spike waveforms with shape `(n_samples_waveform, n_samples)`,
+    """The spike waveforms with shape `(n_samples_waveform, n_spike_events)`,
     where `n_samples_waveform` is configurable.
     The values are the amplitudes of the spike waveforms in counts.
     """
@@ -172,6 +172,39 @@ class SpikeEvents:
         waveform: Optional[ndarray]
         """The spike waveform."""
 
+    def __post_init__(self) -> None:
+        """Check that the input data is valid."""
+        (n_spike_events,) = self.time_idx.shape
+        assert self.unit.shape == self.time_idx.shape
+        if self.waveform is not None:
+            (_, n_spike_events_waveform) = self.waveform.shape
+            assert n_spike_events_waveform == n_spike_events
+
+    def _get_waveform(self, key) -> Optional[ndarray]:
+        """Get the waveform for the specified key.
+
+        Args:
+            key: index(es) into the waveform array
+
+        Returns:
+            Corresponding waveform(s), or None if no waveform is available.
+        """
+        if self.waveform is None:
+            return None
+        return self.waveform[:, key]
+
+    def get_spike_event(self, index: int) -> SpikeEvent:
+        """Get a single SpikeEvent at the specified index."""
+        if index < 0 or index >= len(self):
+            raise IndexError("Index out of range")
+
+        waveform = self._get_waveform(index)
+        return self.SpikeEvent(
+            self.time_idx[index],
+            self.unit[index],
+            waveform,
+        )
+
     def __iter__(self):
         """Return an iterator over the spike events."""
         self._current = 0
@@ -179,26 +212,26 @@ class SpikeEvents:
 
     def __next__(self):
         """Return the next spike event."""
-        if self._current >= len(self.time_idx):
+        if self._current >= len(self):
             raise StopIteration
-        waveform = (
-            self.waveform[:, self._current] if (self.waveform is not None) else None
-        )
-        result = self.SpikeEvent(
-            self.time_idx[self._current],
-            self.unit[self._current],
-            waveform,
-        )
+
+        spike_event = self.get_spike_event(self._current)
         self._current += 1
-        return result
+        return spike_event
 
     def __len__(self):
         """Return the number of spike events."""
-        return len(self.time_idx)
+        (n_spike_events,) = self.time_idx.shape
+        return n_spike_events
 
-    def __getitem__(self, key):
+    def __getitem__(self, key) -> Union[SpikeEvent, "SpikeEvents"]:
         """Return a subset of the spike events."""
-        waveforms = self.waveform[:, key] if (self.waveform is not None) else None
+        if isinstance(key, int):
+            # Single item access
+            return self.get_spike_event(key)
+
+        # Slice access
+        waveforms = self._get_waveform(key)
         return SpikeEvents(self.time_idx[key], self.unit[key], waveforms)
 
 
