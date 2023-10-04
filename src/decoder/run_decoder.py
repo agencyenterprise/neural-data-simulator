@@ -7,7 +7,7 @@ from typing import cast
 
 from decoder.decoders import Decoder
 from decoder.decoders import PersistedFileDecoderModel
-from pydantic import BaseModel
+from decoder.settings import DecoderSettings
 from pydantic_yaml import VersionedYamlModel
 
 from neural_data_simulator import inputs
@@ -15,8 +15,6 @@ from neural_data_simulator import outputs
 from neural_data_simulator import timing
 from neural_data_simulator.outputs import StreamConfig
 from neural_data_simulator.settings import LogLevel
-from neural_data_simulator.settings import LSLInputModel
-from neural_data_simulator.settings import LSLOutputModel
 from neural_data_simulator.settings import TimerModel
 from neural_data_simulator.util.runtime import configure_logger
 from neural_data_simulator.util.runtime import get_abs_path
@@ -29,30 +27,10 @@ logger = logging.getLogger(__name__)
 
 
 class _Settings(VersionedYamlModel):
-    """Decoder settings."""
-
-    class Decoder(BaseModel):
-        """Decoder settings."""
-
-        class Input(BaseModel):
-            """Decoder input settings."""
-
-            lsl: LSLInputModel
-
-        class Output(BaseModel):
-            """Decoder output settings."""
-
-            sampling_rate: float
-            n_channels: int
-            lsl: LSLOutputModel
-
-        input: Input
-        output: Output
-        model_file: str
-        spike_threshold: float
+    """Decoder app settings."""
 
     log_level: LogLevel
-    decoder: Decoder
+    decoder: DecoderSettings
     timer: TimerModel
 
 
@@ -72,7 +50,7 @@ def _setup_LSL_input(stream_name: str, connection_timeout: float) -> inputs.LSLI
 
 
 def _setup_LSL_output(
-    output_settings: _Settings.Decoder.Output,
+    output_settings: DecoderSettings.Output,
 ) -> outputs.LSLOutputDevice:
     """Prepare output that will make the data available via an LSL stream.
 
@@ -114,20 +92,26 @@ def _setup_decoder(
     return decoder
 
 
-def run():
-    """Run the decoder loop."""
-    initialize_logger(SCRIPT_NAME)
+def _parse_args_settings_path() -> Path:
+    """Parse command-line arguments for the settings path."""
     parser = argparse.ArgumentParser(description="Run decoder.")
     parser.add_argument(
         "--settings-path",
         type=Path,
         help="Path to the settings_decoder.yaml file.",
     )
+    args = parser.parse_args()
+    return args.settings_path
+
+
+def run():
+    """Run the decoder loop."""
+    initialize_logger(SCRIPT_NAME)
 
     settings = cast(
         _Settings,
         get_script_settings(
-            parser.parse_args().settings_path, "settings_decoder.yaml", _Settings
+            _parse_args_settings_path(), "settings_decoder.yaml", _Settings
         ),
     )
     configure_logger(SCRIPT_NAME, settings.log_level)
