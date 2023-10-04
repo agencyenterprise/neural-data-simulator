@@ -56,8 +56,24 @@ class TaskRunner:
         velocity_scaler: VelocityScaler,
         with_decoded_cursor: bool,
         metrics_collector: Optional[MetricsCollector],
+        task_state_output: Optional[outputs.Output] = None,
     ):
-        """Create a new instance."""
+        """Create a new instance to run the center_out_reach task.
+
+        Args:
+            sample_rate: sampling rate of input data (Hz).
+            decoded_cursor_input: The input (e.g., LSLInput) for decoded cursor
+                velocities.
+            actual_cursor_output: The output (e.g., LSLOutput) for actual cursor
+                velocities.
+            velocity_scaler: Scales the actual cursor velocities.
+            with_decoded_cursor: if True, use the decoded cursor velocities,
+                else use the actual cursor velocities.
+            metrics_collector: Collects and plots velocities resulted from running
+                the task.
+            task_state_output: The output (e.g., LSLOutput) for target positions
+                and the task's cursor positions
+        """
         self.decoded_cursor_input = decoded_cursor_input
         self.actual_cursor_output = actual_cursor_output
         self.with_decoded_cursor = with_decoded_cursor
@@ -77,6 +93,8 @@ class TaskRunner:
         self.velocity_scaler = velocity_scaler
         self.metrics_collector = metrics_collector
         self.timer = Timer(1 / self.sample_rate)
+
+        self.task_state_output = task_state_output
 
     def _get_decoded_velocity(self) -> ndarray:
         if self.decoded_cursor_input is not None:
