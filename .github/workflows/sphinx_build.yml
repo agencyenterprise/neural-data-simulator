@@ -54,7 +54,7 @@ jobs:
         run: poetry run nds_post_install_config
 
       - name: Build HTML
-        run: make htmldoc SPHINXOPTS="-b linkcheck"
+        run: make htmldoc
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3

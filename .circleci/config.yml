@@ -40,7 +40,7 @@ jobs:
       - run:
           name: Build HTML
           command: |
-            make htmldoc
+            make htmldoc SPHINXOPTS="-b linkcheck"
 
       - store_artifacts:
           path: docs/html/
