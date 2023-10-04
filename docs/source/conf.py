@@ -14,8 +14,8 @@ release = "0.2.0"
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 import os
-import sys
 import re
+import sys
 
 sys.path.append(os.path.abspath(os.path.join(__file__, "../../src")))
 
