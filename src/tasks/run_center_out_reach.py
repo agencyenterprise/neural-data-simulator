@@ -356,7 +356,9 @@ def run():
     interrupted = False
     task_window = None
     try:
-        with open_connection(data_output), open_connection(data_input):
+        with open_connection(data_output), open_connection(data_input), open_connection(
+            task_window_output
+        ):
             task_window = TaskWindow(window_rect, window_params, menu_text)
             task_state = TaskState(task_window, state_params)
             task_runner = TaskRunner(
