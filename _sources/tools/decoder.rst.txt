@@ -22,3 +22,11 @@ decoder.run\_decoder
    :members:
    :undoc-members:
    :show-inheritance:
+
+decoder.settings 
+-----------------
+
+.. automodule:: decoder.settings
+   :members:
+   :undoc-members:
+   :show-inheritance:

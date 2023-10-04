@@ -89,6 +89,10 @@
 <li class="toctree-l4"><a class="reference internal" href="#decoder.run_decoder.run"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#module-decoder.settings">decoder.settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#decoder.settings.DecoderSettings"><code class="docutils literal notranslate"><span class="pre">DecoderSettings</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="recorder.html">recorder</a></li>
@@ -262,6 +266,71 @@ array with shape (n_samples, 2).</p>
 <dt class="sig sig-object py" id="decoder.run_decoder.run">
 <span class="sig-prename descclassname"><span class="pre">decoder.run_decoder.</span></span><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/decoder/run_decoder.html#run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#decoder.run_decoder.run" title="Permalink to this definition"></a></dt>
 <dd><p>Run the decoder loop.</p>
+</dd></dl>
+
+</section>
+<section id="module-decoder.settings">
+<span id="decoder-settings"></span><h2>decoder.settings<a class="headerlink" href="#module-decoder.settings" title="Permalink to this heading"></a></h2>
+<p>Schema for Decoder settings.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="decoder.settings.DecoderSettings">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">decoder.settings.</span></span><span class="sig-name descname"><span class="pre">DecoderSettings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#decoder.settings.DecoderSettings.Input" title="decoder.settings.DecoderSettings.Input"><span class="pre">Input</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#decoder.settings.DecoderSettings.Output" title="decoder.settings.DecoderSettings.Output"><span class="pre">Output</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spike_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/decoder/settings.html#DecoderSettings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#decoder.settings.DecoderSettings" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Decoder settings.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="decoder.settings.DecoderSettings.Input">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lsl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">LSLInputModel</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/decoder/settings.html#DecoderSettings.Input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#decoder.settings.DecoderSettings.Input" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Decoder input settings.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="decoder.settings.DecoderSettings.Input.lsl">
+<span class="sig-name descname"><span class="pre">lsl</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">LSLInputModel</span></em><a class="headerlink" href="#decoder.settings.DecoderSettings.Input.lsl" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="decoder.settings.DecoderSettings.Output">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampling_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_channels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lsl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">LSLOutputModel</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/decoder/settings.html#DecoderSettings.Output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#decoder.settings.DecoderSettings.Output" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Decoder output settings.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="decoder.settings.DecoderSettings.Output.sampling_rate">
+<span class="sig-name descname"><span class="pre">sampling_rate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#decoder.settings.DecoderSettings.Output.sampling_rate" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="decoder.settings.DecoderSettings.Output.n_channels">
+<span class="sig-name descname"><span class="pre">n_channels</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#decoder.settings.DecoderSettings.Output.n_channels" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="decoder.settings.DecoderSettings.Output.lsl">
+<span class="sig-name descname"><span class="pre">lsl</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">LSLOutputModel</span></em><a class="headerlink" href="#decoder.settings.DecoderSettings.Output.lsl" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="decoder.settings.DecoderSettings.input">
+<span class="sig-name descname"><span class="pre">input</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#decoder.settings.DecoderSettings.Input" title="decoder.settings.DecoderSettings.Input"><span class="pre">Input</span></a></em><a class="headerlink" href="#decoder.settings.DecoderSettings.input" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="decoder.settings.DecoderSettings.output">
+<span class="sig-name descname"><span class="pre">output</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#decoder.settings.DecoderSettings.Output" title="decoder.settings.DecoderSettings.Output"><span class="pre">Output</span></a></em><a class="headerlink" href="#decoder.settings.DecoderSettings.output" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="decoder.settings.DecoderSettings.model_file">
+<span class="sig-name descname"><span class="pre">model_file</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#decoder.settings.DecoderSettings.model_file" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="decoder.settings.DecoderSettings.spike_threshold">
+<span class="sig-name descname"><span class="pre">spike_threshold</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#decoder.settings.DecoderSettings.spike_threshold" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>

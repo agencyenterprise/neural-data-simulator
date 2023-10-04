@@ -87,6 +87,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#module-tasks.center_out_reach.metrics">tasks.center_out_reach.metrics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-tasks.center_out_reach.scalers">tasks.center_out_reach.scalers</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-tasks.center_out_reach.screen_info">tasks.center_out_reach.screen_info</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-tasks.center_out_reach.settings">tasks.center_out_reach.settings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-tasks.center_out_reach.sprites">tasks.center_out_reach.sprites</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-tasks.center_out_reach.task_runner">tasks.center_out_reach.task_runner</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-tasks.center_out_reach.task_state">tasks.center_out_reach.task_state</a></li>
@@ -554,6 +555,209 @@ from the decoder.</p>
 <dt class="sig sig-object py" id="tasks.center_out_reach.screen_info.get_ppmm">
 <span class="sig-prename descclassname"><span class="pre">tasks.center_out_reach.screen_info.</span></span><span class="sig-name descname"><span class="pre">get_ppmm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">monitor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Monitor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/tasks/center_out_reach/screen_info.html#get_ppmm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tasks.center_out_reach.screen_info.get_ppmm" title="Permalink to this definition"></a></dt>
 <dd><p>Return the pixels per millimeter of the given monitor.</p>
+</dd></dl>
+
+</section>
+<section id="module-tasks.center_out_reach.settings">
+<span id="tasks-center-out-reach-settings"></span><h2>tasks.center_out_reach.settings<a class="headerlink" href="#module-tasks.center_out_reach.settings" title="Permalink to this heading"></a></h2>
+<p>Settings schema for the center-out reach task.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tasks.center_out_reach.settings.</span></span><span class="sig-name descname"><span class="pre">CenterOutReach</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tasks.center_out_reach.settings.CenterOutReach.Input" title="tasks.center_out_reach.settings.CenterOutReach.Input"><span class="pre">Input</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tasks.center_out_reach.settings.CenterOutReach.Output" title="tasks.center_out_reach.settings.CenterOutReach.Output"><span class="pre">Output</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampling_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tasks.center_out_reach.settings.CenterOutReach.Window" title="tasks.center_out_reach.settings.CenterOutReach.Window"><span class="pre">Window</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standard_scaler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tasks.center_out_reach.settings.CenterOutReach.StandardScaler" title="tasks.center_out_reach.settings.CenterOutReach.StandardScaler"><span class="pre">StandardScaler</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tasks.center_out_reach.settings.CenterOutReach.Task" title="tasks.center_out_reach.settings.CenterOutReach.Task"><span class="pre">Task</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tasks/center_out_reach/settings.html#CenterOutReach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Center-out reach settings.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.Input">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lsl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">LSLInputModel</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tasks/center_out_reach/settings.html#CenterOutReach.Input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.Input" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Input settings.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.Input.enabled">
+<span class="sig-name descname"><span class="pre">enabled</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.Input.enabled" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.Input.lsl">
+<span class="sig-name descname"><span class="pre">lsl</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">LSLInputModel</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.Input.lsl" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.Output">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lsl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">LSLOutputModel</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tasks/center_out_reach/settings.html#CenterOutReach.Output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.Output" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Output settings.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.Output.lsl">
+<span class="sig-name descname"><span class="pre">lsl</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">LSLOutputModel</span></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.Output.lsl" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.Window">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ppi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tasks.center_out_reach.settings.CenterOutReach.Window.Colors" title="tasks.center_out_reach.settings.CenterOutReach.Window.Colors"><span class="pre">Colors</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tasks/center_out_reach/settings.html#CenterOutReach.Window"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.Window" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Window settings.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.Window.Colors">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Colors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoded_cursor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">actual_cursor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_waiting_for_cue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoded_cursor_on_target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tasks/center_out_reach/settings.html#CenterOutReach.Window.Colors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.Window.Colors" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Colors used in the GUI.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.Window.Colors.background">
+<span class="sig-name descname"><span class="pre">background</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.Window.Colors.background" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.Window.Colors.decoded_cursor">
+<span class="sig-name descname"><span class="pre">decoded_cursor</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.Window.Colors.decoded_cursor" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.Window.Colors.actual_cursor">
+<span class="sig-name descname"><span class="pre">actual_cursor</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.Window.Colors.actual_cursor" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.Window.Colors.target">
+<span class="sig-name descname"><span class="pre">target</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.Window.Colors.target" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.Window.Colors.target_waiting_for_cue">
+<span class="sig-name descname"><span class="pre">target_waiting_for_cue</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.Window.Colors.target_waiting_for_cue" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.Window.Colors.decoded_cursor_on_target">
+<span class="sig-name descname"><span class="pre">decoded_cursor_on_target</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.Window.Colors.decoded_cursor_on_target" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.Window.width">
+<span class="sig-name descname"><span class="pre">width</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.Window.width" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.Window.height">
+<span class="sig-name descname"><span class="pre">height</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.Window.height" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.Window.ppi">
+<span class="sig-name descname"><span class="pre">ppi</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.Window.ppi" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.Window.colors">
+<span class="sig-name descname"><span class="pre">colors</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#tasks.center_out_reach.settings.CenterOutReach.Window.Colors" title="tasks.center_out_reach.settings.CenterOutReach.Window.Colors"><span class="pre">Colors</span></a></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.Window.colors" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.StandardScaler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">StandardScaler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tasks/center_out_reach/settings.html#CenterOutReach.StandardScaler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.StandardScaler" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Velocity scaler settings.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.StandardScaler.scale">
+<span class="sig-name descname"><span class="pre">scale</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.StandardScaler.scale" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.StandardScaler.mean">
+<span class="sig-name descname"><span class="pre">mean</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.StandardScaler.mean" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.Task">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cursor_radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius_to_target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_targets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay_to_begin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay_waiting_for_cue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_holding_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_trial_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tasks/center_out_reach/settings.html#CenterOutReach.Task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.Task" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Task settings.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.Task.target_radius">
+<span class="sig-name descname"><span class="pre">target_radius</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.Task.target_radius" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.Task.cursor_radius">
+<span class="sig-name descname"><span class="pre">cursor_radius</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.Task.cursor_radius" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.Task.radius_to_target">
+<span class="sig-name descname"><span class="pre">radius_to_target</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.Task.radius_to_target" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.Task.number_of_targets">
+<span class="sig-name descname"><span class="pre">number_of_targets</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.Task.number_of_targets" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.Task.delay_to_begin">
+<span class="sig-name descname"><span class="pre">delay_to_begin</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.Task.delay_to_begin" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.Task.delay_waiting_for_cue">
+<span class="sig-name descname"><span class="pre">delay_waiting_for_cue</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.Task.delay_waiting_for_cue" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.Task.target_holding_time">
+<span class="sig-name descname"><span class="pre">target_holding_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.Task.target_holding_time" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.Task.max_trial_time">
+<span class="sig-name descname"><span class="pre">max_trial_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.Task.max_trial_time" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.input">
+<span class="sig-name descname"><span class="pre">input</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#tasks.center_out_reach.settings.CenterOutReach.Input" title="tasks.center_out_reach.settings.CenterOutReach.Input"><span class="pre">Input</span></a></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.input" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.output">
+<span class="sig-name descname"><span class="pre">output</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#tasks.center_out_reach.settings.CenterOutReach.Output" title="tasks.center_out_reach.settings.CenterOutReach.Output"><span class="pre">Output</span></a></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.output" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.sampling_rate">
+<span class="sig-name descname"><span class="pre">sampling_rate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.sampling_rate" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.window">
+<span class="sig-name descname"><span class="pre">window</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#tasks.center_out_reach.settings.CenterOutReach.Window" title="tasks.center_out_reach.settings.CenterOutReach.Window"><span class="pre">Window</span></a></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.window" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.with_metrics">
+<span class="sig-name descname"><span class="pre">with_metrics</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.with_metrics" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.standard_scaler">
+<span class="sig-name descname"><span class="pre">standard_scaler</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#tasks.center_out_reach.settings.CenterOutReach.StandardScaler" title="tasks.center_out_reach.settings.CenterOutReach.StandardScaler"><span class="pre">StandardScaler</span></a></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.standard_scaler" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tasks.center_out_reach.settings.CenterOutReach.task">
+<span class="sig-name descname"><span class="pre">task</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#tasks.center_out_reach.settings.CenterOutReach.Task" title="tasks.center_out_reach.settings.CenterOutReach.Task"><span class="pre">Task</span></a></em><a class="headerlink" href="#tasks.center_out_reach.settings.CenterOutReach.task" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>

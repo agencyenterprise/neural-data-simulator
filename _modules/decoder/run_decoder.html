@@ -111,7 +111,7 @@
 
 <span class="kn">from</span> <span class="nn">decoder.decoders</span> <span class="kn">import</span> <span class="n">Decoder</span>
 <span class="kn">from</span> <span class="nn">decoder.decoders</span> <span class="kn">import</span> <span class="n">PersistedFileDecoderModel</span>
-<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span> <span class="nn">decoder.settings</span> <span class="kn">import</span> <span class="n">DecoderSettings</span>
 <span class="kn">from</span> <span class="nn">pydantic_yaml</span> <span class="kn">import</span> <span class="n">VersionedYamlModel</span>
 
 <span class="kn">from</span> <span class="nn">neural_data_simulator</span> <span class="kn">import</span> <span class="n">inputs</span>
@@ -119,8 +119,6 @@
 <span class="kn">from</span> <span class="nn">neural_data_simulator</span> <span class="kn">import</span> <span class="n">timing</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.outputs</span> <span class="kn">import</span> <span class="n">StreamConfig</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.settings</span> <span class="kn">import</span> <span class="n">LogLevel</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.settings</span> <span class="kn">import</span> <span class="n">LSLInputModel</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.settings</span> <span class="kn">import</span> <span class="n">LSLOutputModel</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.settings</span> <span class="kn">import</span> <span class="n">TimerModel</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">configure_logger</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">get_abs_path</span>
@@ -133,30 +131,10 @@
 
 
 <span class="k">class</span> <span class="nc">_Settings</span><span class="p">(</span><span class="n">VersionedYamlModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Decoder settings.&quot;&quot;&quot;</span>
-
-    <span class="k">class</span> <span class="nc">Decoder</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Decoder settings.&quot;&quot;&quot;</span>
-
-        <span class="k">class</span> <span class="nc">Input</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;Decoder input settings.&quot;&quot;&quot;</span>
-
-            <span class="n">lsl</span><span class="p">:</span> <span class="n">LSLInputModel</span>
-
-        <span class="k">class</span> <span class="nc">Output</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;Decoder output settings.&quot;&quot;&quot;</span>
-
-            <span class="n">sampling_rate</span><span class="p">:</span> <span class="nb">float</span>
-            <span class="n">n_channels</span><span class="p">:</span> <span class="nb">int</span>
-            <span class="n">lsl</span><span class="p">:</span> <span class="n">LSLOutputModel</span>
-
-        <span class="nb">input</span><span class="p">:</span> <span class="n">Input</span>
-        <span class="n">output</span><span class="p">:</span> <span class="n">Output</span>
-        <span class="n">model_file</span><span class="p">:</span> <span class="nb">str</span>
-        <span class="n">spike_threshold</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Decoder app settings.&quot;&quot;&quot;</span>
 
     <span class="n">log_level</span><span class="p">:</span> <span class="n">LogLevel</span>
-    <span class="n">decoder</span><span class="p">:</span> <span class="n">Decoder</span>
+    <span class="n">decoder</span><span class="p">:</span> <span class="n">DecoderSettings</span>
     <span class="n">timer</span><span class="p">:</span> <span class="n">TimerModel</span>
 
 
@@ -176,7 +154,7 @@
 
 
 <span class="k">def</span> <span class="nf">_setup_LSL_output</span><span class="p">(</span>
-    <span class="n">output_settings</span><span class="p">:</span> <span class="n">_Settings</span><span class="o">.</span><span class="n">Decoder</span><span class="o">.</span><span class="n">Output</span><span class="p">,</span>
+    <span class="n">output_settings</span><span class="p">:</span> <span class="n">DecoderSettings</span><span class="o">.</span><span class="n">Output</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">outputs</span><span class="o">.</span><span class="n">LSLOutputDevice</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare output that will make the data available via an LSL stream.</span>
 
@@ -218,20 +196,26 @@
     <span class="k">return</span> <span class="n">decoder</span>
 
 
-<div class="viewcode-block" id="run"><a class="viewcode-back" href="../../tools/decoder.html#decoder.run_decoder.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run the decoder loop.&quot;&quot;&quot;</span>
-    <span class="n">initialize_logger</span><span class="p">(</span><span class="n">SCRIPT_NAME</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_parse_args_settings_path</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse command-line arguments for the settings path.&quot;&quot;&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Run decoder.&quot;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--settings-path&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to the settings_decoder.yaml file.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">args</span><span class="o">.</span><span class="n">settings_path</span>
+
+
+<div class="viewcode-block" id="run"><a class="viewcode-back" href="../../tools/decoder.html#decoder.run_decoder.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run the decoder loop.&quot;&quot;&quot;</span>
+    <span class="n">initialize_logger</span><span class="p">(</span><span class="n">SCRIPT_NAME</span><span class="p">)</span>
 
     <span class="n">settings</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span>
         <span class="n">_Settings</span><span class="p">,</span>
         <span class="n">get_script_settings</span><span class="p">(</span>
-            <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span><span class="o">.</span><span class="n">settings_path</span><span class="p">,</span> <span class="s2">&quot;settings_decoder.yaml&quot;</span><span class="p">,</span> <span class="n">_Settings</span>
+            <span class="n">_parse_args_settings_path</span><span class="p">(),</span> <span class="s2">&quot;settings_decoder.yaml&quot;</span><span class="p">,</span> <span class="n">_Settings</span>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">configure_logger</span><span class="p">(</span><span class="n">SCRIPT_NAME</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">log_level</span><span class="p">)</span>

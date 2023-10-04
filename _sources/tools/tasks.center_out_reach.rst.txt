@@ -55,6 +55,14 @@ tasks.center\_out\_reach.screen\_info
    :undoc-members:
    :show-inheritance:
 
+tasks.center\_out\_reach.settings 
+----------------------------------
+
+.. automodule:: tasks.center_out_reach.settings
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 tasks.center\_out\_reach.sprites 
 ---------------------------------
 
