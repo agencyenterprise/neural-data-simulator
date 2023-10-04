@@ -80,6 +80,7 @@ tanh
 timestamp
 timestamps
 tmpdir
+TOML
 Tuple
 unittest
 uV
