@@ -96,11 +96,10 @@ class TestRunEphysGenerator:
             lfp_filter_cutoff=300.0,
             lfp_filter_order=4,
         )
-        assert po_init.args[1]._params == Spikes.Params(
+        assert po_init.args[1].spike_times._params == Spikes.Params(
             raw_data_frequency=30000.0,
             n_units_per_channel=1,
             refractory_time=0.001,
-            n_samples_waveform=48,
         )
         assert po_start == call().start()
         assert po_stop == call().stop()

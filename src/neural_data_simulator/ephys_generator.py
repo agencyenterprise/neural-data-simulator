@@ -1,6 +1,6 @@
 """This module contains classes that are used to generate spikes from spike rates."""
 from dataclasses import dataclass
-from typing import Dict, List, NamedTuple, Optional, Protocol, Tuple
+from typing import Dict, List, NamedTuple, Optional, Protocol, Tuple, Union
 
 import colorednoise
 from numpy import ndarray
@@ -154,10 +154,12 @@ class SpikeEvents:
     first spike event corresponds to the unit 0, the second and the third to the unit 1.
     """
 
-    waveform: ndarray
-    """The spike waveforms with shape `(n_samples_waveform, n_samples)`,
+    waveform: Optional[ndarray]
+    """The spike waveforms with shape `(n_samples_waveform, n_spike_events)`,
     where `n_samples_waveform` is configurable.
     The values are the amplitudes of the spike waveforms in counts.
+
+    Can be None if only using spike times without waveforms.
     """
 
     class SpikeEvent(NamedTuple):
@@ -169,8 +171,41 @@ class SpikeEvents:
         unit: int
         """The unit that spiked."""
 
-        waveform: ndarray
-        """The spike waveform."""
+        waveform: Optional[ndarray]
+        """The spike waveform. Can be None if only using the spike time."""
+
+    def __post_init__(self) -> None:
+        """Check that the input data is valid."""
+        (n_spike_events,) = self.time_idx.shape
+        assert self.unit.shape == self.time_idx.shape
+        if self.waveform is not None:
+            (_, n_spike_events_waveform) = self.waveform.shape
+            assert n_spike_events_waveform == n_spike_events
+
+    def _get_waveform(self, key) -> Optional[ndarray]:
+        """Get the waveform for the specified key.
+
+        Args:
+            key: index(es) into the waveform array
+
+        Returns:
+            Corresponding waveform(s), or None if no waveform is available.
+        """
+        if self.waveform is None:
+            return None
+        return self.waveform[:, key]
+
+    def get_spike_event(self, index: int) -> SpikeEvent:
+        """Get a single SpikeEvent at the specified index."""
+        if index < 0 or index >= len(self):
+            raise IndexError("Index out of range")
+
+        waveform = self._get_waveform(index)
+        return self.SpikeEvent(
+            self.time_idx[index],
+            self.unit[index],
+            waveform,
+        )
 
     def __iter__(self):
         """Return an iterator over the spike events."""
@@ -179,23 +214,27 @@ class SpikeEvents:
 
     def __next__(self):
         """Return the next spike event."""
-        if self._current >= len(self.time_idx):
+        if self._current >= len(self):
             raise StopIteration
-        result = self.SpikeEvent(
-            self.time_idx[self._current],
-            self.unit[self._current],
-            self.waveform[:, self._current],
-        )
+
+        spike_event = self.get_spike_event(self._current)
         self._current += 1
-        return result
+        return spike_event
 
     def __len__(self):
         """Return the number of spike events."""
-        return len(self.time_idx)
+        (n_spike_events,) = self.time_idx.shape
+        return n_spike_events
 
-    def __getitem__(self, key):
+    def __getitem__(self, key) -> Union[SpikeEvent, "SpikeEvents"]:
         """Return a subset of the spike events."""
-        return SpikeEvents(self.time_idx[key], self.unit[key], self.waveform[:, key])
+        if isinstance(key, int):
+            # Single item access
+            return self.get_spike_event(key)
+
+        # Slice access
+        waveforms = self._get_waveform(key)
+        return SpikeEvents(self.time_idx[key], self.unit[key], waveforms)
 
 
 class NoiseData:
@@ -386,6 +425,9 @@ class ContinuousData:
     def _spike_events_to_continuous(
         self, spike_events: SpikeEvents, n_samples: int, n_units: int
     ) -> ndarray:
+        assert (
+            spike_events.waveform is not None
+        ), "SpikeEvents.waveform is required to generate continuous data."
         data = np.zeros((n_samples, n_units))
         time_positions = (
             spike_events.time_idx[:, None]
@@ -471,8 +513,8 @@ class Waveforms:
         return unit_waveforms
 
 
-class Spikes:
-    """Spike generator.
+class SpikeTimes:
+    """Spike-time generator without waveforms.
 
     This class generates random spike events according to unit spike rates
     within a given time interval determined by a number of samples and a known
@@ -494,26 +536,23 @@ class Spikes:
         refractory_time: float
         """The refractory time in seconds."""
 
-        n_samples_waveform: int
-        """The number of samples in the spike waveform."""
+        @property
+        def n_refractory_samples(self) -> int:
+            """The number of samples in the refractory period."""
+            return int(self.raw_data_frequency * self.refractory_time)
 
-    def __init__(self, n_channels: int, waveforms: Waveforms, params: Params):
+    def __init__(self, n_channels: int, params: Params):
         """Initialize Spikes class.
 
         Args:
             n_channels: The number of channels. This value together with the configured
                 number of units per channel determines the total number of units
                 for which spikes are generated.
-            waveforms: The :class:`Waveforms` instance with spike waveform prototypes.
             params: The spike generator parameters.
         """
         self._params = params
-        self.waveforms = waveforms
         self.n_units = n_channels * self._params.n_units_per_channel
-
-        self.n_refractory_samples = int(
-            self._params.raw_data_frequency * self._params.refractory_time
-        )
+        self.n_refractory_samples = self._params.n_refractory_samples
 
         self.spikes_buffer = RingBuffer(
             max_samples=int(self._params.raw_data_frequency) * 10,
@@ -603,12 +642,64 @@ class Spikes:
         units, time_idx = self._correct_timeidx(units, time_idx)
 
         self.spikes_buffer.add(spikes[-self.n_refractory_samples :, :])
-        waveforms = self.waveforms.get_spike_waveforms(units)
 
-        return SpikeEvents(time_idx, units, waveforms)
+        return SpikeEvents(time_idx, units, waveform=None)
 
     def _get_spike_chance_for_rate(self, spk_per_sec: ndarray) -> ndarray:
         return spk_per_sec / self._params.raw_data_frequency
+
+
+class Spikes:
+    """Spike generator with waveforms.
+
+    This class generates random spike events according to unit spike rates
+    within a given time interval determined by a number of samples and a known
+    raw data sample rate. It also ensures that the spikes are within the
+    refractory period of each other taking into account the occurrence of the
+    spikes generated in the previous time interval. It applies the corresponding
+    waveforms to each SpikeEvent.
+    """
+
+    class Params(SpikeTimes.Params):
+        """Initialization parameters for the :class:`Spikes` class.
+
+        Alias for :class:`SpikeTimes.Params`.
+        """
+
+        pass
+
+    def __init__(self, n_channels: int, waveforms: Waveforms, params: Params):
+        """Initialize Spikes class.
+
+        Args:
+            n_channels: The number of channels. This value together with the configured
+                number of units per channel determines the total number of units
+                for which spikes are generated.
+            waveforms: The :class:`Waveforms` instance with spike waveform prototypes.
+            params: The :class:`SpikeTimes` generator parameters.
+        """
+        self.spike_times = SpikeTimes(n_channels, params=params)
+        self.waveforms = waveforms
+
+    def generate_spikes(self, rates: ndarray, n_samples: int) -> SpikeEvents:
+        """Generate spikes for the given rates and a given number of samples.
+
+        Calls into the :meth:`SpikeTimes.generate_spikes` method, then applies
+        the waveforms.
+
+        Args:
+            rates: The spike rates array with shape (n_units,).
+                Each element in the array represents the spike rate in spikes
+                per second for the corresponding unit.
+            n_samples: The number of samples to output.
+
+        Returns:
+            The generated spikes as :class:`SpikeEvents`.
+        """
+        spike_events: SpikeEvents = self.spike_times.generate_spikes(rates, n_samples)
+        spike_events.waveform = self.waveforms.get_spike_waveforms(spike_events.unit)
+
+        return spike_events
 
 
 class ProcessOutput:
@@ -739,6 +830,10 @@ class ProcessOutput:
     ):
         if self._last_output_time is None:
             raise ValueError("Last output time is not set.")
+
+        assert (
+            spike_events.waveform is not None
+        ), "SpikeEvents.waveform is required to stream continuous data."
 
         if self._outputs.spike_events is not None and len(spike_events) > 0:
             channels = spike_events.unit.reshape(len(spike_events), 1)
