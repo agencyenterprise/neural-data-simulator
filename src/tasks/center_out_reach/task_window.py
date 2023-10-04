@@ -217,17 +217,27 @@ class TaskWindow:
         pygame.display.flip()
         return screen
 
-    def _calculate_all_possible_target_positions_in_pixels(self) -> List[tuple]:
+    def _calculate_all_possible_target_positions_in_pixels(
+        self,
+    ) -> List[Tuple[int, int]]:
         n = self.params.number_of_targets
         target_positions_x = (
-            self.window_size[0] / 2
-            + np.cos(np.linspace(0, 2 * np.pi * (n - 1) / n, n))
-            * self.params.radius_to_target
+            (
+                self.window_size[0] / 2
+                + np.cos(np.linspace(0, 2 * np.pi * (n - 1) / n, n))
+                * self.params.radius_to_target
+            )
+            .round()
+            .astype(int)
         )
         target_positions_y = (
-            self.window_size[1] / 2
-            + np.sin(np.linspace(0, 2 * np.pi * (n - 1) / n, n))
-            * self.params.radius_to_target
+            (
+                self.window_size[1] / 2
+                + np.sin(np.linspace(0, 2 * np.pi * (n - 1) / n, n))
+                * self.params.radius_to_target
+            )
+            .round()
+            .astype(int)
         )
         return [(tx, ty) for tx, ty in zip(target_positions_x, target_positions_y)]
 

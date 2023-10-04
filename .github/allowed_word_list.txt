@@ -36,6 +36,7 @@ highpass
 hstack
 int16
 int8
+isort
 jitter
 linalg
 loadtxt
@@ -73,6 +74,7 @@ pypi
 pyplot
 readouterr
 reproducibility
+r2
 samples1
 samples2
 searchsorted

@@ -64,7 +64,7 @@ class Output(abc.ABC):
         ):
             raise ValueError(
                 f"Output expects data with {self.channel_count} channels,"
-                + f" received data with {data.shape[1]} channels"
+                + f" received data with {data.shape[-1]} channels"
             )
 
     def send(self, samples: Samples) -> Samples:
@@ -424,7 +424,7 @@ class LSLOutputDevice(Output):
             type=config.type,
             channel_count=len(config.channel_labels),
             nominal_srate=sample_rate,
-            channel_format=config.channel_format,
+            channel_format=config.channel_format,  # type: ignore[arg-type]
             source_id=config.source_id,
         )
         channels_xml = out_info.desc().append_child("channels")
