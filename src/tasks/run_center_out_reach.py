@@ -298,7 +298,7 @@ def run():
     if settings.center_out_reach.task_window_output is not None:
         task_window_output = _setup_LSL_output(
             StreamConfig.from_lsl_settings(
-                settings.center_out_reach.task_window_output,
+                settings.center_out_reach.task_window_output.lsl,
                 sampling_rate,
                 n_channels=4,
             )
