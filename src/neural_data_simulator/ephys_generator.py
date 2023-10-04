@@ -158,6 +158,8 @@ class SpikeEvents:
     """The spike waveforms with shape `(n_samples_waveform, n_spike_events)`,
     where `n_samples_waveform` is configurable.
     The values are the amplitudes of the spike waveforms in counts.
+
+    Can be None if only using spike times without waveforms.
     """
 
     class SpikeEvent(NamedTuple):
@@ -170,7 +172,7 @@ class SpikeEvents:
         """The unit that spiked."""
 
         waveform: Optional[ndarray]
-        """The spike waveform."""
+        """The spike waveform. Can be None if only using the spike time."""
 
     def __post_init__(self) -> None:
         """Check that the input data is valid."""
