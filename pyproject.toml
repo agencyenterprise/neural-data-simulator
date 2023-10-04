@@ -69,6 +69,7 @@ pyenchant = "^3.2.2"
 nbsphinx = "^0.8.12"
 sphinx-gallery = "^0.11.1"
 pyright = "^1.1.329"
+toml = "^0.10.2"
 
 [tool.poetry.group.dev.dependencies]
 types-requests = "^2.28.11.8"
