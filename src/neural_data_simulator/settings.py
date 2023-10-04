@@ -77,6 +77,7 @@ class LSLOutputModel(BaseModel):
     stream_type: str
     source_id: str
     instrument: _Instrument
+    stream_channel_labels: Optional[list[str]]
 
 
 class EncoderSettings(BaseModel):

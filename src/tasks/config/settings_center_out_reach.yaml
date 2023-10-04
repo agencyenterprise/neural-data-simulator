@@ -74,3 +74,8 @@ center_out_reach:
         manufacturer: "AE Studio"
         model: "CenterOutReachTask"
         id: 0
+      stream_channel_labels:
+        - "target_x"
+        - "target_y"
+        - "cursor_x"
+        - "cursor_y"
