@@ -103,7 +103,7 @@ class _Settings(VersionedYamlModel):
         with_metrics: bool
         standard_scaler: StandardScaler
         task: Task
-        task_output: Optional[Output]
+        task_window_output: Optional[Output]
 
     log_level: LogLevel
     center_out_reach: CenterOutReach
@@ -294,11 +294,11 @@ def run():
     )
 
     # Set up the output for the task state
-    task_output = None
-    if settings.center_out_reach.task_output is not None:
-        task_output = _setup_LSL_output(
+    task_window_output = None
+    if settings.center_out_reach.task_window_output is not None:
+        task_window_output = _setup_LSL_output(
             StreamConfig.from_lsl_settings(
-                settings.center_out_reach.task_output,
+                settings.center_out_reach.task_window_output,
                 sampling_rate,
                 n_channels=4,
             )
@@ -366,7 +366,7 @@ def run():
                 velocity_scaler,
                 with_decoded_cursor,
                 metrics_collector,
-                task_state_output=task_output,
+                task_window_output=task_window_output,
             )
             logger.info("Running task")
             task_runner.run(task_state, user_input)

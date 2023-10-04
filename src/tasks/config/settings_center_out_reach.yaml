@@ -62,12 +62,12 @@ center_out_reach:
         model: "CenterOutReachTask"
         id: 0
 
-  task_output:
+  task_window_output:
     # settings for the task LSL outlet
     lsl:
       # possible values are "float32", "double64", "int8", "int16", "int32", "int64"
       channel_format: "int32"
-      stream_name: "NDS-Task"
+      stream_name: "NDS-TaskWindow"
       stream_type: "Position"
       source_id: "CursorTargetPosition"
       instrument:
