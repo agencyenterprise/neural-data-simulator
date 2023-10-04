@@ -103,6 +103,7 @@ class _Settings(VersionedYamlModel):
         with_metrics: bool
         standard_scaler: StandardScaler
         task: Task
+        task_output: Output
 
     log_level: LogLevel
     center_out_reach: CenterOutReach
