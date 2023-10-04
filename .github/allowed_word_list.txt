@@ -38,6 +38,7 @@ int16
 int8
 jitter
 linalg
+linkcheck
 loadtxt
 lowpass
 lsl
