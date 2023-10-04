@@ -18,6 +18,7 @@ from tasks.center_out_reach.input_events import InputEvent
 from tasks.center_out_reach.input_events import InputHandler
 from tasks.center_out_reach.metrics import MetricsCollector
 from tasks.center_out_reach.task_state import TaskState
+from tasks.center_out_reach.task_window import TaskWindow
 
 from neural_data_simulator import inputs
 from neural_data_simulator import outputs
@@ -121,6 +122,27 @@ class TaskRunner:
                 metrics_collector.record_actual_velocities(velocities, timestamps)
             self.actual_cursor_output.send(
                 Samples(timestamps=timestamps, data=velocities)
+            )
+
+    def _send_task_window(self, task_window: TaskWindow) -> None:
+        """Send the target and cursor positions to the output stream.
+
+        This is the minimal information to reconstruct the task window
+        on a different GUI.
+        """
+        if self.task_window_output is not None:
+            timestamps = np.array([pylsl.local_clock()])
+            target_position: tuple[int, int] = task_window.target.position
+            decoded_cursor_position: tuple[
+                int, int
+            ] = task_window.decoded_cursor.position
+            target_cursor_positions = np.concatenate(
+                (target_position, decoded_cursor_position),
+                axis=None,
+            )
+            target_cursor_positions = target_cursor_positions.reshape(1, 4)
+            self.task_window_output.send(
+                Samples(timestamps=timestamps, data=target_cursor_positions)
             )
 
     def stop(self):
