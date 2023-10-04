@@ -164,7 +164,9 @@
 </li>
         <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Spikes.__init__">(neural_data_simulator.ephys_generator.Spikes method)</a>
 </li>
-        <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Spikes.Params.__init__">(neural_data_simulator.ephys_generator.Spikes.Params method)</a>
+        <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.SpikeTimes.__init__">(neural_data_simulator.ephys_generator.SpikeTimes method)</a>
+</li>
+        <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.SpikeTimes.Params.__init__">(neural_data_simulator.ephys_generator.SpikeTimes.Params method)</a>
 </li>
         <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Waveforms.__init__">(neural_data_simulator.ephys_generator.Waveforms method)</a>
 </li>
@@ -570,7 +572,11 @@
       <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.filters.GaussianFilter">GaussianFilter (class in neural_data_simulator.filters)</a>
 </li>
       <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Spikes.generate_spikes">generate_spikes() (neural_data_simulator.ephys_generator.Spikes method)</a>
+
+      <ul>
+        <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.SpikeTimes.generate_spikes">(neural_data_simulator.ephys_generator.SpikeTimes method)</a>
 </li>
+      </ul></li>
       <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.ContinuousData.get_continuous_data">get_continuous_data() (neural_data_simulator.ephys_generator.ContinuousData method)</a>
 </li>
       <li><a href="tools/tasks.center_out_reach.html#tasks.center_out_reach.input_events.InputHandler.get_cursor_relative_position">get_cursor_relative_position() (tasks.center_out_reach.input_events.InputHandler method)</a>
@@ -588,6 +594,8 @@
       <li><a href="tools/tasks.center_out_reach.html#tasks.center_out_reach.screen_info.get_ppmm">get_ppmm() (in module tasks.center_out_reach.screen_info)</a>
 </li>
       <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.NoiseData.get_slice">get_slice() (neural_data_simulator.ephys_generator.NoiseData method)</a>
+</li>
+      <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.SpikeEvents.get_spike_event">get_spike_event() (neural_data_simulator.ephys_generator.SpikeEvents method)</a>
 </li>
       <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Waveforms.get_spike_waveforms">get_spike_waveforms() (neural_data_simulator.ephys_generator.Waveforms method)</a>
 </li>
@@ -860,20 +868,20 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="tools/decoder.html#decoder.settings.DecoderSettings.Output.n_channels">n_channels (decoder.settings.DecoderSettings.Output attribute)</a>
 </li>
+      <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.SpikeTimes.Params.n_refractory_samples">n_refractory_samples (neural_data_simulator.ephys_generator.SpikeTimes.Params property)</a>
+</li>
       <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Waveforms.Params.n_samples">n_samples (neural_data_simulator.ephys_generator.Waveforms.Params attribute)</a>
 </li>
       <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.ContinuousData.Params.n_samples_waveform">n_samples_waveform (neural_data_simulator.ephys_generator.ContinuousData.Params attribute)</a>
-
-      <ul>
-        <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Spikes.Params.n_samples_waveform">(neural_data_simulator.ephys_generator.Spikes.Params attribute)</a>
 </li>
-      </ul></li>
       <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.ContinuousData.Params.n_units_per_channel">n_units_per_channel (neural_data_simulator.ephys_generator.ContinuousData.Params attribute)</a>
 
       <ul>
         <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.ProcessOutput.Params.n_units_per_channel">(neural_data_simulator.ephys_generator.ProcessOutput.Params attribute)</a>
 </li>
         <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Spikes.Params.n_units_per_channel">(neural_data_simulator.ephys_generator.Spikes.Params attribute)</a>
+</li>
+        <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.SpikeTimes.Params.n_units_per_channel">(neural_data_simulator.ephys_generator.SpikeTimes.Params attribute)</a>
 </li>
       </ul></li>
       <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.inputs.StreamInfo.name">name (neural_data_simulator.inputs.StreamInfo attribute)</a>
@@ -1115,6 +1123,8 @@
 </li>
         <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Spikes.Params.raw_data_frequency">(neural_data_simulator.ephys_generator.Spikes.Params attribute)</a>
 </li>
+        <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.SpikeTimes.Params.raw_data_frequency">(neural_data_simulator.ephys_generator.SpikeTimes.Params attribute)</a>
+</li>
       </ul></li>
       <li><a href="tools/tasks.center_out_reach.html#tasks.center_out_reach.task_state.Reaching">Reaching (class in tasks.center_out_reach.task_state)</a>
 </li>
@@ -1163,7 +1173,11 @@
       <li><a href="tools/tasks.center_out_reach.html#tasks.center_out_reach.task_window.RichText.rect">rect (tasks.center_out_reach.task_window.RichText attribute)</a>
 </li>
       <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Spikes.Params.refractory_time">refractory_time (neural_data_simulator.ephys_generator.Spikes.Params attribute)</a>
+
+      <ul>
+        <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.SpikeTimes.Params.refractory_time">(neural_data_simulator.ephys_generator.SpikeTimes.Params attribute)</a>
 </li>
+      </ul></li>
       <li><a href="tools/tasks.center_out_reach.html#tasks.center_out_reach.joystick.JoystickInput.relative_position">relative_position (tasks.center_out_reach.joystick.JoystickInput property)</a>
 </li>
       <li><a href="tools/tasks.center_out_reach.html#tasks.center_out_reach.input_events.InputEvent.RESET">RESET (tasks.center_out_reach.input_events.InputEvent attribute)</a>
@@ -1256,15 +1270,19 @@
 </li>
       <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.SpikeEvents.SpikeEvent">SpikeEvents.SpikeEvent (class in neural_data_simulator.ephys_generator)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.SpikeRateInput">SpikeRateInput (class in neural_data_simulator.ephys_generator)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.SpikeRateTestingInput">SpikeRateTestingInput (class in neural_data_simulator.ephys_generator)</a>
 </li>
       <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Spikes">Spikes (class in neural_data_simulator.ephys_generator)</a>
 </li>
       <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Spikes.Params">Spikes.Params (class in neural_data_simulator.ephys_generator)</a>
+</li>
+      <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.SpikeTimes">SpikeTimes (class in neural_data_simulator.ephys_generator)</a>
+</li>
+      <li><a href="neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.SpikeTimes.Params">SpikeTimes.Params (class in neural_data_simulator.ephys_generator)</a>
 </li>
       <li><a href="tools/tasks.center_out_reach.html#tasks.center_out_reach.sprites.Sprite">Sprite (class in tasks.center_out_reach.sprites)</a>
 </li>

@@ -92,6 +92,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#neural_data_simulator.ephys_generator.NoiseData"><code class="docutils literal notranslate"><span class="pre">NoiseData</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neural_data_simulator.ephys_generator.ContinuousData"><code class="docutils literal notranslate"><span class="pre">ContinuousData</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neural_data_simulator.ephys_generator.Waveforms"><code class="docutils literal notranslate"><span class="pre">Waveforms</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neural_data_simulator.ephys_generator.SpikeTimes"><code class="docutils literal notranslate"><span class="pre">SpikeTimes</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neural_data_simulator.ephys_generator.Spikes"><code class="docutils literal notranslate"><span class="pre">Spikes</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neural_data_simulator.ephys_generator.ProcessOutput"><code class="docutils literal notranslate"><span class="pre">ProcessOutput</span></code></a></li>
 </ul>
@@ -468,7 +469,7 @@ spike rates will be constant and equal to:</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="neural_data_simulator.ephys_generator.SpikeEvents">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.ephys_generator.</span></span><span class="sig-name descname"><span class="pre">SpikeEvents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waveform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/ephys_generator.html#SpikeEvents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.ephys_generator.SpikeEvents" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.ephys_generator.</span></span><span class="sig-name descname"><span class="pre">SpikeEvents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waveform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/ephys_generator.html#SpikeEvents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.ephys_generator.SpikeEvents" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Spike events that are generated during an execution of <a class="reference internal" href="#neural_data_simulator.ephys_generator.ProcessOutput" title="neural_data_simulator.ephys_generator.ProcessOutput"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessOutput</span></code></a>.</p>
 <p>During each execution <cite>n_samples</cite> of data are processed and sent to output.
@@ -496,15 +497,16 @@ first spike event corresponds to the unit 0, the second and the third to the uni
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_data_simulator.ephys_generator.SpikeEvents.waveform">
-<span class="sig-name descname"><span class="pre">waveform</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#neural_data_simulator.ephys_generator.SpikeEvents.waveform" title="Permalink to this definition"></a></dt>
-<dd><p>The spike waveforms with shape <cite>(n_samples_waveform, n_samples)</cite>,
+<span class="sig-name descname"><span class="pre">waveform</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#neural_data_simulator.ephys_generator.SpikeEvents.waveform" title="Permalink to this definition"></a></dt>
+<dd><p>The spike waveforms with shape <cite>(n_samples_waveform, n_spike_events)</cite>,
 where <cite>n_samples_waveform</cite> is configurable.
 The values are the amplitudes of the spike waveforms in counts.</p>
+<p>Can be None if only using spike times without waveforms.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="neural_data_simulator.ephys_generator.SpikeEvents.SpikeEvent">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SpikeEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waveform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/ephys_generator.html#SpikeEvents.SpikeEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.ephys_generator.SpikeEvents.SpikeEvent" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SpikeEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waveform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/ephys_generator.html#SpikeEvents.SpikeEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.ephys_generator.SpikeEvents.SpikeEvent" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">NamedTuple</span></code></p>
 <p>A single spike event.</p>
 <dl class="py attribute">
@@ -521,15 +523,21 @@ The values are the amplitudes of the spike waveforms in counts.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_data_simulator.ephys_generator.SpikeEvents.SpikeEvent.waveform">
-<span class="sig-name descname"><span class="pre">waveform</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#neural_data_simulator.ephys_generator.SpikeEvents.SpikeEvent.waveform" title="Permalink to this definition"></a></dt>
-<dd><p>The spike waveform.</p>
+<span class="sig-name descname"><span class="pre">waveform</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#neural_data_simulator.ephys_generator.SpikeEvents.SpikeEvent.waveform" title="Permalink to this definition"></a></dt>
+<dd><p>The spike waveform. Can be None if only using the spike time.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="neural_data_simulator.ephys_generator.SpikeEvents.get_spike_event">
+<span class="sig-name descname"><span class="pre">get_spike_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#neural_data_simulator.ephys_generator.SpikeEvents.SpikeEvent" title="neural_data_simulator.ephys_generator.SpikeEvents.SpikeEvent"><span class="pre">SpikeEvent</span></a></span></span><a class="reference internal" href="../_modules/neural_data_simulator/ephys_generator.html#SpikeEvents.get_spike_event"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.ephys_generator.SpikeEvents.get_spike_event" title="Permalink to this definition"></a></dt>
+<dd><p>Get a single SpikeEvent at the specified index.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="neural_data_simulator.ephys_generator.SpikeEvents.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waveform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#neural_data_simulator.ephys_generator.SpikeEvents.__init__" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waveform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#neural_data_simulator.ephys_generator.SpikeEvents.__init__" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -769,20 +777,113 @@ explicitly defined. Unit numbers are 0-based.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="neural_data_simulator.ephys_generator.Spikes">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.ephys_generator.</span></span><span class="sig-name descname"><span class="pre">Spikes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_channels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waveforms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.ephys_generator.Waveforms" title="neural_data_simulator.ephys_generator.Waveforms"><span class="pre">Waveforms</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.ephys_generator.Spikes.Params" title="neural_data_simulator.ephys_generator.Spikes.Params"><span class="pre">Params</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/ephys_generator.html#Spikes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.ephys_generator.Spikes" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="neural_data_simulator.ephys_generator.SpikeTimes">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.ephys_generator.</span></span><span class="sig-name descname"><span class="pre">SpikeTimes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_channels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.ephys_generator.SpikeTimes.Params" title="neural_data_simulator.ephys_generator.SpikeTimes.Params"><span class="pre">Params</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/ephys_generator.html#SpikeTimes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.ephys_generator.SpikeTimes" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Spike generator.</p>
+<p>Spike-time generator without waveforms.</p>
 <p>This class generates random spike events according to unit spike rates
 within a given time interval determined by a number of samples and a known
 raw data sample rate. It also ensures that the spikes are within
 the refractory period of each other taking into account the occurrence of
 the spikes generated in the previous time interval.</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="neural_data_simulator.ephys_generator.Spikes.Params">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_data_frequency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_units_per_channel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refractory_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples_waveform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/ephys_generator.html#Spikes.Params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.ephys_generator.Spikes.Params" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="neural_data_simulator.ephys_generator.SpikeTimes.Params">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_data_frequency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_units_per_channel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refractory_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/ephys_generator.html#SpikeTimes.Params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.ephys_generator.SpikeTimes.Params" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Initialization parameters for the <a class="reference internal" href="#neural_data_simulator.ephys_generator.Spikes" title="neural_data_simulator.ephys_generator.Spikes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Spikes</span></code></a> class.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neural_data_simulator.ephys_generator.SpikeTimes.Params.raw_data_frequency">
+<span class="sig-name descname"><span class="pre">raw_data_frequency</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#neural_data_simulator.ephys_generator.SpikeTimes.Params.raw_data_frequency" title="Permalink to this definition"></a></dt>
+<dd><p>The electrophysiology raw data output sample rate in Hz.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neural_data_simulator.ephys_generator.SpikeTimes.Params.n_units_per_channel">
+<span class="sig-name descname"><span class="pre">n_units_per_channel</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#neural_data_simulator.ephys_generator.SpikeTimes.Params.n_units_per_channel" title="Permalink to this definition"></a></dt>
+<dd><p>The number of units per channel.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neural_data_simulator.ephys_generator.SpikeTimes.Params.refractory_time">
+<span class="sig-name descname"><span class="pre">refractory_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#neural_data_simulator.ephys_generator.SpikeTimes.Params.refractory_time" title="Permalink to this definition"></a></dt>
+<dd><p>The refractory time in seconds.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="neural_data_simulator.ephys_generator.SpikeTimes.Params.n_refractory_samples">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_refractory_samples</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#neural_data_simulator.ephys_generator.SpikeTimes.Params.n_refractory_samples" title="Permalink to this definition"></a></dt>
+<dd><p>The number of samples in the refractory period.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_data_simulator.ephys_generator.SpikeTimes.Params.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_data_frequency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_units_per_channel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refractory_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#neural_data_simulator.ephys_generator.SpikeTimes.Params.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_data_simulator.ephys_generator.SpikeTimes.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_channels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.ephys_generator.SpikeTimes.Params" title="neural_data_simulator.ephys_generator.SpikeTimes.Params"><span class="pre">Params</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/ephys_generator.html#SpikeTimes.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.ephys_generator.SpikeTimes.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Initialize Spikes class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_channels</strong> – The number of channels. This value together with the configured
+number of units per channel determines the total number of units
+for which spikes are generated.</p></li>
+<li><p><strong>params</strong> – The spike generator parameters.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_data_simulator.ephys_generator.SpikeTimes.generate_spikes">
+<span class="sig-name descname"><span class="pre">generate_spikes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#neural_data_simulator.ephys_generator.SpikeEvents" title="neural_data_simulator.ephys_generator.SpikeEvents"><span class="pre">SpikeEvents</span></a></span></span><a class="reference internal" href="../_modules/neural_data_simulator/ephys_generator.html#SpikeTimes.generate_spikes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.ephys_generator.SpikeTimes.generate_spikes" title="Permalink to this definition"></a></dt>
+<dd><p>Generate spikes for the given rates and a given number of samples.</p>
+<p>Spike times are calculated using the spike rate input for each channel.
+When there are multiple units in a channel, the rate is divided equally
+across the units.</p>
+<p>First, the chances of a spike for each sample in each unit is calculated from
+the rates (spikes/sec). A random draw is performed for each of n_samples for
+each unit and a spike is assigned or not depending on the spike chance.
+An iterative process is then performed to remove spikes within the
+configured refractory period.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rates</strong> – The spike rates array with shape (n_units,).
+Each element in the array represents the spike rate in
+spikes per second for the corresponding unit.</p></li>
+<li><p><strong>n_samples</strong> – The number of samples to output.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The generated spikes as <a class="reference internal" href="#neural_data_simulator.ephys_generator.SpikeEvents" title="neural_data_simulator.ephys_generator.SpikeEvents"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpikeEvents</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_data_simulator.ephys_generator.Spikes">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.ephys_generator.</span></span><span class="sig-name descname"><span class="pre">Spikes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_channels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waveforms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.ephys_generator.Waveforms" title="neural_data_simulator.ephys_generator.Waveforms"><span class="pre">Waveforms</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.ephys_generator.Spikes.Params" title="neural_data_simulator.ephys_generator.Spikes.Params"><span class="pre">Params</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/ephys_generator.html#Spikes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.ephys_generator.Spikes" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Spike generator with waveforms.</p>
+<p>This class generates random spike events according to unit spike rates
+within a given time interval determined by a number of samples and a known
+raw data sample rate. It also ensures that the spikes are within the
+refractory period of each other taking into account the occurrence of the
+spikes generated in the previous time interval. It applies the corresponding
+waveforms to each SpikeEvent.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_data_simulator.ephys_generator.Spikes.Params">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_data_frequency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_units_per_channel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refractory_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/ephys_generator.html#Spikes.Params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.ephys_generator.Spikes.Params" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#neural_data_simulator.ephys_generator.SpikeTimes.Params" title="neural_data_simulator.ephys_generator.SpikeTimes.Params"><code class="xref py py-class docutils literal notranslate"><span class="pre">Params</span></code></a></p>
+<p>Initialization parameters for the <a class="reference internal" href="#neural_data_simulator.ephys_generator.Spikes" title="neural_data_simulator.ephys_generator.Spikes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Spikes</span></code></a> class.</p>
+<p>Alias for <a class="reference internal" href="#neural_data_simulator.ephys_generator.SpikeTimes.Params" title="neural_data_simulator.ephys_generator.SpikeTimes.Params"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpikeTimes.Params</span></code></a>.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_data_simulator.ephys_generator.Spikes.Params.raw_data_frequency">
 <span class="sig-name descname"><span class="pre">raw_data_frequency</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#neural_data_simulator.ephys_generator.Spikes.Params.raw_data_frequency" title="Permalink to this definition"></a></dt>
@@ -801,17 +902,6 @@ the spikes generated in the previous time interval.</p>
 <dd><p>The refractory time in seconds.</p>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="neural_data_simulator.ephys_generator.Spikes.Params.n_samples_waveform">
-<span class="sig-name descname"><span class="pre">n_samples_waveform</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#neural_data_simulator.ephys_generator.Spikes.Params.n_samples_waveform" title="Permalink to this definition"></a></dt>
-<dd><p>The number of samples in the spike waveform.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.ephys_generator.Spikes.Params.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_data_frequency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_units_per_channel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refractory_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples_waveform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#neural_data_simulator.ephys_generator.Spikes.Params.__init__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py method">
@@ -825,7 +915,7 @@ the spikes generated in the previous time interval.</p>
 number of units per channel determines the total number of units
 for which spikes are generated.</p></li>
 <li><p><strong>waveforms</strong> – The <a class="reference internal" href="#neural_data_simulator.ephys_generator.Waveforms" title="neural_data_simulator.ephys_generator.Waveforms"><code class="xref py py-class docutils literal notranslate"><span class="pre">Waveforms</span></code></a> instance with spike waveform prototypes.</p></li>
-<li><p><strong>params</strong> – The spike generator parameters.</p></li>
+<li><p><strong>params</strong> – The <a class="reference internal" href="#neural_data_simulator.ephys_generator.SpikeTimes" title="neural_data_simulator.ephys_generator.SpikeTimes"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpikeTimes</span></code></a> generator parameters.</p></li>
 </ul>
 </dd>
 </dl>
@@ -835,20 +925,14 @@ for which spikes are generated.</p></li>
 <dt class="sig sig-object py" id="neural_data_simulator.ephys_generator.Spikes.generate_spikes">
 <span class="sig-name descname"><span class="pre">generate_spikes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#neural_data_simulator.ephys_generator.SpikeEvents" title="neural_data_simulator.ephys_generator.SpikeEvents"><span class="pre">SpikeEvents</span></a></span></span><a class="reference internal" href="../_modules/neural_data_simulator/ephys_generator.html#Spikes.generate_spikes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.ephys_generator.Spikes.generate_spikes" title="Permalink to this definition"></a></dt>
 <dd><p>Generate spikes for the given rates and a given number of samples.</p>
-<p>Spike times are calculated using the spike rate input for each channel.
-When there are multiple units in a channel, the rate is divided equally
-across the units.</p>
-<p>First, the chances of a spike for each sample in each unit is calculated from
-the rates (spikes/sec). A random draw is performed for each of n_samples for
-each unit and a spike is assigned or not depending on the spike chance.
-An iterative process is then performed to remove spikes within the
-configured refractory period.</p>
+<p>Calls into the <a class="reference internal" href="#neural_data_simulator.ephys_generator.SpikeTimes.generate_spikes" title="neural_data_simulator.ephys_generator.SpikeTimes.generate_spikes"><code class="xref py py-meth docutils literal notranslate"><span class="pre">SpikeTimes.generate_spikes()</span></code></a> method, then applies
+the waveforms.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>rates</strong> – The spike rates array with shape (n_units,).
-Each element in the array represents the spike rate in
-spikes per second for the corresponding unit.</p></li>
+Each element in the array represents the spike rate in spikes
+per second for the corresponding unit.</p></li>
 <li><p><strong>n_samples</strong> – The number of samples to output.</p></li>
 </ul>
 </dd>

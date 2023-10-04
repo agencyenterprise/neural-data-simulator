@@ -104,7 +104,7 @@
   <h1>Source code for neural_data_simulator.ephys_generator</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;This module contains classes that are used to generate spikes from spike rates.&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">colorednoise</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ndarray</span>
@@ -258,10 +258,12 @@
 <span class="sd">    first spike event corresponds to the unit 0, the second and the third to the unit 1.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">waveform</span><span class="p">:</span> <span class="n">ndarray</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The spike waveforms with shape `(n_samples_waveform, n_samples)`,</span>
+    <span class="n">waveform</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ndarray</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The spike waveforms with shape `(n_samples_waveform, n_spike_events)`,</span>
 <span class="sd">    where `n_samples_waveform` is configurable.</span>
 <span class="sd">    The values are the amplitudes of the spike waveforms in counts.</span>
+
+<span class="sd">    Can be None if only using spike times without waveforms.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="SpikeEvents.SpikeEvent"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.SpikeEvents.SpikeEvent">[docs]</a>    <span class="k">class</span> <span class="nc">SpikeEvent</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
@@ -273,8 +275,41 @@
         <span class="n">unit</span><span class="p">:</span> <span class="nb">int</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The unit that spiked.&quot;&quot;&quot;</span>
 
-        <span class="n">waveform</span><span class="p">:</span> <span class="n">ndarray</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The spike waveform.&quot;&quot;&quot;</span></div>
+        <span class="n">waveform</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ndarray</span><span class="p">]</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The spike waveform. Can be None if only using the spike time.&quot;&quot;&quot;</span></div>
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check that the input data is valid.&quot;&quot;&quot;</span>
+        <span class="p">(</span><span class="n">n_spike_events</span><span class="p">,)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_idx</span><span class="o">.</span><span class="n">shape</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_idx</span><span class="o">.</span><span class="n">shape</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">waveform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">n_spike_events_waveform</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">waveform</span><span class="o">.</span><span class="n">shape</span>
+            <span class="k">assert</span> <span class="n">n_spike_events_waveform</span> <span class="o">==</span> <span class="n">n_spike_events</span>
+
+    <span class="k">def</span> <span class="nf">_get_waveform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the waveform for the specified key.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key: index(es) into the waveform array</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Corresponding waveform(s), or None if no waveform is available.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">waveform</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">waveform</span><span class="p">[:,</span> <span class="n">key</span><span class="p">]</span>
+
+<div class="viewcode-block" id="SpikeEvents.get_spike_event"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.SpikeEvents.get_spike_event">[docs]</a>    <span class="k">def</span> <span class="nf">get_spike_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpikeEvent</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a single SpikeEvent at the specified index.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">index</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;Index out of range&quot;</span><span class="p">)</span>
+
+        <span class="n">waveform</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_waveform</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">SpikeEvent</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">time_idx</span><span class="p">[</span><span class="n">index</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">[</span><span class="n">index</span><span class="p">],</span>
+            <span class="n">waveform</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return an iterator over the spike events.&quot;&quot;&quot;</span>
@@ -283,23 +318,27 @@
 
     <span class="k">def</span> <span class="fm">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the next spike event.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_idx</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">StopIteration</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SpikeEvent</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">time_idx</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_current</span><span class="p">],</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_current</span><span class="p">],</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">waveform</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current</span><span class="p">],</span>
-        <span class="p">)</span>
+
+        <span class="n">spike_event</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_spike_event</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_current</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_current</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">return</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="n">spike_event</span>
 
     <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the number of spike events.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_idx</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">n_spike_events</span><span class="p">,)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_idx</span><span class="o">.</span><span class="n">shape</span>
+        <span class="k">return</span> <span class="n">n_spike_events</span>
 
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">SpikeEvent</span><span class="p">,</span> <span class="s2">&quot;SpikeEvents&quot;</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a subset of the spike events.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">SpikeEvents</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_idx</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">waveform</span><span class="p">[:,</span> <span class="n">key</span><span class="p">])</span></div>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="c1"># Single item access</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_spike_event</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+        <span class="c1"># Slice access</span>
+        <span class="n">waveforms</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_waveform</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">SpikeEvents</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_idx</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">waveforms</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="NoiseData"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.NoiseData">[docs]</a><span class="k">class</span> <span class="nc">NoiseData</span><span class="p">:</span>
@@ -490,6 +529,9 @@
     <span class="k">def</span> <span class="nf">_spike_events_to_continuous</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">spike_events</span><span class="p">:</span> <span class="n">SpikeEvents</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n_units</span><span class="p">:</span> <span class="nb">int</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="p">(</span>
+            <span class="n">spike_events</span><span class="o">.</span><span class="n">waveform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="p">),</span> <span class="s2">&quot;SpikeEvents.waveform is required to generate continuous data.&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_units</span><span class="p">))</span>
         <span class="n">time_positions</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">spike_events</span><span class="o">.</span><span class="n">time_idx</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
@@ -575,8 +617,8 @@
         <span class="k">return</span> <span class="n">unit_waveforms</span></div>
 
 
-<div class="viewcode-block" id="Spikes"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Spikes">[docs]</a><span class="k">class</span> <span class="nc">Spikes</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Spike generator.</span>
+<div class="viewcode-block" id="SpikeTimes"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.SpikeTimes">[docs]</a><span class="k">class</span> <span class="nc">SpikeTimes</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Spike-time generator without waveforms.</span>
 
 <span class="sd">    This class generates random spike events according to unit spike rates</span>
 <span class="sd">    within a given time interval determined by a number of samples and a known</span>
@@ -585,7 +627,7 @@
 <span class="sd">    the spikes generated in the previous time interval.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Spikes.Params"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Spikes.Params">[docs]</a>    <span class="nd">@dataclass</span>
+<div class="viewcode-block" id="SpikeTimes.Params"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.SpikeTimes.Params">[docs]</a>    <span class="nd">@dataclass</span>
     <span class="k">class</span> <span class="nc">Params</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialization parameters for the :class:`Spikes` class.&quot;&quot;&quot;</span>
 
@@ -598,26 +640,23 @@
         <span class="n">refractory_time</span><span class="p">:</span> <span class="nb">float</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The refractory time in seconds.&quot;&quot;&quot;</span>
 
-        <span class="n">n_samples_waveform</span><span class="p">:</span> <span class="nb">int</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The number of samples in the spike waveform.&quot;&quot;&quot;</span></div>
+        <span class="nd">@property</span>
+        <span class="k">def</span> <span class="nf">n_refractory_samples</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;The number of samples in the refractory period.&quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_data_frequency</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">refractory_time</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Spikes.__init__"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Spikes.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">waveforms</span><span class="p">:</span> <span class="n">Waveforms</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Params</span><span class="p">):</span>
+<div class="viewcode-block" id="SpikeTimes.__init__"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.SpikeTimes.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Params</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize Spikes class.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            n_channels: The number of channels. This value together with the configured</span>
 <span class="sd">                number of units per channel determines the total number of units</span>
 <span class="sd">                for which spikes are generated.</span>
-<span class="sd">            waveforms: The :class:`Waveforms` instance with spike waveform prototypes.</span>
 <span class="sd">            params: The spike generator parameters.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="o">=</span> <span class="n">params</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">waveforms</span> <span class="o">=</span> <span class="n">waveforms</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_units</span> <span class="o">=</span> <span class="n">n_channels</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="o">.</span><span class="n">n_units_per_channel</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">n_refractory_samples</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="o">.</span><span class="n">raw_data_frequency</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="o">.</span><span class="n">refractory_time</span>
-        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_refractory_samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="o">.</span><span class="n">n_refractory_samples</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">spikes_buffer</span> <span class="o">=</span> <span class="n">RingBuffer</span><span class="p">(</span>
             <span class="n">max_samples</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="o">.</span><span class="n">raw_data_frequency</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span><span class="p">,</span>
@@ -676,7 +715,7 @@
         <span class="n">time_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">time_idx</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">time_idx</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">units</span><span class="p">,</span> <span class="n">time_idx</span>
 
-<div class="viewcode-block" id="Spikes.generate_spikes"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Spikes.generate_spikes">[docs]</a>    <span class="k">def</span> <span class="nf">generate_spikes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rates</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpikeEvents</span><span class="p">:</span>
+<div class="viewcode-block" id="SpikeTimes.generate_spikes"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.SpikeTimes.generate_spikes">[docs]</a>    <span class="k">def</span> <span class="nf">generate_spikes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rates</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpikeEvents</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate spikes for the given rates and a given number of samples.</span>
 
 <span class="sd">        Spike times are calculated using the spike rate input for each channel.</span>
@@ -707,12 +746,64 @@
         <span class="n">units</span><span class="p">,</span> <span class="n">time_idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_correct_timeidx</span><span class="p">(</span><span class="n">units</span><span class="p">,</span> <span class="n">time_idx</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">spikes_buffer</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">spikes</span><span class="p">[</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">n_refractory_samples</span> <span class="p">:,</span> <span class="p">:])</span>
-        <span class="n">waveforms</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">waveforms</span><span class="o">.</span><span class="n">get_spike_waveforms</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">SpikeEvents</span><span class="p">(</span><span class="n">time_idx</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">waveforms</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">SpikeEvents</span><span class="p">(</span><span class="n">time_idx</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">waveform</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_get_spike_chance_for_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spk_per_sec</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ndarray</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">spk_per_sec</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="o">.</span><span class="n">raw_data_frequency</span></div>
+
+
+<div class="viewcode-block" id="Spikes"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Spikes">[docs]</a><span class="k">class</span> <span class="nc">Spikes</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Spike generator with waveforms.</span>
+
+<span class="sd">    This class generates random spike events according to unit spike rates</span>
+<span class="sd">    within a given time interval determined by a number of samples and a known</span>
+<span class="sd">    raw data sample rate. It also ensures that the spikes are within the</span>
+<span class="sd">    refractory period of each other taking into account the occurrence of the</span>
+<span class="sd">    spikes generated in the previous time interval. It applies the corresponding</span>
+<span class="sd">    waveforms to each SpikeEvent.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Spikes.Params"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Spikes.Params">[docs]</a>    <span class="k">class</span> <span class="nc">Params</span><span class="p">(</span><span class="n">SpikeTimes</span><span class="o">.</span><span class="n">Params</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialization parameters for the :class:`Spikes` class.</span>
+
+<span class="sd">        Alias for :class:`SpikeTimes.Params`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Spikes.__init__"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Spikes.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">waveforms</span><span class="p">:</span> <span class="n">Waveforms</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Params</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize Spikes class.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            n_channels: The number of channels. This value together with the configured</span>
+<span class="sd">                number of units per channel determines the total number of units</span>
+<span class="sd">                for which spikes are generated.</span>
+<span class="sd">            waveforms: The :class:`Waveforms` instance with spike waveform prototypes.</span>
+<span class="sd">            params: The :class:`SpikeTimes` generator parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spike_times</span> <span class="o">=</span> <span class="n">SpikeTimes</span><span class="p">(</span><span class="n">n_channels</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">waveforms</span> <span class="o">=</span> <span class="n">waveforms</span></div>
+
+<div class="viewcode-block" id="Spikes.generate_spikes"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.Spikes.generate_spikes">[docs]</a>    <span class="k">def</span> <span class="nf">generate_spikes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rates</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpikeEvents</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate spikes for the given rates and a given number of samples.</span>
+
+<span class="sd">        Calls into the :meth:`SpikeTimes.generate_spikes` method, then applies</span>
+<span class="sd">        the waveforms.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            rates: The spike rates array with shape (n_units,).</span>
+<span class="sd">                Each element in the array represents the spike rate in spikes</span>
+<span class="sd">                per second for the corresponding unit.</span>
+<span class="sd">            n_samples: The number of samples to output.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The generated spikes as :class:`SpikeEvents`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">spike_events</span><span class="p">:</span> <span class="n">SpikeEvents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spike_times</span><span class="o">.</span><span class="n">generate_spikes</span><span class="p">(</span><span class="n">rates</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">)</span>
+        <span class="n">spike_events</span><span class="o">.</span><span class="n">waveform</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">waveforms</span><span class="o">.</span><span class="n">get_spike_waveforms</span><span class="p">(</span><span class="n">spike_events</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">spike_events</span></div></div>
 
 
 <div class="viewcode-block" id="ProcessOutput"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.ephys_generator.ProcessOutput">[docs]</a><span class="k">class</span> <span class="nc">ProcessOutput</span><span class="p">:</span>
@@ -843,6 +934,10 @@
     <span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_output_time</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Last output time is not set.&quot;</span><span class="p">)</span>
+
+        <span class="k">assert</span> <span class="p">(</span>
+            <span class="n">spike_events</span><span class="o">.</span><span class="n">waveform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="p">),</span> <span class="s2">&quot;SpikeEvents.waveform is required to stream continuous data.&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span><span class="o">.</span><span class="n">spike_events</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">spike_events</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">channels</span> <span class="o">=</span> <span class="n">spike_events</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">spike_events</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
