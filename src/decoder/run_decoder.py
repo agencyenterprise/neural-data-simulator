@@ -116,18 +116,21 @@ def run():
     )
     configure_logger(SCRIPT_NAME, settings.log_level)
 
+    # Set up timer
     timer_settings = settings.timer
     timer = timing.get_timer(timer_settings.loop_time, timer_settings.max_cpu_buffer)
 
+    # Create LSL input and output objects
     data_output = _setup_LSL_output(settings.decoder.output)
     lsl_input_settings = settings.decoder.input.lsl
     data_input = _setup_LSL_input(
         lsl_input_settings.stream_name, lsl_input_settings.connection_timeout
     )
+
+    # Set up decoder
     input_sample_rate = data_input.get_info().sample_rate
     n_channels = data_input.get_info().channel_count
     output_sample_rate = 1.0 / timer_settings.loop_time
-
     dec = _setup_decoder(
         get_abs_path(settings.decoder.model_file),
         input_sample_rate,
@@ -139,6 +142,7 @@ def run():
     try:
         with open_connection(data_output), open_connection(data_input):
             timer.start()
+            # Run the decoder periodically
             while True:
                 samples = data_input.read()
                 if not samples.empty:
