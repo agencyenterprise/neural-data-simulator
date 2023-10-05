@@ -104,6 +104,23 @@ def _parse_args_settings_path() -> Path:
     return args.settings_path
 
 
+def _read_decode_send(
+    data_input: inputs.Input, dec: Decoder, data_output: outputs.Output
+) -> None:
+    """Read input data, decode it, and send to the output stream.
+
+    Args:
+        data_input: Input data source.
+        dec: Decoder.
+        data_output: Output data sink.
+    """
+    samples = data_input.read()
+    if not samples.empty:
+        decoded_samples = dec.decode(samples)
+        if not decoded_samples.empty:
+            data_output.send(decoded_samples)
+
+
 def run():
     """Run the decoder loop."""
     initialize_logger(SCRIPT_NAME)
@@ -144,11 +161,9 @@ def run():
             timer.start()
             # Run the decoder periodically
             while True:
-                samples = data_input.read()
-                if not samples.empty:
-                    samples = dec.decode(samples)
-                    if not samples.empty:
-                        data_output.send(samples)
+                _read_decode_send(
+                    data_input=data_input, dec=dec, data_output=data_output
+                )
                 timer.wait()
     except KeyboardInterrupt:
         logger.info("CTRL+C received. Exiting...")
