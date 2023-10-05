@@ -145,7 +145,7 @@ velocity from spiking rates.</p>
 <p>The models will be trained using a slice of data from the dataset
 <a class="reference external" href="https://dandiarchive.org/dandiset/000121">Structure and variability of delay activity in premotor cortex</a> and <a class="reference external" href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1006808">paper with the same title</a>,
 specifically the data from <cite>Session 4</cite> with the subject <cite>JenkinsC</cite>.</p>
-<p>We mostly followed <a class="reference external" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6286377/pdf/41467_2018_Article_7647.pdf">decoding arm speed during reaching</a>
+<p>We mostly followed <a class="reference external" href="https://doi.org/10.1038/s41467-018-07647-3">Decoding arm speed during reaching</a>
 for modeling. One reason to follow this paper specifically is that we wanted
 to use a model that incorporated the magnitude of the velocity as well as its
 direction. Traditional cosine tuning curves only include direction.</p>
@@ -278,7 +278,7 @@ from the dataset, but clip them, then apply the scaler.</p>
 <section id="create-tuning-curves">
 <h2>Create tuning curves<a class="headerlink" href="#create-tuning-curves" title="Permalink to this heading"></a></h2>
 <p>We’re ready to start creating the encoder model. We’ll follow the
-equation from <a class="reference external" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6286377/pdf/41467_2018_Article_7647.pdf">decoding arm speed during reaching</a>:</p>
+equation from <a class="reference external" href="https://doi.org/10.1038/s41467-018-07647-3">Decoding arm speed during reaching</a>:</p>
 <p><span class="math notranslate nohighlight">\(spike rate = b_0 + m * |v| * cos(\theta - \theta_{pd}) + b_s*|v|\)</span></p>
 <p>where <cite>spike rate</cite> is the spike data for the unit we’re trying to model,
 <span class="math notranslate nohighlight">\(b_0\)</span>, <span class="math notranslate nohighlight">\(m\)</span>, <span class="math notranslate nohighlight">\(\theta_{pd}\)</span>, and <span class="math notranslate nohighlight">\(b_s\)</span> are the coefficients
@@ -551,7 +551,7 @@ trained on real data, tested on simulated spikes: 0.7756907304847125
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&#39;/home/runner/.nds/sample_data/session_4_simple_decoder.joblib&#39;]
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 1 minutes  13.680 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 1 minutes  18.766 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-train-encoder-and-decoder-model-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/04606d167bb9682bf0dc241cf8654c22/plot_train_encoder_and_decoder_model.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_train_encoder_and_decoder_model.py</span></code></a></p>

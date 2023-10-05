@@ -17,8 +17,8 @@ The models will be trained using a slice of data from the dataset
 <https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1006808>`_,
 specifically the data from `Session 4` with the subject `JenkinsC`.
 
-We mostly followed `decoding arm speed during reaching
-<https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6286377/pdf/41467_2018_Article_7647.pdf>`_
+We mostly followed `Decoding arm speed during reaching
+<https://doi.org/10.1038/s41467-018-07647-3>`_
 for modeling. One reason to follow this paper specifically is that we wanted
 to use a model that incorporated the magnitude of the velocity as well as its
 direction. Traditional cosine tuning curves only include direction.
@@ -151,8 +151,8 @@ np.savez(
 # Create tuning curves
 # --------------------
 # We're ready to start creating the encoder model. We'll follow the
-# equation from `decoding arm speed during reaching
-# <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6286377/pdf/41467_2018_Article_7647.pdf>`_:
+# equation from `Decoding arm speed during reaching
+# <https://doi.org/10.1038/s41467-018-07647-3>`_:
 #
 # :math:`spike rate = b_0 + m * |v| * cos(\theta - \theta_{pd}) + b_s*|v|`
 #

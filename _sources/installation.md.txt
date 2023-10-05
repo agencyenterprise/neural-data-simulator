@@ -46,7 +46,7 @@ brew install labstreaminglayer/tap/lsl
 On Windows, the [Microsoft Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170) has to be installed.
 
 ```{note}
-If the command above is not able to find a liblsl package for your system, you can build it manually [following the guide or running the script](https://github.com/sccn/liblsl#building-liblsl).
+If the command above is not able to find a liblsl package for your system, you can build it manually [following the guide or running the script](https://labstreaminglayer.readthedocs.io/dev/lib_dev.html#building-liblsl).
 ```
 
 ## Matplotlib

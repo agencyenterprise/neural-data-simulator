@@ -30,7 +30,7 @@ needed for training your own decoder.
 By default, this script will download the data to be plotted from AWS S3. If you prefer to use
 your own data, run the following steps:
 
-1. Configure center out reach to `run without a decoder <../utilities_and_examples.html#running-without-a-decoder>`_.
+1. Configure center out reach to `run without a decoder <../tasks.html#running-without-a-decoder>`_.
 
 2. Run the following script::
 
@@ -162,7 +162,7 @@ Plot data
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  15.540 seconds)
+   **Total running time of the script:** ( 0 minutes  12.038 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_run_open_loop.py:
