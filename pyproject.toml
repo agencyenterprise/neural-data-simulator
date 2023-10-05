@@ -101,6 +101,30 @@ extend-exclude = """(
     docs
 )"""
 
+# Software architecture / interdependency checking
+[tool.importlinter]
+root_packages = [
+    "neural_data_simulator",
+    "decoder",
+    "recorder",
+    "tasks",
+    "plugins",
+]
+
+[[tool.importlinter.contracts]]
+name = "Extension modules should be independent"
+type = "independence"
+modules = ["decoder", "recorder", "tasks", "plugins"]
+id = "ext-ind"
+
+[[tool.importlinter.contracts]]
+name = "Core NDS should not depend on extension modules"
+type = "forbidden"
+source_modules = ["neural_data_simulator"]
+forbidden_modules = ["decoder", "recorder", "tasks", "plugins"]
+ignore_imports = ["neural_data_simulator.scripts.post_install_config -> *"]
+id = "core-ext"
+
 [tool.isort]
 profile = "google"
 src_paths = "."
