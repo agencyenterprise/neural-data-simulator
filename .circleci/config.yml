@@ -5,9 +5,20 @@ version: 2.1
 jobs:
   build_docs:
     docker:
-      - image: cimg/base:current-22.04
+      - image: cimg/ruby:3.2.1  # Ruby is needed for html-proofer
     steps:
       - checkout
+
+      # Install html-proofer (to check for broken links) using gem
+      - run:
+          name: Install html-proofer
+          command: gem install html-proofer
+
+      - run:
+          name: Verify Ruby and html-proofer installations
+          command: |
+            ruby --version
+            htmlproofer --version
 
       - run:
           name: Install the latest version of Poetry
@@ -40,7 +51,12 @@ jobs:
       - run:
           name: Build HTML
           command: |
-            make htmldoc
+            make htmldoc SPHINXOPTS="-b linkcheck"
+
+      - run:
+          name: Check for broken links in generated HTML
+          command: |
+            htmlproofer --checks Links,Images docs/html
 
       - store_artifacts:
           path: docs/html/

@@ -39,6 +39,7 @@ int8
 isort
 jitter
 linalg
+linkcheck
 loadtxt
 lowpass
 lsl
