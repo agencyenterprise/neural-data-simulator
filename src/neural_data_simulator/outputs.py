@@ -208,8 +208,8 @@ class StreamConfig:
             "model": lsl_settings.instrument.model,
             "instrument_id": lsl_settings.instrument.id,
         }
-        if lsl_settings.stream_channel_labels is not None:
-            channel_labels = lsl_settings.stream_channel_labels
+        if lsl_settings.channel_labels is not None:
+            channel_labels = lsl_settings.channel_labels
             if len(channel_labels) != n_channels:
                 raise ValueError(
                     f"Number of channel labels ({len(channel_labels)}) does not match "
