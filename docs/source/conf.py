@@ -14,6 +14,7 @@ release = "0.2.0"
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 import os
+import re
 import sys
 
 sys.path.append(os.path.abspath(os.path.join(__file__, "../../src")))
@@ -47,6 +48,12 @@ autosummary_generate = True
 templates_path = ["_templates"]
 exclude_patterns = []
 
+# If using linkcheck, ignore relative links in other files that might not yet be
+# generated.
+linkcheck_ignore = [
+    r"^../.*",  # matches links to the parent directory
+    r"^./.*",  # matches links to the same directory
+]
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output

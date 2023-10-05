@@ -64,7 +64,9 @@ class GaussianFilter(RealTimeFilter):
 
     def _generate_filter_coefficients(self):
         """Generate filter coefficients."""
-        self.gauss_filter = signal.gaussian(self.window_size, self.std, sym=True)
+        self.gauss_filter = signal.windows.gaussian(
+            self.window_size, self.std, sym=True
+        )
         self._initialize_filter_state()
 
     def _initialize_filter_state(self):
