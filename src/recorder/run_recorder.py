@@ -79,13 +79,14 @@ def run():
         "--lsl",
         type=str,
         required=True,
-        help="Name of the LSL stream(s) to record, use ',' for a list.",
+        nargs="+",
+        help="Name(s) of the LSL stream(s) to record, separate with spacesfor a list.",
     )
 
     parsed_args = parser.parse_args()
     recording_time = parsed_args.recording_time
     session_name = parsed_args.session
-    lsl_streams = parsed_args.lsl.split(",")
+    lsl_streams = parsed_args.lsl
 
     recorders = [LSLStreamRecorder(stream_name.strip()) for stream_name in lsl_streams]
 
