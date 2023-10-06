@@ -214,20 +214,24 @@ def _setup_LSL_output(
     return data_output
 
 
-def run():
-    """Load the configuration and start the encoder."""
-    initialize_logger(SCRIPT_NAME)
+def _parse_args_settings_path() -> Path:
+    """Get the path to the settings file from the command line arguments."""
     parser = argparse.ArgumentParser(description="Run encoder.")
     parser.add_argument(
         "--settings-path",
         type=Path,
         help="Path to the settings.yaml file.",
     )
+    args = parser.parse_args()
+    return args.settings_path
+
+
+def run():
+    """Load the configuration and start the encoder."""
+    initialize_logger(SCRIPT_NAME)
     settings = cast(
         Settings,
-        get_script_settings(
-            parser.parse_args().settings_path, "settings.yaml", Settings
-        ),
+        get_script_settings(_parse_args_settings_path(), "settings.yaml", Settings),
     )
     configure_logger(SCRIPT_NAME, settings.log_level)
 
