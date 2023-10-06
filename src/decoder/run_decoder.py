@@ -13,7 +13,6 @@ from pydantic_yaml import VersionedYamlModel
 from neural_data_simulator import inputs
 from neural_data_simulator import outputs
 from neural_data_simulator import timing
-from neural_data_simulator.outputs import StreamConfig
 from neural_data_simulator.settings import LogLevel
 from neural_data_simulator.settings import TimerModel
 from neural_data_simulator.util.runtime import configure_logger
@@ -32,30 +31,6 @@ class _Settings(VersionedYamlModel):
     log_level: LogLevel
     decoder: DecoderSettings
     timer: TimerModel
-
-
-def _setup_decoder(
-    model_file_path: str,
-    input_sample_rate: float,
-    output_sample_rate: float,
-    n_channels: int,
-    spike_threshold: float,
-) -> Decoder:
-    """Initialize the decoder.
-
-    Args:
-        model_file_path: Path to the model file.
-        input_sample_rate: Input sample rate.
-        output_sample_rate: Output sample rate.
-        n_channels: Number of channels.
-        spike_threshold: Spike threshold.
-    """
-    model = PersistedFileDecoderModel(model_file_path)
-    decoder = Decoder(
-        model, input_sample_rate, output_sample_rate, n_channels, spike_threshold
-    )
-
-    return decoder
 
 
 def _parse_args_settings_path() -> Path:
@@ -117,15 +92,13 @@ def run():
     )
 
     # Set up decoder
-    input_sample_rate = data_input.get_info().sample_rate
-    n_channels = data_input.get_info().channel_count
-    output_sample_rate = 1.0 / timer_settings.loop_time
-    dec = _setup_decoder(
-        get_abs_path(settings.decoder.model_file),
-        input_sample_rate,
-        output_sample_rate,
-        n_channels,
-        settings.decoder.spike_threshold,
+    decoder_model = PersistedFileDecoderModel(get_abs_path(settings.decoder.model_file))
+    dec = Decoder(
+        model=decoder_model,
+        input_sample_rate=data_input.get_info().sample_rate,
+        output_sample_rate=1.0 / timer_settings.loop_time,
+        n_channels=data_input.get_info().channel_count,
+        threshold=settings.decoder.spike_threshold,
     )
 
     try:
