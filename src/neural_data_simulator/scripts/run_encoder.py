@@ -27,7 +27,6 @@ from neural_data_simulator import outputs
 from neural_data_simulator import runner
 from neural_data_simulator import timing
 from neural_data_simulator.outputs import LSLOutputDevice
-from neural_data_simulator.outputs import StreamConfig
 from neural_data_simulator.samples import Samples
 from neural_data_simulator.scripts.errors import InvalidPluginError
 from neural_data_simulator.settings import EncoderEndpointType
@@ -206,43 +205,35 @@ def _setup_model(encoder_settings: EncoderSettings) -> models.EncoderModel:
     return _load_plugin_model(encoder_settings.model)
 
 
-def _setup_file_output(output_file: str, channel_count: int) -> outputs.FileOutput:
-    """Set up the file output.
-
-    It will save data into a CSV file. Note: currently, the output file
-    has no header.
-
-    Args:
-        output_file: The absolute or relative path of the output file.
-
-    Returns:
-        File output that can be used to save data.
-    """
-    data_output = outputs.FileOutput(
-        file_name=get_abs_path(output_file), channel_count=channel_count
-    )
-    return data_output
-
-
-def _setup_LSL_output(
+def _setup_data_output(
+    output_settings: LSLOutputModel,
     sampling_rate: Union[float, Callable],
-    n_channels: int,
-    lsl_output_settings: LSLOutputModel,
-) -> outputs.LSLOutputDevice:
+) -> outputs.Output:
     """Set up the output that will make the data available via an LSL stream.
 
     Args:
+        output_settings: output module settings.
         sampling_rate: The expected data sampling rate.
-        n_channels: The number of output channels.
-        lsl_output_settings: LSL output settings.
 
     Returns:
-        LSL output that can be used to stream data.
+        output data sink
     """
-    stream_config = StreamConfig.from_lsl_settings(
-        lsl_output_settings, sampling_rate, n_channels
-    )
-    data_output = LSLOutputDevice(stream_config)
+    if output_settings.type == EncoderEndpointType.FILE:
+        output_file = unwrap(output_settings.file)
+        data_output = outputs.FileOutput(
+            file_name=get_abs_path(output_file),
+            channel_count=output_settings.n_channels,
+        )
+    elif output_settings.type == EncoderEndpointType.LSL:
+        lsl_output_settings = unwrap(output_settings.lsl)
+        data_output = LSLOutputDevice.from_lsl_settings(
+            lsl_settings=lsl_output_settings,
+            sampling_rate=sampling_rate,
+            n_channels=output_settings.n_channels,
+        )
+    else:
+        raise ValueError(f"Unexpected output type {output_settings.type}")
+
     return data_output
 
 
@@ -272,20 +263,8 @@ def run():
     preprocessor = _setup_preprocessor(settings.encoder)
     postprocessor = _setup_postprocessor(settings.encoder)
 
-    if settings.encoder.output.type == EncoderEndpointType.FILE:
-        output_file = unwrap(settings.encoder.output.file)
-        data_output = _setup_file_output(
-            output_file, settings.encoder.output.n_channels
-        )
-    elif settings.encoder.output.type == EncoderEndpointType.LSL:
-        lsl_output_settings = unwrap(settings.encoder.output.lsl)
-        data_output = _setup_LSL_output(
-            sampling_rate,
-            settings.encoder.output.n_channels,
-            lsl_output_settings,
-        )
-    else:
-        raise ValueError(f"Unexpected output type {settings.encoder.output.type}")
+    output_settings = settings.encoder.output
+    data_output = _setup_data_output(output_settings, sampling_rate)
 
     sim = encoder.Encoder(
         input_=data_input,
