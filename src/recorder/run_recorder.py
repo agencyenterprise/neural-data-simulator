@@ -60,8 +60,8 @@ def _handle_sigterm(recorders, session_name):
     return sigterm_handler
 
 
-def run():
-    """Start the recorder."""
+def _parse_args():
+    """Parse command line arguments."""
     parser = argparse.ArgumentParser(description="Run recorder.")
     parser.add_argument(
         "--recording-time",
@@ -83,10 +83,15 @@ def run():
         help="Name(s) of the LSL stream(s) to record, separate with spacesfor a list.",
     )
 
-    parsed_args = parser.parse_args()
-    recording_time = parsed_args.recording_time
-    session_name = parsed_args.session
-    lsl_streams = parsed_args.lsl
+    return parser.parse_args()
+
+
+def run():
+    """Start the recorder."""
+    args = _parse_args()
+    recording_time = args.recording_time
+    session_name = args.session
+    lsl_streams = args.lsl
 
     recorders = [LSLStreamRecorder(stream_name.strip()) for stream_name in lsl_streams]
 
