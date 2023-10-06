@@ -84,6 +84,38 @@ def _setup_LSL_input(stream_name: str, connection_timeout: float) -> inputs.LSLI
     return data_input
 
 
+def _setup_data_input(
+    input_settings: EncoderSettings.Input,
+) -> tuple[inputs.Input, Union[Callable, float]]:
+    """Set up the input to read data from.
+
+    Args:
+        input_settings: Encoder input settings.
+
+    Returns:
+        data_input: The input that can be used to read data from.
+        sampling_rate: The sampling rate of the input.
+    """
+    if input_settings.type == EncoderEndpointType.FILE:
+        input_file = unwrap(input_settings.file)
+        data_input = _setup_npz_input(
+            input_file.path,
+            input_file.timestamps_array_name,
+            input_file.data_array_name,
+        )
+        sampling_rate = input_file.sampling_rate
+    elif input_settings.type == EncoderEndpointType.LSL:
+        lsl_input_settings = unwrap(input_settings.lsl)
+        data_input = _setup_LSL_input(
+            lsl_input_settings.stream_name, lsl_input_settings.connection_timeout
+        )
+        sampling_rate = lambda: data_input.get_info().sample_rate
+    else:
+        raise ValueError(f"Unexpected input type {input_settings.type}")
+
+    return data_input, sampling_rate
+
+
 def _load_module(module_path: str, module_name: str) -> ModuleType:
     """Load an external module and return it."""
     module_path = get_abs_path(module_path)
@@ -235,23 +267,7 @@ def run():
     )
     configure_logger(SCRIPT_NAME, settings.log_level)
 
-    if settings.encoder.input.type == EncoderEndpointType.FILE:
-        input_file = unwrap(settings.encoder.input.file)
-        data_input = _setup_npz_input(
-            input_file.path,
-            input_file.timestamps_array_name,
-            input_file.data_array_name,
-        )
-        sampling_rate = input_file.sampling_rate
-    elif settings.encoder.input.type == EncoderEndpointType.LSL:
-        lsl_input_settings = unwrap(settings.encoder.input.lsl)
-        data_input = _setup_LSL_input(
-            lsl_input_settings.stream_name, lsl_input_settings.connection_timeout
-        )
-        sampling_rate = lambda: data_input.get_info().sample_rate
-    else:
-        raise ValueError(f"Unexpected input type {settings.encoder.input.type}")
-
+    data_input, sampling_rate = _setup_data_input(settings.encoder.input)
     model = _setup_model(settings.encoder)
     preprocessor = _setup_preprocessor(settings.encoder)
     postprocessor = _setup_postprocessor(settings.encoder)
