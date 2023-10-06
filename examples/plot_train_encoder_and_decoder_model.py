@@ -72,6 +72,7 @@ spikes_test = spikes_test_data["spikes_test"]
 assert vel_train.shape[0] == spikes_train.shape[0]
 
 plt.plot(timestamps, vel_train)
+plt.xlabel("Time (s)")
 plt.show()
 
 # %%
@@ -96,6 +97,17 @@ timestamps = timestamps[vel_train_without_outliers_indices]
 assert vel_train.shape[0] == spikes_train.shape[0]
 
 plt.plot(timestamps, vel_train)
+plt.xlabel("Time [s]")
+plt.show()
+
+# %%
+# Zoom in on a few trials
+# -----------------------
+# Let's take a look at a few trials to get a better sense of the data.
+
+plt.plot(timestamps, vel_train)
+plt.xlabel("Time [s]")
+plt.xlim(10, 20)
 plt.show()
 
 # %%
@@ -117,6 +129,7 @@ print("mean =", scaler.mean_)
 print("var =", scaler.var_)
 
 plt.plot(timestamps, vel_train)
+plt.xlabel("Time [s]")
 plt.show()
 
 # %%
@@ -268,8 +281,10 @@ def smooth_spike_counts(X, *, bin_ms=5, sd_ms=40):
 units_to_plot = np.random.choice(np.arange(len(units)), 16)
 
 plt.figure(figsize=(15, 10))
+num_rows = 4
+num_cols = 4
 for i, u in enumerate(units_to_plot):
-    plt.subplot(4, 4, i + 1)
+    plt.subplot(num_rows, num_cols, i + 1)
 
     # we need to smooth the data after sampling from the poisson
     ys = smooth_spike_counts(
@@ -277,11 +292,17 @@ for i, u in enumerate(units_to_plot):
         bin_ms=BIN_WIDTH,
         sd_ms=3 * BIN_WIDTH,
     )
-    plt.plot(ys[0, RANGE_TO_PLOT], label="Simulated (rates)")
-    plt.plot(spikes_train[RANGE_TO_PLOT, u], alpha=0.5, label="Original")
+    rel_time = np.arange(RANGE_TO_PLOT.stop - RANGE_TO_PLOT.start) * BIN_WIDTH
+    plt.plot(rel_time, ys[0, RANGE_TO_PLOT], label="Simulated (rates)")
+    plt.plot(rel_time, spikes_train[RANGE_TO_PLOT, u], alpha=0.5, label="Original")
 
-    plt.ylabel("Rates (spk/sec)")
-    plt.xlabel("Time bin")
+    # plot y-labels only on left column
+    if i % num_cols == 0:
+        plt.ylabel("Rates (spk/sec)")
+    # plot x-labels only on bottom row
+    if i >= num_cols * (num_rows - 1):
+        plt.xlabel("Relative time (s)")
+# plot legend only on last plot
 plt.legend()
 plt.show()
 
