@@ -188,7 +188,7 @@ def _setup_model(encoder_settings: EncoderSettings) -> models.EncoderModel:
 
 
 def _setup_data_output(
-    output_settings: LSLOutputModel,
+    output_settings: EncoderSettings.Output,
     sampling_rate: Union[float, Callable],
 ) -> outputs.Output:
     """Set up the output that will make the data available via an LSL stream.

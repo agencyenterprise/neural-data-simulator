@@ -242,7 +242,7 @@ class LSLOutputDevice(Output):
         sampling_rate: Union[float, Callable],
         n_channels: int,
     ):
-        """Create a LSLOutputDevice from an :class:`neural_data_simulator.settings.LSLOutputModel`.
+        """Initialize from :class:`neural_data_simulator.settings.LSLOutputModel`.
 
         Args:
             lsl_settings: :class:`neural_data_simulator.settings.LSLOutputModel`
