@@ -27,7 +27,6 @@ from neural_data_simulator.samples import Samples
 from neural_data_simulator.scripts.errors import InvalidPluginError
 from neural_data_simulator.settings import EncoderEndpointType
 from neural_data_simulator.settings import EncoderSettings
-from neural_data_simulator.settings import LSLOutputModel
 from neural_data_simulator.settings import Settings
 from neural_data_simulator.util.runtime import configure_logger
 from neural_data_simulator.util.runtime import get_abs_path
