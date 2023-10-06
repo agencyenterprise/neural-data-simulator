@@ -12,7 +12,6 @@ input stream, the encoder will not be able to start.
 import argparse
 import logging
 from pathlib import Path
-import sys
 from typing import Callable, cast, Optional, Union
 
 import numpy as np
