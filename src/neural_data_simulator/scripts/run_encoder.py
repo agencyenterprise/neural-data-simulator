@@ -10,12 +10,9 @@ data from an LSL stream and output to an LSL outlet. In absence of the
 input stream, the encoder will not be able to start.
 """
 import argparse
-import importlib.machinery
-import importlib.util
 import logging
 from pathlib import Path
 import sys
-from types import ModuleType
 from typing import Callable, cast, Optional, Union
 
 import numpy as np
@@ -36,6 +33,7 @@ from neural_data_simulator.settings import Settings
 from neural_data_simulator.util.runtime import configure_logger
 from neural_data_simulator.util.runtime import get_abs_path
 from neural_data_simulator.util.runtime import initialize_logger
+from neural_data_simulator.util.runtime import load_module
 from neural_data_simulator.util.runtime import unwrap
 from neural_data_simulator.util.settings_loader import get_script_settings
 
@@ -115,21 +113,6 @@ def _setup_data_input(
     return data_input, sampling_rate
 
 
-def _load_module(module_path: str, module_name: str) -> ModuleType:
-    """Load an external module and return it."""
-    module_path = get_abs_path(module_path)
-    module_dir_path = Path(module_path).parent
-    sys.path.append(str(module_dir_path.absolute()))
-
-    loader = importlib.machinery.SourceFileLoader(module_name, module_path)
-    spec = importlib.util.spec_from_loader(module_name, loader)
-    if spec:
-        plugin_module = importlib.util.module_from_spec(spec)
-        loader.exec_module(plugin_module)
-        return plugin_module
-    raise Exception(f"Couldn't load module from '{module_path}'")
-
-
 def _load_plugin_model(module_path: str) -> models.EncoderModel:
     """Instantiate the custom encoder model.
 
@@ -137,7 +120,7 @@ def _load_plugin_model(module_path: str) -> models.EncoderModel:
     encoder model instantiated by the module exposed `create_model`
     function
     """
-    plugin_module = _load_module(module_path, "model")
+    plugin_module = load_module(module_path, "model")
 
     try:
         model = plugin_module.create_model()
@@ -156,7 +139,7 @@ def _setup_preprocessor(
 ) -> Optional[encoder.Processor]:
     """Instantiate the custom preprocessor when it is set."""
     if encoder_settings.preprocessor:
-        plugin_module = _load_module(encoder_settings.preprocessor, "preprocessor")
+        plugin_module = load_module(encoder_settings.preprocessor, "preprocessor")
         try:
             preprocessor = plugin_module.create_preprocessor()
         except AttributeError:
@@ -177,7 +160,7 @@ def _setup_postprocessor(
 ) -> Optional[encoder.Processor]:
     """Instantiate the custom postprocessor when it is set."""
     if encoder_settings.postprocessor:
-        plugin_module = _load_module(encoder_settings.postprocessor, "postprocessor")
+        plugin_module = load_module(encoder_settings.postprocessor, "postprocessor")
         try:
             postprocessor = plugin_module.create_postprocessor()
         except AttributeError:
