@@ -235,6 +235,28 @@ class LSLOutputDevice(Output):
         self._stream_info: Optional[pylsl.StreamInfo] = None
         self._stream_configured = False
 
+    @classmethod
+    def from_lsl_settings(
+        cls,
+        lsl_settings: LSLOutputModel,
+        sampling_rate: Union[float, Callable],
+        n_channels: int,
+    ):
+        """Create a LSLOutputDevice from an :class:`neural_data_simulator.settings.LSLOutputModel`.
+
+        Args:
+            lsl_settings: :class:`neural_data_simulator.settings.LSLOutputModel`
+              instance.
+            sampling_rate: Sampling rate in Hz.
+            n_channels: Number of channels.
+        """
+        stream_config = StreamConfig.from_lsl_settings(
+            lsl_settings=lsl_settings,
+            sampling_rate=sampling_rate,
+            n_channels=n_channels,
+        )
+        return LSLOutputDevice(stream_config)
+
     @property
     def _dtype(self):
         """Return the numpy data type of the stream."""

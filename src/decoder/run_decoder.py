@@ -34,40 +34,6 @@ class _Settings(VersionedYamlModel):
     timer: TimerModel
 
 
-def _setup_LSL_input(stream_name: str, connection_timeout: float) -> inputs.LSLInput:
-    """Prepare LSL input to read the raw data stream.
-
-    Args:
-        stream_name: LSL stream name.
-        connection_timeout: Maximum time for attempting
-        a connection to the LSL input stream.
-
-    Returns:
-        The LSL stream input that can be used to read data from.
-    """
-    data_input = inputs.LSLInput(stream_name, connection_timeout)
-    return data_input
-
-
-def _setup_LSL_output(
-    output_settings: DecoderSettings.Output,
-) -> outputs.LSLOutputDevice:
-    """Prepare output that will make the data available via an LSL stream.
-
-    Args:
-        output_settings: Decoder output settings.
-
-    Returns:
-        An LSL output stream that can be used by the decoder to publish data.
-    """
-    lsl_settings = output_settings.lsl
-    stream_config = StreamConfig.from_lsl_settings(
-        lsl_settings, output_settings.sampling_rate, output_settings.n_channels
-    )
-    lsl_output = outputs.LSLOutputDevice(stream_config)
-    return lsl_output
-
-
 def _setup_decoder(
     model_file_path: str,
     input_sample_rate: float,
@@ -138,10 +104,16 @@ def run():
     timer = timing.get_timer(timer_settings.loop_time, timer_settings.max_cpu_buffer)
 
     # Create LSL input and output objects
-    data_output = _setup_LSL_output(settings.decoder.output)
+    output_settings = settings.decoder.output
+    data_output = outputs.LSLOutputDevice.from_lsl_settings(
+        lsl_settings=output_settings.lsl,
+        sampling_rate=output_settings.sampling_rate,
+        n_channels=output_settings.n_channels,
+    )
     lsl_input_settings = settings.decoder.input.lsl
-    data_input = _setup_LSL_input(
-        lsl_input_settings.stream_name, lsl_input_settings.connection_timeout
+    data_input = inputs.LSLInput(
+        stream_name=lsl_input_settings.stream_name,
+        connection_timeout=lsl_input_settings.connection_timeout,
     )
 
     # Set up decoder
