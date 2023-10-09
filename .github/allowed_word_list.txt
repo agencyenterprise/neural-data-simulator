@@ -36,8 +36,10 @@ highpass
 hstack
 int16
 int8
+isort
 jitter
 linalg
+linkcheck
 loadtxt
 lowpass
 lsl
@@ -73,6 +75,7 @@ pypi
 pyplot
 readouterr
 reproducibility
+r2
 samples1
 samples2
 searchsorted
@@ -80,6 +83,7 @@ tanh
 timestamp
 timestamps
 tmpdir
+TOML
 Tuple
 unittest
 uV

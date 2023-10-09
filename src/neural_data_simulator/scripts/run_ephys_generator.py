@@ -123,7 +123,6 @@ def _get_spikes_params(
         ephys_generator_settings.raw_data_frequency,
         ephys_generator_settings.n_units_per_channel,
         ephys_generator_settings.refractory_time,
-        ephys_generator_settings.waveforms.n_samples,
     )
 
 
