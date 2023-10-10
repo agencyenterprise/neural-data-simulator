@@ -2500,20 +2500,6 @@ files = [
 tests = ["pytest"]
 
 [[package]]
-name = "pyaml"
-version = "21.10.1"
-description = "PyYAML-based module to produce pretty and readable YAML-serialized data"
-optional = false
-python-versions = "*"
-files = [
-    {file = "pyaml-21.10.1-py2.py3-none-any.whl", hash = "sha256:19985ed303c3a985de4cf8fd329b6d0a5a5b5c9035ea240eccc709ebacbaf4a0"},
-    {file = "pyaml-21.10.1.tar.gz", hash = "sha256:c6519fee13bf06e3bb3f20cacdea8eba9140385a7c2546df5dbae4887f768383"},
-]
-
-[package.dependencies]
-PyYAML = "*"
-
-[[package]]
 name = "pycodestyle"
 version = "2.8.0"
 description = "Python style guide checker"
@@ -4099,4 +4085,4 @@ extras = ["joblib", "matplotlib", "pygame", "pyobjc-framework-Quartz", "scikit-l
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "8710b9aa12ed66bfdfed59b8c775299635228e39ecc1bafa15edae1b903e1c52"
+content-hash = "221708e8708b664dfb8c7eca17639fdad3a9ab2bbe86af74a37d4628e5b5283b"
