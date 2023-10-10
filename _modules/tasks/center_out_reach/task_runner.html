@@ -122,6 +122,7 @@
 <span class="kn">from</span> <span class="nn">tasks.center_out_reach.input_events</span> <span class="kn">import</span> <span class="n">InputHandler</span>
 <span class="kn">from</span> <span class="nn">tasks.center_out_reach.metrics</span> <span class="kn">import</span> <span class="n">MetricsCollector</span>
 <span class="kn">from</span> <span class="nn">tasks.center_out_reach.task_state</span> <span class="kn">import</span> <span class="n">TaskState</span>
+<span class="kn">from</span> <span class="nn">tasks.center_out_reach.task_window</span> <span class="kn">import</span> <span class="n">TaskWindow</span>
 
 <span class="kn">from</span> <span class="nn">neural_data_simulator</span> <span class="kn">import</span> <span class="n">inputs</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator</span> <span class="kn">import</span> <span class="n">outputs</span>
@@ -160,8 +161,24 @@
         <span class="n">velocity_scaler</span><span class="p">:</span> <span class="n">VelocityScaler</span><span class="p">,</span>
         <span class="n">with_decoded_cursor</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
         <span class="n">metrics_collector</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">MetricsCollector</span><span class="p">],</span>
+        <span class="n">task_window_output</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">outputs</span><span class="o">.</span><span class="n">Output</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new instance.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new instance to run the center_out_reach task.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            sample_rate: sampling rate of input data (Hz).</span>
+<span class="sd">            decoded_cursor_input: The input (e.g., LSLInput) for decoded cursor</span>
+<span class="sd">                velocities.</span>
+<span class="sd">            actual_cursor_output: The output (e.g., LSLOutput) for actual cursor</span>
+<span class="sd">                velocities.</span>
+<span class="sd">            velocity_scaler: Scales the actual cursor velocities.</span>
+<span class="sd">            with_decoded_cursor: if True, use the decoded cursor velocities,</span>
+<span class="sd">                else use the actual cursor velocities.</span>
+<span class="sd">            metrics_collector: Collects and plots velocities resulted from running</span>
+<span class="sd">                the task.</span>
+<span class="sd">            task_window_output: The output (e.g., LSLOutput) for target positions</span>
+<span class="sd">                and the task&#39;s cursor positions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">decoded_cursor_input</span> <span class="o">=</span> <span class="n">decoded_cursor_input</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">actual_cursor_output</span> <span class="o">=</span> <span class="n">actual_cursor_output</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">with_decoded_cursor</span> <span class="o">=</span> <span class="n">with_decoded_cursor</span>
@@ -180,7 +197,9 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">velocity_scaler</span> <span class="o">=</span> <span class="n">velocity_scaler</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metrics_collector</span> <span class="o">=</span> <span class="n">metrics_collector</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">Timer</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_rate</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">Timer</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_rate</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">task_window_output</span> <span class="o">=</span> <span class="n">task_window_output</span></div>
 
     <span class="k">def</span> <span class="nf">_get_decoded_velocity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ndarray</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">decoded_cursor_input</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -207,6 +226,27 @@
                 <span class="n">metrics_collector</span><span class="o">.</span><span class="n">record_actual_velocities</span><span class="p">(</span><span class="n">velocities</span><span class="p">,</span> <span class="n">timestamps</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">actual_cursor_output</span><span class="o">.</span><span class="n">send</span><span class="p">(</span>
                 <span class="n">Samples</span><span class="p">(</span><span class="n">timestamps</span><span class="o">=</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">velocities</span><span class="p">)</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_send_task_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_window</span><span class="p">:</span> <span class="n">TaskWindow</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Send the target and cursor positions to the output stream.</span>
+
+<span class="sd">        This is the minimal information to reconstruct the task window</span>
+<span class="sd">        on a different GUI.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_window_output</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">timestamps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">pylsl</span><span class="o">.</span><span class="n">local_clock</span><span class="p">()])</span>
+            <span class="n">target_position</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">task_window</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">position</span>
+            <span class="n">decoded_cursor_position</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span>
+                <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span>
+            <span class="p">]</span> <span class="o">=</span> <span class="n">task_window</span><span class="o">.</span><span class="n">decoded_cursor</span><span class="o">.</span><span class="n">position</span>
+            <span class="n">target_cursor_positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">target_position</span><span class="p">,</span> <span class="n">decoded_cursor_position</span><span class="p">),</span>
+                <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">target_cursor_positions</span> <span class="o">=</span> <span class="n">target_cursor_positions</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">task_window_output</span><span class="o">.</span><span class="n">send</span><span class="p">(</span>
+                <span class="n">Samples</span><span class="p">(</span><span class="n">timestamps</span><span class="o">=</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">target_cursor_positions</span><span class="p">)</span>
             <span class="p">)</span>
 
 <div class="viewcode-block" id="TaskRunner.stop"><a class="viewcode-back" href="../../../tools/tasks.center_out_reach.html#tasks.center_out_reach.task_runner.TaskRunner.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -246,6 +286,7 @@
 
             <span class="k">if</span> <span class="ow">not</span> <span class="n">task_window</span><span class="o">.</span><span class="n">show_menu_screen</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_send_actual_velocity</span><span class="p">(</span><span class="n">actual_velocity</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_send_task_window</span><span class="p">(</span><span class="n">task_window</span><span class="p">)</span>
 
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_decoded_cursor</span><span class="p">:</span>
                     <span class="n">decoded_velocity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_decoded_velocity</span><span class="p">()</span>
