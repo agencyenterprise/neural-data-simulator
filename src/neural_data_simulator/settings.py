@@ -247,7 +247,7 @@ class EphysGeneratorSettings(BaseModel):
         return input_value
 
 
-class Settings(VersionedYamlModel):
+class Settings(BaseModel):
     """All settings for the NDS main package."""
 
     log_level: LogLevel

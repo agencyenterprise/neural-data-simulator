@@ -6,6 +6,8 @@ import re
 from typing import cast, Tuple
 
 import numpy as np
+from pydantic import BaseModel
+
 from tasks.center_out_reach.input_events import InputHandler
 from tasks.center_out_reach.metrics import MetricsCollector
 from tasks.center_out_reach.scalers import PixelsToMetersConverter
@@ -29,7 +31,7 @@ SCRIPT_NAME = "nds-center-out-reach"
 logger = logging.getLogger(__name__)
 
 
-class _Settings(VersionedYamlModel):
+class _Settings(BaseModel):
     """Center-out reach app settings.
 
     Defines the schema of a `settings_center_out_reach.yaml` file.

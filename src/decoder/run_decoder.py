@@ -5,6 +5,8 @@ import logging
 from pathlib import Path
 from typing import cast
 
+from pydantic import BaseModel
+
 from decoder.decoders import Decoder
 from decoder.decoders import PersistedFileDecoderModel
 from decoder.settings import DecoderSettings
@@ -24,7 +26,7 @@ SCRIPT_NAME = "nds-decoder"
 logger = logging.getLogger(__name__)
 
 
-class _Settings(VersionedYamlModel):
+class _Settings(BaseModel):
     """Decoder app settings."""
 
     log_level: LogLevel

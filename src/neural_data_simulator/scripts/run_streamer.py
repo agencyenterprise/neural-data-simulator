@@ -58,7 +58,7 @@ class LSLSimplifiedOutputModel(BaseModel):
     instrument: _Instrument
 
 
-class _Settings(VersionedYamlModel):
+class _Settings(BaseModel):
     """Pydantic base settings for running the streamer."""
 
     class Streamer(BaseModel):

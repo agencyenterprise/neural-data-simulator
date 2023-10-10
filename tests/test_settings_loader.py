@@ -5,13 +5,15 @@ from unittest.mock import call
 from unittest.mock import mock_open
 from unittest.mock import patch
 
+from pydantic import BaseModel
+
 import pytest
 
 from neural_data_simulator.util import settings_loader
 from neural_data_simulator.util.runtime import NDS_HOME
 
 
-class _SettingsModel(VersionedYamlModel):
+class _SettingsModel(BaseModel):
     number: int
 
 
