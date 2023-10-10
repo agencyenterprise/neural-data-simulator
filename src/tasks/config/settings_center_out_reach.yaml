@@ -50,7 +50,7 @@ center_out_reach:
       connection_timeout: 60.0 # seconds
 
   output:
-    # settings for the LSL outlet
+    # settings for the cursor-velocity LSL outlet
     lsl:
       # possible values are "float32", "double64", "int8", "int16", "int32", "int64"
       channel_format: "float32"
@@ -61,3 +61,21 @@ center_out_reach:
         manufacturer: "AE Studio"
         model: "CenterOutReachTask"
         id: 0
+
+  task_window_output:
+    # settings for the task LSL outlet
+    lsl:
+      # possible values are "float32", "double64", "int8", "int16", "int32", "int64"
+      channel_format: "int32"
+      stream_name: "NDS-TaskWindow"
+      stream_type: "Position"
+      source_id: "CursorTargetPosition"
+      instrument:
+        manufacturer: "AE Studio"
+        model: "CenterOutReachTask"
+        id: 0
+      channel_labels:
+        - "target_x"
+        - "target_y"
+        - "cursor_x"
+        - "cursor_y"

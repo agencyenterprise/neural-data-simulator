@@ -231,6 +231,17 @@ def run():
         )
     )
 
+    # Set up the output for the task state
+    task_window_output = None
+    if settings.center_out_reach.task_window_output is not None:
+        task_window_output = _setup_LSL_output(
+            StreamConfig.from_lsl_settings(
+                settings.center_out_reach.task_window_output.lsl,
+                sampling_rate,
+                n_channels=4,
+            )
+        )
+
     window_settings = settings.center_out_reach.window
     task_settings = settings.center_out_reach.task
 
@@ -283,7 +294,9 @@ def run():
     interrupted = False
     task_window = None
     try:
-        with open_connection(data_output), open_connection(data_input):
+        with open_connection(data_output), open_connection(data_input), open_connection(
+            task_window_output
+        ):
             task_window = TaskWindow(window_rect, window_params, menu_text)
             task_state = TaskState(task_window, state_params)
             task_runner = TaskRunner(
@@ -293,6 +306,7 @@ def run():
                 velocity_scaler,
                 with_decoded_cursor,
                 metrics_collector,
+                task_window_output=task_window_output,
             )
             logger.info("Running task")
             task_runner.run(task_state, user_input)
