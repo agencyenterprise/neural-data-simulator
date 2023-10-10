@@ -307,16 +307,17 @@
         <span class="n">cursor</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">trial_count</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">trial_counts</span><span class="p">):</span>
             <span class="n">end_of_task</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">trial_counts</span> <span class="o">==</span> <span class="n">trial_count</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="n">trial_count</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)]</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
                 <span class="n">decoded_positions</span><span class="p">[</span><span class="n">cursor</span><span class="p">:</span><span class="n">end_of_task</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
                 <span class="n">decoded_positions</span><span class="p">[</span><span class="n">cursor</span><span class="p">:</span><span class="n">end_of_task</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-                <span class="n">colors</span><span class="p">[</span><span class="n">trial_count</span><span class="p">],</span>
+                <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
                 <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
                 <span class="n">actual_positions</span><span class="p">[</span><span class="n">cursor</span><span class="p">:</span><span class="n">end_of_task</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
                 <span class="n">actual_positions</span><span class="p">[</span><span class="n">cursor</span><span class="p">:</span><span class="n">end_of_task</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-                <span class="n">colors</span><span class="p">[</span><span class="n">trial_count</span><span class="p">],</span>
+                <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
                 <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span>
                 <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
             <span class="p">)</span>
