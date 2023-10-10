@@ -4,8 +4,6 @@ from typing import Dict, Optional
 from pydantic import BaseModel
 from pydantic import Json
 from pydantic import validator
-from pydantic_yaml import VersionedYamlModel
-from pydantic_yaml import YamlStrEnum
 
 
 class LogLevel(YamlStrEnum):

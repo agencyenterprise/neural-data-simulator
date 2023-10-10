@@ -20,8 +20,6 @@ from neo.rawio.blackrockrawio import BlackrockRawIO
 import numpy as np
 from pydantic import BaseModel
 from pydantic import validator
-from pydantic_yaml import VersionedYamlModel
-from pydantic_yaml import YamlStrEnum
 
 from neural_data_simulator import outputs
 from neural_data_simulator import streamers

@@ -8,7 +8,6 @@ from typing import cast
 from decoder.decoders import Decoder
 from decoder.decoders import PersistedFileDecoderModel
 from decoder.settings import DecoderSettings
-from pydantic_yaml import VersionedYamlModel
 
 from neural_data_simulator import inputs
 from neural_data_simulator import outputs

@@ -4,8 +4,6 @@ import logging
 from pathlib import Path
 from typing import Optional, Type
 
-from pydantic_yaml import VersionedYamlModel
-
 from neural_data_simulator.util.runtime import get_abs_path
 from neural_data_simulator.util.runtime import NDS_HOME
 

@@ -5,7 +5,6 @@ from unittest.mock import call
 from unittest.mock import mock_open
 from unittest.mock import patch
 
-from pydantic_yaml import VersionedYamlModel
 import pytest
 
 from neural_data_simulator.util import settings_loader
