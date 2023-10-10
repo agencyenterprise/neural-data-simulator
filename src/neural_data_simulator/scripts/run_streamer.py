@@ -33,7 +33,6 @@ from neural_data_simulator.util.runtime import configure_logger
 from neural_data_simulator.util.runtime import get_abs_path
 from neural_data_simulator.util.runtime import initialize_logger
 from neural_data_simulator.util.runtime import unwrap
-from neural_data_simulator.util.settings_loader import get_script_settings
 
 SCRIPT_NAME = "nds-streamer"
 logger = logging.getLogger(__name__)

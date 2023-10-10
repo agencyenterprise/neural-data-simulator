@@ -35,7 +35,6 @@ from neural_data_simulator.settings import Settings
 from neural_data_simulator.util.runtime import configure_logger
 from neural_data_simulator.util.runtime import initialize_logger
 from neural_data_simulator.util.runtime import unwrap
-from neural_data_simulator.util.settings_loader import get_script_settings
 
 SCRIPT_NAME = "nds-ephys-generator"
 logger = logging.getLogger(__name__)
