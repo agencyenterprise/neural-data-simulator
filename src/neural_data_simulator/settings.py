@@ -1,4 +1,5 @@
 """Models for parsing and validating the contents of `settings.yaml`."""
+from enum import Enum, unique
 from typing import Dict, Optional
 
 from pydantic import BaseModel
@@ -6,7 +7,8 @@ from pydantic import Json
 from pydantic import validator
 
 
-class LogLevel(YamlStrEnum):
+@unique
+class LogLevel(str, Enum):
     """Possible log levels."""
 
     _DEBUG = "DEBUG"
@@ -16,28 +18,32 @@ class LogLevel(YamlStrEnum):
     _CRITICAL = "CRITICAL"
 
 
-class EncoderEndpointType(YamlStrEnum):
+@unique
+class EncoderEndpointType(str, Enum):
     """Possible types for the encoder input or output."""
 
     FILE = "file"
     LSL = "LSL"
 
 
-class EphysGeneratorEndpointType(YamlStrEnum):
+@unique
+class EphysGeneratorEndpointType(str, Enum):
     """Possible types of input for the ephys generator."""
 
     TESTING = "testing"
     LSL = "LSL"
 
 
-class EncoderModelType(YamlStrEnum):
+@unique
+class EncoderModelType(str, Enum):
     """Possible types of input for the encoder model."""
 
     PLUGIN = "plugin"
     VELOCITY_TUNING_CURVES = "velocity_tuning_curves"
 
 
-class LSLChannelFormatType(YamlStrEnum):
+@unique
+class LSLChannelFormatType(str, Enum):
     """Possible values for the LSL channel format."""
 
     _FLOAT32 = "float32"

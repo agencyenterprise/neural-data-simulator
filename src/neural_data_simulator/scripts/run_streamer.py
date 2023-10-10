@@ -12,6 +12,7 @@ the streamer will not be able to start.
 """
 import argparse
 import contextlib
+from enum import Enum, unique
 import logging
 from pathlib import Path
 from typing import cast, Dict, Iterator, List, Optional, Tuple
@@ -38,7 +39,8 @@ SCRIPT_NAME = "nds-streamer"
 logger = logging.getLogger(__name__)
 
 
-class StreamerInputType(YamlStrEnum):
+@unique
+class StreamerInputType(str, Enum):
     """Possible types for the streamer input."""
 
     NPZ = "npz"
