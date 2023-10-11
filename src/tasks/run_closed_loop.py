@@ -106,7 +106,7 @@ def run():
 
     args = _parse_args()
 
-    SETTINGS_PATH_PARAM = "--settings-path"
+    SETTINGS_PATH_PARAM = "--config"
 
     nds_params = _build_param_from_arg(args.nds_settings_path, SETTINGS_PATH_PARAM)
     decoder_params = _build_param_from_arg(
@@ -124,7 +124,11 @@ def run():
         control_file_path = os.path.join(temp_dir, "center_out_reach_control_file")
         Path(control_file_path).touch(exist_ok=False)
         center_out_reach = _run_process(
-            ["center_out_reach", "--control-file", control_file_path] + task_params
+            # `++` refers to appending or overriding the control_file parameter.
+            # This is only necessary if the user has not updated their
+            # center_out_reach_settings.yaml to the latest
+            ["center_out_reach", f"++control_file={control_file_path}"]
+            + task_params
         )
         logger.info("Modules started")
 
