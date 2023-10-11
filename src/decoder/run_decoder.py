@@ -5,11 +5,10 @@ import logging
 from pathlib import Path
 from typing import cast
 
-from pydantic import BaseModel
-
 from decoder.decoders import Decoder
 from decoder.decoders import PersistedFileDecoderModel
 from decoder.settings import DecoderSettings
+from pydantic import BaseModel
 
 from neural_data_simulator import inputs
 from neural_data_simulator import outputs

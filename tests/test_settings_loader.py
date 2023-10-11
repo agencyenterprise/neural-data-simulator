@@ -6,7 +6,6 @@ from unittest.mock import mock_open
 from unittest.mock import patch
 
 from pydantic import BaseModel
-
 import pytest
 
 from neural_data_simulator.util import settings_loader

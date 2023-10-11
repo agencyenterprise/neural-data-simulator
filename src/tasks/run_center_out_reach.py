@@ -7,7 +7,6 @@ from typing import cast, Tuple
 
 import numpy as np
 from pydantic import BaseModel
-
 from tasks.center_out_reach.input_events import InputHandler
 from tasks.center_out_reach.metrics import MetricsCollector
 from tasks.center_out_reach.scalers import PixelsToMetersConverter

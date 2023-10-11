@@ -1,5 +1,6 @@
 """Models for parsing and validating the contents of `settings.yaml`."""
-from enum import Enum, unique
+from enum import Enum
+from enum import unique
 from typing import Dict, Optional
 
 from pydantic import BaseModel
