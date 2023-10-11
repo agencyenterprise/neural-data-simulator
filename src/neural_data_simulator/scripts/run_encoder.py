@@ -9,16 +9,18 @@ input and output can be adjusted. By default, the encoder expects to read
 data from an LSL stream and output to an LSL outlet. In absence of the
 input stream, the encoder will not be able to start.
 """
-import argparse
 import importlib.machinery
 import importlib.util
 import logging
 from pathlib import Path
 import sys
 from types import ModuleType
-from typing import Callable, cast, Optional, Union
+from typing import Callable, Optional, Union
 
+import hydra
 import numpy as np
+from omegaconf import DictConfig
+from omegaconf import OmegaConf
 
 from neural_data_simulator import encoder
 from neural_data_simulator import inputs
@@ -37,6 +39,7 @@ from neural_data_simulator.settings import Settings
 from neural_data_simulator.util.runtime import configure_logger
 from neural_data_simulator.util.runtime import get_abs_path
 from neural_data_simulator.util.runtime import initialize_logger
+from neural_data_simulator.util.runtime import NDS_HOME
 from neural_data_simulator.util.runtime import unwrap
 
 SCRIPT_NAME = "nds-encoder"
@@ -213,22 +216,16 @@ def _setup_LSL_output(
     return data_output
 
 
-def run():
+@hydra.main(config_path=NDS_HOME, config_name="settings", version_base="1.3")
+def run_with_config(cfg: DictConfig):
     """Load the configuration and start the encoder."""
     initialize_logger(SCRIPT_NAME)
-    parser = argparse.ArgumentParser(description="Run encoder.")
-    parser.add_argument(
-        "--settings-path",
-        type=Path,
-        help="Path to the settings.yaml file.",
-    )
-    settings = cast(
-        Settings,
-        get_script_settings(
-            parser.parse_args().settings_path, "settings.yaml", Settings
-        ),
-    )
+    # Validate Hydra config with Pydantic
+    cfg = OmegaConf.to_object(cfg)
+    settings = Settings(**cfg)
+
     configure_logger(SCRIPT_NAME, settings.log_level)
+    logger.debug("run_encoder configuration:\n" + OmegaConf.to_yaml(cfg))
 
     if settings.encoder.input.type == EncoderEndpointType.FILE:
         input_file = unwrap(settings.encoder.input.file)
@@ -281,6 +278,16 @@ def run():
         runner.run(sim, timer)
     except KeyboardInterrupt:
         logger.info("CTRL+C received. Exiting...")
+
+
+def run():
+    """Run the script, with an informative error if config is not found."""
+    try:
+        run_with_config()
+    except hydra.errors.MissingConfigException as exc:
+        raise FileNotFoundError(
+            "Run 'nds_post_install_config' to copy the default settings files."
+        ) from exc
 
 
 if __name__ == "__main__":
