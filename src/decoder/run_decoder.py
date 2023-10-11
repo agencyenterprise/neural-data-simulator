@@ -1,13 +1,13 @@
 """Script that configures and starts the example :class:`Decoder`."""
 
-import argparse
 import logging
-from pathlib import Path
-from typing import cast
 
 from decoder.decoders import Decoder
 from decoder.decoders import PersistedFileDecoderModel
 from decoder.settings import DecoderSettings
+import hydra
+from omegaconf import DictConfig
+from omegaconf import OmegaConf
 from pydantic import BaseModel
 
 from neural_data_simulator import inputs
@@ -19,6 +19,7 @@ from neural_data_simulator.settings import TimerModel
 from neural_data_simulator.util.runtime import configure_logger
 from neural_data_simulator.util.runtime import get_abs_path
 from neural_data_simulator.util.runtime import initialize_logger
+from neural_data_simulator.util.runtime import NDS_HOME
 from neural_data_simulator.util.runtime import open_connection
 
 SCRIPT_NAME = "nds-decoder"
@@ -91,29 +92,16 @@ def _setup_decoder(
     return decoder
 
 
-def _parse_args_settings_path() -> Path:
-    """Parse command-line arguments for the settings path."""
-    parser = argparse.ArgumentParser(description="Run decoder.")
-    parser.add_argument(
-        "--settings-path",
-        type=Path,
-        help="Path to the settings_decoder.yaml file.",
-    )
-    args = parser.parse_args()
-    return args.settings_path
-
-
-def run():
+@hydra.main(config_path=NDS_HOME, config_name="settings_decoder", version_base="1.3")
+def run_with_config(cfg: DictConfig):
     """Run the decoder loop."""
     initialize_logger(SCRIPT_NAME)
+    # Validate Hydra config with Pydantic
+    cfg = OmegaConf.to_object(cfg)
+    settings = _Settings(**cfg)
 
-    settings = cast(
-        _Settings,
-        get_script_settings(
-            _parse_args_settings_path(), "settings_decoder.yaml", _Settings
-        ),
-    )
     configure_logger(SCRIPT_NAME, settings.log_level)
+    logger.debug("run_decoder configuration:\n" + OmegaConf.to_yaml(cfg))
 
     timer_settings = settings.timer
     timer = timing.get_timer(timer_settings.loop_time, timer_settings.max_cpu_buffer)
@@ -123,6 +111,7 @@ def run():
     data_input = _setup_LSL_input(
         lsl_input_settings.stream_name, lsl_input_settings.connection_timeout
     )
+    logger.debug(f"Querying info from LSL stream: {lsl_input_settings.stream_name}")
     input_sample_rate = data_input.get_info().sample_rate
     n_channels = data_input.get_info().channel_count
     output_sample_rate = 1.0 / timer_settings.loop_time
@@ -135,6 +124,7 @@ def run():
         settings.decoder.spike_threshold,
     )
 
+    logger.debug("Attempting to open LSL connections...")
     try:
         with open_connection(data_output), open_connection(data_input):
             timer.start()
@@ -147,6 +137,16 @@ def run():
                 timer.wait()
     except KeyboardInterrupt:
         logger.info("CTRL+C received. Exiting...")
+
+
+def run():
+    """Run the script, with an informative error if config is not found."""
+    try:
+        run_with_config()
+    except hydra.errors.MissingConfigException as exc:
+        raise FileNotFoundError(
+            "Run 'nds_post_install_config' to copy the default settings files."
+        ) from exc
 
 
 if __name__ == "__main__":
