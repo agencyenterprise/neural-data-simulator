@@ -10,15 +10,18 @@ outlet. By default, a sample behavior data file will be downloaded by the
 be able to run without any additional configuration. If the input file cannot be found,
 the streamer will not be able to start.
 """
-import argparse
 import contextlib
-from enum import Enum, unique
+from enum import Enum
+from enum import unique
 import logging
 from pathlib import Path
-from typing import cast, Dict, Iterator, List, Optional, Tuple
+from typing import Dict, Iterator, List, Optional, Tuple
 
+import hydra
 from neo.rawio.blackrockrawio import BlackrockRawIO
 import numpy as np
+from omegaconf import DictConfig
+from omegaconf import OmegaConf
 from pydantic import BaseModel
 from pydantic import validator
 
@@ -32,6 +35,7 @@ from neural_data_simulator.settings import LSLOutputModel
 from neural_data_simulator.util.runtime import configure_logger
 from neural_data_simulator.util.runtime import get_abs_path
 from neural_data_simulator.util.runtime import initialize_logger
+from neural_data_simulator.util.runtime import NDS_HOME
 from neural_data_simulator.util.runtime import unwrap
 
 SCRIPT_NAME = "nds-streamer"
@@ -283,22 +287,16 @@ def _get_irregular_stream_config(
     return stream_config
 
 
-def run():
+@hydra.main(config_path=NDS_HOME, config_name="settings_streamer", version_base="1.3")
+def run(cfg: DictConfig):
     """Load the configuration and start the streamer."""
     initialize_logger(SCRIPT_NAME)
-    parser = argparse.ArgumentParser(description="Run streamer.")
-    parser.add_argument(
-        "--settings-path",
-        type=Path,
-        help="Path to the settings_streamer.yaml file.",
-    )
-    settings = cast(
-        _Settings,
-        get_script_settings(
-            parser.parse_args().settings_path, "settings_streamer.yaml", _Settings
-        ),
-    )
+    # Validate Hydra config with Pydantic
+    OmegaConf.resolve(cfg)
+    settings = _Settings(**cfg)
+
     configure_logger(SCRIPT_NAME, settings.log_level)
+    logger.debug("run_streamer configuration:\n" + OmegaConf.to_yaml(cfg))
 
     if settings.streamer.input_type == StreamerInputType.NPZ.value:
         input_settings = unwrap(settings.streamer.npz).input
