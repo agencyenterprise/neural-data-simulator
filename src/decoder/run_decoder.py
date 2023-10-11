@@ -6,6 +6,7 @@ from decoder.decoders import Decoder
 from decoder.decoders import PersistedFileDecoderModel
 from decoder.settings import DecoderSettings
 import hydra
+import hydra.errors
 from omegaconf import DictConfig
 from omegaconf import OmegaConf
 from pydantic import BaseModel

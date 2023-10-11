@@ -14,6 +14,7 @@ import logging
 from typing import Optional
 
 import hydra
+import hydra.errors
 import numpy as np
 from omegaconf import DictConfig
 from omegaconf import OmegaConf

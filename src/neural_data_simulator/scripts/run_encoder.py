@@ -18,6 +18,7 @@ from types import ModuleType
 from typing import Callable, Optional, Union
 
 import hydra
+import hydra.errors
 import numpy as np
 from omegaconf import DictConfig
 from omegaconf import OmegaConf

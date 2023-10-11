@@ -5,6 +5,7 @@ import re
 from typing import Optional, Tuple
 
 import hydra
+import hydra.errors
 import numpy as np
 from omegaconf import DictConfig
 from omegaconf import OmegaConf

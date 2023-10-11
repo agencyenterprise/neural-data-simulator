@@ -18,6 +18,7 @@ from pathlib import Path
 from typing import Dict, Iterator, List, Optional, Tuple
 
 import hydra
+import hydra.errors
 from neo.rawio.blackrockrawio import BlackrockRawIO
 import numpy as np
 from omegaconf import DictConfig
