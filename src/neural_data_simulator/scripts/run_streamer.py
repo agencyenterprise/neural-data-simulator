@@ -288,7 +288,7 @@ def _get_irregular_stream_config(
 
 
 @hydra.main(config_path=NDS_HOME, config_name="settings_streamer", version_base="1.3")
-def run(cfg: DictConfig):
+def run_with_config(cfg: DictConfig):
     """Load the configuration and start the streamer."""
     initialize_logger(SCRIPT_NAME)
     # Validate Hydra config with Pydantic
@@ -336,6 +336,16 @@ def run(cfg: DictConfig):
             streamer.stream()
         except KeyboardInterrupt:
             logger.info("CTRL+C received. Exiting...")
+
+
+def run():
+    """Run the script, with an informative error if config is not found."""
+    try:
+        run_with_config()
+    except hydra.errors.MissingConfigException as exc:
+        raise FileNotFoundError(
+            "Run 'nds_post_install_config' to copy the default settings files."
+        ) from exc
 
 
 if __name__ == "__main__":
