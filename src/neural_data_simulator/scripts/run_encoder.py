@@ -221,8 +221,8 @@ def run_with_config(cfg: DictConfig):
     """Load the configuration and start the encoder."""
     initialize_logger(SCRIPT_NAME)
     # Validate Hydra config with Pydantic
-    cfg = OmegaConf.to_object(cfg)
-    settings = Settings(**cfg)
+    cfg_resolved = OmegaConf.to_object(cfg)
+    settings = Settings(**cfg_resolved)
 
     configure_logger(SCRIPT_NAME, settings.log_level)
     logger.debug("run_encoder configuration:\n" + OmegaConf.to_yaml(cfg))

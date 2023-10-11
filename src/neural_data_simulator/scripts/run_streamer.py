@@ -292,8 +292,8 @@ def run_with_config(cfg: DictConfig):
     """Load the configuration and start the streamer."""
     initialize_logger(SCRIPT_NAME)
     # Validate Hydra config with Pydantic
-    OmegaConf.resolve(cfg)
-    settings = _Settings(**cfg)
+    cfg_resolved = OmegaConf.to_object(cfg)
+    settings = _Settings(**cfg_resolved)
 
     configure_logger(SCRIPT_NAME, settings.log_level)
     logger.debug("run_streamer configuration:\n" + OmegaConf.to_yaml(cfg))

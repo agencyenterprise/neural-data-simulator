@@ -149,8 +149,8 @@ def run_with_config(cfg: DictConfig):
     """Load the configuration and start the ephys generator."""
     initialize_logger(SCRIPT_NAME)
     # Validate Hydra config with Pydantic
-    cfg = OmegaConf.to_object(cfg)
-    settings = Settings(**cfg)
+    cfg_resolved = OmegaConf.to_object(cfg)
+    settings = Settings(**cfg_resolved)
 
     _set_random_seed(settings.ephys_generator.random_seed)
     configure_logger(SCRIPT_NAME, settings.log_level)
