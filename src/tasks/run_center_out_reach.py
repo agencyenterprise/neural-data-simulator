@@ -1,11 +1,13 @@
 """Run the center-out reach task GUI."""
-import argparse
 import logging
 from pathlib import Path
 import re
-from typing import cast, Tuple
+from typing import Optional, Tuple
 
+import hydra
 import numpy as np
+from omegaconf import DictConfig
+from omegaconf import OmegaConf
 from pydantic import BaseModel
 from tasks.center_out_reach.input_events import InputHandler
 from tasks.center_out_reach.metrics import MetricsCollector
@@ -23,6 +25,7 @@ from neural_data_simulator.outputs import StreamConfig
 from neural_data_simulator.settings import LogLevel
 from neural_data_simulator.util.runtime import configure_logger
 from neural_data_simulator.util.runtime import initialize_logger
+from neural_data_simulator.util.runtime import NDS_HOME
 from neural_data_simulator.util.runtime import open_connection
 from neural_data_simulator.util.runtime import unwrap
 
@@ -37,6 +40,7 @@ class _Settings(BaseModel):
     """
 
     log_level: LogLevel
+    control_file: Optional[Path]
     center_out_reach: CenterOutReach
 
 
@@ -181,36 +185,18 @@ def _metrics_enabled(settings: _Settings) -> bool:
     )
 
 
-def _parse_args() -> argparse.Namespace:
-    """Parse command line arguments."""
-    parser = argparse.ArgumentParser(description="Run GUI.")
-    parser.add_argument(
-        "--settings-path",
-        type=Path,
-        help="Path to the settings_center_out_reach.yaml file.",
-    )
-    parser.add_argument(
-        "--control-file",
-        type=Path,
-        help="Path to the control file that will receive control messages.",
-    )
-    args = parser.parse_args()
-    return args
-
-
-def run():
+@hydra.main(
+    config_path=NDS_HOME, config_name="settings_center_out_reach", version_base="1.3"
+)
+def run_with_config(cfg: DictConfig):
     """Run the center-out reach task GUI."""
     initialize_logger(SCRIPT_NAME)
-    args = _parse_args()
-    settings = cast(
-        _Settings,
-        get_script_settings(
-            args.settings_path,
-            "settings_center_out_reach.yaml",
-            settings_parser=_Settings,
-        ),
-    )
+    # Validate Hydra config with Pydantic
+    cfg = OmegaConf.to_object(cfg)
+    settings = _Settings(**cfg)
+
     configure_logger(SCRIPT_NAME, settings.log_level)
+    logger.debug("run_center_out_reach configuration:\n" + OmegaConf.to_yaml(cfg))
 
     if settings.center_out_reach.input.enabled:
         lsl_input_settings = unwrap(settings.center_out_reach.input.lsl)
@@ -314,8 +300,8 @@ def run():
         interrupted = True
 
     # This is used as a signal to a parent process that the main task has finished
-    if args.control_file is not None:
-        with open(args.control_file, "w") as control_file:
+    if settings.control_file is not None:
+        with settings.control_file.open("w") as control_file:
             control_file.write("main_task_finished\n")
 
     if (
@@ -328,6 +314,16 @@ def run():
 
     if task_window is not None:
         task_window.leave()
+
+
+def run():
+    """Run the script, with an informative error if config is not found."""
+    try:
+        run_with_config()
+    except hydra.errors.MissingConfigException as exc:
+        raise FileNotFoundError(
+            "Run 'nds_post_install_config' to copy the default settings files."
+        ) from exc
 
 
 if __name__ == "__main__":
