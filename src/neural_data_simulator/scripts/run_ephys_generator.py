@@ -10,12 +10,13 @@ data from an LSL stream and output to an LSL outlet. In absence of the
 input stream, the ephys generator will not be able to start.
 """
 
-import argparse
 import logging
-from pathlib import Path
-from typing import cast, Optional
+from typing import Optional
 
+import hydra
 import numpy as np
+from omegaconf import DictConfig
+from omegaconf import OmegaConf
 
 from neural_data_simulator import inputs
 from neural_data_simulator import outputs
@@ -34,6 +35,7 @@ from neural_data_simulator.settings import EphysGeneratorSettings
 from neural_data_simulator.settings import Settings
 from neural_data_simulator.util.runtime import configure_logger
 from neural_data_simulator.util.runtime import initialize_logger
+from neural_data_simulator.util.runtime import NDS_HOME
 from neural_data_simulator.util.runtime import unwrap
 
 SCRIPT_NAME = "nds-ephys-generator"
@@ -142,23 +144,17 @@ def _set_random_seed(random_seed: Optional[int]):
         np.random.seed(random_seed)
 
 
-def run():
+@hydra.main(config_path=NDS_HOME, config_name="settings", version_base="1.3")
+def run_with_config(cfg: DictConfig):
     """Load the configuration and start the ephys generator."""
     initialize_logger(SCRIPT_NAME)
-    parser = argparse.ArgumentParser(description="Run ephys generator.")
-    parser.add_argument(
-        "--settings-path",
-        type=Path,
-        help="Path to the settings.yaml file.",
-    )
-    settings = cast(
-        Settings,
-        get_script_settings(
-            parser.parse_args().settings_path, "settings.yaml", Settings
-        ),
-    )
+    # Validate Hydra config with Pydantic
+    cfg = OmegaConf.to_object(cfg)
+    settings = Settings(**cfg)
+
     _set_random_seed(settings.ephys_generator.random_seed)
     configure_logger(SCRIPT_NAME, settings.log_level)
+    logger.debug("run_ephys_generator configuration:\n" + OmegaConf.to_yaml(cfg))
 
     if settings.ephys_generator.input.type == EphysGeneratorEndpointType.LSL:
         lsl_input_settings = unwrap(settings.ephys_generator.input.lsl)
@@ -261,6 +257,16 @@ def run():
         lfp_output.disconnect()
         spike_events_output.disconnect()
         del spike_rate_input
+
+
+def run():
+    """Run the script, with an informative error if config is not found."""
+    try:
+        run_with_config()
+    except hydra.errors.MissingConfigException as exc:
+        raise FileNotFoundError(
+            "Run 'nds_post_install_config' to copy the default settings files."
+        ) from exc
 
 
 if __name__ == "__main__":
