@@ -1,14 +1,16 @@
 r"""Script that starts the streamer.
 
-The streamer default configuration is located in `NDS_HOME/settings_streamer.yaml`
-(see :mod:`neural_data_simulator.scripts.post_install_config`). The script can use
-different config file specified via the `\--settings-path` argument.
+The streamer default configuration is located in
+`NDS_HOME/settings_streamer.yaml` (see
+:mod:`neural_data_simulator.scripts.post_install_config`). The script can use
+different config file specified via the `\--config-dir` and `\--config-name`
+arguments.
 
 Upon start, the streamer expects to read data from a file and output to an LSL
 outlet. By default, a sample behavior data file will be downloaded by the
-:mod:`neural_data_simulator.scripts.post_install_config` script, so the streamer should
-be able to run without any additional configuration. If the input file cannot be found,
-the streamer will not be able to start.
+:mod:`neural_data_simulator.scripts.post_install_config` script, so the streamer
+should be able to run without any additional configuration. If the input file
+cannot be found, the streamer will not be able to start.
 """
 import contextlib
 from enum import Enum

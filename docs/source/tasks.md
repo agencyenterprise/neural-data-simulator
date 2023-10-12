@@ -23,7 +23,11 @@ To start the GUI, complete the [installation](installation.md), then run the scr
 center_out_reach
 ```
 
-To customize the GUI, change the configuration file `settings_center_out_reach.yaml`, which is located by default in the `$HOME/.nds/` folder. You can point the script to use a different configuration file by passing the `--settings-path` argument.
+To customize the GUI, change the configuration file `settings_center_out_reach.yaml`, which is located by default in the `$HOME/.nds/` folder. You can point the script to use a different configuration file by passing the `--config-dir` and `--config-name` flags:
+
+```
+center_out_reach --config-dir $HOME/.nds/ --config-name settings_center_out_reach
+```
 
 The GUI responds to the following key presses:
 

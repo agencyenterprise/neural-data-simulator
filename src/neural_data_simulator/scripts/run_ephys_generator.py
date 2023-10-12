@@ -1,13 +1,14 @@
 r"""Script that starts the ephys generator.
 
 The ephys generator default configuration is located in `NDS_HOME/settings.yaml`
-(see :mod:`neural_data_simulator.scripts.post_install_config`). The script can use
-different config file specified via the `\--settings-path` argument.
+(see :mod:`neural_data_simulator.scripts.post_install_config`). The script can
+use different config file specified via the `\--config-dir` and `\--config-name`
+arguments.
 
-The config file has an `ephys_generator` section where the settings for the input,
-output, noise, etc. can be adjusted. By default, the ephys generator expects to read
-data from an LSL stream and output to an LSL outlet. In absence of the
-input stream, the ephys generator will not be able to start.
+The config file has an `ephys_generator` section where the settings for the
+input, output, noise, etc. can be adjusted. By default, the ephys generator
+expects to read data from an LSL stream and output to an LSL outlet. In absence
+of the input stream, the ephys generator will not be able to start.
 """
 
 import logging

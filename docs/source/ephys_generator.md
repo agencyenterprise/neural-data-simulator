@@ -55,7 +55,11 @@ To start the `ephys generator`, complete the [installation](installation.md), ad
 ephys_generator
 ```
 
-The script can use a different config file specified via the `--settings-path` argument.
+To use a specific config file, specify the config directory (`--config-dir`) and config file-name (`--config-name`) flags. For example:
+
+```
+ephys_generator --config-dir $HOME/.nds/ --config-name settings
+```
 
 ```{note}
 By default, the `ephys generator` expects to read data from an LSL stream and output to an LSL outlet. In absence of the input stream, the `ephys generator` will not be able to start, therefore make sure to start the encoder before the `ephys generator`.
