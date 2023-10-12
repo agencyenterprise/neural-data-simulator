@@ -208,7 +208,15 @@ class StreamConfig:
             "model": lsl_settings.instrument.model,
             "instrument_id": lsl_settings.instrument.id,
         }
-        channel_labels = [str(i) for i in range(n_channels)]
+        if lsl_settings.channel_labels is not None:
+            channel_labels = lsl_settings.channel_labels
+            if len(channel_labels) != n_channels:
+                raise ValueError(
+                    f"Number of channel labels ({len(channel_labels)}) does not match "
+                    + f"number of channels ({n_channels})"
+                )
+        else:
+            channel_labels = [str(i) for i in range(n_channels)]
         return StreamConfig(
             lsl_settings.stream_name,
             lsl_settings.stream_type,
@@ -234,6 +242,28 @@ class LSLOutputDevice(Output):
         self._outlet: Optional[pylsl.StreamOutlet] = None
         self._stream_info: Optional[pylsl.StreamInfo] = None
         self._stream_configured = False
+
+    @classmethod
+    def from_lsl_settings(
+        cls,
+        lsl_settings: LSLOutputModel,
+        sampling_rate: Union[float, Callable],
+        n_channels: int,
+    ):
+        """Initialize from :class:`neural_data_simulator.settings.LSLOutputModel`.
+
+        Args:
+            lsl_settings: :class:`neural_data_simulator.settings.LSLOutputModel`
+              instance.
+            sampling_rate: Sampling rate in Hz.
+            n_channels: Number of channels.
+        """
+        stream_config = StreamConfig.from_lsl_settings(
+            lsl_settings=lsl_settings,
+            sampling_rate=sampling_rate,
+            n_channels=n_channels,
+        )
+        return LSLOutputDevice(stream_config)
 
     @property
     def _dtype(self):

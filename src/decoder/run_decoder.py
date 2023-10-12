@@ -13,7 +13,6 @@ from pydantic_yaml import VersionedYamlModel
 from neural_data_simulator import inputs
 from neural_data_simulator import outputs
 from neural_data_simulator import timing
-from neural_data_simulator.outputs import StreamConfig
 from neural_data_simulator.settings import LogLevel
 from neural_data_simulator.settings import TimerModel
 from neural_data_simulator.util.runtime import configure_logger
@@ -34,64 +33,6 @@ class _Settings(VersionedYamlModel):
     timer: TimerModel
 
 
-def _setup_LSL_input(stream_name: str, connection_timeout: float) -> inputs.LSLInput:
-    """Prepare LSL input to read the raw data stream.
-
-    Args:
-        stream_name: LSL stream name.
-        connection_timeout: Maximum time for attempting
-        a connection to the LSL input stream.
-
-    Returns:
-        The LSL stream input that can be used to read data from.
-    """
-    data_input = inputs.LSLInput(stream_name, connection_timeout)
-    return data_input
-
-
-def _setup_LSL_output(
-    output_settings: DecoderSettings.Output,
-) -> outputs.LSLOutputDevice:
-    """Prepare output that will make the data available via an LSL stream.
-
-    Args:
-        output_settings: Decoder output settings.
-
-    Returns:
-        An LSL output stream that can be used by the decoder to publish data.
-    """
-    lsl_settings = output_settings.lsl
-    stream_config = StreamConfig.from_lsl_settings(
-        lsl_settings, output_settings.sampling_rate, output_settings.n_channels
-    )
-    lsl_output = outputs.LSLOutputDevice(stream_config)
-    return lsl_output
-
-
-def _setup_decoder(
-    model_file_path: str,
-    input_sample_rate: float,
-    output_sample_rate: float,
-    n_channels: int,
-    spike_threshold: float,
-) -> Decoder:
-    """Initialize the decoder.
-
-    Args:
-        model_file_path: Path to the model file.
-        input_sample_rate: Input sample rate.
-        output_sample_rate: Output sample rate.
-        n_channels: Number of channels.
-        spike_threshold: Spike threshold.
-    """
-    model = PersistedFileDecoderModel(model_file_path)
-    decoder = Decoder(
-        model, input_sample_rate, output_sample_rate, n_channels, spike_threshold
-    )
-
-    return decoder
-
-
 def _parse_args_settings_path() -> Path:
     """Parse command-line arguments for the settings path."""
     parser = argparse.ArgumentParser(description="Run decoder.")
@@ -102,6 +43,23 @@ def _parse_args_settings_path() -> Path:
     )
     args = parser.parse_args()
     return args.settings_path
+
+
+def _read_decode_send(
+    data_input: inputs.Input, dec: Decoder, data_output: outputs.Output
+) -> None:
+    """Read input data, decode it, and send to the output stream.
+
+    Args:
+        data_input: Input data source.
+        dec: Decoder.
+        data_output: Output data sink.
+    """
+    samples = data_input.read()
+    if not samples.empty:
+        decoded_samples = dec.decode(samples)
+        if not decoded_samples.empty:
+            data_output.send(decoded_samples)
 
 
 def run():
@@ -116,35 +74,41 @@ def run():
     )
     configure_logger(SCRIPT_NAME, settings.log_level)
 
+    # Set up timer
     timer_settings = settings.timer
     timer = timing.get_timer(timer_settings.loop_time, timer_settings.max_cpu_buffer)
 
-    data_output = _setup_LSL_output(settings.decoder.output)
-    lsl_input_settings = settings.decoder.input.lsl
-    data_input = _setup_LSL_input(
-        lsl_input_settings.stream_name, lsl_input_settings.connection_timeout
+    # Create LSL input and output objects
+    output_settings = settings.decoder.output
+    data_output = outputs.LSLOutputDevice.from_lsl_settings(
+        lsl_settings=output_settings.lsl,
+        sampling_rate=output_settings.sampling_rate,
+        n_channels=output_settings.n_channels,
     )
-    input_sample_rate = data_input.get_info().sample_rate
-    n_channels = data_input.get_info().channel_count
-    output_sample_rate = 1.0 / timer_settings.loop_time
+    lsl_input_settings = settings.decoder.input.lsl
+    data_input = inputs.LSLInput(
+        stream_name=lsl_input_settings.stream_name,
+        connection_timeout=lsl_input_settings.connection_timeout,
+    )
 
-    dec = _setup_decoder(
-        get_abs_path(settings.decoder.model_file),
-        input_sample_rate,
-        output_sample_rate,
-        n_channels,
-        settings.decoder.spike_threshold,
+    # Set up decoder
+    decoder_model = PersistedFileDecoderModel(get_abs_path(settings.decoder.model_file))
+    dec = Decoder(
+        model=decoder_model,
+        input_sample_rate=data_input.get_info().sample_rate,
+        output_sample_rate=1.0 / timer_settings.loop_time,
+        n_channels=data_input.get_info().channel_count,
+        threshold=settings.decoder.spike_threshold,
     )
 
     try:
         with open_connection(data_output), open_connection(data_input):
             timer.start()
+            # Run the decoder periodically
             while True:
-                samples = data_input.read()
-                if not samples.empty:
-                    samples = dec.decode(samples)
-                    if not samples.empty:
-                        data_output.send(samples)
+                _read_decode_send(
+                    data_input=data_input, dec=dec, data_output=data_output
+                )
                 timer.wait()
     except KeyboardInterrupt:
         logger.info("CTRL+C received. Exiting...")

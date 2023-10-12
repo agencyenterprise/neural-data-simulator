@@ -203,16 +203,17 @@ class MetricsCollector:
         cursor = 0
         for trial_count in np.unique(trial_counts):
             end_of_task = np.where(trial_counts == trial_count)[0][-1]
+            color = colors[trial_count % len(colors)]
             plt.plot(
                 decoded_positions[cursor:end_of_task, 0],
                 decoded_positions[cursor:end_of_task, 1],
-                colors[trial_count],
+                color=color,
                 alpha=0.6,
             )
             plt.plot(
                 actual_positions[cursor:end_of_task, 0],
                 actual_positions[cursor:end_of_task, 1],
-                colors[trial_count],
+                color=color,
                 linestyle="--",
                 alpha=0.6,
             )

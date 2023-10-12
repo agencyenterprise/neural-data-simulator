@@ -465,13 +465,13 @@ files = [
 
 [[package]]
 name = "colorednoise"
-version = "2.1.0"
+version = "2.2.0"
 description = "Generate Gaussian (1/f)**beta noise (e.g. pink noise)"
 optional = false
 python-versions = ">=3"
 files = [
-    {file = "colorednoise-2.1.0-py3-none-any.whl", hash = "sha256:2ae4a3e22d018c6f3fb9e23977d663538a9e2fcffcddeda14d1540e6b8ae531d"},
-    {file = "colorednoise-2.1.0.tar.gz", hash = "sha256:590fa1f99aac276dcc99a64a4479fa8dae84d74c6e931b442d2f5afe86fce24d"},
+    {file = "colorednoise-2.2.0-py3-none-any.whl", hash = "sha256:7a39faab851889bd742668d3ba1502eec6a72008d6e004bd8fa6313355c7b487"},
+    {file = "colorednoise-2.2.0.tar.gz", hash = "sha256:6ffe0ab1baf3355df28cde497d0affb0fb0ef1cd0a0c41302e0d7e7814c187b6"},
 ]
 
 [package.dependencies]
@@ -4193,4 +4193,4 @@ extras = ["joblib", "matplotlib", "pygame", "pyobjc-framework-Quartz", "scikit-l
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "852aaafac60f2c8dc48daefbc7e6974e07ca6f34c4c3e647c42d60a96dfe7515"
+content-hash = "948d53516352230acc70601124108ac9721578f9b6550e730aeb2ecbedafd82f"
