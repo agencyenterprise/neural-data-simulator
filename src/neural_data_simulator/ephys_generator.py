@@ -5,128 +5,12 @@ from typing import Dict, List, NamedTuple, Optional, Protocol, Tuple, Union
 import colorednoise
 from numpy import ndarray
 import numpy as np
-import pylsl
 
 from neural_data_simulator.filters import LowpassFilter
 from neural_data_simulator.health_checker import HealthChecker
-from neural_data_simulator.inputs import LSLInput
-from neural_data_simulator.outputs import LSLOutputDevice
+from neural_data_simulator.outputs import Output
 from neural_data_simulator.timing import Timer
 from neural_data_simulator.util.buffer import RingBuffer
-
-
-class SpikeRateInput(Protocol):
-    """An abstract input that can be used to read spike rates.
-
-    A python protocol (`PEP-544 <https://peps.python.org/pep-0544/>`_) works in
-    a similar way to an abstract class.
-    The :meth:`__init__` method of this protocol should never be called as
-    protocols are not meant to be instantiated. An :meth:`__init__` method
-    may be defined in a concrete implementation of this protocol if needed.
-    """
-
-    @property
-    def channel_count(self) -> int:
-        """Get the number of input channels.
-
-        Returns:
-            The input channel count.
-        """
-        ...
-
-    def read(self) -> Optional[ndarray]:
-        """Read spike rates, one per channel.
-
-        Returns:
-            An array of spike rates with shape (n_units,) or None if no samples
-            are available.
-        """
-        ...
-
-
-class LSLSpikeRateInputAdapter(SpikeRateInput):
-    """Reads spike rates from an LSL input."""
-
-    @property
-    def channel_count(self) -> int:
-        """Get the LSL stream channel count.
-
-        Returns:
-            The input channel count.
-        """
-        return self.lsl_input.get_info().channel_count
-
-    def __init__(self, lsl_input: LSLInput):
-        """Create an adapter for a given LSL input.
-
-        Args:
-            lsl_input: The LSL input to adapt.
-        """
-        self.lsl_input = lsl_input
-
-    def __del__(self):
-        """Disconnect from the LSL input stream."""
-        self.lsl_input.disconnect()
-
-    def connect(self):
-        """Connect to the LSL input stream."""
-        self.lsl_input.connect()
-
-    def read(self) -> Optional[ndarray]:
-        """Connect to the LSL input stream.
-
-        Returns:
-            An array of spike rates with shape (n_units,) or None if no samples
-            are available.
-        """
-        samples = self.lsl_input.read()
-        if len(samples) > 0:
-            return np.array(samples.data[-1])
-        return None
-
-
-class SpikeRateTestingInput(SpikeRateInput):
-    """A constant spike rate input that can be used for testing.
-
-    Generates spike rates so that spikes are more likely to happen
-    on channels of a higher order and less likely on channels of a lower order.
-    The spike rate for a channel is always constant.
-    """
-
-    def __init__(self, n_channels: int, n_units: int):
-        """Create a testing spike rate input.
-
-        Args:
-            n_channels: The number of input channels.
-            n_units: The total number of units, which should be a multiple
-                of the number of channels.
-        """
-        self.n_channels = n_channels
-        self.n_units = n_units
-
-    @property
-    def channel_count(self) -> int:
-        """Get the number of input channels.
-
-        Returns:
-            The input channel count.
-        """
-        return self.n_channels
-
-    def read(self) -> Optional[ndarray]:
-        """Read spike rates, one per channel.
-
-        Returns:
-            The array of testing spike rates with shape (n_units,).
-            For example, if `n_channels = 50` and `n_units_per_channel = 1`, the
-            spike rates will be constant and equal to:
-
-            `[ 0.  2.  4.  6.  8. 10. 12. 14. 16. 18. 20. 22. 24. 26. 28. 30. 32. 34.
-            36. 38. 40. 42. 44. 46. 48. 50. 52. 54. 56. 58. 60. 62. 64. 66. 68. 70.
-            72. 74. 76. 78. 80. 82. 84. 86. 88. 90. 92. 94. 96. 98.]`
-        """
-        rates = np.arange(self.n_units) * 100 / self.n_units
-        return rates.astype(int)
 
 
 @dataclass
@@ -731,16 +615,16 @@ class ProcessOutput:
             return 1.0 / self.lsl_chunk_frequency
 
     @dataclass
-    class LSLOutputs:
+    class Outputs:
         """Possible LSL output streams."""
 
-        raw: Optional[LSLOutputDevice] = None
+        raw: Optional[Output] = None
         """The raw continuous data stream."""
 
-        lfp: Optional[LSLOutputDevice] = None
+        lfp: Optional[Output] = None
         """The LFP data stream."""
 
-        spike_events: Optional[LSLOutputDevice] = None
+        spike_events: Optional[Output] = None
         """The spike events stream."""
 
     def __init__(
@@ -748,7 +632,7 @@ class ProcessOutput:
         continuous_data: ContinuousData,
         spikes: Spikes,
         input_: SpikeRateInput,
-        outputs: LSLOutputs,
+        outputs: Outputs,
         params: Params,
         health_checker: HealthChecker,
     ):
@@ -758,7 +642,7 @@ class ProcessOutput:
             continuous_data: The continuous data generator.
             spikes: The spikes generator.
             input_: The spike rates input.
-            outputs: The LSL output streams.
+            outputs: The output streams.
             params: The initialization parameters.
             health_checker: The health monitor.
         """

@@ -20,7 +20,7 @@ from tasks.center_out_reach.metrics import MetricsCollector
 from tasks.center_out_reach.task_state import TaskState
 from tasks.center_out_reach.task_window import TaskWindow
 
-from neural_data_simulator import inputs
+from neural_data_simulator.inputs import api
 from neural_data_simulator import outputs
 from neural_data_simulator.filters import LowpassFilter
 from neural_data_simulator.samples import Samples
@@ -52,7 +52,7 @@ class TaskRunner:
     def __init__(
         self,
         sample_rate: float,
-        decoded_cursor_input: Optional[inputs.Input],
+        decoded_cursor_input: Optional[api.Input],
         actual_cursor_output: Optional[outputs.Output],
         velocity_scaler: VelocityScaler,
         with_decoded_cursor: bool,

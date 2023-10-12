@@ -17,7 +17,7 @@ from typing import Callable, cast, Optional, Union
 import numpy as np
 
 from neural_data_simulator import encoder
-from neural_data_simulator import inputs
+from neural_data_simulator.inputs import api
 from neural_data_simulator import models
 from neural_data_simulator import outputs
 from neural_data_simulator import runner
@@ -41,7 +41,7 @@ logger = logging.getLogger(__name__)
 
 def _setup_npz_input(
     behavior_file: str, timestamps_array_name: str, data_array_name: str
-) -> inputs.SamplesInput:
+) -> api.SamplesInput:
     """Set up the NPZ file input.
 
     Load data from npz file and create a samples dataclass with the entirety
@@ -60,11 +60,11 @@ def _setup_npz_input(
         timestamps=data[timestamps_array_name], data=data[data_array_name]
     )
 
-    data_input = inputs.SamplesInput(all_samples)
+    data_input = api.SamplesInput(all_samples)
     return data_input
 
 
-def _setup_LSL_input(stream_name: str, connection_timeout: float) -> inputs.LSLInput:
+def _setup_LSL_input(stream_name: str, connection_timeout: float) -> api.LSLInput:
     """Set up LSL input to read data from the behavior stream.
 
     Args:
@@ -75,7 +75,7 @@ def _setup_LSL_input(stream_name: str, connection_timeout: float) -> inputs.LSLI
     Returns:
         LSL stream input that can be used to read data from.
     """
-    data_input = inputs.LSLInput(stream_name, connection_timeout)
+    data_input = api.LSLInput(stream_name, connection_timeout)
     return data_input
 
 

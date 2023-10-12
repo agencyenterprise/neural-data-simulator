@@ -17,7 +17,7 @@ from typing import cast, Optional
 
 import numpy as np
 
-from neural_data_simulator import inputs
+from neural_data_simulator.inputs import api
 from neural_data_simulator import outputs
 from neural_data_simulator.ephys_generator import ContinuousData
 from neural_data_simulator.ephys_generator import LSLSpikeRateInputAdapter
@@ -72,7 +72,7 @@ def _setup_LSL_input(
     Returns:
         LSL stream input that can be used to read data from.
     """
-    lsl_inlet = inputs.LSLInput(stream_name, connection_timeout)
+    lsl_inlet = api.LSLInput(stream_name, connection_timeout)
     spike_rate_input = LSLSpikeRateInputAdapter(lsl_inlet)
     return spike_rate_input
 

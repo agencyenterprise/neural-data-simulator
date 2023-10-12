@@ -10,7 +10,7 @@ import sys
 from types import ModuleType
 from typing import Any, Optional, Union
 
-from neural_data_simulator.inputs import Input
+from neural_data_simulator.inputs.api import Input
 from neural_data_simulator.outputs import Output
 from neural_data_simulator.settings import LogLevel
 
