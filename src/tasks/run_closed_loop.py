@@ -7,6 +7,7 @@ import subprocess
 import sys
 import tempfile
 import time
+from typing import Optional
 
 from neural_data_simulator.settings import LogLevel
 from neural_data_simulator.util.runtime import configure_logger
@@ -53,10 +54,19 @@ def _parse_args():
     return parser.parse_args()
 
 
-def _build_param_from_arg(arg_value, param_name):
+def _build_hydra_settings_path_param(settings_path: Optional[Path]):
+    """Convert full settings path to a Hydra command line parameter."""
+    _HYDRA_CONFIG_DIR_PARAM = "--config-dir"
+    _HYDRA_CONFIG_NAME_PARAM = "--config-name"
     params = []
-    if arg_value is not None:
-        params = [param_name, str(arg_value)]
+    if settings_path is not None:
+        settings_path = settings_path.resolve()
+        params = [
+            _HYDRA_CONFIG_DIR_PARAM,
+            settings_path.parent,
+            _HYDRA_CONFIG_NAME_PARAM,
+            settings_path.name,
+        ]
     return params
 
 
@@ -106,13 +116,9 @@ def run():
 
     args = _parse_args()
 
-    SETTINGS_PATH_PARAM = "--config"
-
-    nds_params = _build_param_from_arg(args.nds_settings_path, SETTINGS_PATH_PARAM)
-    decoder_params = _build_param_from_arg(
-        args.decoder_settings_path, SETTINGS_PATH_PARAM
-    )
-    task_params = _build_param_from_arg(args.task_settings_path, SETTINGS_PATH_PARAM)
+    nds_params = _build_hydra_settings_path_param(args.nds_settings_path)
+    decoder_params = _build_hydra_settings_path_param(args.decoder_settings_path)
+    task_params = _build_hydra_settings_path_param(args.task_settings_path)
 
     logger.info("Starting modules")
 
