@@ -206,12 +206,10 @@ def run():
     # Set up the output for the task state
     task_window_output = None
     if settings.center_out_reach.task_window_output is not None:
-        task_window_output = _setup_LSL_output(
-            StreamConfig.from_lsl_settings(
-                settings.center_out_reach.task_window_output.lsl,
-                sampling_rate,
-                n_channels=4,
-            )
+        task_window_output = outputs.LSLOutputDevice.from_lsl_settings(
+            settings.center_out_reach.task_window_output.lsl,
+            sampling_rate,
+            n_channels=4,
         )
 
     window_settings = settings.center_out_reach.window
