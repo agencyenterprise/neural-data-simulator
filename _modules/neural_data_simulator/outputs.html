@@ -347,6 +347,28 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_stream_info</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pylsl</span><span class="o">.</span><span class="n">StreamInfo</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_stream_configured</span> <span class="o">=</span> <span class="kc">False</span></div>
 
+<div class="viewcode-block" id="LSLOutputDevice.from_lsl_settings"><a class="viewcode-back" href="../../neural_data_simulator/neural_data_simulator.html#neural_data_simulator.outputs.LSLOutputDevice.from_lsl_settings">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_lsl_settings</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">lsl_settings</span><span class="p">:</span> <span class="n">LSLOutputModel</span><span class="p">,</span>
+        <span class="n">sampling_rate</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Callable</span><span class="p">],</span>
+        <span class="n">n_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize from :class:`neural_data_simulator.settings.LSLOutputModel`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            lsl_settings: :class:`neural_data_simulator.settings.LSLOutputModel`</span>
+<span class="sd">              instance.</span>
+<span class="sd">            sampling_rate: Sampling rate in Hz.</span>
+<span class="sd">            n_channels: Number of channels.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">stream_config</span> <span class="o">=</span> <span class="n">StreamConfig</span><span class="o">.</span><span class="n">from_lsl_settings</span><span class="p">(</span>
+            <span class="n">lsl_settings</span><span class="o">=</span><span class="n">lsl_settings</span><span class="p">,</span>
+            <span class="n">sampling_rate</span><span class="o">=</span><span class="n">sampling_rate</span><span class="p">,</span>
+            <span class="n">n_channels</span><span class="o">=</span><span class="n">n_channels</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">LSLOutputDevice</span><span class="p">(</span><span class="n">stream_config</span><span class="p">)</span></div>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the numpy data type of the stream.&quot;&quot;&quot;</span>

@@ -114,12 +114,8 @@
 <span class="sd">input stream, the encoder will not be able to start.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">argparse</span>
-<span class="kn">import</span> <span class="nn">importlib.machinery</span>
-<span class="kn">import</span> <span class="nn">importlib.util</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">ModuleType</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">cast</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -131,16 +127,15 @@
 <span class="kn">from</span> <span class="nn">neural_data_simulator</span> <span class="kn">import</span> <span class="n">runner</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator</span> <span class="kn">import</span> <span class="n">timing</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.outputs</span> <span class="kn">import</span> <span class="n">LSLOutputDevice</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.outputs</span> <span class="kn">import</span> <span class="n">StreamConfig</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.samples</span> <span class="kn">import</span> <span class="n">Samples</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.scripts.errors</span> <span class="kn">import</span> <span class="n">InvalidPluginError</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.settings</span> <span class="kn">import</span> <span class="n">EncoderEndpointType</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.settings</span> <span class="kn">import</span> <span class="n">EncoderSettings</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.settings</span> <span class="kn">import</span> <span class="n">LSLOutputModel</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.settings</span> <span class="kn">import</span> <span class="n">Settings</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">configure_logger</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">get_abs_path</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">initialize_logger</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">load_module</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">unwrap</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.settings_loader</span> <span class="kn">import</span> <span class="n">get_script_settings</span>
 
@@ -188,19 +183,36 @@
     <span class="k">return</span> <span class="n">data_input</span>
 
 
-<span class="k">def</span> <span class="nf">_load_module</span><span class="p">(</span><span class="n">module_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">module_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ModuleType</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load an external module and return it.&quot;&quot;&quot;</span>
-    <span class="n">module_path</span> <span class="o">=</span> <span class="n">get_abs_path</span><span class="p">(</span><span class="n">module_path</span><span class="p">)</span>
-    <span class="n">module_dir_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">module_path</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span>
-    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">module_dir_path</span><span class="o">.</span><span class="n">absolute</span><span class="p">()))</span>
+<span class="k">def</span> <span class="nf">_setup_data_input</span><span class="p">(</span>
+    <span class="n">input_settings</span><span class="p">:</span> <span class="n">EncoderSettings</span><span class="o">.</span><span class="n">Input</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">inputs</span><span class="o">.</span><span class="n">Input</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set up the input to read data from.</span>
 
-    <span class="n">loader</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">machinery</span><span class="o">.</span><span class="n">SourceFileLoader</span><span class="p">(</span><span class="n">module_name</span><span class="p">,</span> <span class="n">module_path</span><span class="p">)</span>
-    <span class="n">spec</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">spec_from_loader</span><span class="p">(</span><span class="n">module_name</span><span class="p">,</span> <span class="n">loader</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">spec</span><span class="p">:</span>
-        <span class="n">plugin_module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">module_from_spec</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
-        <span class="n">loader</span><span class="o">.</span><span class="n">exec_module</span><span class="p">(</span><span class="n">plugin_module</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">plugin_module</span>
-    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Couldn&#39;t load module from &#39;</span><span class="si">{</span><span class="n">module_path</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+<span class="sd">    Args:</span>
+<span class="sd">        input_settings: Encoder input settings.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        data_input: The input that can be used to read data from.</span>
+<span class="sd">        sampling_rate: The sampling rate of the input.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">input_settings</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">EncoderEndpointType</span><span class="o">.</span><span class="n">FILE</span><span class="p">:</span>
+        <span class="n">input_file</span> <span class="o">=</span> <span class="n">unwrap</span><span class="p">(</span><span class="n">input_settings</span><span class="o">.</span><span class="n">file</span><span class="p">)</span>
+        <span class="n">data_input</span> <span class="o">=</span> <span class="n">_setup_npz_input</span><span class="p">(</span>
+            <span class="n">input_file</span><span class="o">.</span><span class="n">path</span><span class="p">,</span>
+            <span class="n">input_file</span><span class="o">.</span><span class="n">timestamps_array_name</span><span class="p">,</span>
+            <span class="n">input_file</span><span class="o">.</span><span class="n">data_array_name</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">sampling_rate</span> <span class="o">=</span> <span class="n">input_file</span><span class="o">.</span><span class="n">sampling_rate</span>
+    <span class="k">elif</span> <span class="n">input_settings</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">EncoderEndpointType</span><span class="o">.</span><span class="n">LSL</span><span class="p">:</span>
+        <span class="n">lsl_input_settings</span> <span class="o">=</span> <span class="n">unwrap</span><span class="p">(</span><span class="n">input_settings</span><span class="o">.</span><span class="n">lsl</span><span class="p">)</span>
+        <span class="n">data_input</span> <span class="o">=</span> <span class="n">_setup_LSL_input</span><span class="p">(</span>
+            <span class="n">lsl_input_settings</span><span class="o">.</span><span class="n">stream_name</span><span class="p">,</span> <span class="n">lsl_input_settings</span><span class="o">.</span><span class="n">connection_timeout</span>
+        <span class="p">)</span>
+        <span class="n">sampling_rate</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">data_input</span><span class="o">.</span><span class="n">get_info</span><span class="p">()</span><span class="o">.</span><span class="n">sample_rate</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected input type </span><span class="si">{</span><span class="n">input_settings</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">data_input</span><span class="p">,</span> <span class="n">sampling_rate</span>
 
 
 <span class="k">def</span> <span class="nf">_load_plugin_model</span><span class="p">(</span><span class="n">module_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">models</span><span class="o">.</span><span class="n">EncoderModel</span><span class="p">:</span>
@@ -210,7 +222,7 @@
 <span class="sd">    encoder model instantiated by the module exposed `create_model`</span>
 <span class="sd">    function</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">plugin_module</span> <span class="o">=</span> <span class="n">_load_module</span><span class="p">(</span><span class="n">module_path</span><span class="p">,</span> <span class="s2">&quot;model&quot;</span><span class="p">)</span>
+    <span class="n">plugin_module</span> <span class="o">=</span> <span class="n">load_module</span><span class="p">(</span><span class="n">module_path</span><span class="p">,</span> <span class="s2">&quot;model&quot;</span><span class="p">)</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">model</span> <span class="o">=</span> <span class="n">plugin_module</span><span class="o">.</span><span class="n">create_model</span><span class="p">()</span>
@@ -229,7 +241,7 @@
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">encoder</span><span class="o">.</span><span class="n">Processor</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Instantiate the custom preprocessor when it is set.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">encoder_settings</span><span class="o">.</span><span class="n">preprocessor</span><span class="p">:</span>
-        <span class="n">plugin_module</span> <span class="o">=</span> <span class="n">_load_module</span><span class="p">(</span><span class="n">encoder_settings</span><span class="o">.</span><span class="n">preprocessor</span><span class="p">,</span> <span class="s2">&quot;preprocessor&quot;</span><span class="p">)</span>
+        <span class="n">plugin_module</span> <span class="o">=</span> <span class="n">load_module</span><span class="p">(</span><span class="n">encoder_settings</span><span class="o">.</span><span class="n">preprocessor</span><span class="p">,</span> <span class="s2">&quot;preprocessor&quot;</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">preprocessor</span> <span class="o">=</span> <span class="n">plugin_module</span><span class="o">.</span><span class="n">create_preprocessor</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
@@ -250,7 +262,7 @@
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">encoder</span><span class="o">.</span><span class="n">Processor</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Instantiate the custom postprocessor when it is set.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">encoder_settings</span><span class="o">.</span><span class="n">postprocessor</span><span class="p">:</span>
-        <span class="n">plugin_module</span> <span class="o">=</span> <span class="n">_load_module</span><span class="p">(</span><span class="n">encoder_settings</span><span class="o">.</span><span class="n">postprocessor</span><span class="p">,</span> <span class="s2">&quot;postprocessor&quot;</span><span class="p">)</span>
+        <span class="n">plugin_module</span> <span class="o">=</span> <span class="n">load_module</span><span class="p">(</span><span class="n">encoder_settings</span><span class="o">.</span><span class="n">postprocessor</span><span class="p">,</span> <span class="s2">&quot;postprocessor&quot;</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">postprocessor</span> <span class="o">=</span> <span class="n">plugin_module</span><span class="o">.</span><span class="n">create_postprocessor</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
@@ -278,98 +290,66 @@
     <span class="k">return</span> <span class="n">_load_plugin_model</span><span class="p">(</span><span class="n">encoder_settings</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_setup_file_output</span><span class="p">(</span><span class="n">output_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">channel_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">outputs</span><span class="o">.</span><span class="n">FileOutput</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set up the file output.</span>
-
-<span class="sd">    It will save data into a CSV file. Note: currently, the output file</span>
-<span class="sd">    has no header.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        output_file: The absolute or relative path of the output file.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        File output that can be used to save data.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">data_output</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">FileOutput</span><span class="p">(</span>
-        <span class="n">file_name</span><span class="o">=</span><span class="n">get_abs_path</span><span class="p">(</span><span class="n">output_file</span><span class="p">),</span> <span class="n">channel_count</span><span class="o">=</span><span class="n">channel_count</span>
-    <span class="p">)</span>
-    <span class="k">return</span> <span class="n">data_output</span>
-
-
-<span class="k">def</span> <span class="nf">_setup_LSL_output</span><span class="p">(</span>
+<span class="k">def</span> <span class="nf">_setup_data_output</span><span class="p">(</span>
+    <span class="n">output_settings</span><span class="p">:</span> <span class="n">EncoderSettings</span><span class="o">.</span><span class="n">Output</span><span class="p">,</span>
     <span class="n">sampling_rate</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Callable</span><span class="p">],</span>
-    <span class="n">n_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">lsl_output_settings</span><span class="p">:</span> <span class="n">LSLOutputModel</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">outputs</span><span class="o">.</span><span class="n">LSLOutputDevice</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">outputs</span><span class="o">.</span><span class="n">Output</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set up the output that will make the data available via an LSL stream.</span>
 
 <span class="sd">    Args:</span>
+<span class="sd">        output_settings: output module settings.</span>
 <span class="sd">        sampling_rate: The expected data sampling rate.</span>
-<span class="sd">        n_channels: The number of output channels.</span>
-<span class="sd">        lsl_output_settings: LSL output settings.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        LSL output that can be used to stream data.</span>
+<span class="sd">        output data sink</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">stream_config</span> <span class="o">=</span> <span class="n">StreamConfig</span><span class="o">.</span><span class="n">from_lsl_settings</span><span class="p">(</span>
-        <span class="n">lsl_output_settings</span><span class="p">,</span> <span class="n">sampling_rate</span><span class="p">,</span> <span class="n">n_channels</span>
-    <span class="p">)</span>
-    <span class="n">data_output</span> <span class="o">=</span> <span class="n">LSLOutputDevice</span><span class="p">(</span><span class="n">stream_config</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">output_settings</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">EncoderEndpointType</span><span class="o">.</span><span class="n">FILE</span><span class="p">:</span>
+        <span class="n">output_file</span> <span class="o">=</span> <span class="n">unwrap</span><span class="p">(</span><span class="n">output_settings</span><span class="o">.</span><span class="n">file</span><span class="p">)</span>
+        <span class="n">data_output</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">FileOutput</span><span class="p">(</span>
+            <span class="n">file_name</span><span class="o">=</span><span class="n">get_abs_path</span><span class="p">(</span><span class="n">output_file</span><span class="p">),</span>
+            <span class="n">channel_count</span><span class="o">=</span><span class="n">output_settings</span><span class="o">.</span><span class="n">n_channels</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">elif</span> <span class="n">output_settings</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">EncoderEndpointType</span><span class="o">.</span><span class="n">LSL</span><span class="p">:</span>
+        <span class="n">lsl_output_settings</span> <span class="o">=</span> <span class="n">unwrap</span><span class="p">(</span><span class="n">output_settings</span><span class="o">.</span><span class="n">lsl</span><span class="p">)</span>
+        <span class="n">data_output</span> <span class="o">=</span> <span class="n">LSLOutputDevice</span><span class="o">.</span><span class="n">from_lsl_settings</span><span class="p">(</span>
+            <span class="n">lsl_settings</span><span class="o">=</span><span class="n">lsl_output_settings</span><span class="p">,</span>
+            <span class="n">sampling_rate</span><span class="o">=</span><span class="n">sampling_rate</span><span class="p">,</span>
+            <span class="n">n_channels</span><span class="o">=</span><span class="n">output_settings</span><span class="o">.</span><span class="n">n_channels</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected output type </span><span class="si">{</span><span class="n">output_settings</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">data_output</span>
 
 
-<div class="viewcode-block" id="run"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.scripts.html#neural_data_simulator.scripts.run_encoder.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the configuration and start the encoder.&quot;&quot;&quot;</span>
-    <span class="n">initialize_logger</span><span class="p">(</span><span class="n">SCRIPT_NAME</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_parse_args_settings_path</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the path to the settings file from the command line arguments.&quot;&quot;&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Run encoder.&quot;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--settings-path&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to the settings.yaml file.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">args</span><span class="o">.</span><span class="n">settings_path</span>
+
+
+<div class="viewcode-block" id="run"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.scripts.html#neural_data_simulator.scripts.run_encoder.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the configuration and start the encoder.&quot;&quot;&quot;</span>
+    <span class="n">initialize_logger</span><span class="p">(</span><span class="n">SCRIPT_NAME</span><span class="p">)</span>
     <span class="n">settings</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span>
         <span class="n">Settings</span><span class="p">,</span>
-        <span class="n">get_script_settings</span><span class="p">(</span>
-            <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span><span class="o">.</span><span class="n">settings_path</span><span class="p">,</span> <span class="s2">&quot;settings.yaml&quot;</span><span class="p">,</span> <span class="n">Settings</span>
-        <span class="p">),</span>
+        <span class="n">get_script_settings</span><span class="p">(</span><span class="n">_parse_args_settings_path</span><span class="p">(),</span> <span class="s2">&quot;settings.yaml&quot;</span><span class="p">,</span> <span class="n">Settings</span><span class="p">),</span>
     <span class="p">)</span>
     <span class="n">configure_logger</span><span class="p">(</span><span class="n">SCRIPT_NAME</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">log_level</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">EncoderEndpointType</span><span class="o">.</span><span class="n">FILE</span><span class="p">:</span>
-        <span class="n">input_file</span> <span class="o">=</span> <span class="n">unwrap</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">file</span><span class="p">)</span>
-        <span class="n">data_input</span> <span class="o">=</span> <span class="n">_setup_npz_input</span><span class="p">(</span>
-            <span class="n">input_file</span><span class="o">.</span><span class="n">path</span><span class="p">,</span>
-            <span class="n">input_file</span><span class="o">.</span><span class="n">timestamps_array_name</span><span class="p">,</span>
-            <span class="n">input_file</span><span class="o">.</span><span class="n">data_array_name</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">sampling_rate</span> <span class="o">=</span> <span class="n">input_file</span><span class="o">.</span><span class="n">sampling_rate</span>
-    <span class="k">elif</span> <span class="n">settings</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">EncoderEndpointType</span><span class="o">.</span><span class="n">LSL</span><span class="p">:</span>
-        <span class="n">lsl_input_settings</span> <span class="o">=</span> <span class="n">unwrap</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">lsl</span><span class="p">)</span>
-        <span class="n">data_input</span> <span class="o">=</span> <span class="n">_setup_LSL_input</span><span class="p">(</span>
-            <span class="n">lsl_input_settings</span><span class="o">.</span><span class="n">stream_name</span><span class="p">,</span> <span class="n">lsl_input_settings</span><span class="o">.</span><span class="n">connection_timeout</span>
-        <span class="p">)</span>
-        <span class="n">sampling_rate</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">data_input</span><span class="o">.</span><span class="n">get_info</span><span class="p">()</span><span class="o">.</span><span class="n">sample_rate</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected input type </span><span class="si">{</span><span class="n">settings</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
+    <span class="n">data_input</span><span class="p">,</span> <span class="n">sampling_rate</span> <span class="o">=</span> <span class="n">_setup_data_input</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">input</span><span class="p">)</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">_setup_model</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">encoder</span><span class="p">)</span>
     <span class="n">preprocessor</span> <span class="o">=</span> <span class="n">_setup_preprocessor</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">encoder</span><span class="p">)</span>
     <span class="n">postprocessor</span> <span class="o">=</span> <span class="n">_setup_postprocessor</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">encoder</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">EncoderEndpointType</span><span class="o">.</span><span class="n">FILE</span><span class="p">:</span>
-        <span class="n">output_file</span> <span class="o">=</span> <span class="n">unwrap</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">file</span><span class="p">)</span>
-        <span class="n">data_output</span> <span class="o">=</span> <span class="n">_setup_file_output</span><span class="p">(</span>
-            <span class="n">output_file</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">n_channels</span>
-        <span class="p">)</span>
-    <span class="k">elif</span> <span class="n">settings</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">EncoderEndpointType</span><span class="o">.</span><span class="n">LSL</span><span class="p">:</span>
-        <span class="n">lsl_output_settings</span> <span class="o">=</span> <span class="n">unwrap</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">lsl</span><span class="p">)</span>
-        <span class="n">data_output</span> <span class="o">=</span> <span class="n">_setup_LSL_output</span><span class="p">(</span>
-            <span class="n">sampling_rate</span><span class="p">,</span>
-            <span class="n">settings</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">n_channels</span><span class="p">,</span>
-            <span class="n">lsl_output_settings</span><span class="p">,</span>
-        <span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected output type </span><span class="si">{</span><span class="n">settings</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">output_settings</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">output</span>
+    <span class="n">data_output</span> <span class="o">=</span> <span class="n">_setup_data_output</span><span class="p">(</span><span class="n">output_settings</span><span class="p">,</span> <span class="n">sampling_rate</span><span class="p">)</span>
 
     <span class="n">sim</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">Encoder</span><span class="p">(</span>
         <span class="n">input_</span><span class="o">=</span><span class="n">data_input</span><span class="p">,</span>

@@ -145,34 +145,6 @@
     <span class="n">center_out_reach</span><span class="p">:</span> <span class="n">CenterOutReach</span>
 
 
-<span class="k">def</span> <span class="nf">_setup_LSL_input</span><span class="p">(</span><span class="n">stream_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">connection_timeout</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">inputs</span><span class="o">.</span><span class="n">LSLInput</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set up input that will read data from an LSL stream.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        stream_name: The name of the LSL stream to read from.</span>
-<span class="sd">        connection_timeout: The timeout in seconds to wait for</span>
-<span class="sd">          the stream to become available.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        The input that can be used to read data from the LSL stream.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">data_input</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">LSLInput</span><span class="p">(</span><span class="n">stream_name</span><span class="p">,</span> <span class="n">connection_timeout</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">data_input</span>
-
-
-<span class="k">def</span> <span class="nf">_setup_LSL_output</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">StreamConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">outputs</span><span class="o">.</span><span class="n">LSLOutputDevice</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set up output that will write data to an LSL stream.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        config: The configuration for the LSL stream.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        The output that can be used to write to.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">lsl_output</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">LSLOutputDevice</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">lsl_output</span>
-
-
 <span class="k">def</span> <span class="nf">_get_task_window_params</span><span class="p">(</span>
     <span class="n">task_settings</span><span class="p">:</span> <span class="n">CenterOutReach</span><span class="o">.</span><span class="n">Task</span><span class="p">,</span>
     <span class="n">window_settings</span><span class="p">:</span> <span class="n">CenterOutReach</span><span class="o">.</span><span class="n">Window</span><span class="p">,</span>
@@ -319,7 +291,7 @@
 
     <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">center_out_reach</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span>
         <span class="n">lsl_input_settings</span> <span class="o">=</span> <span class="n">unwrap</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">center_out_reach</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">lsl</span><span class="p">)</span>
-        <span class="n">data_input</span> <span class="o">=</span> <span class="n">_setup_LSL_input</span><span class="p">(</span>
+        <span class="n">data_input</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">LSLInput</span><span class="p">(</span>
             <span class="n">lsl_input_settings</span><span class="o">.</span><span class="n">stream_name</span><span class="p">,</span> <span class="n">lsl_input_settings</span><span class="o">.</span><span class="n">connection_timeout</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -327,8 +299,8 @@
 
     <span class="n">lsl_output_settings</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">center_out_reach</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">lsl</span>
     <span class="n">sampling_rate</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">center_out_reach</span><span class="o">.</span><span class="n">sampling_rate</span>
-    <span class="n">data_output</span> <span class="o">=</span> <span class="n">_setup_LSL_output</span><span class="p">(</span>
-        <span class="n">StreamConfig</span><span class="o">.</span><span class="n">from_lsl_settings</span><span class="p">(</span>
+    <span class="n">data_output</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">LSLOutputDevice</span><span class="p">(</span>
+        <span class="n">stream_config</span><span class="o">=</span><span class="n">StreamConfig</span><span class="o">.</span><span class="n">from_lsl_settings</span><span class="p">(</span>
             <span class="n">lsl_output_settings</span><span class="p">,</span>
             <span class="n">sampling_rate</span><span class="p">,</span>
             <span class="n">n_channels</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>

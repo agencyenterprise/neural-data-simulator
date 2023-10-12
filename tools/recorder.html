@@ -80,8 +80,11 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">Example Implementations and Utilities</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="decoder.html">decoder</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">recorder</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-recorder.recorders">recorder.recorders</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#recorder.recorders.LSLStreamRecorder"><code class="docutils literal notranslate"><span class="pre">LSLStreamRecorder</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#module-recorder.run_recorder">recorder.run_recorder</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#recorder.run_recorder.LSLStreamRecorder"><code class="docutils literal notranslate"><span class="pre">LSLStreamRecorder</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#recorder.run_recorder.run"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
 </ul>
 </li>
@@ -123,17 +126,17 @@
 <p>The <cite>recorder</cite> is useful for capturing multiple streams for offline analysis.
 It’s meant for short sessions (minutes) as it stores all data in memory and
 writes it to disk at the end of the session.</p>
-<section id="module-recorder.run_recorder">
-<span id="recorder-run-recorder"></span><h2>recorder.run_recorder<a class="headerlink" href="#module-recorder.run_recorder" title="Permalink to this heading"></a></h2>
-<p>Script for saving data with timestamps from LSL streams into a file.</p>
+<section id="module-recorder.recorders">
+<span id="recorder-recorders"></span><h2>recorder.recorders<a class="headerlink" href="#module-recorder.recorders" title="Permalink to this heading"></a></h2>
+<p>Classes for recording data from source(s).</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="recorder.run_recorder.LSLStreamRecorder">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">recorder.run_recorder.</span></span><span class="sig-name descname"><span class="pre">LSLStreamRecorder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recorder/run_recorder.html#LSLStreamRecorder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recorder.run_recorder.LSLStreamRecorder" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="recorder.recorders.LSLStreamRecorder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">recorder.recorders.</span></span><span class="sig-name descname"><span class="pre">LSLStreamRecorder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recorder/recorders.html#LSLStreamRecorder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recorder.recorders.LSLStreamRecorder" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Helper class for collecting data from an LSL stream.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="recorder.run_recorder.LSLStreamRecorder.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recorder/run_recorder.html#LSLStreamRecorder.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recorder.run_recorder.LSLStreamRecorder.__init__" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="recorder.recorders.LSLStreamRecorder.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recorder/recorders.html#LSLStreamRecorder.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recorder.recorders.LSLStreamRecorder.__init__" title="Permalink to this definition"></a></dt>
 <dd><p>Initialize the LSLStreamRecorder class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -143,14 +146,14 @@ writes it to disk at the end of the session.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="recorder.run_recorder.LSLStreamRecorder.collect_sample">
-<span class="sig-name descname"><span class="pre">collect_sample</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recorder/run_recorder.html#LSLStreamRecorder.collect_sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recorder.run_recorder.LSLStreamRecorder.collect_sample" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="recorder.recorders.LSLStreamRecorder.collect_sample">
+<span class="sig-name descname"><span class="pre">collect_sample</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recorder/recorders.html#LSLStreamRecorder.collect_sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recorder.recorders.LSLStreamRecorder.collect_sample" title="Permalink to this definition"></a></dt>
 <dd><p>Try to read and store samples from the LSL stream.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="recorder.run_recorder.LSLStreamRecorder.save">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recorder/run_recorder.html#LSLStreamRecorder.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recorder.run_recorder.LSLStreamRecorder.save" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="recorder.recorders.LSLStreamRecorder.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recorder/recorders.html#LSLStreamRecorder.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recorder.recorders.LSLStreamRecorder.save" title="Permalink to this definition"></a></dt>
 <dd><p>Save the collected data to an <cite>npz</cite> file.</p>
 <p>The file will be named <cite>prefix</cite> + <cite>stream_name</cite> + <cite>.npz</cite>.</p>
 <dl class="field-list simple">
@@ -162,6 +165,10 @@ writes it to disk at the end of the session.</p>
 
 </dd></dl>
 
+</section>
+<section id="module-recorder.run_recorder">
+<span id="recorder-run-recorder"></span><h2>recorder.run_recorder<a class="headerlink" href="#module-recorder.run_recorder" title="Permalink to this heading"></a></h2>
+<p>Script for saving data with timestamps from LSL streams into a file.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="recorder.run_recorder.run">
 <span class="sig-prename descclassname"><span class="pre">recorder.run_recorder.</span></span><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/recorder/run_recorder.html#run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#recorder.run_recorder.run" title="Permalink to this definition"></a></dt>
