@@ -112,6 +112,7 @@ root_packages = [
     "tasks",
     "plugins",
 ]
+include_external_packages = true
 
 [[tool.importlinter.contracts]]
 id = "ext-ind"
@@ -126,6 +127,13 @@ type = "forbidden"
 source_modules = ["neural_data_simulator"]
 forbidden_modules = ["decoder", "recorder", "streamer", "tasks", "plugins"]
 ignore_imports = ["neural_data_simulator.scripts.post_install_config -> *"]
+
+[[tool.importlinter.contracts]]
+id = "output_impl"
+name = "ephys_generator should use output Protocol, not implementations (e.g. LSL)"
+type = "forbidden"
+source_modules = ["neural_data_simulator.ephys_generator"]
+forbidden_modules = ["pylsl"]
 
 [tool.isort]
 profile = "google"
