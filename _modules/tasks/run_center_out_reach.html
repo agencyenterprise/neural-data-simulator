@@ -310,12 +310,10 @@
     <span class="c1"># Set up the output for the task state</span>
     <span class="n">task_window_output</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">center_out_reach</span><span class="o">.</span><span class="n">task_window_output</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">task_window_output</span> <span class="o">=</span> <span class="n">_setup_LSL_output</span><span class="p">(</span>
-            <span class="n">StreamConfig</span><span class="o">.</span><span class="n">from_lsl_settings</span><span class="p">(</span>
-                <span class="n">settings</span><span class="o">.</span><span class="n">center_out_reach</span><span class="o">.</span><span class="n">task_window_output</span><span class="o">.</span><span class="n">lsl</span><span class="p">,</span>
-                <span class="n">sampling_rate</span><span class="p">,</span>
-                <span class="n">n_channels</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-            <span class="p">)</span>
+        <span class="n">task_window_output</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">LSLOutputDevice</span><span class="o">.</span><span class="n">from_lsl_settings</span><span class="p">(</span>
+            <span class="n">settings</span><span class="o">.</span><span class="n">center_out_reach</span><span class="o">.</span><span class="n">task_window_output</span><span class="o">.</span><span class="n">lsl</span><span class="p">,</span>
+            <span class="n">sampling_rate</span><span class="p">,</span>
+            <span class="n">n_channels</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="n">window_settings</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">center_out_reach</span><span class="o">.</span><span class="n">window</span>
