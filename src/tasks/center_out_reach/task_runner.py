@@ -20,9 +20,9 @@ from tasks.center_out_reach.metrics import MetricsCollector
 from tasks.center_out_reach.task_state import TaskState
 from tasks.center_out_reach.task_window import TaskWindow
 
-from neural_data_simulator.inputs import api
 from neural_data_simulator import outputs
 from neural_data_simulator.filters import LowpassFilter
+from neural_data_simulator.inputs import api
 from neural_data_simulator.samples import Samples
 from neural_data_simulator.timing import Timer
 

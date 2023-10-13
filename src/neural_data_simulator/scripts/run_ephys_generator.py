@@ -17,7 +17,6 @@ from typing import cast, Optional
 
 import numpy as np
 
-from neural_data_simulator.inputs import api
 from neural_data_simulator import outputs
 from neural_data_simulator.ephys_generator import ContinuousData
 from neural_data_simulator.ephys_generator import LSLSpikeRateInputAdapter
@@ -28,6 +27,7 @@ from neural_data_simulator.ephys_generator import SpikeRateTestingInput
 from neural_data_simulator.ephys_generator import Spikes
 from neural_data_simulator.ephys_generator import Waveforms
 from neural_data_simulator.health_checker import HealthChecker
+from neural_data_simulator.inputs import api
 from neural_data_simulator.outputs import StreamConfig
 from neural_data_simulator.settings import EphysGeneratorEndpointType
 from neural_data_simulator.settings import EphysGeneratorSettings

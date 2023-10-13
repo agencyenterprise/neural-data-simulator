@@ -17,8 +17,8 @@ from tasks.center_out_reach.task_state import StateParams
 from tasks.center_out_reach.task_state import TaskState
 from tasks.center_out_reach.task_window import TaskWindow
 
-from neural_data_simulator.inputs import api
 from neural_data_simulator import outputs
+from neural_data_simulator.inputs import api
 from neural_data_simulator.outputs import StreamConfig
 from neural_data_simulator.settings import LogLevel
 from neural_data_simulator.util.runtime import configure_logger

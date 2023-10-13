@@ -10,9 +10,9 @@ from decoder.decoders import PersistedFileDecoderModel
 from decoder.settings import DecoderSettings
 from pydantic_yaml import VersionedYamlModel
 
-from neural_data_simulator.inputs import api
 from neural_data_simulator import outputs
 from neural_data_simulator import timing
+from neural_data_simulator.inputs import api
 from neural_data_simulator.settings import LogLevel
 from neural_data_simulator.settings import TimerModel
 from neural_data_simulator.util.runtime import configure_logger

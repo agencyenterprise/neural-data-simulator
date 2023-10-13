@@ -17,11 +17,11 @@ from typing import Callable, cast, Optional, Union
 import numpy as np
 
 from neural_data_simulator import encoder
-from neural_data_simulator.inputs import api
 from neural_data_simulator import models
 from neural_data_simulator import outputs
 from neural_data_simulator import runner
 from neural_data_simulator import timing
+from neural_data_simulator.inputs import api
 from neural_data_simulator.outputs import LSLOutputDevice
 from neural_data_simulator.samples import Samples
 from neural_data_simulator.scripts.errors import InvalidPluginError
