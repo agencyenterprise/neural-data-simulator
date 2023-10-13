@@ -17,10 +17,10 @@ from tasks.center_out_reach.task_state import StateParams
 from tasks.center_out_reach.task_state import TaskState
 from tasks.center_out_reach.task_window import TaskWindow
 
-from neural_data_simulator import inputs
-from neural_data_simulator import outputs
-from neural_data_simulator.outputs import StreamConfig
-from neural_data_simulator.settings import LogLevel
+from neural_data_simulator.core import inputs
+from neural_data_simulator.core import outputs
+from neural_data_simulator.core.outputs import StreamConfig
+from neural_data_simulator.core.settings import LogLevel
 from neural_data_simulator.util.runtime import configure_logger
 from neural_data_simulator.util.runtime import initialize_logger
 from neural_data_simulator.util.runtime import open_connection

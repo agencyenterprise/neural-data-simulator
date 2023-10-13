@@ -1,7 +1,7 @@
 """Example of a custom script module."""
 import numpy as np
 
-from neural_data_simulator.samples import Samples
+from neural_data_simulator.core.samples import Samples
 
 
 def run_post_transformation(data: Samples) -> Samples:

@@ -11,7 +11,7 @@ from typing import List, Optional
 import numpy as np
 import pylsl
 
-from neural_data_simulator.samples import Samples
+from neural_data_simulator.core.samples import Samples
 
 
 class Input(abc.ABC):

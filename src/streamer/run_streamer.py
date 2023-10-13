@@ -22,10 +22,10 @@ from pydantic_yaml import VersionedYamlModel
 from streamer import settings
 from streamer import streamers
 
-from neural_data_simulator.outputs import LSLOutputDevice
-from neural_data_simulator.outputs import StreamConfig
-from neural_data_simulator.samples import Samples
-from neural_data_simulator.settings import LogLevel
+from neural_data_simulator.core.outputs import LSLOutputDevice
+from neural_data_simulator.core.outputs import StreamConfig
+from neural_data_simulator.core.samples import Samples
+from neural_data_simulator.core.settings import LogLevel
 from neural_data_simulator.util.runtime import configure_logger
 from neural_data_simulator.util.runtime import get_abs_path
 from neural_data_simulator.util.runtime import initialize_logger

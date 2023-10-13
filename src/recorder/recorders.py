@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from neural_data_simulator import inputs
+from neural_data_simulator.core import inputs
 
 
 class LSLStreamRecorder:

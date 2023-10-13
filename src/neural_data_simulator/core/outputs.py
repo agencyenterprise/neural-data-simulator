@@ -8,8 +8,8 @@ from numpy import ndarray
 import numpy as np
 import pylsl
 
-from neural_data_simulator.samples import Samples
-from neural_data_simulator.settings import LSLOutputModel
+from neural_data_simulator.core.samples import Samples
+from neural_data_simulator.core.settings import LSLOutputModel
 
 
 class Output(abc.ABC):

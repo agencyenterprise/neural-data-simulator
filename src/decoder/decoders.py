@@ -7,10 +7,10 @@ import joblib
 from numpy import ndarray
 import numpy as np
 
-from neural_data_simulator.filters import BandpassFilter
-from neural_data_simulator.filters import GaussianFilter
-from neural_data_simulator.filters import LowpassFilter
-from neural_data_simulator.samples import Samples
+from neural_data_simulator.core.filters import BandpassFilter
+from neural_data_simulator.core.filters import GaussianFilter
+from neural_data_simulator.core.filters import LowpassFilter
+from neural_data_simulator.core.samples import Samples
 from neural_data_simulator.util.buffer import RingBuffer
 
 logger = logging.getLogger(__name__)

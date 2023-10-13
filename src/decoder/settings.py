@@ -2,8 +2,8 @@
 
 from pydantic import BaseModel
 
-from neural_data_simulator.settings import LSLInputModel
-from neural_data_simulator.settings import LSLOutputModel
+from neural_data_simulator.core.settings import LSLInputModel
+from neural_data_simulator.core.settings import LSLOutputModel
 
 
 class DecoderSettings(BaseModel):

@@ -5,8 +5,8 @@ from typing import Union
 from numpy import ndarray
 import numpy as np
 
-from neural_data_simulator.models import EncoderModel
-from neural_data_simulator.samples import Samples
+from neural_data_simulator.core.models import EncoderModel
+from neural_data_simulator.core.samples import Samples
 from neural_data_simulator.util.runtime import get_abs_path
 
 

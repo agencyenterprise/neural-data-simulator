@@ -8,7 +8,7 @@ import sys
 import tempfile
 import time
 
-from neural_data_simulator.settings import LogLevel
+from neural_data_simulator.core.settings import LogLevel
 from neural_data_simulator.util.runtime import configure_logger
 from neural_data_simulator.util.runtime import initialize_logger
 

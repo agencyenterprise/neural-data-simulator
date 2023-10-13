@@ -19,7 +19,7 @@ import pooch
 import streamer
 import tasks
 
-import neural_data_simulator
+import neural_data_simulator.core as core
 from neural_data_simulator.util.runtime import get_abs_path
 from neural_data_simulator.util.runtime import get_configs_dir
 from neural_data_simulator.util.runtime import get_plugins_dir
@@ -39,8 +39,8 @@ plugin_test_files = [
 
 
 core_configs: list[tuple[str, str]] = [
-    ("settings.yaml", neural_data_simulator.__file__),
-    ("lsl.config", neural_data_simulator.__file__),
+    ("settings.yaml", core.__file__),
+    ("lsl.config", core.__file__),
 ]
 
 extras_configs: list[tuple[str, str]] = [

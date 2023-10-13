@@ -6,8 +6,8 @@ from pydantic import BaseModel
 from pydantic import validator
 from pydantic_yaml import YamlStrEnum
 
-from neural_data_simulator.settings import LSLChannelFormatType
-from neural_data_simulator.settings import LSLOutputModel
+from neural_data_simulator.core.settings import LSLChannelFormatType
+from neural_data_simulator.core.settings import LSLOutputModel
 
 
 class StreamerInputType(YamlStrEnum):

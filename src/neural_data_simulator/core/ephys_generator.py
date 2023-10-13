@@ -7,11 +7,11 @@ from numpy import ndarray
 import numpy as np
 import pylsl
 
-from neural_data_simulator.filters import LowpassFilter
-from neural_data_simulator.health_checker import HealthChecker
-from neural_data_simulator.inputs import LSLInput
-from neural_data_simulator.outputs import LSLOutputDevice
-from neural_data_simulator.timing import Timer
+from neural_data_simulator.core.filters import LowpassFilter
+from neural_data_simulator.core.health_checker import HealthChecker
+from neural_data_simulator.core.inputs import LSLInput
+from neural_data_simulator.core.outputs import LSLOutputDevice
+from neural_data_simulator.core.timing import Timer
 from neural_data_simulator.util.buffer import RingBuffer
 
 

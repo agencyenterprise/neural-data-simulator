@@ -6,9 +6,9 @@ from typing import List
 import numpy as np
 import pylsl
 
-from neural_data_simulator.outputs import LSLOutputDevice
-from neural_data_simulator.samples import Samples
-from neural_data_simulator.timing import Timer
+from neural_data_simulator.core.outputs import LSLOutputDevice
+from neural_data_simulator.core.samples import Samples
+from neural_data_simulator.core.timing import Timer
 
 logger = logging.getLogger(__name__)
 

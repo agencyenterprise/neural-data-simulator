@@ -3,8 +3,8 @@
 # This is how a custom script can be imported from the same directory as this one
 import custom_script
 
-from neural_data_simulator.encoder import Processor
-from neural_data_simulator.samples import Samples
+from neural_data_simulator.core.encoder import Processor
+from neural_data_simulator.core.samples import Samples
 
 
 class PassThroughPostprocessor(Processor):

@@ -1,6 +1,6 @@
 """Example of a custom Preprocessor implementation."""
-from neural_data_simulator.encoder import Processor
-from neural_data_simulator.samples import Samples
+from neural_data_simulator.core.encoder import Processor
+from neural_data_simulator.core.samples import Samples
 
 
 class PassThroughPreprocessor(Processor):

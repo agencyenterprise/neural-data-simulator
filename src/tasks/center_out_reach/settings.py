@@ -4,8 +4,8 @@ from typing import Optional
 from pydantic import BaseModel
 from pydantic import validator
 
-from neural_data_simulator.settings import LSLInputModel
-from neural_data_simulator.settings import LSLOutputModel
+from neural_data_simulator.core.settings import LSLInputModel
+from neural_data_simulator.core.settings import LSLOutputModel
 
 
 class CenterOutReach(BaseModel):

@@ -1,7 +1,7 @@
 """Classes that implement a model for encoding neural data from behavior data."""
 from typing import Protocol, runtime_checkable
 
-from neural_data_simulator.samples import Samples
+from neural_data_simulator.core.samples import Samples
 
 
 @runtime_checkable
