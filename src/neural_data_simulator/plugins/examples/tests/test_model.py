@@ -1,10 +1,10 @@
 """Tests for models.py module."""
 
 import numpy as np
-from plugins.examples.model import VelocityTuningCurvesModel
 import pytest
 
 from neural_data_simulator.core.samples import Samples
+from neural_data_simulator.plugins.examples.model import VelocityTuningCurvesModel
 
 
 def _create_model_weights_file(tmp_path, b0, m, pd, bs):
