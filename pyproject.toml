@@ -75,12 +75,12 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.scripts]
 nds_post_install_config = "neural_data_simulator.scripts.post_install_config:run"
 encoder = "neural_data_simulator.scripts.run_encoder:run"
-streamer = "streamer.run_streamer:run"
+streamer = "neural_data_simulator.streamer.run_streamer:run"
 ephys_generator = "neural_data_simulator.scripts.run_ephys_generator:run"
-decoder = "decoder.run_decoder:run"
-recorder = "recorder.run_recorder:run"
-center_out_reach = "tasks.run_center_out_reach:run"
-run_closed_loop = "tasks.run_closed_loop:run"
+decoder = "neural_data_simulator.decoder.run_decoder:run"
+recorder = "neural_data_simulator.recorder.run_recorder:run"
+center_out_reach = "neural_data_simulator.tasks.run_center_out_reach:run"
+run_closed_loop = "neural_data_simulator.tasks.run_closed_loop:run"
 
 [tool.pytest.ini_options]
 # note: not overriding 'norecursedirs' here in order to keep the default value

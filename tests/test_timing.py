@@ -5,7 +5,7 @@ from unittest import mock
 import numpy as np
 import pytest
 
-from neural_data_simulator import timing
+from neural_data_simulator.core import timing
 
 
 @pytest.fixture
