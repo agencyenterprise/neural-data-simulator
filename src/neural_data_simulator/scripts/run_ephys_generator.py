@@ -19,15 +19,15 @@ import numpy as np
 
 from neural_data_simulator import outputs
 from neural_data_simulator.ephys_generator import ContinuousData
-from neural_data_simulator.ephys_generator import LSLSpikeRateInputAdapter
 from neural_data_simulator.ephys_generator import NoiseData
 from neural_data_simulator.ephys_generator import ProcessOutput
-from neural_data_simulator.ephys_generator import SpikeRateInput
-from neural_data_simulator.ephys_generator import SpikeRateTestingInput
 from neural_data_simulator.ephys_generator import Spikes
 from neural_data_simulator.ephys_generator import Waveforms
 from neural_data_simulator.health_checker import HealthChecker
-from neural_data_simulator.inputs import api
+from neural_data_simulator.inputs.api import SpikeRateInput
+from neural_data_simulator.inputs.lsl_input import LSLInput
+from neural_data_simulator.inputs.lsl_input import LSLSpikeRateInputAdapter
+from neural_data_simulator.inputs.testing_input import SpikeRateTestingInput
 from neural_data_simulator.outputs import StreamConfig
 from neural_data_simulator.settings import EphysGeneratorEndpointType
 from neural_data_simulator.settings import EphysGeneratorSettings
@@ -72,7 +72,7 @@ def _setup_LSL_input(
     Returns:
         LSL stream input that can be used to read data from.
     """
-    lsl_inlet = api.LSLInput(stream_name, connection_timeout)
+    lsl_inlet = LSLInput(stream_name, connection_timeout)
     spike_rate_input = LSLSpikeRateInputAdapter(lsl_inlet)
     return spike_rate_input
 
@@ -232,7 +232,7 @@ def run():
         _get_spikes_params(settings.ephys_generator),
     )
 
-    outputs = ProcessOutput.LSLOutputs(
+    outputs = ProcessOutput.Outputs(
         continuous_data_output, lfp_output, spike_events_output
     )
 

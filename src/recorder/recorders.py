@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from neural_data_simulator import inputs
+from neural_data_simulator.inputs.lsl_input import LSLInput
 
 
 class LSLStreamRecorder:
@@ -14,7 +14,7 @@ class LSLStreamRecorder:
         Args:
             stream_name: Name of the LSL stream to record.
         """
-        lsl_input = inputs.LSLInput(stream_name, 60.0)
+        lsl_input = LSLInput(stream_name, 60.0)
         lsl_input.connect()
         self.input = lsl_input
         self.data = np.array([]).reshape(0, lsl_input.get_info().channel_count)
