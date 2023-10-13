@@ -5,6 +5,7 @@ from typing import Dict, List, NamedTuple, Optional, Tuple, Union
 import colorednoise
 from numpy import ndarray
 import numpy as np
+import pylsl
 
 from neural_data_simulator.filters import LowpassFilter
 from neural_data_simulator.health_checker import HealthChecker
