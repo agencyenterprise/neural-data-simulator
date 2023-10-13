@@ -5,9 +5,9 @@ import logging
 from pathlib import Path
 from typing import cast
 
-from decoder.decoders import Decoder
-from decoder.decoders import PersistedFileDecoderModel
-from decoder.settings import DecoderSettings
+from neural_data_simulator.decoder.decoders import Decoder
+from neural_data_simulator.decoder.decoders import PersistedFileDecoderModel
+from neural_data_simulator.decoder.settings import DecoderSettings
 from pydantic_yaml import VersionedYamlModel
 
 from neural_data_simulator.core import inputs
