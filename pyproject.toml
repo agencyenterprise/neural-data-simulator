@@ -108,6 +108,7 @@ root_packages = [
     "neural_data_simulator",
     "decoder",
     "recorder",
+    "streamer",
     "tasks",
     "plugins",
 ]
@@ -116,14 +117,14 @@ root_packages = [
 id = "ext-ind"
 name = "Extension modules should be independent"
 type = "independence"
-modules = ["decoder", "recorder", "tasks", "plugins"]
+modules = ["decoder", "recorder", "streamer", "tasks", "plugins"]
 
 [[tool.importlinter.contracts]]
 id = "core-ext"
 name = "Core NDS should not depend on extension modules"
 type = "forbidden"
 source_modules = ["neural_data_simulator"]
-forbidden_modules = ["decoder", "recorder", "tasks", "plugins"]
+forbidden_modules = ["decoder", "recorder", "streamer", "tasks", "plugins"]
 ignore_imports = ["neural_data_simulator.scripts.post_install_config -> *"]
 
 [tool.isort]
