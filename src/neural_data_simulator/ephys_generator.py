@@ -1,6 +1,6 @@
 """This module contains classes that are used to generate spikes from spike rates."""
 from dataclasses import dataclass
-from typing import Dict, List, NamedTuple, Optional, Protocol, Tuple, Union
+from typing import Dict, List, NamedTuple, Optional, Tuple, Union
 
 import colorednoise
 from numpy import ndarray

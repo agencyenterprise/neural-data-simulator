@@ -12,6 +12,7 @@ import pylsl
 
 from neural_data_simulator.inputs.api import Input
 from neural_data_simulator.inputs.api import SpikeRateInput
+from neural_data_simulator.samples import Samples
 
 
 @dataclass
@@ -232,7 +233,7 @@ class LSLSpikeRateInputAdapter(SpikeRateInput):
         """Connect to the LSL input stream."""
         self.lsl_input.connect()
 
-    def read(self) -> Optional[ndarray]:
+    def read(self) -> Optional[np.ndarray]:
         """Connect to the LSL input stream.
 
         Returns:

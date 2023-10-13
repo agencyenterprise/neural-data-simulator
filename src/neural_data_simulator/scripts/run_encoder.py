@@ -21,7 +21,9 @@ from neural_data_simulator import models
 from neural_data_simulator import outputs
 from neural_data_simulator import runner
 from neural_data_simulator import timing
-from neural_data_simulator.inputs import api
+from neural_data_simulator.inputs import api as inputs
+from neural_data_simulator.inputs.lsl_input import LSLInput
+from neural_data_simulator.inputs.samples_input import SamplesInput
 from neural_data_simulator.outputs import LSLOutputDevice
 from neural_data_simulator.samples import Samples
 from neural_data_simulator.scripts.errors import InvalidPluginError
@@ -41,7 +43,7 @@ logger = logging.getLogger(__name__)
 
 def _setup_npz_input(
     behavior_file: str, timestamps_array_name: str, data_array_name: str
-) -> api.SamplesInput:
+) -> SamplesInput:
     """Set up the NPZ file input.
 
     Load data from npz file and create a samples dataclass with the entirety
@@ -60,11 +62,11 @@ def _setup_npz_input(
         timestamps=data[timestamps_array_name], data=data[data_array_name]
     )
 
-    data_input = api.SamplesInput(all_samples)
+    data_input = SamplesInput(all_samples)
     return data_input
 
 
-def _setup_LSL_input(stream_name: str, connection_timeout: float) -> api.LSLInput:
+def _setup_LSL_input(stream_name: str, connection_timeout: float) -> LSLInput:
     """Set up LSL input to read data from the behavior stream.
 
     Args:
@@ -75,7 +77,7 @@ def _setup_LSL_input(stream_name: str, connection_timeout: float) -> api.LSLInpu
     Returns:
         LSL stream input that can be used to read data from.
     """
-    data_input = api.LSLInput(stream_name, connection_timeout)
+    data_input = LSLInput(stream_name, connection_timeout)
     return data_input
 
 

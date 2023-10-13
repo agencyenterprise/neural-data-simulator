@@ -18,7 +18,7 @@ from tasks.center_out_reach.task_state import TaskState
 from tasks.center_out_reach.task_window import TaskWindow
 
 from neural_data_simulator import outputs
-from neural_data_simulator.inputs import api
+from neural_data_simulator.inputs.lsl_input import LSLInput
 from neural_data_simulator.outputs import StreamConfig
 from neural_data_simulator.settings import LogLevel
 from neural_data_simulator.util.runtime import configure_logger
@@ -187,7 +187,7 @@ def run():
 
     if settings.center_out_reach.input.enabled:
         lsl_input_settings = unwrap(settings.center_out_reach.input.lsl)
-        data_input = inputs.LSLInput(
+        data_input = LSLInput(
             lsl_input_settings.stream_name, lsl_input_settings.connection_timeout
         )
     else:
