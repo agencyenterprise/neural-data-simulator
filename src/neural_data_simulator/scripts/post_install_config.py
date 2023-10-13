@@ -15,11 +15,11 @@ from urllib.parse import urljoin
 
 import pooch
 
+import neural_data_simulator
 from neural_data_simulator import decoder
 from neural_data_simulator import plugins
 from neural_data_simulator import streamer
 from neural_data_simulator import tasks
-import neural_data_simulator.core as core
 from neural_data_simulator.util.runtime import get_abs_path
 from neural_data_simulator.util.runtime import get_configs_dir
 from neural_data_simulator.util.runtime import get_plugins_dir
@@ -39,8 +39,8 @@ plugin_test_files = [
 
 
 core_configs: list[tuple[str, str]] = [
-    ("settings.yaml", core.__file__),
-    ("lsl.config", core.__file__),
+    ("settings.yaml", neural_data_simulator.__file__),
+    ("lsl.config", neural_data_simulator.__file__),
 ]
 
 extras_configs: list[tuple[str, str]] = [
