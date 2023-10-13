@@ -7,6 +7,11 @@ from typing import cast, Tuple
 
 import numpy as np
 from pydantic_yaml import VersionedYamlModel
+
+from neural_data_simulator.core import inputs
+from neural_data_simulator.core import outputs
+from neural_data_simulator.core.outputs import StreamConfig
+from neural_data_simulator.core.settings import LogLevel
 from neural_data_simulator.tasks.center_out_reach.input_events import InputHandler
 from neural_data_simulator.tasks.center_out_reach.metrics import MetricsCollector
 from neural_data_simulator.tasks.center_out_reach.scalers import PixelsToMetersConverter
@@ -16,11 +21,6 @@ from neural_data_simulator.tasks.center_out_reach.task_runner import TaskRunner
 from neural_data_simulator.tasks.center_out_reach.task_state import StateParams
 from neural_data_simulator.tasks.center_out_reach.task_state import TaskState
 from neural_data_simulator.tasks.center_out_reach.task_window import TaskWindow
-
-from neural_data_simulator.core import inputs
-from neural_data_simulator.core import outputs
-from neural_data_simulator.core.outputs import StreamConfig
-from neural_data_simulator.core.settings import LogLevel
 from neural_data_simulator.util.runtime import configure_logger
 from neural_data_simulator.util.runtime import initialize_logger
 from neural_data_simulator.util.runtime import open_connection

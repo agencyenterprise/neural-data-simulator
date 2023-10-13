@@ -24,10 +24,10 @@ from neural_data_simulator.core import runner
 from neural_data_simulator.core import timing
 from neural_data_simulator.core.outputs import LSLOutputDevice
 from neural_data_simulator.core.samples import Samples
-from neural_data_simulator.scripts.errors import InvalidPluginError
 from neural_data_simulator.core.settings import EncoderEndpointType
 from neural_data_simulator.core.settings import EncoderSettings
 from neural_data_simulator.core.settings import Settings
+from neural_data_simulator.scripts.errors import InvalidPluginError
 from neural_data_simulator.util.runtime import configure_logger
 from neural_data_simulator.util.runtime import get_abs_path
 from neural_data_simulator.util.runtime import initialize_logger

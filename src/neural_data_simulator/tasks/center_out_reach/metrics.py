@@ -10,6 +10,7 @@ import numpy.typing as npt
 import pygame
 from scipy import signal
 from sklearn.metrics import r2_score
+
 from neural_data_simulator.tasks.center_out_reach.scalers import PixelsToMetersConverter
 
 
