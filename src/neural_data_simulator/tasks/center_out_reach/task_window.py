@@ -6,8 +6,8 @@ from typing import Dict, List, NamedTuple, Optional, Tuple
 
 import numpy as np
 import pygame
-from tasks.center_out_reach.buttons import Button
-from tasks.center_out_reach.sprites import Sprite
+from neural_data_simulator.tasks.center_out_reach.buttons import Button
+from neural_data_simulator.tasks.center_out_reach.sprites import Sprite
 
 
 class RichText(NamedTuple):

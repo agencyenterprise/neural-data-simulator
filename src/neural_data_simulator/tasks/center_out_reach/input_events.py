@@ -4,7 +4,7 @@ from enum import Enum
 from typing import Callable, Tuple
 
 import pygame
-from tasks.center_out_reach.joystick import JoystickInput
+from neural_data_simulator.tasks.center_out_reach.joystick import JoystickInput
 
 
 class InputEvent(Enum):

@@ -4,7 +4,7 @@ import signal
 import sys
 import time
 
-from recorder.recorders import LSLStreamRecorder
+from neural_data_simulator.recorder.recorders import LSLStreamRecorder
 
 
 def _persist_session(recorders, session_name):

@@ -3,8 +3,8 @@ from typing import Optional, Union
 
 from numpy import ndarray
 from sklearn.preprocessing import StandardScaler
-from tasks.center_out_reach.screen_info import get_monitors
-from tasks.center_out_reach.screen_info import get_ppmm
+from neural_data_simulator.tasks.center_out_reach.screen_info import get_monitors
+from neural_data_simulator.tasks.center_out_reach.screen_info import get_ppmm
 
 
 class PixelsToMetersConverter:

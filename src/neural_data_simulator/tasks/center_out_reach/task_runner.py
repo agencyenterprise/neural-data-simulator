@@ -14,11 +14,11 @@ from typing import Optional, Protocol
 from numpy import ndarray
 import numpy as np
 import pylsl
-from tasks.center_out_reach.input_events import InputEvent
-from tasks.center_out_reach.input_events import InputHandler
-from tasks.center_out_reach.metrics import MetricsCollector
-from tasks.center_out_reach.task_state import TaskState
-from tasks.center_out_reach.task_window import TaskWindow
+from neural_data_simulator.tasks.center_out_reach.input_events import InputEvent
+from neural_data_simulator.tasks.center_out_reach.input_events import InputHandler
+from neural_data_simulator.tasks.center_out_reach.metrics import MetricsCollector
+from neural_data_simulator.tasks.center_out_reach.task_state import TaskState
+from neural_data_simulator.tasks.center_out_reach.task_window import TaskWindow
 
 from neural_data_simulator.core import inputs
 from neural_data_simulator.core import outputs

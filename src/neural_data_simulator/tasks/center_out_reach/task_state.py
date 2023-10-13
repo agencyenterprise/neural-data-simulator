@@ -7,7 +7,7 @@ from dataclasses import dataclass
 import time
 from typing import Optional, Protocol
 
-from tasks.center_out_reach.task_window import TaskWindow
+from neural_data_simulator.tasks.center_out_reach.task_window import TaskWindow
 
 
 class State(Protocol):
