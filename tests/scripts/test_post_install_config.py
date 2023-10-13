@@ -48,10 +48,22 @@ def fake_pooch_retrieve(monkeypatch: pytest.MonkeyPatch, tmp_path) -> None:
     )
 
 
+@pytest.fixture
+def core_configs() -> list[str]:
+    """Return a list of expected core config files."""
+    return [name for name, module_file in post_install_config.core_configs]
+
+
+@pytest.fixture
+def extras_configs() -> list[str]:
+    """Return a list of expected extras config files."""
+    return [name for name, module_file in post_install_config.extras_configs]
+
+
 @pytest.fixture()
-def config_files():
+def config_files(core_configs: list[str], extras_configs: list[str]) -> list[str]:
     """Return a list of expected config files."""
-    return ["settings.yaml", "settings_streamer.yaml", "settings_decoder.yaml"]
+    return core_configs + extras_configs
 
 
 @pytest.fixture()
@@ -141,7 +153,11 @@ class TestPostInstallConfig:
         assert attributes != new_attributes
 
     def test_run_ignore_extras_config(
-        self, expected_config_paths, expected_sample_data_paths, fake_parse_args
+        self,
+        expected_config_paths,
+        expected_sample_data_paths,
+        extras_configs,
+        fake_parse_args,
     ):
         """Test run with --ignore_extras_config."""
         fake_parse_args.ignore_extras_config = True
@@ -150,7 +166,7 @@ class TestPostInstallConfig:
         file_paths = expected_config_paths + expected_sample_data_paths
 
         for file_path in file_paths:
-            if file_path.endswith("settings_decoder.yaml"):
+            if os.path.basename(file_path) in extras_configs:
                 assert not os.path.exists(file_path)
             else:
                 assert os.path.exists(file_path)

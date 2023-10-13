@@ -11,11 +11,12 @@ maintainers = [
     "AE Studio <bci@ae.studio>",
 ]
 packages = [
-    { include = "neural_data_simulator", from = "src" },
-    { include = "decoder", from = "src" },
-    { include = "recorder", from = "src" },
-    { include = "tasks", from = "src" },
-    { include = "plugins", from = "src" },
+    {include = "neural_data_simulator", from = "src"},
+    {include = "decoder", from = "src"},
+    {include = "recorder", from = "src"},
+    {include = "streamer", from = "src"},
+    {include = "tasks", from = "src"},
+    {include = "plugins", from = "src"},
 ]
 readme = "README.md"
 license = "Apache-2.0"
@@ -82,7 +83,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.scripts]
 nds_post_install_config = "neural_data_simulator.scripts.post_install_config:run"
 encoder = "neural_data_simulator.scripts.run_encoder:run"
-streamer = "neural_data_simulator.scripts.run_streamer:run"
+streamer = "streamer.run_streamer:run"
 ephys_generator = "neural_data_simulator.scripts.run_ephys_generator:run"
 decoder = "decoder.run_decoder:run"
 recorder = "recorder.run_recorder:run"
@@ -107,6 +108,7 @@ root_packages = [
     "neural_data_simulator",
     "decoder",
     "recorder",
+    "streamer",
     "tasks",
     "plugins",
 ]
@@ -115,14 +117,14 @@ root_packages = [
 id = "ext-ind"
 name = "Extension modules should be independent"
 type = "independence"
-modules = ["decoder", "recorder", "tasks", "plugins"]
+modules = ["decoder", "recorder", "streamer", "tasks", "plugins"]
 
 [[tool.importlinter.contracts]]
 id = "core-ext"
 name = "Core NDS should not depend on extension modules"
 type = "forbidden"
 source_modules = ["neural_data_simulator"]
-forbidden_modules = ["decoder", "recorder", "tasks", "plugins"]
+forbidden_modules = ["decoder", "recorder", "streamer", "tasks", "plugins"]
 ignore_imports = ["neural_data_simulator.scripts.post_install_config -> *"]
 
 [tool.isort]

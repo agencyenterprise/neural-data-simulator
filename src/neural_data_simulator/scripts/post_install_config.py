@@ -16,6 +16,7 @@ from urllib.parse import urljoin
 import decoder
 import plugins
 import pooch
+import streamer
 import tasks
 
 import neural_data_simulator
@@ -37,15 +38,15 @@ plugin_test_files = [
 ]
 
 
-core_configs = [
+core_configs: list[tuple[str, str]] = [
     ("settings.yaml", neural_data_simulator.__file__),
-    ("settings_streamer.yaml", neural_data_simulator.__file__),
     ("lsl.config", neural_data_simulator.__file__),
 ]
 
-extras_configs = [
+extras_configs: list[tuple[str, str]] = [
     ("settings_decoder.yaml", decoder.__file__),
     ("settings_center_out_reach.yaml", tasks.__file__),
+    ("settings_streamer.yaml", streamer.__file__),
 ]
 
 download_base_url = "https://neural-data-simulator.s3.amazonaws.com/sample_data/v1/"
