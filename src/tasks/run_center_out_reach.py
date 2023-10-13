@@ -41,34 +41,6 @@ class _Settings(VersionedYamlModel):
     center_out_reach: CenterOutReach
 
 
-def _setup_LSL_input(stream_name: str, connection_timeout: float) -> inputs.LSLInput:
-    """Set up input that will read data from an LSL stream.
-
-    Args:
-        stream_name: The name of the LSL stream to read from.
-        connection_timeout: The timeout in seconds to wait for
-          the stream to become available.
-
-    Returns:
-        The input that can be used to read data from the LSL stream.
-    """
-    data_input = inputs.LSLInput(stream_name, connection_timeout)
-    return data_input
-
-
-def _setup_LSL_output(config: StreamConfig) -> outputs.LSLOutputDevice:
-    """Set up output that will write data to an LSL stream.
-
-    Args:
-        config: The configuration for the LSL stream.
-
-    Returns:
-        The output that can be used to write to.
-    """
-    lsl_output = outputs.LSLOutputDevice(config)
-    return lsl_output
-
-
 def _get_task_window_params(
     task_settings: CenterOutReach.Task,
     window_settings: CenterOutReach.Window,
@@ -215,7 +187,7 @@ def run():
 
     if settings.center_out_reach.input.enabled:
         lsl_input_settings = unwrap(settings.center_out_reach.input.lsl)
-        data_input = _setup_LSL_input(
+        data_input = inputs.LSLInput(
             lsl_input_settings.stream_name, lsl_input_settings.connection_timeout
         )
     else:
@@ -223,13 +195,22 @@ def run():
 
     lsl_output_settings = settings.center_out_reach.output.lsl
     sampling_rate = settings.center_out_reach.sampling_rate
-    data_output = _setup_LSL_output(
-        StreamConfig.from_lsl_settings(
+    data_output = outputs.LSLOutputDevice(
+        stream_config=StreamConfig.from_lsl_settings(
             lsl_output_settings,
             sampling_rate,
             n_channels=2,
         )
     )
+
+    # Set up the output for the task state
+    task_window_output = None
+    if settings.center_out_reach.task_window_output is not None:
+        task_window_output = outputs.LSLOutputDevice.from_lsl_settings(
+            settings.center_out_reach.task_window_output.lsl,
+            sampling_rate,
+            n_channels=4,
+        )
 
     window_settings = settings.center_out_reach.window
     task_settings = settings.center_out_reach.task
@@ -283,7 +264,9 @@ def run():
     interrupted = False
     task_window = None
     try:
-        with open_connection(data_output), open_connection(data_input):
+        with open_connection(data_output), open_connection(data_input), open_connection(
+            task_window_output
+        ):
             task_window = TaskWindow(window_rect, window_params, menu_text)
             task_state = TaskState(task_window, state_params)
             task_runner = TaskRunner(
@@ -293,6 +276,7 @@ def run():
                 velocity_scaler,
                 with_decoded_cursor,
                 metrics_collector,
+                task_window_output=task_window_output,
             )
             logger.info("Running task")
             task_runner.run(task_state, user_input)

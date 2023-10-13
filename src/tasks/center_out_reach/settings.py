@@ -74,3 +74,4 @@ class CenterOutReach(BaseModel):
     with_metrics: bool
     standard_scaler: StandardScaler
     task: Task
+    task_window_output: Optional[Output]

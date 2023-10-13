@@ -37,7 +37,7 @@ python = ">=3.9,<3.12"
 numpy = "^1.22.4"
 pydantic = "^1.9.1"
 pylsl = "^1.16.1"
-colorednoise = "^2.1.0"
+colorednoise = "^2.2.0"
 pydantic-yaml = "^0.9.0"
 pyaml = "^21.10.1"
 scipy = "^1.10.0"
@@ -57,6 +57,7 @@ pytest-mock = "^3.8.2"
 black = "22.3.0"
 flake8 = "^4.0.1"
 flake8-spellcheck = "^0.28.0"
+import-linter = "^1.12.0"
 isort = "^5.10.1"
 jupyter = "^1.0.0"
 flake8-docstrings = "^1.6.0"
@@ -100,6 +101,30 @@ line-length = 88
 extend-exclude = """(
     docs
 )"""
+
+# Software architecture / interdependency checking
+[tool.importlinter]
+root_packages = [
+    "neural_data_simulator",
+    "decoder",
+    "recorder",
+    "tasks",
+    "plugins",
+]
+
+[[tool.importlinter.contracts]]
+id = "ext-ind"
+name = "Extension modules should be independent"
+type = "independence"
+modules = ["decoder", "recorder", "tasks", "plugins"]
+
+[[tool.importlinter.contracts]]
+id = "core-ext"
+name = "Core NDS should not depend on extension modules"
+type = "forbidden"
+source_modules = ["neural_data_simulator"]
+forbidden_modules = ["decoder", "recorder", "tasks", "plugins"]
+ignore_imports = ["neural_data_simulator.scripts.post_install_config -> *"]
 
 [tool.isort]
 profile = "google"

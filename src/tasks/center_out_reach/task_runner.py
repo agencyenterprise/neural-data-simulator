@@ -18,6 +18,7 @@ from tasks.center_out_reach.input_events import InputEvent
 from tasks.center_out_reach.input_events import InputHandler
 from tasks.center_out_reach.metrics import MetricsCollector
 from tasks.center_out_reach.task_state import TaskState
+from tasks.center_out_reach.task_window import TaskWindow
 
 from neural_data_simulator import inputs
 from neural_data_simulator import outputs
@@ -56,8 +57,24 @@ class TaskRunner:
         velocity_scaler: VelocityScaler,
         with_decoded_cursor: bool,
         metrics_collector: Optional[MetricsCollector],
+        task_window_output: Optional[outputs.Output] = None,
     ):
-        """Create a new instance."""
+        """Create a new instance to run the center_out_reach task.
+
+        Args:
+            sample_rate: sampling rate of input data (Hz).
+            decoded_cursor_input: The input (e.g., LSLInput) for decoded cursor
+                velocities.
+            actual_cursor_output: The output (e.g., LSLOutput) for actual cursor
+                velocities.
+            velocity_scaler: Scales the actual cursor velocities.
+            with_decoded_cursor: if True, use the decoded cursor velocities,
+                else use the actual cursor velocities.
+            metrics_collector: Collects and plots velocities resulted from running
+                the task.
+            task_window_output: The output (e.g., LSLOutput) for target positions
+                and the task's cursor positions
+        """
         self.decoded_cursor_input = decoded_cursor_input
         self.actual_cursor_output = actual_cursor_output
         self.with_decoded_cursor = with_decoded_cursor
@@ -77,6 +94,8 @@ class TaskRunner:
         self.velocity_scaler = velocity_scaler
         self.metrics_collector = metrics_collector
         self.timer = Timer(1 / self.sample_rate)
+
+        self.task_window_output = task_window_output
 
     def _get_decoded_velocity(self) -> ndarray:
         if self.decoded_cursor_input is not None:
@@ -103,6 +122,27 @@ class TaskRunner:
                 metrics_collector.record_actual_velocities(velocities, timestamps)
             self.actual_cursor_output.send(
                 Samples(timestamps=timestamps, data=velocities)
+            )
+
+    def _send_task_window(self, task_window: TaskWindow) -> None:
+        """Send the target and cursor positions to the output stream.
+
+        This is the minimal information to reconstruct the task window
+        on a different GUI.
+        """
+        if self.task_window_output is not None:
+            timestamps = np.array([pylsl.local_clock()])
+            target_position: tuple[int, int] = task_window.target.position
+            decoded_cursor_position: tuple[
+                int, int
+            ] = task_window.decoded_cursor.position
+            target_cursor_positions = np.concatenate(
+                (target_position, decoded_cursor_position),
+                axis=None,
+            )
+            target_cursor_positions = target_cursor_positions.reshape(1, 4)
+            self.task_window_output.send(
+                Samples(timestamps=timestamps, data=target_cursor_positions)
             )
 
     def stop(self):
@@ -142,6 +182,7 @@ class TaskRunner:
 
             if not task_window.show_menu_screen:
                 self._send_actual_velocity(actual_velocity)
+                self._send_task_window(task_window)
 
                 if self.with_decoded_cursor:
                     decoded_velocity = self._get_decoded_velocity()
