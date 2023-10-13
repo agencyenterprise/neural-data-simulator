@@ -7,4 +7,5 @@ Example Implementations and Utilities
 
    decoder
    recorder
+   streamer
    tasks

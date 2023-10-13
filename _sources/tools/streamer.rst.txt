@@ -1,0 +1,32 @@
+streamer 
+=========
+
+.. automodule:: streamer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+streamer.run\_streamer 
+-----------------------
+
+.. automodule:: streamer.run_streamer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+streamer.settings 
+------------------
+
+.. automodule:: streamer.settings
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+streamer.streamers 
+-------------------
+
+.. automodule:: streamer.streamers
+   :members:
+   :undoc-members:
+   :show-inheritance:

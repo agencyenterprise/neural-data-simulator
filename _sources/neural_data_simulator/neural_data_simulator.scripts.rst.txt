@@ -38,11 +38,3 @@ neural\_data\_simulator.scripts.run\_ephys\_generator
    :members:
    :undoc-members:
    :show-inheritance:
-
-neural\_data\_simulator.scripts.run\_streamer 
-----------------------------------------------
-
-.. automodule:: neural_data_simulator.scripts.run_streamer
-   :members:
-   :undoc-members:
-   :show-inheritance:

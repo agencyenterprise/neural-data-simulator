@@ -120,6 +120,7 @@
 <span class="kn">import</span> <span class="nn">decoder</span>
 <span class="kn">import</span> <span class="nn">plugins</span>
 <span class="kn">import</span> <span class="nn">pooch</span>
+<span class="kn">import</span> <span class="nn">streamer</span>
 <span class="kn">import</span> <span class="nn">tasks</span>
 
 <span class="kn">import</span> <span class="nn">neural_data_simulator</span>
@@ -141,15 +142,15 @@
 <span class="p">]</span>
 
 
-<span class="n">core_configs</span> <span class="o">=</span> <span class="p">[</span>
+<span class="n">core_configs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">(</span><span class="s2">&quot;settings.yaml&quot;</span><span class="p">,</span> <span class="n">neural_data_simulator</span><span class="o">.</span><span class="vm">__file__</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">&quot;settings_streamer.yaml&quot;</span><span class="p">,</span> <span class="n">neural_data_simulator</span><span class="o">.</span><span class="vm">__file__</span><span class="p">),</span>
     <span class="p">(</span><span class="s2">&quot;lsl.config&quot;</span><span class="p">,</span> <span class="n">neural_data_simulator</span><span class="o">.</span><span class="vm">__file__</span><span class="p">),</span>
 <span class="p">]</span>
 
-<span class="n">extras_configs</span> <span class="o">=</span> <span class="p">[</span>
+<span class="n">extras_configs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">(</span><span class="s2">&quot;settings_decoder.yaml&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">.</span><span class="vm">__file__</span><span class="p">),</span>
     <span class="p">(</span><span class="s2">&quot;settings_center_out_reach.yaml&quot;</span><span class="p">,</span> <span class="n">tasks</span><span class="o">.</span><span class="vm">__file__</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;settings_streamer.yaml&quot;</span><span class="p">,</span> <span class="n">streamer</span><span class="o">.</span><span class="vm">__file__</span><span class="p">),</span>
 <span class="p">]</span>
 
 <span class="n">download_base_url</span> <span class="o">=</span> <span class="s2">&quot;https://neural-data-simulator.s3.amazonaws.com/sample_data/v1/&quot;</span>

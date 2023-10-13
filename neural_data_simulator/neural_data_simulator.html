@@ -139,11 +139,6 @@
 <li class="toctree-l4"><a class="reference internal" href="#neural_data_simulator.samples.Samples"><code class="docutils literal notranslate"><span class="pre">Samples</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-neural_data_simulator.streamers">neural_data_simulator.streamers</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#neural_data_simulator.streamers.Stream"><code class="docutils literal notranslate"><span class="pre">Stream</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#neural_data_simulator.streamers.LSLStreamer"><code class="docutils literal notranslate"><span class="pre">LSLStreamer</span></code></a></li>
-</ul>
-</li>
 <li class="toctree-l3"><a class="reference internal" href="#module-neural_data_simulator.timing">neural_data_simulator.timing</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#neural_data_simulator.timing.Timer"><code class="docutils literal notranslate"><span class="pre">Timer</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neural_data_simulator.timing.get_timer"><code class="docutils literal notranslate"><span class="pre">get_timer()</span></code></a></li>
@@ -211,10 +206,6 @@ pipeline is implemented.</p></li>
 data in NDS.</p></li>
 <li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_data_simulator.settings</span></code> contains the data model used to parse and
 validate the config.</p></li>
-<li><p><a class="reference internal" href="#module-neural_data_simulator.streamers" title="neural_data_simulator.streamers"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_data_simulator.streamers</span></code></a> currently hosts the
-<a class="reference internal" href="#neural_data_simulator.streamers.LSLStreamer" title="neural_data_simulator.streamers.LSLStreamer"><code class="xref py py-class docutils literal notranslate"><span class="pre">neural_data_simulator.streamers.LSLStreamer</span></code></a> class,
-which can be used to output <a class="reference internal" href="#neural_data_simulator.samples.Samples" title="neural_data_simulator.samples.Samples"><code class="xref py py-class docutils literal notranslate"><span class="pre">neural_data_simulator.samples.Samples</span></code></a> to an
-LSL outlet.</p></li>
 <li><p><a class="reference internal" href="#module-neural_data_simulator.timing" title="neural_data_simulator.timing"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_data_simulator.timing</span></code></a> contains the
 <a class="reference internal" href="#neural_data_simulator.timing.Timer" title="neural_data_simulator.timing.Timer"><code class="xref py py-class docutils literal notranslate"><span class="pre">neural_data_simulator.timing.Timer</span></code></a> class, which is used by
 every script that processes data at regular intervals.</p></li>
@@ -2092,94 +2083,6 @@ channels. Defaults to “data”.</p></li>
 <dt class="sig sig-object py" id="neural_data_simulator.samples.Samples.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#neural_data_simulator.samples.Samples.__init__" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-neural_data_simulator.streamers">
-<span id="neural-data-simulator-streamers"></span><h2>neural_data_simulator.streamers<a class="headerlink" href="#module-neural_data_simulator.streamers" title="Permalink to this heading"></a></h2>
-<p>Stream data over LSL.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="neural_data_simulator.streamers.Stream">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.streamers.</span></span><span class="sig-name descname"><span class="pre">Stream</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.outputs.LSLOutputDevice" title="neural_data_simulator.outputs.LSLOutputDevice"><span class="pre">LSLOutputDevice</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.samples.Samples" title="neural_data_simulator.samples.Samples"><span class="pre">Samples</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_finished</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_cursor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/streamers.html#Stream"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.streamers.Stream" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Stream information.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="neural_data_simulator.streamers.Stream.output">
-<span class="sig-name descname"><span class="pre">output</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#neural_data_simulator.outputs.LSLOutputDevice" title="neural_data_simulator.outputs.LSLOutputDevice"><span class="pre">LSLOutputDevice</span></a></em><a class="headerlink" href="#neural_data_simulator.streamers.Stream.output" title="Permalink to this definition"></a></dt>
-<dd><p>The output device to stream data to.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="neural_data_simulator.streamers.Stream.samples">
-<span class="sig-name descname"><span class="pre">samples</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#neural_data_simulator.samples.Samples" title="neural_data_simulator.samples.Samples"><span class="pre">Samples</span></a></em><a class="headerlink" href="#neural_data_simulator.streamers.Stream.samples" title="Permalink to this definition"></a></dt>
-<dd><p>The data with timestamps to stream.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="neural_data_simulator.streamers.Stream.is_finished">
-<span class="sig-name descname"><span class="pre">is_finished</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#neural_data_simulator.streamers.Stream.is_finished" title="Permalink to this definition"></a></dt>
-<dd><p>Flag to indicate if the stream has finished.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="neural_data_simulator.streamers.Stream.read_cursor">
-<span class="sig-name descname"><span class="pre">read_cursor</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#neural_data_simulator.streamers.Stream.read_cursor" title="Permalink to this definition"></a></dt>
-<dd><p>The current read cursor position.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="neural_data_simulator.streamers.Stream.length">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">length</span></span><a class="headerlink" href="#neural_data_simulator.streamers.Stream.length" title="Permalink to this definition"></a></dt>
-<dd><p>The length of the data to stream.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>The number of data samples to stream.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.streamers.Stream.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.outputs.LSLOutputDevice" title="neural_data_simulator.outputs.LSLOutputDevice"><span class="pre">LSLOutputDevice</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.samples.Samples" title="neural_data_simulator.samples.Samples"><span class="pre">Samples</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_finished</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_cursor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#neural_data_simulator.streamers.Stream.__init__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="neural_data_simulator.streamers.LSLStreamer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.streamers.</span></span><span class="sig-name descname"><span class="pre">LSLStreamer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#neural_data_simulator.outputs.LSLOutputDevice" title="neural_data_simulator.outputs.LSLOutputDevice"><span class="pre">LSLOutputDevice</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#neural_data_simulator.samples.Samples" title="neural_data_simulator.samples.Samples"><span class="pre">Samples</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lsl_chunk_frequency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stream_indefinitely</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/streamers.html#LSLStreamer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.streamers.LSLStreamer" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Streamer class that can be used to send samples through an LSL stream.</p>
-<p>A streamer class that takes a <a class="reference internal" href="#neural_data_simulator.samples.Samples" title="neural_data_simulator.samples.Samples"><code class="xref py py-class docutils literal notranslate"><span class="pre">neural_data_simulator.samples.Samples</span></code></a>
-dataclass with timestamps and behavior data and stream it through LSL.
-Following the timestamps provided, the data is streamed to simulate a
-real-time data acquisition.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.streamers.LSLStreamer.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#neural_data_simulator.outputs.LSLOutputDevice" title="neural_data_simulator.outputs.LSLOutputDevice"><span class="pre">LSLOutputDevice</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#neural_data_simulator.samples.Samples" title="neural_data_simulator.samples.Samples"><span class="pre">Samples</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lsl_chunk_frequency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stream_indefinitely</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/neural_data_simulator/streamers.html#LSLStreamer.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.streamers.LSLStreamer.__init__" title="Permalink to this definition"></a></dt>
-<dd><p>Initialize an LSLStreamer class.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>outputs</strong> – A list of LSL outputs to stream data out.</p></li>
-<li><p><strong>samples</strong> – A list of Samples representing the data to stream.</p></li>
-<li><p><strong>lsl_chunk_frequency</strong> – How often to send data to LSL outlets.</p></li>
-<li><p><strong>stream_indefinitely</strong> – Set to True to continue streaming from the
-beginning after reaching the end of data.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.streamers.LSLStreamer.stream">
-<span class="sig-name descname"><span class="pre">stream</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/streamers.html#LSLStreamer.stream"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.streamers.LSLStreamer.stream" title="Permalink to this definition"></a></dt>
-<dd><p>Stream samples.</p>
-<p>Stream all samples to all the outputs one output at a time.
-Irregular streams (sample rate is <cite>0</cite>) are streamed as <cite>samples</cite> to LSL
-while regular streams are streamed as <cite>chunk</cite>.</p>
-</dd></dl>
 
 </dd></dl>
 

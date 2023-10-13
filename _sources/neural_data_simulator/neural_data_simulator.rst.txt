@@ -85,14 +85,6 @@ neural\_data\_simulator.samples
    :undoc-members:
    :show-inheritance:
 
-neural\_data\_simulator.streamers 
-----------------------------------
-
-.. automodule:: neural_data_simulator.streamers
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 neural\_data\_simulator.timing 
 -------------------------------
 
