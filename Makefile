@@ -9,12 +9,14 @@ lint:
 	poetry run black .
 	poetry run isort .
 	poetry run flake8 .
+	poetry run lint-imports
 	poetry run pyright
 
 lint-check:
 	poetry run black --check .
 	poetry run isort --check .
 	poetry run flake8 .
+	poetry run lint-imports
 	poetry run pyright --warnings
 
 test:
