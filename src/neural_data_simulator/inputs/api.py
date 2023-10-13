@@ -1,6 +1,6 @@
 """A collection of inputs that can be used by NDS."""
 import abc
-from typing import Optional
+from typing import Optional, Protocol
 
 import numpy as np
 
