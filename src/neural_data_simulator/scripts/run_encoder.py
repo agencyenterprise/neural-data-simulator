@@ -10,10 +10,7 @@ and output can be adjusted. By default, the encoder expects to read data from an
 LSL stream and output to an LSL outlet. In absence of the input stream, the
 encoder will not be able to start.
 """
-import importlib.machinery
-import importlib.util
 import logging
-from pathlib import Path
 from typing import Callable, Optional, Union
 
 import hydra
