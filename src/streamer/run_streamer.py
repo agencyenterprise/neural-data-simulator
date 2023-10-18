@@ -10,15 +10,18 @@ outlet. By default, a sample behavior data file will be downloaded by the
 be able to run without any additional configuration. If the input file cannot be found,
 the streamer will not be able to start.
 """
-import argparse
 import contextlib
 import logging
 from pathlib import Path
-from typing import cast, Dict, Iterator, List, Optional, Tuple
+from typing import Dict, Iterator, List, Optional, Tuple
 
+import hydra
+import hydra.errors
 from neo.rawio.blackrockrawio import BlackrockRawIO
 import numpy as np
-from pydantic_yaml import VersionedYamlModel
+from omegaconf import DictConfig
+from omegaconf import OmegaConf
+from pydantic import BaseModel
 from streamer import settings
 from streamer import streamers
 
@@ -29,14 +32,14 @@ from neural_data_simulator.settings import LogLevel
 from neural_data_simulator.util.runtime import configure_logger
 from neural_data_simulator.util.runtime import get_abs_path
 from neural_data_simulator.util.runtime import initialize_logger
+from neural_data_simulator.util.runtime import NDS_HOME
 from neural_data_simulator.util.runtime import unwrap
-from neural_data_simulator.util.settings_loader import get_script_settings
 
 SCRIPT_NAME = "nds-streamer"
 logger = logging.getLogger(__name__)
 
 
-class _Settings(VersionedYamlModel):
+class _Settings(BaseModel):
     """Pydantic base settings for running the streamer."""
 
     log_level: LogLevel
@@ -214,22 +217,16 @@ def _get_irregular_stream_config(
     return stream_config
 
 
-def run():
+@hydra.main(config_path=NDS_HOME, config_name="settings_streamer", version_base="1.3")
+def run_with_config(cfg: DictConfig):
     """Load the configuration and start the streamer."""
     initialize_logger(SCRIPT_NAME)
-    parser = argparse.ArgumentParser(description="Run streamer.")
-    parser.add_argument(
-        "--settings-path",
-        type=Path,
-        help="Path to the settings_streamer.yaml file.",
-    )
-    run_settings = cast(
-        _Settings,
-        get_script_settings(
-            parser.parse_args().settings_path, "settings_streamer.yaml", _Settings
-        ),
-    )
+    # Validate Hydra config with Pydantic
+    cfg_resolved = OmegaConf.to_object(cfg)
+    run_settings = _Settings.parse_obj(cfg_resolved)
+
     configure_logger(SCRIPT_NAME, run_settings.log_level)
+    logger.debug("run_decoder configuration:\n" + OmegaConf.to_yaml(cfg))
 
     if run_settings.streamer.input_type == settings.StreamerInputType.NPZ.value:
         input_settings = unwrap(run_settings.streamer.npz).input
@@ -269,6 +266,16 @@ def run():
             streamer.stream()
         except KeyboardInterrupt:
             logger.info("CTRL+C received. Exiting...")
+
+
+def run():
+    """Run the script, with an informative error if config is not found."""
+    try:
+        run_with_config()
+    except hydra.errors.MissingConfigException as exc:
+        raise FileNotFoundError(
+            "Run 'nds_post_install_config' to copy the default settings files."
+        ) from exc
 
 
 if __name__ == "__main__":
