@@ -27,10 +27,6 @@ The structure of this package is as follows:
    data in NDS.
  - :mod:`neural_data_simulator.settings` contains the data model used to parse and
    validate the config.
- - :mod:`neural_data_simulator.streamers` currently hosts the
-   :class:`neural_data_simulator.streamers.LSLStreamer` class,
-   which can be used to output :class:`neural_data_simulator.samples.Samples` to an
-   LSL outlet.
  - :mod:`neural_data_simulator.timing` contains the
    :class:`neural_data_simulator.timing.Timer` class, which is used by
    every script that processes data at regular intervals.

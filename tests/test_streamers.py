@@ -2,10 +2,10 @@
 
 import numpy as np
 import pytest
+from streamer.streamers import LSLStreamer
 
 import neural_data_simulator.outputs
 from neural_data_simulator.samples import Samples
-from neural_data_simulator.streamers import LSLStreamer
 
 
 class StreamOutletFake:

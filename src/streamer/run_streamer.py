@@ -1,122 +1,46 @@
 r"""Script that starts the streamer.
 
-The streamer default configuration is located in
-`NDS_HOME/settings_streamer.yaml` (see
-:mod:`neural_data_simulator.scripts.post_install_config`). The script can use
-different config file specified via the `\--config-dir` and `\--config-name`
-arguments.
+The streamer default configuration is located in `NDS_HOME/settings_streamer.yaml`
+(see :mod:`neural_data_simulator.scripts.post_install_config`). The script can use
+different config file specified via the `\--settings-path` argument.
 
 Upon start, the streamer expects to read data from a file and output to an LSL
 outlet. By default, a sample behavior data file will be downloaded by the
-:mod:`neural_data_simulator.scripts.post_install_config` script, so the streamer
-should be able to run without any additional configuration. If the input file
-cannot be found, the streamer will not be able to start.
+:mod:`neural_data_simulator.scripts.post_install_config` script, so the streamer should
+be able to run without any additional configuration. If the input file cannot be found,
+the streamer will not be able to start.
 """
+import argparse
 import contextlib
-from enum import Enum
-from enum import unique
 import logging
 from pathlib import Path
-from typing import Dict, Iterator, List, Optional, Tuple
+from typing import cast, Dict, Iterator, List, Optional, Tuple
 
-import hydra
-import hydra.errors
 from neo.rawio.blackrockrawio import BlackrockRawIO
 import numpy as np
-from omegaconf import DictConfig
-from omegaconf import OmegaConf
-from pydantic import BaseModel
-from pydantic import validator
+from pydantic_yaml import VersionedYamlModel
+from streamer import settings
+from streamer import streamers
 
-from neural_data_simulator import outputs
-from neural_data_simulator import streamers
+from neural_data_simulator.outputs import LSLOutputDevice
 from neural_data_simulator.outputs import StreamConfig
 from neural_data_simulator.samples import Samples
 from neural_data_simulator.settings import LogLevel
-from neural_data_simulator.settings import LSLChannelFormatType
-from neural_data_simulator.settings import LSLOutputModel
 from neural_data_simulator.util.runtime import configure_logger
 from neural_data_simulator.util.runtime import get_abs_path
 from neural_data_simulator.util.runtime import initialize_logger
-from neural_data_simulator.util.runtime import NDS_HOME
 from neural_data_simulator.util.runtime import unwrap
+from neural_data_simulator.util.settings_loader import get_script_settings
 
 SCRIPT_NAME = "nds-streamer"
 logger = logging.getLogger(__name__)
 
 
-@unique
-class StreamerInputType(str, Enum):
-    """Possible types for the streamer input."""
-
-    NPZ = "npz"
-    Blackrock = "blackrock"
-
-
-class LSLSimplifiedOutputModel(BaseModel):
-    """Settings for all LSL outlets."""
-
-    class _Instrument(BaseModel):
-        manufacturer: str
-        model: str
-        id: int
-
-    channel_format: LSLChannelFormatType
-    instrument: _Instrument
-
-
-class _Settings(BaseModel):
+class _Settings(VersionedYamlModel):
     """Pydantic base settings for running the streamer."""
 
-    class Streamer(BaseModel):
-        """Settings specific to the streamer."""
-
-        class NPZ(BaseModel):
-            class Output(BaseModel):
-                sampling_rate: float
-                n_channels: int
-                lsl: LSLOutputModel
-
-            class Input(BaseModel):
-                file: Path
-                timestamps_array_name: str
-                data_array_name: str
-
-            output: Output
-            input: Input
-
-        class Blackrock(BaseModel):
-            class Output(BaseModel):
-                lsl: LSLSimplifiedOutputModel
-
-            class Input(BaseModel):
-                file: Path
-
-            output: Output
-            input: Input
-
-        blackrock: Optional[Blackrock]
-        npz: Optional[NPZ]
-        input_type: StreamerInputType
-        lsl_chunk_frequency: float
-        stream_indefinitely: bool
-
-        @validator("input_type")
-        def _config_is_set_for_input_type(cls, v, values):
-            if (
-                v == StreamerInputType.Blackrock.value
-                and values.get("blackrock") is None
-            ):
-                raise ValueError(
-                    "blackrock fields need to be configured"
-                    " for a Blackrock Neurotech file"
-                )
-            if v == StreamerInputType.NPZ.value and values.get("npz") is None:
-                raise ValueError("npz fields need to be configured for an npz file")
-            return v
-
     log_level: LogLevel
-    streamer: Streamer
+    streamer: settings.Streamer
 
 
 class StreamGroup:
@@ -125,12 +49,12 @@ class StreamGroup:
     def __init__(self, streams_configs: List[StreamConfig]):
         """Create a new instance."""
         self.streams_configs = streams_configs
-        self.lsl_outputs: List[outputs.LSLOutputDevice] = []
+        self.lsl_outputs: List[LSLOutputDevice] = []
 
     def connect(self):
         """Connect all streams."""
         for stream_config in self.streams_configs:
-            lsl_output = outputs.LSLOutputDevice(stream_config)
+            lsl_output = LSLOutputDevice(stream_config)
             lsl_output.connect()
             self.lsl_outputs.append(lsl_output)
 
@@ -153,7 +77,7 @@ class StreamGroup:
 
 
 def load_blackrock_file(
-    filepath: Path, output_settings: LSLSimplifiedOutputModel
+    filepath: Path, output_settings: settings.LSLSimplifiedOutputModel
 ) -> Tuple[List[StreamConfig], List[Samples]]:
     """Parse streams from a Blackrock Neurotech file."""
     neo_io = BlackrockRawIO(filename=filepath)
@@ -169,7 +93,7 @@ def load_blackrock_file(
 
 
 def _get_analog_streams(
-    neo_io: BlackrockRawIO, output_settings: LSLSimplifiedOutputModel
+    neo_io: BlackrockRawIO, output_settings: settings.LSLSimplifiedOutputModel
 ) -> Tuple[List[StreamConfig], List[Samples]]:
     samples = []
     stream_configs = []
@@ -204,7 +128,7 @@ def _get_regular_stream_config(
     stream_id: str,
     sample_rate: float,
     channels: Dict,
-    output_settings: LSLSimplifiedOutputModel,
+    output_settings: settings.LSLSimplifiedOutputModel,
 ) -> StreamConfig:
     stream_config = StreamConfig(
         name=f"Blackrock-Group{stream_id}-Inst{output_settings.instrument.id}",
@@ -223,7 +147,7 @@ def _get_regular_stream_config(
 
 
 def _get_spikes_stream(
-    neo_io: BlackrockRawIO, output_settings: LSLSimplifiedOutputModel
+    neo_io: BlackrockRawIO, output_settings: settings.LSLSimplifiedOutputModel
 ) -> Tuple[Optional[StreamConfig], Optional[Samples]]:
     n_spike_channels = neo_io.spike_channels_count()
     if n_spike_channels == 0:
@@ -271,7 +195,7 @@ def _get_spikes_stream(
 
 
 def _get_irregular_stream_config(
-    n_waveforms: int, output_settings: LSLSimplifiedOutputModel
+    n_waveforms: int, output_settings: settings.LSLSimplifiedOutputModel
 ) -> StreamConfig:
     wf_ch_labels = ["wf_" + str(-10 + _) for _ in range(n_waveforms)]
     stream_config = StreamConfig(
@@ -290,19 +214,25 @@ def _get_irregular_stream_config(
     return stream_config
 
 
-@hydra.main(config_path=NDS_HOME, config_name="settings_streamer", version_base="1.3")
-def run_with_config(cfg: DictConfig):
+def run():
     """Load the configuration and start the streamer."""
     initialize_logger(SCRIPT_NAME)
-    # Validate Hydra config with Pydantic
-    cfg_resolved = OmegaConf.to_object(cfg)
-    settings = _Settings.parse_obj(cfg_resolved)
+    parser = argparse.ArgumentParser(description="Run streamer.")
+    parser.add_argument(
+        "--settings-path",
+        type=Path,
+        help="Path to the settings_streamer.yaml file.",
+    )
+    run_settings = cast(
+        _Settings,
+        get_script_settings(
+            parser.parse_args().settings_path, "settings_streamer.yaml", _Settings
+        ),
+    )
+    configure_logger(SCRIPT_NAME, run_settings.log_level)
 
-    configure_logger(SCRIPT_NAME, settings.log_level)
-    logger.debug("run_streamer configuration:\n" + OmegaConf.to_yaml(cfg))
-
-    if settings.streamer.input_type == StreamerInputType.NPZ.value:
-        input_settings = unwrap(settings.streamer.npz).input
+    if run_settings.streamer.input_type == settings.StreamerInputType.NPZ.value:
+        input_settings = unwrap(run_settings.streamer.npz).input
         samples = [
             Samples.load_from_npz(
                 get_abs_path(input_settings.file),
@@ -310,45 +240,35 @@ def run_with_config(cfg: DictConfig):
                 data_array_name=input_settings.data_array_name,
             )
         ]
-        output_settings = unwrap(settings.streamer.npz).output
+        output_settings = unwrap(run_settings.streamer.npz).output
         lsl_settings = output_settings.lsl
         stream_config = StreamConfig.from_lsl_settings(
             lsl_settings, output_settings.sampling_rate, output_settings.n_channels
         )
         stream_group = StreamGroup([stream_config])
-    elif settings.streamer.input_type == StreamerInputType.Blackrock.value:
-        input_settings = unwrap(settings.streamer.blackrock).input
-        output_settings = unwrap(settings.streamer.blackrock).output
+    elif run_settings.streamer.input_type == settings.StreamerInputType.Blackrock.value:
+        input_settings = unwrap(run_settings.streamer.blackrock).input
+        output_settings = unwrap(run_settings.streamer.blackrock).output
         lsl_settings = output_settings.lsl
         stream_configs, samples = load_blackrock_file(
             Path(get_abs_path(input_settings.file)), lsl_settings
         )
         stream_group = StreamGroup(stream_configs)
     else:
-        raise ValueError(f"Unsupported input type: {settings.streamer.input_type}")
+        raise ValueError(f"Unsupported input type: {run_settings.streamer.input_type}")
 
     with stream_group.open_connection():
         streamer = streamers.LSLStreamer(
             stream_group.lsl_outputs,
             samples,
-            settings.streamer.lsl_chunk_frequency,
-            settings.streamer.stream_indefinitely,
+            run_settings.streamer.lsl_chunk_frequency,
+            run_settings.streamer.stream_indefinitely,
         )
 
         try:
             streamer.stream()
         except KeyboardInterrupt:
             logger.info("CTRL+C received. Exiting...")
-
-
-def run():
-    """Run the script, with an informative error if config is not found."""
-    try:
-        run_with_config()
-    except hydra.errors.MissingConfigException as exc:
-        raise FileNotFoundError(
-            "Run 'nds_post_install_config' to copy the default settings files."
-        ) from exc
 
 
 if __name__ == "__main__":

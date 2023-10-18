@@ -271,8 +271,7 @@ class NoiseData:
                 colorednoise.powerlaw_psd_gaussian(
                     beta,
                     samples,
-                    # https://github.com/felixpatzelt/colorednoise/pull/17
-                    fmin=fmin,  # type: ignore[arg-type]
+                    fmin=fmin,
                     random_state=random_seed,
                 )
             )

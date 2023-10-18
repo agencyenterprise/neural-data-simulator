@@ -14,14 +14,11 @@ import importlib.machinery
 import importlib.util
 import logging
 from pathlib import Path
-import sys
-from types import ModuleType
 from typing import Callable, Optional, Union
 
 import hydra
 import hydra.errors
 import numpy as np
-from omegaconf import DictConfig
 from omegaconf import OmegaConf
 
 from neural_data_simulator import encoder
@@ -31,16 +28,15 @@ from neural_data_simulator import outputs
 from neural_data_simulator import runner
 from neural_data_simulator import timing
 from neural_data_simulator.outputs import LSLOutputDevice
-from neural_data_simulator.outputs import StreamConfig
 from neural_data_simulator.samples import Samples
 from neural_data_simulator.scripts.errors import InvalidPluginError
 from neural_data_simulator.settings import EncoderEndpointType
 from neural_data_simulator.settings import EncoderSettings
-from neural_data_simulator.settings import LSLOutputModel
 from neural_data_simulator.settings import Settings
 from neural_data_simulator.util.runtime import configure_logger
 from neural_data_simulator.util.runtime import get_abs_path
 from neural_data_simulator.util.runtime import initialize_logger
+from neural_data_simulator.util.runtime import load_module
 from neural_data_simulator.util.runtime import NDS_HOME
 from neural_data_simulator.util.runtime import unwrap
 
@@ -88,19 +84,36 @@ def _setup_LSL_input(stream_name: str, connection_timeout: float) -> inputs.LSLI
     return data_input
 
 
-def _load_module(module_path: str, module_name: str) -> ModuleType:
-    """Load an external module and return it."""
-    module_path = get_abs_path(module_path)
-    module_dir_path = Path(module_path).parent
-    sys.path.append(str(module_dir_path.absolute()))
+def _setup_data_input(
+    input_settings: EncoderSettings.Input,
+) -> tuple[inputs.Input, Union[Callable, float]]:
+    """Set up the input to read data from.
 
-    loader = importlib.machinery.SourceFileLoader(module_name, module_path)
-    spec = importlib.util.spec_from_loader(module_name, loader)
-    if spec:
-        plugin_module = importlib.util.module_from_spec(spec)
-        loader.exec_module(plugin_module)
-        return plugin_module
-    raise Exception(f"Couldn't load module from '{module_path}'")
+    Args:
+        input_settings: Encoder input settings.
+
+    Returns:
+        data_input: The input that can be used to read data from.
+        sampling_rate: The sampling rate of the input.
+    """
+    if input_settings.type == EncoderEndpointType.FILE:
+        input_file = unwrap(input_settings.file)
+        data_input = _setup_npz_input(
+            input_file.path,
+            input_file.timestamps_array_name,
+            input_file.data_array_name,
+        )
+        sampling_rate = input_file.sampling_rate
+    elif input_settings.type == EncoderEndpointType.LSL:
+        lsl_input_settings = unwrap(input_settings.lsl)
+        data_input = _setup_LSL_input(
+            lsl_input_settings.stream_name, lsl_input_settings.connection_timeout
+        )
+        sampling_rate = lambda: data_input.get_info().sample_rate
+    else:
+        raise ValueError(f"Unexpected input type {input_settings.type}")
+
+    return data_input, sampling_rate
 
 
 def _load_plugin_model(module_path: str) -> models.EncoderModel:
@@ -110,7 +123,7 @@ def _load_plugin_model(module_path: str) -> models.EncoderModel:
     encoder model instantiated by the module exposed `create_model`
     function
     """
-    plugin_module = _load_module(module_path, "model")
+    plugin_module = load_module(module_path, "model")
 
     try:
         model = plugin_module.create_model()
@@ -129,7 +142,7 @@ def _setup_preprocessor(
 ) -> Optional[encoder.Processor]:
     """Instantiate the custom preprocessor when it is set."""
     if encoder_settings.preprocessor:
-        plugin_module = _load_module(encoder_settings.preprocessor, "preprocessor")
+        plugin_module = load_module(encoder_settings.preprocessor, "preprocessor")
         try:
             preprocessor = plugin_module.create_preprocessor()
         except AttributeError:
@@ -150,7 +163,7 @@ def _setup_postprocessor(
 ) -> Optional[encoder.Processor]:
     """Instantiate the custom postprocessor when it is set."""
     if encoder_settings.postprocessor:
-        plugin_module = _load_module(encoder_settings.postprocessor, "postprocessor")
+        plugin_module = load_module(encoder_settings.postprocessor, "postprocessor")
         try:
             postprocessor = plugin_module.create_postprocessor()
         except AttributeError:
@@ -178,43 +191,35 @@ def _setup_model(encoder_settings: EncoderSettings) -> models.EncoderModel:
     return _load_plugin_model(encoder_settings.model)
 
 
-def _setup_file_output(output_file: str, channel_count: int) -> outputs.FileOutput:
-    """Set up the file output.
-
-    It will save data into a CSV file. Note: currently, the output file
-    has no header.
-
-    Args:
-        output_file: The absolute or relative path of the output file.
-
-    Returns:
-        File output that can be used to save data.
-    """
-    data_output = outputs.FileOutput(
-        file_name=get_abs_path(output_file), channel_count=channel_count
-    )
-    return data_output
-
-
-def _setup_LSL_output(
+def _setup_data_output(
+    output_settings: EncoderSettings.Output,
     sampling_rate: Union[float, Callable],
-    n_channels: int,
-    lsl_output_settings: LSLOutputModel,
-) -> outputs.LSLOutputDevice:
+) -> outputs.Output:
     """Set up the output that will make the data available via an LSL stream.
 
     Args:
+        output_settings: output module settings.
         sampling_rate: The expected data sampling rate.
-        n_channels: The number of output channels.
-        lsl_output_settings: LSL output settings.
 
     Returns:
-        LSL output that can be used to stream data.
+        output data sink
     """
-    stream_config = StreamConfig.from_lsl_settings(
-        lsl_output_settings, sampling_rate, n_channels
-    )
-    data_output = LSLOutputDevice(stream_config)
+    if output_settings.type == EncoderEndpointType.FILE:
+        output_file = unwrap(output_settings.file)
+        data_output = outputs.FileOutput(
+            file_name=get_abs_path(output_file),
+            channel_count=output_settings.n_channels,
+        )
+    elif output_settings.type == EncoderEndpointType.LSL:
+        lsl_output_settings = unwrap(output_settings.lsl)
+        data_output = LSLOutputDevice.from_lsl_settings(
+            lsl_settings=lsl_output_settings,
+            sampling_rate=sampling_rate,
+            n_channels=output_settings.n_channels,
+        )
+    else:
+        raise ValueError(f"Unexpected output type {output_settings.type}")
+
     return data_output
 
 
@@ -229,41 +234,13 @@ def run_with_config(cfg: DictConfig):
     configure_logger(SCRIPT_NAME, settings.log_level)
     logger.debug("run_encoder configuration:\n" + OmegaConf.to_yaml(cfg))
 
-    if settings.encoder.input.type == EncoderEndpointType.FILE:
-        input_file = unwrap(settings.encoder.input.file)
-        data_input = _setup_npz_input(
-            input_file.path,
-            input_file.timestamps_array_name,
-            input_file.data_array_name,
-        )
-        sampling_rate = input_file.sampling_rate
-    elif settings.encoder.input.type == EncoderEndpointType.LSL:
-        lsl_input_settings = unwrap(settings.encoder.input.lsl)
-        data_input = _setup_LSL_input(
-            lsl_input_settings.stream_name, lsl_input_settings.connection_timeout
-        )
-        sampling_rate = lambda: data_input.get_info().sample_rate
-    else:
-        raise ValueError(f"Unexpected input type {settings.encoder.input.type}")
-
+    data_input, sampling_rate = _setup_data_input(settings.encoder.input)
     model = _setup_model(settings.encoder)
     preprocessor = _setup_preprocessor(settings.encoder)
     postprocessor = _setup_postprocessor(settings.encoder)
 
-    if settings.encoder.output.type == EncoderEndpointType.FILE:
-        output_file = unwrap(settings.encoder.output.file)
-        data_output = _setup_file_output(
-            output_file, settings.encoder.output.n_channels
-        )
-    elif settings.encoder.output.type == EncoderEndpointType.LSL:
-        lsl_output_settings = unwrap(settings.encoder.output.lsl)
-        data_output = _setup_LSL_output(
-            sampling_rate,
-            settings.encoder.output.n_channels,
-            lsl_output_settings,
-        )
-    else:
-        raise ValueError(f"Unexpected output type {settings.encoder.output.type}")
+    output_settings = settings.encoder.output
+    data_output = _setup_data_output(output_settings, sampling_rate)
 
     sim = encoder.Encoder(
         input_=data_input,

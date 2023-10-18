@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "neural-data-simulator"
-version = "v0.2.7"
+version = "v0.2.8"
 description = "Electrophysiology simulator data for developing Brain-Computer Interfaces"
 authors = [
     "AE Studio <bci@ae.studio>",
@@ -11,11 +11,12 @@ maintainers = [
     "AE Studio <bci@ae.studio>",
 ]
 packages = [
-    { include = "neural_data_simulator", from = "src" },
-    { include = "decoder", from = "src" },
-    { include = "recorder", from = "src" },
-    { include = "tasks", from = "src" },
-    { include = "plugins", from = "src" },
+    {include = "neural_data_simulator", from = "src"},
+    {include = "decoder", from = "src"},
+    {include = "recorder", from = "src"},
+    {include = "streamer", from = "src"},
+    {include = "tasks", from = "src"},
+    {include = "plugins", from = "src"},
 ]
 readme = "README.md"
 license = "Apache-2.0"
@@ -36,7 +37,7 @@ python = ">=3.9,<3.12"
 numpy = "^1.22.4"
 pydantic = "^1.9.1"
 pylsl = "^1.16.1"
-colorednoise = "^2.1.0"
+colorednoise = "^2.2.0"
 scipy = "^1.10.0"
 pygame = "2.2.0.dev2"
 pooch = "^1.7.0"
@@ -57,6 +58,7 @@ pytest-mock = "^3.8.2"
 black = "22.3.0"
 flake8 = "^4.0.1"
 flake8-spellcheck = "^0.28.0"
+import-linter = "^1.12.0"
 isort = "^5.10.1"
 jupyter = "^1.0.0"
 flake8-docstrings = "^1.6.0"
@@ -82,7 +84,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.scripts]
 nds_post_install_config = "neural_data_simulator.scripts.post_install_config:run"
 encoder = "neural_data_simulator.scripts.run_encoder:run"
-streamer = "neural_data_simulator.scripts.run_streamer:run"
+streamer = "streamer.run_streamer:run"
 ephys_generator = "neural_data_simulator.scripts.run_ephys_generator:run"
 decoder = "decoder.run_decoder:run"
 recorder = "recorder.run_recorder:run"
@@ -100,6 +102,31 @@ line-length = 88
 extend-exclude = """(
     docs
 )"""
+
+# Software architecture / interdependency checking
+[tool.importlinter]
+root_packages = [
+    "neural_data_simulator",
+    "decoder",
+    "recorder",
+    "streamer",
+    "tasks",
+    "plugins",
+]
+
+[[tool.importlinter.contracts]]
+id = "ext-ind"
+name = "Extension modules should be independent"
+type = "independence"
+modules = ["decoder", "recorder", "streamer", "tasks", "plugins"]
+
+[[tool.importlinter.contracts]]
+id = "core-ext"
+name = "Core NDS should not depend on extension modules"
+type = "forbidden"
+source_modules = ["neural_data_simulator"]
+forbidden_modules = ["decoder", "recorder", "streamer", "tasks", "plugins"]
+ignore_imports = ["neural_data_simulator.scripts.post_install_config -> *"]
 
 [tool.isort]
 profile = "google"

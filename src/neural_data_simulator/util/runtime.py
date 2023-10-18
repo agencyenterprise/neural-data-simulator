@@ -1,10 +1,13 @@
 """Functions commonly used by scripts."""
 import contextlib
+import importlib.machinery
+import importlib.util
 import logging
 from logging.handlers import MemoryHandler
 import os
 from pathlib import Path
 import sys
+from types import ModuleType
 from typing import Any, Optional, Union
 
 from neural_data_simulator.inputs import Input
@@ -49,6 +52,21 @@ def configure_logger(script_name: str, log_level: LogLevel):
 
 def _get_log_message_format(script_name: str):
     return f"%(levelname)s [{script_name}]: %(message)s"
+
+
+def load_module(module_path: str, module_name: str) -> ModuleType:
+    """Load an external module and return it."""
+    module_path = get_abs_path(module_path)
+    module_dir_path = Path(module_path).parent
+    sys.path.append(str(module_dir_path.absolute()))
+
+    loader = importlib.machinery.SourceFileLoader(module_name, module_path)
+    spec = importlib.util.spec_from_loader(module_name, loader)
+    if spec:
+        plugin_module = importlib.util.module_from_spec(spec)
+        loader.exec_module(plugin_module)
+        return plugin_module
+    raise Exception(f"Couldn't load module from '{module_path}'")
 
 
 def get_abs_path(
