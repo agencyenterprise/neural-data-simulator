@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 from unittest.mock import Mock
 
+import hydra
 import numpy as np
 import pytest
 
@@ -18,7 +19,6 @@ from neural_data_simulator.scripts import run_encoder
 from neural_data_simulator.settings import EncoderEndpointType
 from neural_data_simulator.settings import EncoderSettings
 from neural_data_simulator.settings import Settings
-from neural_data_simulator.util import settings_loader
 
 velocity_tuning_curves = {
     "b0": np.array([1]),

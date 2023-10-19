@@ -6,6 +6,7 @@ from pathlib import Path
 from unittest.mock import call
 from unittest.mock import Mock
 
+import hydra
 import pylsl
 import pytest
 
@@ -14,7 +15,6 @@ from neural_data_simulator.ephys_generator import ContinuousData
 from neural_data_simulator.ephys_generator import Spikes
 from neural_data_simulator.scripts import run_ephys_generator
 from neural_data_simulator.settings import Settings
-from neural_data_simulator.util import settings_loader
 
 
 @pytest.fixture(autouse=True)
