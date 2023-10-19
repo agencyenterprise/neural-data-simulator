@@ -1,8 +1,7 @@
 """Test for run_streamer.py."""
 
 import argparse
-import os
-from pathlib import Path
+import os.path
 from unittest.mock import Mock
 
 import hydra
@@ -132,32 +131,26 @@ def mock_path_exists(monkeypatch: pytest.MonkeyPatch):
 
 
 @pytest.fixture(autouse=True)
-def mock_default_settings(monkeypatch: pytest.MonkeyPatch):
+def default_hydra_config() -> run_streamer._Settings:
     """Mock get_script_settings to return the default settings."""
     package_dir = os.path.dirname(streamer.__file__)
-    default_settings: run_streamer._Settings = settings_loader.get_script_settings(
-        Path(f"{package_dir}/config/settings_streamer.yaml"),
-        "settings.yaml",
-        run_streamer._Settings,
-    )
-    default_settings.streamer.stream_indefinitely = False
-    get_script_settings_mock = Mock()
-    get_script_settings_mock.return_value = default_settings
-    monkeypatch.setattr(
-        "streamer.run_streamer.get_script_settings",
-        get_script_settings_mock,
-    )
-    return default_settings
+    with hydra.initialize_config_dir(
+        config_dir=os.path.join(package_dir, "config"), version_base="1.3"
+    ):
+        cfg = hydra.compose("settings_streamer.yaml")
+    cfg.streamer.stream_indefinitely = False
+
+    return cfg
 
 
 class TestRunStreamer:
     """Test execution of the run_streamer script."""
 
-    def test_run_streamer(self):
+    def test_run_streamer(self, default_hydra_config):
         """Test run with default config."""
-        run_streamer.run()
+        run_streamer.run_with_config(default_hydra_config)
 
-    def test_run_blackrock_streamer(self, mock_default_settings):
+    def test_run_blackrock_streamer(self, default_hydra_config):
         """Test run with blackrock config."""
-        mock_default_settings.streamer.input_type = settings.StreamerInputType.Blackrock
-        run_streamer.run()
+        default_hydra_config.streamer.input_type = settings.StreamerInputType.Blackrock
+        run_streamer.run_with_config(default_hydra_config)
