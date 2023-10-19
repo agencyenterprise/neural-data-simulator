@@ -1,12 +1,12 @@
 """Test for run_ephys_generator.py."""
 
-import argparse
 import os
-from pathlib import Path
 from unittest.mock import call
 from unittest.mock import Mock
 
 import hydra
+from omegaconf import DictConfig
+from omegaconf import OmegaConf
 import pylsl
 import pytest
 
@@ -17,33 +17,25 @@ from neural_data_simulator.scripts import run_ephys_generator
 from neural_data_simulator.settings import Settings
 
 
-@pytest.fixture(autouse=True)
-def fake_parse_args(monkeypatch: pytest.MonkeyPatch) -> argparse.Namespace:
-    """Fake command line arguments passed to the script."""
-    parse_args_result = argparse.Namespace(settings_path=None)
+@pytest.fixture
+def default_hydra_config() -> DictConfig:
+    """Hydra-loader to return the default settings."""
+    package_dir = os.path.dirname(neural_data_simulator.__file__)
+    with hydra.initialize_config_dir(
+        config_dir=os.path.join(package_dir, "config"), version_base="1.3"
+    ):
+        cfg = hydra.compose("settings.yaml")
 
-    def parse_args(self, args=None, namespace=None):
-        return parse_args_result
-
-    monkeypatch.setattr("argparse.ArgumentParser.parse_args", parse_args)
-    return parse_args_result
+    return cfg
 
 
-@pytest.fixture(autouse=True)
-def mock_get_script_settings(monkeypatch: pytest.MonkeyPatch):
-    """Mock get_script_settings to return the default settings."""
-    default_settings: Settings = settings_loader.get_script_settings(
-        Path(f"{os.path.dirname(neural_data_simulator.__file__)}/config/settings.yaml"),
-        "settings.yaml",
-        Settings,
-    )
-    get_script_settings_mock = Mock()
-    get_script_settings_mock.return_value = default_settings
-    monkeypatch.setattr(
-        "neural_data_simulator.scripts.run_ephys_generator.get_script_settings",
-        get_script_settings_mock,
-    )
-    return get_script_settings_mock
+@pytest.fixture
+def default_settings(default_hydra_config: DictConfig) -> Settings:
+    """Convert hydra-loaded config to Settings object."""
+    cfg_resolved = OmegaConf.to_object(default_hydra_config)
+    settings = Settings.parse_obj(cfg_resolved)
+
+    return settings
 
 
 @pytest.fixture(autouse=True)
@@ -74,9 +66,9 @@ def fake_spike_rates_outlet():
 class TestRunEphysGenerator:
     """Test execution of the run_ephys_generator script."""
 
-    def test_run_ephys_generator(self, mock_process_output):
+    def test_run_ephys_generator(self, default_hydra_config, mock_process_output):
         """Test run with default config."""
-        run_ephys_generator.run()
+        run_ephys_generator.run_with_config(default_hydra_config)
 
         [
             po_params,
