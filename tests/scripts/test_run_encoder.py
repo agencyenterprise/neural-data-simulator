@@ -1,12 +1,12 @@
 """Test for run_encoder.py."""
 
-import argparse
 import os
-from pathlib import Path
 from unittest.mock import Mock
 
 import hydra
 import numpy as np
+from omegaconf import DictConfig
+from omegaconf import OmegaConf
 import pytest
 
 import neural_data_simulator
@@ -38,42 +38,32 @@ def mock_numpy_load(monkeypatch: pytest.MonkeyPatch):
 
 
 @pytest.fixture(autouse=True)
-def mock_importlib(monkeypatch: pytest.MonkeyPatch):
-    """Mock importlib to avoid the actual loading on plugins."""
-    machinery_mock = Mock()
-    monkeypatch.setattr("importlib.machinery", machinery_mock)
-    util_mock = Mock()
-    monkeypatch.setattr("importlib.util", util_mock)
-    return machinery_mock, util_mock
+def mock_load_module(monkeypatch: pytest.MonkeyPatch):
+    """Mock load_module to avoid the actual loading on plugins."""
+    mock = Mock()
+    monkeypatch.setattr("neural_data_simulator.scripts.run_encoder.load_module", mock)
+    return mock
 
 
-@pytest.fixture(autouse=True)
-def fake_parse_args(monkeypatch: pytest.MonkeyPatch) -> argparse.Namespace:
-    """Fake command line arguments passed to the script."""
-    parse_args_result = argparse.Namespace(settings_path=None)
+@pytest.fixture
+def default_hydra_config() -> DictConfig:
+    """Mock hydra-loader to return the default settings."""
+    package_dir = os.path.dirname(neural_data_simulator.__file__)
+    with hydra.initialize_config_dir(
+        config_dir=os.path.join(package_dir, "config"), version_base="1.3"
+    ):
+        cfg = hydra.compose("settings.yaml")
 
-    def parse_args(self, args=None, namespace=None):
-        return parse_args_result
-
-    monkeypatch.setattr("argparse.ArgumentParser.parse_args", parse_args)
-    return parse_args_result
+    return cfg
 
 
-@pytest.fixture(autouse=True)
-def mock_get_script_settings(monkeypatch: pytest.MonkeyPatch):
-    """Mock get_script_settings to return the default settings."""
-    default_settings: Settings = settings_loader.get_script_settings(
-        Path(f"{os.path.dirname(neural_data_simulator.__file__)}/config/settings.yaml"),
-        "settings.yaml",
-        Settings,
-    )
-    get_script_settings_mock = Mock()
-    get_script_settings_mock.return_value = default_settings
-    monkeypatch.setattr(
-        "neural_data_simulator.scripts.run_encoder.get_script_settings",
-        get_script_settings_mock,
-    )
-    return get_script_settings_mock
+@pytest.fixture
+def default_settings(default_hydra_config: DictConfig) -> Settings:
+    """Convert hydra-loaded config to Settings object."""
+    cfg_resolved = OmegaConf.to_object(default_hydra_config)
+    settings = Settings.parse_obj(cfg_resolved)
+
+    return settings
 
 
 @pytest.fixture(autouse=True)
@@ -94,12 +84,12 @@ def fake_runner(monkeypatch):
 class TestRunEncoder:
     """Test execution of the run_encoder script."""
 
-    def _get_encoder_settings(self, mock_get_script_settings) -> EncoderSettings:
-        return mock_get_script_settings.return_value.encoder
+    def _get_encoder_settings(self, default_settings) -> EncoderSettings:
+        return default_settings.encoder
 
-    def test_run_encoder(self, fake_runner):
+    def test_run_encoder(self, default_hydra_config, fake_runner):
         """Test run with default config."""
-        run_encoder.run()
+        run_encoder.run_with_config(default_hydra_config)
 
         encoder = fake_runner.encoder
         assert isinstance(encoder.input, inputs.LSLInput)
@@ -109,12 +99,12 @@ class TestRunEncoder:
         assert isinstance(encoder.model, models.EncoderModel)
 
     def test_run_encoder_with_file_input_and_file_output(
-        self, fake_runner, mock_get_script_settings, mock_numpy_load
+        self, fake_runner, default_hydra_config, mock_numpy_load
     ):
         """Test run with input from file and output to file."""
-        encoder_settings = self._get_encoder_settings(mock_get_script_settings)
-        encoder_settings.input.type = EncoderEndpointType.FILE
-        encoder_settings.output.type = EncoderEndpointType.FILE
+        hydra_config = default_hydra_config
+        hydra_config.encoder.input.type = EncoderEndpointType.FILE
+        hydra_config.encoder.output.type = EncoderEndpointType.FILE
 
         mock_numpy_load.side_effect = [
             # Input samples
@@ -122,7 +112,7 @@ class TestRunEncoder:
             velocity_tuning_curves,
         ]
 
-        run_encoder.run()
+        run_encoder.run_with_config(hydra_config)
 
         encoder = fake_runner.encoder
         assert isinstance(encoder.input, inputs.SamplesInput)
@@ -132,14 +122,15 @@ class TestRunEncoder:
         assert isinstance(encoder.model, models.EncoderModel)
 
     def test_run_encoder_with_preprocessor_and_postprocessor(
-        self, fake_runner, mock_get_script_settings
+        self, fake_runner, default_hydra_config
     ):
         """Test run with a configured preprocessor and postprocessor."""
-        encoder_settings = self._get_encoder_settings(mock_get_script_settings)
-        encoder_settings.preprocessor = "path_a"
-        encoder_settings.postprocessor = "path_b"
+        hydra_config = default_hydra_config
 
-        run_encoder.run()
+        hydra_config.encoder.preprocessor = "path_a.py"
+        hydra_config.encoder.postprocessor = "path_b.py"
+
+        run_encoder.run_with_config(hydra_config)
 
         encoder = fake_runner.encoder
         assert encoder.preprocessor is not None

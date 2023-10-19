@@ -120,13 +120,14 @@ class EncoderSettings(BaseModel):
 
     @validator("model")
     def _model_entry_point_must_be_a_python_file(cls, v):
-        if v is not None and v.endswith(".py"):
+        if v is None or v.endswith(".py"):
             return v
         raise ValueError("The model entry point must be a Python file")
 
     @validator("preprocessor", "postprocessor")
     def _plugin_entry_point_must_be_a_python_file(cls, v):
-        if v is not None and v.endswith(".py"):
+        print("What is v?", v)
+        if v is None or v.endswith(".py"):
             return v
         raise ValueError("The plugin entry point must be a Python file")
 
