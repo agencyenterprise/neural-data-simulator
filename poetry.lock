@@ -2829,14 +2829,14 @@ plugins = ["importlib-metadata"]
 
 [[package]]
 name = "pylsl"
-version = "1.16.1"
+version = "1.16.2"
 description = "Python interface to the Lab Streaming Layer"
 optional = false
 python-versions = "*"
 files = [
-    {file = "pylsl-1.16.1-py2.py3-none-any.whl", hash = "sha256:d6c34b5ba02883274eea9de2af9ebe4484991bb8eeb0e18f52a8f5acde67070e"},
-    {file = "pylsl-1.16.1-py2.py3-none-win32.whl", hash = "sha256:ade45742631e1ce453146de0667c4543b48a789b555b9da3b170927e230e7f79"},
-    {file = "pylsl-1.16.1-py2.py3-none-win_amd64.whl", hash = "sha256:00a79dd5e62a80ad0bcb7e425d168c169d6dd70cb57a7b03dd8ab686c94d04f3"},
+    {file = "pylsl-1.16.2-py2.py3-none-any.whl", hash = "sha256:c7ebf9e0d96fe6c18bd4966dc734060900fabadd3cf30f652b256db732add5d7"},
+    {file = "pylsl-1.16.2-py2.py3-none-win32.whl", hash = "sha256:6138b0856e8653bbad6bfd043a62315fffbd6e21528ee905d1f989dbb7299322"},
+    {file = "pylsl-1.16.2-py2.py3-none-win_amd64.whl", hash = "sha256:827c7b75952a83aadbd6df8dd04adff6853a75c43c17b355370153cdb7c77d9f"},
 ]
 
 [[package]]
@@ -4193,4 +4193,4 @@ extras = ["joblib", "matplotlib", "pygame", "pyobjc-framework-Quartz", "scikit-l
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "948d53516352230acc70601124108ac9721578f9b6550e730aeb2ecbedafd82f"
+content-hash = "d0b2ad0ef927da19c3b851684f7a84531b2a11f511b8bf850b29055122e17c60"
