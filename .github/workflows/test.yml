@@ -40,12 +40,13 @@ jobs:
 
       - name: Load cached poetry dependencies
         id: cached-poetry-dependencies
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
         uses: actions/cache@v3
         with:
           path: .venv
           key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
           restore-keys: |
-            venv-${{ runner.os }}-${{ matrix.python-version }}
+            venv-${{ runner.os }}-
 
       - name: Install Conda for liblsl
         if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
