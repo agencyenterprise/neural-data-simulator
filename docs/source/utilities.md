@@ -51,7 +51,7 @@ streamer
 
 ### Configuring a streamer
 
-To configure the streamer, change the file `settings_streamer.yaml`, which is located by default in the `$HOME/.nds/` folder. You can point the script to use a different configuration file by passing the `--config-path` and `--config-name` flags:
+To configure the streamer, change the file `settings_streamer.yaml`, which is located by default in the `$HOME/.nds/` folder. You can point the script to use a different configuration file by passing the `--config-path` (absolute path) and `--config-name` flags:
 
 ```
 streamer --config-path $HOME/.nds/ --config-name settings_streamer

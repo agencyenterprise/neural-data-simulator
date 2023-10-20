@@ -2,8 +2,8 @@ r"""Script that starts the encoder.
 
 The encoder default configuration is located in `NDS_HOME/settings.yaml` (see
 :mod:`neural_data_simulator.scripts.post_install_config`). The script can use
-different config file specified via the `--config-path` and `\--config-name`
-arguments.
+different config file specified via the `--config-path` (absolute path) and
+`\--config-name` arguments.
 
 The config file has an `encoder` section where the settings for the model, input
 and output can be adjusted. By default, the encoder expects to read data from an

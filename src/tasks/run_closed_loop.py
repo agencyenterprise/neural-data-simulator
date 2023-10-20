@@ -63,7 +63,7 @@ def _build_hydra_settings_path_param(settings_path: Optional[Path]):
         settings_path = settings_path.resolve()
         params = [
             _HYDRA_CONFIG_DIR_PARAM,
-            settings_path.parent,
+            str(settings_path.parent),
             _HYDRA_CONFIG_NAME_PARAM,
             settings_path.name,
         ]

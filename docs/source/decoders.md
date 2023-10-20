@@ -12,7 +12,7 @@ The {class}`decoder.decoders.Decoder` class can also be used with a custom decod
 
 ## Configuring and running the included decoder
 
-To configure the decoder, change the file `settings_decoder.yaml`, which is located by default in the `$HOME/.nds/` folder.  To use a specific config file, specify the config directory (`--config-path`) and config file-name (`--config-name`) flags. For example:
+To configure the decoder, change the file `settings_decoder.yaml`, which is located by default in the `$HOME/.nds/` folder.  To use a specific config file, specify the config directory (`--config-path`, absolute path) and config file-name (`--config-name`) flags. For example:
 ```
 decoder --config-path $HOME/.nds/ --config-name settings
 ```
