@@ -43,10 +43,10 @@ class DecoderModel(Protocol):
                 with shape (n_samples, n_units).
 
         Returns:
-            Behavior data as :class:`neural_data_simulator.core.samples.Samples` with shape
-            (n_samples, n_axes). For example, in case of modeling velocities in a
-            horizontal and vertical direction (2 axes), the returned data is a 2D
-            array with shape (n_samples, 2).
+            Behavior data as :class:`neural_data_simulator.core.samples.Samples`
+            with shape (n_samples, n_axes). For example, in case of modeling
+            velocities in a horizontal and vertical direction (2 axes), the
+            returned data is a 2D array with shape (n_samples, 2).
         """
         ...
 

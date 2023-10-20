@@ -30,7 +30,8 @@ class EncoderModel(Protocol):
         """Encode behavior into spiking rates.
 
         Args:
-            data: Behavioral data as :class:`neural_data_simulator.core.samples.Samples`.
+            data: Behavioral data as
+              :class:`neural_data_simulator.core.samples.Samples`.
               For example, in case of modeling velocities in a horizontal and vertical
               direction (2 axes), the data is a 2D array with shape (n_samples, 2).
 

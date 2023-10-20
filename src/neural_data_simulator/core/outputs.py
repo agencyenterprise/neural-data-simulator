@@ -195,7 +195,7 @@ class StreamConfig:
         sampling_rate: Union[float, Callable],
         n_channels: int,
     ):
-        """Create a StreamConfig from an :class:`neural_data_simulator.core.settings.LSLOutputModel`.
+        """Create a StreamConfig from an LSLOutputModel.
 
         Args:
             lsl_settings: :class:`neural_data_simulator.core.settings.LSLOutputModel`
@@ -332,7 +332,7 @@ class LSLOutputDevice(Output):
             self.send_as_sample(data_point, timestamp)
 
     def send_as_chunk(self, data: ndarray, timestamp: Optional[float] = None):
-        """Send a list of data points to the LSL outlet together with an optional timestamp.
+        """Send a list of data points to the LSL outlet.
 
         Args:
             data: An array of data points.
