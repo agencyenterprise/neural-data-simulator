@@ -1,16 +1,16 @@
 """Settings schema for the streamer."""
+from enum import Enum
 from pathlib import Path
 from typing import Optional
 
 from pydantic import BaseModel
 from pydantic import validator
-from pydantic_yaml import YamlStrEnum
 
 from neural_data_simulator.settings import LSLChannelFormatType
 from neural_data_simulator.settings import LSLOutputModel
 
 
-class StreamerInputType(YamlStrEnum):
+class StreamerInputType(str, Enum):
     """Possible types for the streamer input."""
 
     NPZ = "npz"
@@ -76,11 +76,11 @@ class Streamer(BaseModel):
 
     @validator("input_type")
     def _config_is_set_for_input_type(cls, v, values):
-        if v == StreamerInputType.Blackrock.value and values.get("blackrock") is None:
+        if v == StreamerInputType.Blackrock and values.get("blackrock") is None:
             raise ValueError(
                 "blackrock fields need to be configured"
                 " for a Blackrock Neurotech file"
             )
-        if v == StreamerInputType.NPZ.value and values.get("npz") is None:
+        if v == StreamerInputType.NPZ and values.get("npz") is None:
             raise ValueError("npz fields need to be configured for an npz file")
         return v

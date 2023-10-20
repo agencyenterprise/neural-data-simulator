@@ -228,7 +228,7 @@ def run_with_config(cfg: DictConfig):
     configure_logger(SCRIPT_NAME, run_settings.log_level)
     logger.debug("run_decoder configuration:\n" + OmegaConf.to_yaml(cfg))
 
-    if run_settings.streamer.input_type == settings.StreamerInputType.NPZ.value:
+    if run_settings.streamer.input_type == settings.StreamerInputType.NPZ:
         input_settings = unwrap(run_settings.streamer.npz).input
         samples = [
             Samples.load_from_npz(
@@ -243,7 +243,7 @@ def run_with_config(cfg: DictConfig):
             lsl_settings, output_settings.sampling_rate, output_settings.n_channels
         )
         stream_group = StreamGroup([stream_config])
-    elif run_settings.streamer.input_type == settings.StreamerInputType.Blackrock.value:
+    elif run_settings.streamer.input_type == settings.StreamerInputType.Blackrock:
         input_settings = unwrap(run_settings.streamer.blackrock).input
         output_settings = unwrap(run_settings.streamer.blackrock).output
         lsl_settings = output_settings.lsl
