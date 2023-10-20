@@ -86,8 +86,8 @@ Find spikes and bin rates from electrophysiology data
     import pooch
     from scipy import signal
 
-    from neural_data_simulator.filters import BandpassFilter
-    from neural_data_simulator.filters import GaussianFilter
+    from neural_data_simulator.core.filters import BandpassFilter
+    from neural_data_simulator.core.filters import GaussianFilter
 
 
     def threshold_crossing(a: np.ndarray) -> np.ndarray:
@@ -269,7 +269,7 @@ Plot rates
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.316 seconds)
+   **Total running time of the script:** ( 0 minutes  1.911 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_predicted_spike_rates.py:

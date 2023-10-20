@@ -1,0 +1,7 @@
+neural\_data\_simulator.plugins 
+================================
+
+.. automodule:: neural_data_simulator.plugins
+   :members:
+   :undoc-members:
+   :show-inheritance:

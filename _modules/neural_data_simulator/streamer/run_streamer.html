@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>neural_data_simulator.streamer.run_streamer &mdash; Neural Data Simulator 0.2.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Neural Data Simulator
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../running_bci.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Neural Data Simulator</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inputs.html">Behavioral Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../encoder.html">Encoder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ephys_generator.html">Electrophysiology (Ephys) Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../configuring.html">Configuring NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../running.html">Running NDS</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Extensions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../extending.html">Extending NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../decoders.html">Decoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks.html">Tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../visualization.html">Visualizing Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Recording and Streaming</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/">GitHub Repository</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../neural_data_simulator/modules.html">Neural Data Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tools/modules.html">Example Implementations and Utilities</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Neural Data Simulator</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">neural_data_simulator.streamer.run_streamer</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for neural_data_simulator.streamer.run_streamer</h1><div class="highlight"><pre>
+<span></span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Script that starts the streamer.</span>
+
+<span class="sd">The streamer default configuration is located in `NDS_HOME/settings_streamer.yaml`</span>
+<span class="sd">(see :mod:`neural_data_simulator.scripts.post_install_config`). The script can use</span>
+<span class="sd">different config file specified via the `\--settings-path` argument.</span>
+
+<span class="sd">Upon start, the streamer expects to read data from a file and output to an LSL</span>
+<span class="sd">outlet. By default, a sample behavior data file will be downloaded by the</span>
+<span class="sd">:mod:`neural_data_simulator.scripts.post_install_config` script, so the streamer should</span>
+<span class="sd">be able to run without any additional configuration. If the input file cannot be found,</span>
+<span class="sd">the streamer will not be able to start.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">contextlib</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">cast</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">from</span> <span class="nn">neo.rawio.blackrockrawio</span> <span class="kn">import</span> <span class="n">BlackrockRawIO</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pydantic_yaml</span> <span class="kn">import</span> <span class="n">VersionedYamlModel</span>
+
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.outputs</span> <span class="kn">import</span> <span class="n">LSLOutputDevice</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.outputs</span> <span class="kn">import</span> <span class="n">StreamConfig</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.samples</span> <span class="kn">import</span> <span class="n">Samples</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.settings</span> <span class="kn">import</span> <span class="n">LogLevel</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.streamer</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.streamer</span> <span class="kn">import</span> <span class="n">streamers</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">configure_logger</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">get_abs_path</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">initialize_logger</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">unwrap</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.settings_loader</span> <span class="kn">import</span> <span class="n">get_script_settings</span>
+
+<span class="n">SCRIPT_NAME</span> <span class="o">=</span> <span class="s2">&quot;nds-streamer&quot;</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_Settings</span><span class="p">(</span><span class="n">VersionedYamlModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pydantic base settings for running the streamer.&quot;&quot;&quot;</span>
+
+    <span class="n">log_level</span><span class="p">:</span> <span class="n">LogLevel</span>
+    <span class="n">streamer</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">Streamer</span>
+
+
+<div class="viewcode-block" id="StreamGroup"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.run_streamer.StreamGroup">[docs]</a><span class="k">class</span> <span class="nc">StreamGroup</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Utility class for managing a list of streams.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="StreamGroup.__init__"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.run_streamer.StreamGroup.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">streams_configs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">StreamConfig</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new instance.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">streams_configs</span> <span class="o">=</span> <span class="n">streams_configs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lsl_outputs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">LSLOutputDevice</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="StreamGroup.connect"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.run_streamer.StreamGroup.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Connect all streams.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">stream_config</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">streams_configs</span><span class="p">:</span>
+            <span class="n">lsl_output</span> <span class="o">=</span> <span class="n">LSLOutputDevice</span><span class="p">(</span><span class="n">stream_config</span><span class="p">)</span>
+            <span class="n">lsl_output</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lsl_outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lsl_output</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="StreamGroup.disconnect"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.run_streamer.StreamGroup.disconnect">[docs]</a>    <span class="k">def</span> <span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Disconnect all streams.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">lsl_output</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lsl_outputs</span><span class="p">:</span>
+            <span class="n">lsl_output</span><span class="o">.</span><span class="n">disconnect</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="StreamGroup.open_connection"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.run_streamer.StreamGroup.open_connection">[docs]</a>    <span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+    <span class="k">def</span> <span class="nf">open_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Open a managed connection.</span>
+
+<span class="sd">        The connection is released after it is consumed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+            <span class="k">yield</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">disconnect</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="load_blackrock_file"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.run_streamer.load_blackrock_file">[docs]</a><span class="k">def</span> <span class="nf">load_blackrock_file</span><span class="p">(</span>
+    <span class="n">filepath</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">output_settings</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">LSLSimplifiedOutputModel</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">StreamConfig</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Samples</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse streams from a Blackrock Neurotech file.&quot;&quot;&quot;</span>
+    <span class="n">neo_io</span> <span class="o">=</span> <span class="n">BlackrockRawIO</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="n">neo_io</span><span class="o">.</span><span class="n">parse_header</span><span class="p">()</span>
+
+    <span class="n">all_stream_configs</span><span class="p">,</span> <span class="n">all_samples</span> <span class="o">=</span> <span class="n">_get_analog_streams</span><span class="p">(</span><span class="n">neo_io</span><span class="p">,</span> <span class="n">output_settings</span><span class="p">)</span>
+    <span class="n">stream_config</span><span class="p">,</span> <span class="n">samples</span> <span class="o">=</span> <span class="n">_get_spikes_stream</span><span class="p">(</span><span class="n">neo_io</span><span class="p">,</span> <span class="n">output_settings</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">stream_config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">samples</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">all_stream_configs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stream_config</span><span class="p">)</span>
+        <span class="n">all_samples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">all_stream_configs</span><span class="p">,</span> <span class="n">all_samples</span></div>
+
+
+<span class="k">def</span> <span class="nf">_get_analog_streams</span><span class="p">(</span>
+    <span class="n">neo_io</span><span class="p">:</span> <span class="n">BlackrockRawIO</span><span class="p">,</span> <span class="n">output_settings</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">LSLSimplifiedOutputModel</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">StreamConfig</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Samples</span><span class="p">]]:</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">stream_configs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># Build stream info for each sampling group</span>
+    <span class="k">for</span> <span class="n">stream_ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">neo_io</span><span class="o">.</span><span class="n">signal_streams_count</span><span class="p">()):</span>
+        <span class="n">stream_id</span> <span class="o">=</span> <span class="n">neo_io</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s2">&quot;signal_streams&quot;</span><span class="p">][</span><span class="n">stream_ix</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+        <span class="n">channels</span> <span class="o">=</span> <span class="n">neo_io</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s2">&quot;signal_channels&quot;</span><span class="p">]</span>
+        <span class="n">channels</span> <span class="o">=</span> <span class="n">channels</span><span class="p">[</span><span class="n">channels</span><span class="p">[</span><span class="s2">&quot;stream_id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">stream_id</span><span class="p">]</span>
+        <span class="n">fs</span> <span class="o">=</span> <span class="n">channels</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;sampling_rate&quot;</span><span class="p">]</span>
+        <span class="n">analog_signals</span> <span class="o">=</span> <span class="n">neo_io</span><span class="o">.</span><span class="n">get_analogsignal_chunk</span><span class="p">(</span>
+            <span class="n">stream_index</span><span class="o">=</span><span class="n">stream_ix</span>
+        <span class="p">)</span>  <span class="c1"># Samples x channels</span>
+
+        <span class="n">proc_times</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span>
+            <span class="n">neo_io</span><span class="o">.</span><span class="n">get_signal_t_start</span><span class="p">(</span>
+                <span class="n">block_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">seg_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stream_index</span><span class="o">=</span><span class="n">stream_ix</span>
+            <span class="p">)</span>
+            <span class="o">*</span> <span class="n">fs</span>
+        <span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">analog_signals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+        <span class="n">analog_timestamps</span> <span class="o">=</span> <span class="n">proc_times</span> <span class="o">/</span> <span class="n">fs</span>
+        <span class="n">analog_timestamps</span> <span class="o">=</span> <span class="n">analog_timestamps</span> <span class="o">-</span> <span class="n">analog_timestamps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">samples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Samples</span><span class="p">(</span><span class="n">analog_timestamps</span><span class="p">,</span> <span class="n">analog_signals</span><span class="p">))</span>
+
+        <span class="n">stream_config</span> <span class="o">=</span> <span class="n">_get_regular_stream_config</span><span class="p">(</span>
+            <span class="n">stream_id</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">channels</span><span class="p">,</span> <span class="n">output_settings</span>
+        <span class="p">)</span>
+        <span class="n">stream_configs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stream_config</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">stream_configs</span><span class="p">,</span> <span class="n">samples</span>
+
+
+<span class="k">def</span> <span class="nf">_get_regular_stream_config</span><span class="p">(</span>
+    <span class="n">stream_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">sample_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">channels</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">output_settings</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">LSLSimplifiedOutputModel</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StreamConfig</span><span class="p">:</span>
+    <span class="n">stream_config</span> <span class="o">=</span> <span class="n">StreamConfig</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Blackrock-Group</span><span class="si">{</span><span class="n">stream_id</span><span class="si">}</span><span class="s2">-Inst</span><span class="si">{</span><span class="n">output_settings</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;Blackrock SMP&quot;</span><span class="p">,</span>
+        <span class="n">source_id</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;playback-SMP</span><span class="si">{</span><span class="n">stream_id</span><span class="si">}</span><span class="s2">-Inst</span><span class="si">{</span><span class="n">output_settings</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">acquisition</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;manufacturer&quot;</span><span class="p">:</span> <span class="n">output_settings</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">manufacturer</span><span class="p">,</span>
+            <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">output_settings</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+            <span class="s2">&quot;instrument_id&quot;</span><span class="p">:</span> <span class="n">output_settings</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="n">sample_rate</span><span class="o">=</span><span class="n">sample_rate</span><span class="p">,</span>
+        <span class="n">channel_format</span><span class="o">=</span><span class="n">output_settings</span><span class="o">.</span><span class="n">channel_format</span><span class="p">,</span>
+        <span class="n">channel_labels</span><span class="o">=</span><span class="n">channels</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">stream_config</span>
+
+
+<span class="k">def</span> <span class="nf">_get_spikes_stream</span><span class="p">(</span>
+    <span class="n">neo_io</span><span class="p">:</span> <span class="n">BlackrockRawIO</span><span class="p">,</span> <span class="n">output_settings</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">LSLSimplifiedOutputModel</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">StreamConfig</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Samples</span><span class="p">]]:</span>
+    <span class="n">n_spike_channels</span> <span class="o">=</span> <span class="n">neo_io</span><span class="o">.</span><span class="n">spike_channels_count</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">n_spike_channels</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+    <span class="n">ch_ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">0</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">un_ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">0</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">proc_times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">0</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+    <span class="n">spike_waveforms</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">glbl_u_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_spike_channels</span><span class="p">):</span>
+        <span class="n">ch_id</span><span class="p">,</span> <span class="n">un_id</span> <span class="o">=</span> <span class="n">neo_io</span><span class="o">.</span><span class="n">internal_unit_ids</span><span class="p">[</span><span class="n">glbl_u_idx</span><span class="p">]</span>
+        <span class="n">ch_ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">ch_ids</span><span class="p">,</span> <span class="p">[</span><span class="n">ch_id</span><span class="p">]</span> <span class="o">*</span> <span class="n">neo_io</span><span class="o">.</span><span class="n">spike_count</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">glbl_u_idx</span><span class="p">)))</span>
+        <span class="n">un_ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">un_ids</span><span class="p">,</span> <span class="p">[</span><span class="n">un_id</span><span class="p">]</span> <span class="o">*</span> <span class="n">neo_io</span><span class="o">.</span><span class="n">spike_count</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">glbl_u_idx</span><span class="p">)))</span>
+        <span class="n">proc_times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="n">proc_times</span><span class="p">,</span>
+                <span class="n">neo_io</span><span class="o">.</span><span class="n">get_spike_timestamps</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">glbl_u_idx</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">new_waveforms</span> <span class="o">=</span> <span class="n">neo_io</span><span class="o">.</span><span class="n">get_spike_raw_waveforms</span><span class="p">(</span>
+            <span class="n">block_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">seg_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">spike_channel_index</span><span class="o">=</span><span class="n">glbl_u_idx</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">spike_waveforms</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">spike_waveforms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="n">new_waveforms</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
+        <span class="n">spike_waveforms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">spike_waveforms</span><span class="p">,</span> <span class="n">new_waveforms</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]))</span>
+
+    <span class="k">if</span> <span class="n">spike_waveforms</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+    <span class="n">re_ix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">proc_times</span><span class="p">)</span>
+    <span class="n">ch_ids</span> <span class="o">=</span> <span class="n">ch_ids</span><span class="p">[</span><span class="n">re_ix</span><span class="p">]</span>
+    <span class="n">un_ids</span> <span class="o">=</span> <span class="n">un_ids</span><span class="p">[</span><span class="n">re_ix</span><span class="p">]</span>
+    <span class="n">proc_times</span> <span class="o">=</span> <span class="n">proc_times</span><span class="p">[</span><span class="n">re_ix</span><span class="p">]</span>
+    <span class="n">spike_waveforms</span> <span class="o">=</span> <span class="n">spike_waveforms</span><span class="p">[</span><span class="n">re_ix</span><span class="p">]</span>
+    <span class="n">spike_times</span> <span class="o">=</span> <span class="n">neo_io</span><span class="o">.</span><span class="n">rescale_spike_timestamp</span><span class="p">(</span><span class="n">proc_times</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float64&quot;</span><span class="p">)</span>
+    <span class="n">spike_times</span> <span class="o">=</span> <span class="n">spike_times</span> <span class="o">-</span> <span class="n">spike_times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="n">Samples</span><span class="p">(</span>
+        <span class="n">spike_times</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">ch_ids</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">un_ids</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">spike_waveforms</span><span class="p">))</span>
+    <span class="p">)</span>
+
+    <span class="n">stream_config</span> <span class="o">=</span> <span class="n">_get_irregular_stream_config</span><span class="p">(</span>
+        <span class="n">spike_waveforms</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">output_settings</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">stream_config</span><span class="p">,</span> <span class="n">samples</span>
+
+
+<span class="k">def</span> <span class="nf">_get_irregular_stream_config</span><span class="p">(</span>
+    <span class="n">n_waveforms</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">output_settings</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">LSLSimplifiedOutputModel</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StreamConfig</span><span class="p">:</span>
+    <span class="n">wf_ch_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;wf_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span> <span class="o">+</span> <span class="n">_</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_waveforms</span><span class="p">)]</span>
+    <span class="n">stream_config</span> <span class="o">=</span> <span class="n">StreamConfig</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Blackrock-SPK-Inst</span><span class="si">{</span><span class="n">output_settings</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;Blackrock SPK&quot;</span><span class="p">,</span>
+        <span class="n">source_id</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;playback-SPK-Inst</span><span class="si">{</span><span class="n">output_settings</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">acquisition</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;manufacturer&quot;</span><span class="p">:</span> <span class="n">output_settings</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">manufacturer</span><span class="p">,</span>
+            <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">output_settings</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+            <span class="s2">&quot;instrument_id&quot;</span><span class="p">:</span> <span class="n">output_settings</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="n">sample_rate</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">channel_format</span><span class="o">=</span><span class="n">output_settings</span><span class="o">.</span><span class="n">channel_format</span><span class="p">,</span>
+        <span class="n">channel_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ch_id&quot;</span><span class="p">,</span> <span class="s2">&quot;unit_id&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">wf_ch_labels</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">stream_config</span>
+
+
+<div class="viewcode-block" id="run"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.run_streamer.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the configuration and start the streamer.&quot;&quot;&quot;</span>
+    <span class="n">initialize_logger</span><span class="p">(</span><span class="n">SCRIPT_NAME</span><span class="p">)</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Run streamer.&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--settings-path&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to the settings_streamer.yaml file.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">run_settings</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span>
+        <span class="n">_Settings</span><span class="p">,</span>
+        <span class="n">get_script_settings</span><span class="p">(</span>
+            <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span><span class="o">.</span><span class="n">settings_path</span><span class="p">,</span> <span class="s2">&quot;settings_streamer.yaml&quot;</span><span class="p">,</span> <span class="n">_Settings</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">configure_logger</span><span class="p">(</span><span class="n">SCRIPT_NAME</span><span class="p">,</span> <span class="n">run_settings</span><span class="o">.</span><span class="n">log_level</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">run_settings</span><span class="o">.</span><span class="n">streamer</span><span class="o">.</span><span class="n">input_type</span> <span class="o">==</span> <span class="n">settings</span><span class="o">.</span><span class="n">StreamerInputType</span><span class="o">.</span><span class="n">NPZ</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+        <span class="n">input_settings</span> <span class="o">=</span> <span class="n">unwrap</span><span class="p">(</span><span class="n">run_settings</span><span class="o">.</span><span class="n">streamer</span><span class="o">.</span><span class="n">npz</span><span class="p">)</span><span class="o">.</span><span class="n">input</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">Samples</span><span class="o">.</span><span class="n">load_from_npz</span><span class="p">(</span>
+                <span class="n">get_abs_path</span><span class="p">(</span><span class="n">input_settings</span><span class="o">.</span><span class="n">file</span><span class="p">),</span>
+                <span class="n">timestamps_array_name</span><span class="o">=</span><span class="n">input_settings</span><span class="o">.</span><span class="n">timestamps_array_name</span><span class="p">,</span>
+                <span class="n">data_array_name</span><span class="o">=</span><span class="n">input_settings</span><span class="o">.</span><span class="n">data_array_name</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+        <span class="n">output_settings</span> <span class="o">=</span> <span class="n">unwrap</span><span class="p">(</span><span class="n">run_settings</span><span class="o">.</span><span class="n">streamer</span><span class="o">.</span><span class="n">npz</span><span class="p">)</span><span class="o">.</span><span class="n">output</span>
+        <span class="n">lsl_settings</span> <span class="o">=</span> <span class="n">output_settings</span><span class="o">.</span><span class="n">lsl</span>
+        <span class="n">stream_config</span> <span class="o">=</span> <span class="n">StreamConfig</span><span class="o">.</span><span class="n">from_lsl_settings</span><span class="p">(</span>
+            <span class="n">lsl_settings</span><span class="p">,</span> <span class="n">output_settings</span><span class="o">.</span><span class="n">sampling_rate</span><span class="p">,</span> <span class="n">output_settings</span><span class="o">.</span><span class="n">n_channels</span>
+        <span class="p">)</span>
+        <span class="n">stream_group</span> <span class="o">=</span> <span class="n">StreamGroup</span><span class="p">([</span><span class="n">stream_config</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="n">run_settings</span><span class="o">.</span><span class="n">streamer</span><span class="o">.</span><span class="n">input_type</span> <span class="o">==</span> <span class="n">settings</span><span class="o">.</span><span class="n">StreamerInputType</span><span class="o">.</span><span class="n">Blackrock</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+        <span class="n">input_settings</span> <span class="o">=</span> <span class="n">unwrap</span><span class="p">(</span><span class="n">run_settings</span><span class="o">.</span><span class="n">streamer</span><span class="o">.</span><span class="n">blackrock</span><span class="p">)</span><span class="o">.</span><span class="n">input</span>
+        <span class="n">output_settings</span> <span class="o">=</span> <span class="n">unwrap</span><span class="p">(</span><span class="n">run_settings</span><span class="o">.</span><span class="n">streamer</span><span class="o">.</span><span class="n">blackrock</span><span class="p">)</span><span class="o">.</span><span class="n">output</span>
+        <span class="n">lsl_settings</span> <span class="o">=</span> <span class="n">output_settings</span><span class="o">.</span><span class="n">lsl</span>
+        <span class="n">stream_configs</span><span class="p">,</span> <span class="n">samples</span> <span class="o">=</span> <span class="n">load_blackrock_file</span><span class="p">(</span>
+            <span class="n">Path</span><span class="p">(</span><span class="n">get_abs_path</span><span class="p">(</span><span class="n">input_settings</span><span class="o">.</span><span class="n">file</span><span class="p">)),</span> <span class="n">lsl_settings</span>
+        <span class="p">)</span>
+        <span class="n">stream_group</span> <span class="o">=</span> <span class="n">StreamGroup</span><span class="p">(</span><span class="n">stream_configs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported input type: </span><span class="si">{</span><span class="n">run_settings</span><span class="o">.</span><span class="n">streamer</span><span class="o">.</span><span class="n">input_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">stream_group</span><span class="o">.</span><span class="n">open_connection</span><span class="p">():</span>
+        <span class="n">streamer</span> <span class="o">=</span> <span class="n">streamers</span><span class="o">.</span><span class="n">LSLStreamer</span><span class="p">(</span>
+            <span class="n">stream_group</span><span class="o">.</span><span class="n">lsl_outputs</span><span class="p">,</span>
+            <span class="n">samples</span><span class="p">,</span>
+            <span class="n">run_settings</span><span class="o">.</span><span class="n">streamer</span><span class="o">.</span><span class="n">lsl_chunk_frequency</span><span class="p">,</span>
+            <span class="n">run_settings</span><span class="o">.</span><span class="n">streamer</span><span class="o">.</span><span class="n">stream_indefinitely</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">streamer</span><span class="o">.</span><span class="n">stream</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;CTRL+C received. Exiting...&quot;</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">run</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      <!--&#169; Copyright 2023, AE Studio &amp; Chadwick Boulay. -->
+      <p>© Copyright 2023, <a href="https://ae.studio">AE Studio</a> & Chadwick Boulay</p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+neural\_data\_simulator.streamer 
+=================================
+
+.. automodule:: neural_data_simulator.streamer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+neural\_data\_simulator.streamer.run\_streamer 
+-----------------------------------------------
+
+.. automodule:: neural_data_simulator.streamer.run_streamer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.streamer.settings 
+------------------------------------------
+
+.. automodule:: neural_data_simulator.streamer.settings
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.streamer.streamers 
+-------------------------------------------
+
+.. automodule:: neural_data_simulator.streamer.streamers
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>neural_data_simulator.tasks &mdash; Neural Data Simulator 0.2.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="neural_data_simulator.tasks.center_out_reach" href="neural_data_simulator.tasks.center_out_reach.html" />
+    <link rel="prev" title="neural_data_simulator.streamer" href="neural_data_simulator.streamer.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Neural Data Simulator
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../running_bci.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Neural Data Simulator</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inputs.html">Behavioral Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../encoder.html">Encoder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ephys_generator.html">Electrophysiology (Ephys) Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuring.html">Configuring NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../running.html">Running NDS</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Extensions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../extending.html">Extending NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../decoders.html">Decoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks.html">Tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visualization.html">Visualizing Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Recording and Streaming</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/">GitHub Repository</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Neural Data Simulator</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="neural_data_simulator.html">neural_data_simulator</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="neural_data_simulator.core.html">neural_data_simulator.core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neural_data_simulator.decoder.html">neural_data_simulator.decoder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neural_data_simulator.plugins.html">neural_data_simulator.plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neural_data_simulator.recorder.html">neural_data_simulator.recorder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neural_data_simulator.scripts.html">neural_data_simulator.scripts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neural_data_simulator.streamer.html">neural_data_simulator.streamer</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">neural_data_simulator.tasks</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="neural_data_simulator.tasks.center_out_reach.html">neural_data_simulator.tasks.center_out_reach</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-neural_data_simulator.tasks.run_center_out_reach">neural_data_simulator.tasks.run_center_out_reach</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-neural_data_simulator.tasks.run_closed_loop">neural_data_simulator.tasks.run_closed_loop</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/modules.html">Example Implementations and Utilities</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Neural Data Simulator</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">Neural Data Simulator</a></li>
+          <li class="breadcrumb-item"><a href="neural_data_simulator.html">neural_data_simulator</a></li>
+      <li class="breadcrumb-item active">neural_data_simulator.tasks</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/neural_data_simulator/neural_data_simulator.tasks.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-neural_data_simulator.tasks">
+<span id="neural-data-simulator-tasks"></span><h1>neural_data_simulator.tasks<a class="headerlink" href="#module-neural_data_simulator.tasks" title="Permalink to this heading"></a></h1>
+<p>This package is meant to host a collection of BCI tasks.</p>
+<p>Currently, the only task available in the package is the center-out reach task
+(see <code class="xref py py-mod docutils literal notranslate"><span class="pre">tasks.center_out_reach</span></code>). Its entry point is the
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">tasks.run_center_out_reach.run()</span></code> method.</p>
+<div class="toctree-wrapper compound">
+</div>
+<section id="module-neural_data_simulator.tasks.run_center_out_reach">
+<span id="neural-data-simulator-tasks-run-center-out-reach"></span><h2>neural_data_simulator.tasks.run_center_out_reach<a class="headerlink" href="#module-neural_data_simulator.tasks.run_center_out_reach" title="Permalink to this heading"></a></h2>
+<p>Run the center-out reach task GUI.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="neural_data_simulator.tasks.run_center_out_reach.run">
+<span class="sig-prename descclassname"><span class="pre">neural_data_simulator.tasks.run_center_out_reach.</span></span><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/tasks/run_center_out_reach.html#run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.tasks.run_center_out_reach.run" title="Permalink to this definition"></a></dt>
+<dd><p>Run the center-out reach task GUI.</p>
+</dd></dl>
+
+</section>
+<section id="module-neural_data_simulator.tasks.run_closed_loop">
+<span id="neural-data-simulator-tasks-run-closed-loop"></span><h2>neural_data_simulator.tasks.run_closed_loop<a class="headerlink" href="#module-neural_data_simulator.tasks.run_closed_loop" title="Permalink to this heading"></a></h2>
+<p>Run all components of the BCI closed loop.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="neural_data_simulator.tasks.run_closed_loop.run">
+<span class="sig-prename descclassname"><span class="pre">neural_data_simulator.tasks.run_closed_loop.</span></span><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/tasks/run_closed_loop.html#run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.tasks.run_closed_loop.run" title="Permalink to this definition"></a></dt>
+<dd><p>Start all components.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="neural_data_simulator.streamer.html" class="btn btn-neutral float-left" title="neural_data_simulator.streamer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="neural_data_simulator.tasks.center_out_reach.html" class="btn btn-neutral float-right" title="neural_data_simulator.tasks.center_out_reach" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      <!--&#169; Copyright 2023, AE Studio &amp; Chadwick Boulay. -->
+      <p>© Copyright 2023, <a href="https://ae.studio">AE Studio</a> & Chadwick Boulay</p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>neural_data_simulator.core.encoder &mdash; Neural Data Simulator 0.2.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Neural Data Simulator
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../running_bci.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Neural Data Simulator</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inputs.html">Behavioral Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../encoder.html">Encoder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ephys_generator.html">Electrophysiology (Ephys) Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../configuring.html">Configuring NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../running.html">Running NDS</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Extensions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../extending.html">Extending NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../decoders.html">Decoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks.html">Tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../visualization.html">Visualizing Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Recording and Streaming</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/">GitHub Repository</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../neural_data_simulator/modules.html">Neural Data Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tools/modules.html">Example Implementations and Utilities</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Neural Data Simulator</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">neural_data_simulator.core.encoder</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for neural_data_simulator.core.encoder</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;This module contains the `Encoder` implementation.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">contextlib</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">runtime_checkable</span>
+
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.inputs</span> <span class="kn">import</span> <span class="n">Input</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.models</span> <span class="kn">import</span> <span class="n">EncoderModel</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.outputs</span> <span class="kn">import</span> <span class="n">Output</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.samples</span> <span class="kn">import</span> <span class="n">Samples</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">open_connection</span>
+
+
+<div class="viewcode-block" id="Processor"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.encoder.Processor">[docs]</a><span class="nd">@runtime_checkable</span>
+<span class="k">class</span> <span class="nc">Processor</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Protocol for an encoder Processor class.</span>
+
+<span class="sd">    A processor can be used to transform data, usually for the purpose of</span>
+<span class="sd">    adapting it to match the requirements of the:</span>
+
+<span class="sd">    - encoder model: in this case the processor is called a preprocessor.</span>
+<span class="sd">    - consumer of the encoder output (spike rates): in this case the processor</span>
+<span class="sd">      represents a postprocessor.</span>
+
+<span class="sd">    A python protocol (`PEP-544 &lt;https://peps.python.org/pep-0544/&gt;`_) works in</span>
+<span class="sd">    a similar way to an abstract class.</span>
+<span class="sd">    The :meth:`__init__` method of this protocol should never be called as</span>
+<span class="sd">    protocols are not meant to be instantiated. An :meth:`__init__` method</span>
+<span class="sd">    may be defined in a concrete implementation of this protocol if needed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Processor.execute"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.encoder.Processor.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Samples</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Samples</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute processing on the samples input data.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data: Input data to process.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Data samples after processing.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="o">...</span></div></div>
+
+
+<div class="viewcode-block" id="Encoder"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.encoder.Encoder">[docs]</a><span class="k">class</span> <span class="nc">Encoder</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Encoder class implementation.</span>
+
+<span class="sd">    It manages the data through all the necessary steps to convert from behavior data</span>
+<span class="sd">    into spiking data. These steps currently include an optional preprocessor, the</span>
+<span class="sd">    model transformation and an optional postprocessor.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Encoder.__init__"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.encoder.Encoder.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">input_</span><span class="p">:</span> <span class="n">Input</span><span class="p">,</span>
+        <span class="n">preprocessor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Processor</span><span class="p">],</span>
+        <span class="n">model</span><span class="p">:</span> <span class="n">EncoderModel</span><span class="p">,</span>
+        <span class="n">postprocessor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Processor</span><span class="p">],</span>
+        <span class="n">output</span><span class="p">:</span> <span class="n">Output</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the Encoder class.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            input_: a class that implements reading one or multiple</span>
+<span class="sd">                samples with the `read` method, and can be connected to</span>
+<span class="sd">                through a context manager.</span>
+<span class="sd">            preprocessor: optional processor to transform the</span>
+<span class="sd">                samples before they are passed to the model.</span>
+<span class="sd">            model: a class that can convert samples of behavior data into</span>
+<span class="sd">                samples of spike rates for each call of the `encode` method.</span>
+<span class="sd">            postprocessor: optional processor to transform the</span>
+<span class="sd">                samples that are returned by the model.</span>
+<span class="sd">            output: a class that can take one or multiple samples for each call</span>
+<span class="sd">                of the `send` method, and can be connected to through a context manager.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Constructing Encoder&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">input</span> <span class="o">=</span> <span class="n">input_</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">output</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">preprocessor</span> <span class="o">=</span> <span class="n">preprocessor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">postprocessor</span> <span class="o">=</span> <span class="n">postprocessor</span></div>
+
+<div class="viewcode-block" id="Encoder.iterate"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.encoder.Encoder.iterate">[docs]</a>    <span class="k">def</span> <span class="nf">iterate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Move samples through all the stages of the Encoder.</span>
+
+<span class="sd">        That is: behavior samples input -&gt; preprocessing -&gt; encoding -&gt; postprocessing</span>
+<span class="sd">        -&gt; spike rates samples output.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">preprocessor</span><span class="p">:</span>
+                <span class="n">samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">preprocessor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+            <span class="n">samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">postprocessor</span><span class="p">:</span>
+                <span class="n">samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">postprocessor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Encoder.connect"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.encoder.Encoder.connect">[docs]</a>    <span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Connect to both input and output.</span>
+
+<span class="sd">        Yields:</span>
+<span class="sd">            Yields after both connections are established.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">open_connection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">),</span> <span class="n">open_connection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">):</span>
+            <span class="k">yield</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      <!--&#169; Copyright 2023, AE Studio &amp; Chadwick Boulay. -->
+      <p>© Copyright 2023, <a href="https://ae.studio">AE Studio</a> & Chadwick Boulay</p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

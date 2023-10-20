@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>neural_data_simulator.tasks.center_out_reach.task_window &mdash; Neural Data Simulator 0.2.0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> Neural Data Simulator
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../running_bci.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Neural Data Simulator</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../inputs.html">Behavioral Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../encoder.html">Encoder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ephys_generator.html">Electrophysiology (Ephys) Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuring.html">Configuring NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../running.html">Running NDS</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Extensions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../extending.html">Extending NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../decoders.html">Decoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks.html">Tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../visualization.html">Visualizing Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utilities.html">Recording and Streaming</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../auto_examples/index.html">Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/">GitHub Repository</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../neural_data_simulator/modules.html">Neural Data Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tools/modules.html">Example Implementations and Utilities</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Neural Data Simulator</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">neural_data_simulator.tasks.center_out_reach.task_window</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for neural_data_simulator.tasks.center_out_reach.task_window</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;The BCI task GUI.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pygame</span>
+
+<span class="kn">from</span> <span class="nn">neural_data_simulator.tasks.center_out_reach.buttons</span> <span class="kn">import</span> <span class="n">Button</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.tasks.center_out_reach.sprites</span> <span class="kn">import</span> <span class="n">Sprite</span>
+
+
+<div class="viewcode-block" id="RichText"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_window.RichText">[docs]</a><span class="k">class</span> <span class="nc">RichText</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A single rich text surface.&quot;&quot;&quot;</span>
+
+    <span class="n">surface</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">surface</span><span class="o">.</span><span class="n">Surface</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The text surface.&quot;&quot;&quot;</span>
+
+    <span class="n">rect</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">Rect</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The text bounds.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="TaskWindow"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_window.TaskWindow">[docs]</a><span class="k">class</span> <span class="nc">TaskWindow</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Implements the BCI task GUI using pygame.</span>
+
+<span class="sd">    This class is responsible for showing sprites on the screen</span>
+<span class="sd">    and updating their positions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TaskWindow.Params"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_window.TaskWindow.Params">[docs]</a>    <span class="nd">@dataclass</span>
+    <span class="k">class</span> <span class="nc">Params</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Task window specific configuration.&quot;&quot;&quot;</span>
+
+        <span class="n">target_radius</span><span class="p">:</span> <span class="nb">int</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The radius of the target in pixels.&quot;&quot;&quot;</span>
+
+        <span class="n">cursor_radius</span><span class="p">:</span> <span class="nb">int</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The radius of the cursor in pixels.&quot;&quot;&quot;</span>
+
+        <span class="n">radius_to_target</span><span class="p">:</span> <span class="nb">int</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The distance from the center of the window to the target in pixels.&quot;&quot;&quot;</span>
+
+        <span class="n">number_of_targets</span><span class="p">:</span> <span class="nb">int</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The number of targets to show.&quot;&quot;&quot;</span>
+
+        <span class="n">background_color</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The window background color.&quot;&quot;&quot;</span>
+
+        <span class="n">decoded_cursor_color</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The color of the decoded cursor.&quot;&quot;&quot;</span>
+
+        <span class="n">decoded_cursor_on_target_color</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The color of the decoded cursor when it is hovering over the target.&quot;&quot;&quot;</span>
+
+        <span class="n">actual_cursor_color</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The color of the actual cursor.&quot;&quot;&quot;</span>
+
+        <span class="n">target_color</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The color of the target.&quot;&quot;&quot;</span>
+
+        <span class="n">target_waiting_color</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The color of the target when it is waiting for the cue.&quot;&quot;&quot;</span>
+
+        <span class="n">font_size</span><span class="p">:</span> <span class="nb">int</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The font size in pixels.&quot;&quot;&quot;</span>
+
+        <span class="n">button_size</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The button width and height in pixels.&quot;&quot;&quot;</span>
+
+        <span class="n">button_spacing</span><span class="p">:</span> <span class="nb">int</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The vertical spacing between buttons in pixels.&quot;&quot;&quot;</span>
+
+        <span class="n">button_offset_top</span><span class="p">:</span> <span class="nb">int</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The top offset of the buttons from the center of the window in pixels.&quot;&quot;&quot;</span>
+
+        <span class="n">button_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;gray&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The button background color.&quot;&quot;&quot;</span>
+
+        <span class="n">button_color_on_hover</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;lightgray&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The button background color when the mouse is hovering over it.&quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="TaskWindow.__init__"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_window.TaskWindow.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">window_rect</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
+        <span class="n">params</span><span class="p">:</span> <span class="n">Params</span><span class="p">,</span>
+        <span class="n">menu_text</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new instance.&quot;&quot;&quot;</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">show_menu_screen</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">get_default_font</span><span class="p">(),</span> <span class="n">params</span><span class="o">.</span><span class="n">font_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">surface</span><span class="o">.</span><span class="n">Surface</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">textRect</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">Rect</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_size</span> <span class="o">=</span> <span class="p">(</span><span class="n">window_rect</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">window_rect</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">params</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">screen</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_window_size_background_and_title</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clock</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_menu</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">=</span> <span class="n">Sprite</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">target_color</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">target_radius</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_center</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_sprite_group</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">sprite</span><span class="o">.</span><span class="n">GroupSingle</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">pygame</span><span class="o">.</span><span class="n">sprite</span><span class="o">.</span><span class="n">GroupSingle</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_sprite_group</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actual_cursor</span> <span class="o">=</span> <span class="n">Sprite</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">actual_cursor_color</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">cursor_radius</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">window_center</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">decoded_cursor</span> <span class="o">=</span> <span class="n">Sprite</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">decoded_cursor_color</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">cursor_radius</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">window_center</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor_sprite_group</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">sprite</span><span class="o">.</span><span class="n">Group</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">sprite</span><span class="o">.</span><span class="n">Group</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor_sprite_group</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">decoded_cursor</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor_sprite_group</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actual_cursor</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_positions</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_all_possible_target_positions_in_pixels</span><span class="p">()</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">show_hint</span><span class="p">(</span><span class="n">menu_text</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">window_center</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the center of the window.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_cursor_on_target</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if the cursor is hovering over the target.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">collides_with</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">decoded_cursor</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_initialize_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">window_width</span><span class="p">,</span> <span class="n">window_height</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_button</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span>
+            <span class="s2">&quot;Start&quot;</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">button_color</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">font</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">button_size</span><span class="p">,</span>
+            <span class="p">(</span>
+                <span class="nb">int</span><span class="p">(</span><span class="n">window_width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
+                <span class="nb">int</span><span class="p">(</span>
+                    <span class="n">window_height</span> <span class="o">/</span> <span class="mi">2</span>
+                    <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">button_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span>
+                    <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">button_spacing</span>
+                    <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">button_offset_top</span>
+                <span class="p">),</span>
+            <span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">start_task</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">quit_button</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span>
+            <span class="s2">&quot;Quit&quot;</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">button_color</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">font</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">button_size</span><span class="p">,</span>
+            <span class="p">(</span>
+                <span class="nb">int</span><span class="p">(</span><span class="n">window_width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
+                <span class="nb">int</span><span class="p">(</span>
+                    <span class="n">window_height</span> <span class="o">/</span> <span class="mi">2</span>
+                    <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">button_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span>
+                    <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">button_spacing</span>
+                    <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">button_offset_top</span>
+                <span class="p">),</span>
+            <span class="p">),</span>
+            <span class="k">lambda</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">Event</span><span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">)),</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">menu_button_sprite_group</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">sprite</span><span class="o">.</span><span class="n">Group</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menu_button_sprite_group</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_button</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menu_button_sprite_group</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">quit_button</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TaskWindow.show_hint"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_window.TaskWindow.show_hint">[docs]</a>    <span class="k">def</span> <span class="nf">show_hint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Show/Hide a rich text at the top of the screen.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            hint: The rich text to show. If None, the hint is hidden.</span>
+<span class="sd">            The list should be a list of rich text elements.</span>
+<span class="sd">            Each rich text element should be a dictionary with the following keys:</span>
+<span class="sd">            - text: The text to show</span>
+<span class="sd">            - color: The color of the text</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hint</span> <span class="o">=</span> <span class="n">hint</span></div>
+
+<div class="viewcode-block" id="TaskWindow.start_task"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_window.TaskWindow.start_task">[docs]</a>    <span class="k">def</span> <span class="nf">start_task</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Start the task.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">show_menu_screen</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_grab_and_hide_cursor</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">show_hint</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_grab_and_hide_cursor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">mouse</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">set_grab</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_release_and_show_cursor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">mouse</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">set_grab</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TaskWindow.stop_task"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_window.TaskWindow.stop_task">[docs]</a>    <span class="k">def</span> <span class="nf">stop_task</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop the task.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_release_and_show_cursor</span><span class="p">()</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_set_window_size_background_and_title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pygame</span><span class="o">.</span><span class="n">surface</span><span class="o">.</span><span class="n">Surface</span><span class="p">:</span>
+        <span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_size</span><span class="p">)</span>
+        <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">background_color</span><span class="p">)</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">&quot;NDS Center-out reach&quot;</span><span class="p">)</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">screen</span>
+
+    <span class="k">def</span> <span class="nf">_calculate_all_possible_target_positions_in_pixels</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">number_of_targets</span>
+        <span class="n">target_positions_x</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">window_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span>
+                <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">radius_to_target</span>
+            <span class="p">)</span>
+            <span class="o">.</span><span class="n">round</span><span class="p">()</span>
+            <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">target_positions_y</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">window_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span>
+                <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">radius_to_target</span>
+            <span class="p">)</span>
+            <span class="o">.</span><span class="n">round</span><span class="p">()</span>
+            <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="p">[(</span><span class="n">tx</span><span class="p">,</span> <span class="n">ty</span><span class="p">)</span> <span class="k">for</span> <span class="n">tx</span><span class="p">,</span> <span class="n">ty</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">target_positions_x</span><span class="p">,</span> <span class="n">target_positions_y</span><span class="p">)]</span>
+
+<div class="viewcode-block" id="TaskWindow.reset_cursor"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_window.TaskWindow.reset_cursor">[docs]</a>    <span class="k">def</span> <span class="nf">reset_cursor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reset the cursor position to the center of the screen.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actual_cursor</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_center</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">decoded_cursor</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_center</span></div>
+
+<div class="viewcode-block" id="TaskWindow.center_target"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_window.TaskWindow.center_target">[docs]</a>    <span class="k">def</span> <span class="nf">center_target</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Position the target in the center of the screen.</span>
+
+<span class="sd">        Also resets the target color to the default color.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_sprite_group</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_center</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">change_color</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">target_color</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TaskWindow.randomize_target"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_window.TaskWindow.randomize_target">[docs]</a>    <span class="k">def</span> <span class="nf">randomize_target</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Place the target in a random position.</span>
+
+<span class="sd">        The new position is selected from a predefined list of</span>
+<span class="sd">        possible positions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">random_choice</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">target_positions</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_positions</span><span class="p">[</span><span class="n">random_choice</span><span class="p">]</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_target_centered</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if the target is in the center of the screen.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">position</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_center</span>
+
+<div class="viewcode-block" id="TaskWindow.reset_target_color"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_window.TaskWindow.reset_target_color">[docs]</a>    <span class="k">def</span> <span class="nf">reset_target_color</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reset the target color to the default color.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">change_color</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">target_color</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TaskWindow.set_decoded_cursor_on_target"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_window.TaskWindow.set_decoded_cursor_on_target">[docs]</a>    <span class="k">def</span> <span class="nf">set_decoded_cursor_on_target</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">on_target</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the decoded cursor color depending on whether it is on the target.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">on_target</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">decoded_cursor</span><span class="o">.</span><span class="n">change_color</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">decoded_cursor_on_target_color</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">decoded_cursor</span><span class="o">.</span><span class="n">change_color</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">decoded_cursor_color</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TaskWindow.set_target_ready"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_window.TaskWindow.set_target_ready">[docs]</a>    <span class="k">def</span> <span class="nf">set_target_ready</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ready</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the target color depending on whether it is ready for reaching.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">ready</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">change_color</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">target_color</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">change_color</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">target_waiting_color</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TaskWindow.toggle_actual_cursor"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_window.TaskWindow.toggle_actual_cursor">[docs]</a>    <span class="k">def</span> <span class="nf">toggle_actual_cursor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Toggle the visibility of the actual (real) cursor.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor_sprite_group</span><span class="o">.</span><span class="n">has</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actual_cursor</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cursor_sprite_group</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actual_cursor</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cursor_sprite_group</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actual_cursor</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TaskWindow.update_cursor"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_window.TaskWindow.update_cursor">[docs]</a>    <span class="k">def</span> <span class="nf">update_cursor</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">actual_velocity</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+        <span class="n">decoded_velocity</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adjust the position of the actual and decoded cursors.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            actual_velocity: History of velocities for the actual (real) cursor.</span>
+<span class="sd">            decoded_velocity: History of velocities for the decoded cursor.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Updated actual and decoded positions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">vel</span> <span class="ow">in</span> <span class="n">actual_velocity</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">actual_cursor</span><span class="o">.</span><span class="n">update_position</span><span class="p">(</span><span class="n">vel</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">vel</span> <span class="ow">in</span> <span class="n">decoded_velocity</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">decoded_cursor</span><span class="o">.</span><span class="n">update_position</span><span class="p">(</span><span class="n">vel</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">actual_cursor</span><span class="o">.</span><span class="n">position</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">decoded_cursor</span><span class="o">.</span><span class="n">position</span></div>
+
+    <span class="k">def</span> <span class="nf">_check_mouse_hover_over_button</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">button</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">menu_button_sprite_group</span><span class="o">.</span><span class="n">sprites</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">button</span><span class="o">.</span><span class="n">is_mouse_over</span><span class="p">:</span>
+                <span class="n">button</span><span class="o">.</span><span class="n">change_color</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">button_color</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">button</span><span class="o">.</span><span class="n">change_color</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">button_color_on_hover</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TaskWindow.try_press_button"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_window.TaskWindow.try_press_button">[docs]</a>    <span class="k">def</span> <span class="nf">try_press_button</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Try to press a button if the mouse is hovering over it.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">button</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">menu_button_sprite_group</span><span class="o">.</span><span class="n">sprites</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">button</span><span class="o">.</span><span class="n">is_mouse_over</span><span class="p">:</span>
+                <span class="n">button</span><span class="o">.</span><span class="n">press</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_render_hint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hint</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]):</span>
+        <span class="n">rich_text_lines</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">RichText</span><span class="p">]]</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="c1"># assign each entry from the hint dictionary to a line of text</span>
+        <span class="n">line_number</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">hint_part</span> <span class="ow">in</span> <span class="n">hint</span><span class="p">:</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="n">hint_part</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">hint_part</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">line_number</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
+                <span class="n">text_rect</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">get_rect</span><span class="p">(</span>
+                    <span class="n">center</span><span class="o">=</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">window_center</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">font_size</span> <span class="o">*</span> <span class="n">line_number</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">rich_text_lines</span><span class="p">[</span><span class="n">line_number</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">RichText</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">text_rect</span><span class="p">))</span>
+
+        <span class="c1"># center the text in each line by compensating the other text in the line</span>
+        <span class="k">for</span> <span class="n">li</span> <span class="ow">in</span> <span class="n">rich_text_lines</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">rich_text_in_a_line</span> <span class="o">=</span> <span class="n">rich_text_lines</span><span class="p">[</span><span class="n">li</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">rich_text_in_a_line</span><span class="p">)):</span>
+                <span class="n">width_after</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">rich_text_in_a_line</span><span class="p">)):</span>
+                    <span class="n">width_after</span> <span class="o">+=</span> <span class="n">rich_text_in_a_line</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">width</span>
+                <span class="n">width_before</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+                    <span class="n">width_before</span> <span class="o">+=</span> <span class="n">rich_text_in_a_line</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">width</span>
+
+                <span class="n">rich_text</span> <span class="o">=</span> <span class="n">rich_text_in_a_line</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">rich_text</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">left</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="n">width_before</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="n">rich_text</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">left</span> <span class="o">-=</span> <span class="nb">int</span><span class="p">(</span><span class="n">width_after</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">rich_text</span><span class="o">.</span><span class="n">surface</span><span class="p">,</span> <span class="n">rich_text</span><span class="o">.</span><span class="n">rect</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TaskWindow.draw"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_window.TaskWindow.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Draw all sprites on the screen.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">background_color</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_menu_screen</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_check_mouse_hover_over_button</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">menu_button_sprite_group</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">screen</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">target_sprite_group</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">screen</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cursor_sprite_group</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">screen</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">hint</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hint</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_render_hint</span><span class="p">(</span><span class="n">hint</span><span class="p">)</span>
+
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="TaskWindow.tick"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_window.TaskWindow.tick">[docs]</a>    <span class="k">def</span> <span class="nf">tick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">framerate</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Tick the screen update clock.</span>
+
+<span class="sd">        This method should be called for every frame in order update the screen</span>
+<span class="sd">        and limit the game speed to match the frame rate.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="n">framerate</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TaskWindow.leave"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_window.TaskWindow.leave">[docs]</a>    <span class="k">def</span> <span class="nf">leave</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Quit pygame nicely.&quot;&quot;&quot;</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      <!--&#169; Copyright 2023, AE Studio &amp; Chadwick Boulay. -->
+      <p>© Copyright 2023, <a href="https://ae.studio">AE Studio</a> & Chadwick Boulay</p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+neural\_data\_simulator.core 
+=============================
+
+.. automodule:: neural_data_simulator.core
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+neural\_data\_simulator.core.encoder 
+-------------------------------------
+
+.. automodule:: neural_data_simulator.core.encoder
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.core.ephys\_generator 
+----------------------------------------------
+
+.. automodule:: neural_data_simulator.core.ephys_generator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.core.filters 
+-------------------------------------
+
+.. automodule:: neural_data_simulator.core.filters
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.core.health\_checker 
+---------------------------------------------
+
+.. automodule:: neural_data_simulator.core.health_checker
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.core.inputs 
+------------------------------------
+
+.. automodule:: neural_data_simulator.core.inputs
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.core.models 
+------------------------------------
+
+.. automodule:: neural_data_simulator.core.models
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.core.outputs 
+-------------------------------------
+
+.. automodule:: neural_data_simulator.core.outputs
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.core.runner 
+------------------------------------
+
+.. automodule:: neural_data_simulator.core.runner
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.core.samples 
+-------------------------------------
+
+.. automodule:: neural_data_simulator.core.samples
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.core.settings 
+--------------------------------------
+
+.. automodule:: neural_data_simulator.core.settings
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.core.timing 
+------------------------------------
+
+.. automodule:: neural_data_simulator.core.timing
+   :members:
+   :undoc-members:
+   :show-inheritance:

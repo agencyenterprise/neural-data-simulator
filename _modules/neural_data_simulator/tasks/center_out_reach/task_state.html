@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>neural_data_simulator.tasks.center_out_reach.task_state &mdash; Neural Data Simulator 0.2.0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> Neural Data Simulator
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../running_bci.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Neural Data Simulator</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../inputs.html">Behavioral Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../encoder.html">Encoder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ephys_generator.html">Electrophysiology (Ephys) Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuring.html">Configuring NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../running.html">Running NDS</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Extensions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../extending.html">Extending NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../decoders.html">Decoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks.html">Tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../visualization.html">Visualizing Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utilities.html">Recording and Streaming</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../auto_examples/index.html">Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/">GitHub Repository</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../neural_data_simulator/modules.html">Neural Data Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tools/modules.html">Example Implementations and Utilities</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Neural Data Simulator</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">neural_data_simulator.tasks.center_out_reach.task_state</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for neural_data_simulator.tasks.center_out_reach.task_state</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;The state machine for the BCI task.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Protocol</span>
+
+<span class="kn">from</span> <span class="nn">neural_data_simulator.tasks.center_out_reach.task_window</span> <span class="kn">import</span> <span class="n">TaskWindow</span>
+
+
+<div class="viewcode-block" id="State"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.State">[docs]</a><span class="k">class</span> <span class="nc">State</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The model of a state in a state machine.</span>
+
+<span class="sd">    A python protocol (`PEP-544 &lt;https://peps.python.org/pep-0544/&gt;`_) works in</span>
+<span class="sd">    a similar way to an abstract class.</span>
+<span class="sd">    The :meth:`__init__` method of this protocol should never be called as</span>
+<span class="sd">    protocols are not meant to be instantiated. An :meth:`__init__` method</span>
+<span class="sd">    may be defined in a concrete implementation of this protocol if needed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="State.is_valid_next_state"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.State.is_valid_next_state">[docs]</a>    <span class="k">def</span> <span class="nf">is_valid_next_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="n">State</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if a transition is possible to the given next state.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            s: The next state to validate the transition to.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if a transition is possible from the current</span>
+<span class="sd">            state to the given next state.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="o">...</span></div>
+
+<div class="viewcode-block" id="State.enter"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.State.enter">[docs]</a>    <span class="k">def</span> <span class="nf">enter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">previous_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">State</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Enter the state.</span>
+
+<span class="sd">        This method is called when the state machine transitioned to this state.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            previous_state: The previous state that the state machine was in.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="o">...</span></div>
+
+<div class="viewcode-block" id="State.exit"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.State.exit">[docs]</a>    <span class="k">def</span> <span class="nf">exit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">next_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">State</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Leave the state.</span>
+
+<span class="sd">        This method is called when the state machine transitioned from this state.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            next_state: The next state that the state machine is transitioning to.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="o">...</span></div></div>
+
+
+<div class="viewcode-block" id="StateParams"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.StateParams">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">StateParams</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration for the state machine.&quot;&quot;&quot;</span>
+
+    <span class="n">delay_to_begin</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The delay before the trial begins.&quot;&quot;&quot;</span>
+
+    <span class="n">delay_waiting_for_cue</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The time between the target is shown and the go cue.&quot;&quot;&quot;</span>
+
+    <span class="n">target_holding_time</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The time required for the mouse to hover over the target.&quot;&quot;&quot;</span>
+
+    <span class="n">max_trial_time</span><span class="p">:</span> <span class="nb">int</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The time allocate for a trial to be completed.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="BaseState"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.BaseState">[docs]</a><span class="k">class</span> <span class="nc">BaseState</span><span class="p">(</span><span class="n">State</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for all states in the state machine.&quot;&quot;&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">time_in_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the time spent in the current state.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_entered_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_entered_state</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">trial_timed_out</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if the trial has timed out.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_started_trial</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_started_trial</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">max_trial_time</span>
+
+<div class="viewcode-block" id="BaseState.__init__"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.BaseState.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">task_window</span><span class="p">:</span> <span class="n">TaskWindow</span><span class="p">,</span>
+        <span class="n">params</span><span class="p">:</span> <span class="n">StateParams</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new instance.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">task_window</span> <span class="o">=</span> <span class="n">task_window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_entered_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_started_trial</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="BaseState.enter"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.BaseState.enter">[docs]</a>    <span class="k">def</span> <span class="nf">enter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">previous_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">State</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Transitioned to the state.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_entered_state</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="BaseState.exit"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.BaseState.exit">[docs]</a>    <span class="k">def</span> <span class="nf">exit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">next_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">State</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Transitioned from the state.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_entered_state</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="BaseState.is_valid_next_state"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.BaseState.is_valid_next_state">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">is_valid_next_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="n">State</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if a transition is possible to the given next state.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            s: The next state to validate the transition to.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if a transition is possible from the current</span>
+<span class="sd">            state to the given next state.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div></div>
+
+
+<div class="viewcode-block" id="MenuScreen"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.MenuScreen">[docs]</a><span class="k">class</span> <span class="nc">MenuScreen</span><span class="p">(</span><span class="n">BaseState</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The state that the state machine starts in.</span>
+
+<span class="sd">    It represents the time before the task start when a menu is presented on the screen.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="MenuScreen.is_valid_next_state"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.MenuScreen.is_valid_next_state">[docs]</a>    <span class="k">def</span> <span class="nf">is_valid_next_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="n">State</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if a transition is possible to the given next state.</span>
+
+<span class="sd">        The only valid transition is to the WaitingToBegin state after the</span>
+<span class="sd">        GUI windows is no longer showing the menu.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">WaitingToBegin</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_window</span><span class="o">.</span><span class="n">show_menu_screen</span></div></div>
+
+
+<div class="viewcode-block" id="WaitingToBegin"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.WaitingToBegin">[docs]</a><span class="k">class</span> <span class="nc">WaitingToBegin</span><span class="p">(</span><span class="n">BaseState</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The state before the first trial.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="WaitingToBegin.is_valid_next_state"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.WaitingToBegin.is_valid_next_state">[docs]</a>    <span class="k">def</span> <span class="nf">is_valid_next_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="n">State</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if a transition is possible to the given next state.</span>
+
+<span class="sd">        The only valid transition is to the WaitingForCue state after the</span>
+<span class="sd">        delay_to_begin.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">WaitingForCue</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_in_state</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">delay_to_begin</span>
+        <span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="WaitingForCue"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.WaitingForCue">[docs]</a><span class="k">class</span> <span class="nc">WaitingForCue</span><span class="p">(</span><span class="n">BaseState</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The state that the state machine is at the start of every trial round.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="WaitingForCue.is_valid_next_state"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.WaitingForCue.is_valid_next_state">[docs]</a>    <span class="k">def</span> <span class="nf">is_valid_next_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="n">State</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if a transition is possible to the given next state.</span>
+
+<span class="sd">        The only valid transition is to the Reaching state after the</span>
+<span class="sd">        delay_waiting_for_cue.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">Reaching</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_in_state</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">delay_waiting_for_cue</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="WaitingForCue.enter"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.WaitingForCue.enter">[docs]</a>    <span class="k">def</span> <span class="nf">enter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">previous_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">State</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Enter the state.</span>
+
+<span class="sd">        Position the target in a random location or in center depending on</span>
+<span class="sd">        the previous position.</span>
+<span class="sd">        Inform the task window that the target is not ready so that its</span>
+<span class="sd">        appearance can be updated.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">enter</span><span class="p">(</span><span class="n">previous_state</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_window</span><span class="o">.</span><span class="n">is_target_centered</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">task_window</span><span class="o">.</span><span class="n">randomize_target</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">task_window</span><span class="o">.</span><span class="n">reset_cursor</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">task_window</span><span class="o">.</span><span class="n">center_target</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">task_window</span><span class="o">.</span><span class="n">set_target_ready</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WaitingForCue.exit"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.WaitingForCue.exit">[docs]</a>    <span class="k">def</span> <span class="nf">exit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">next_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">State</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Exit the state.</span>
+
+<span class="sd">        Inform the task window that the target is ready so that its</span>
+<span class="sd">        appearance can be updated.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">next_state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">task_window</span><span class="o">.</span><span class="n">set_target_ready</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="Reaching"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.Reaching">[docs]</a><span class="k">class</span> <span class="nc">Reaching</span><span class="p">(</span><span class="n">BaseState</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;In this state the cursor is trying reach the target.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Reaching.is_valid_next_state"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.Reaching.is_valid_next_state">[docs]</a>    <span class="k">def</span> <span class="nf">is_valid_next_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="n">State</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if a transition is possible to the given next state.</span>
+
+<span class="sd">        Valid transitions are:</span>
+<span class="sd">         - to the InTarget state if the cursor is on the target</span>
+<span class="sd">         - to the WaitingForCue state if the trial has timed out.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">WaitingForCue</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">trial_timed_out</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">InTarget</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_window</span><span class="o">.</span><span class="n">is_cursor_on_target</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Reaching.enter"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.Reaching.enter">[docs]</a>    <span class="k">def</span> <span class="nf">enter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">previous_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">State</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Enter the state.</span>
+
+<span class="sd">        If the previous state was WaitingForCue, then set the time that the</span>
+<span class="sd">        trial started to be the time this state was entered.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">enter</span><span class="p">(</span><span class="n">previous_state</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">previous_state</span><span class="p">,</span> <span class="n">WaitingForCue</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">time_started_trial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_entered_state</span></div>
+
+<div class="viewcode-block" id="Reaching.exit"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.Reaching.exit">[docs]</a>    <span class="k">def</span> <span class="nf">exit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">next_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">State</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Exit the state.</span>
+
+<span class="sd">        Reset the time that the trial started if the next state is not InTarget.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">next_state</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">next_state</span><span class="p">,</span> <span class="n">InTarget</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">time_started_trial</span> <span class="o">=</span> <span class="kc">None</span></div></div>
+
+
+<div class="viewcode-block" id="InTarget"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.InTarget">[docs]</a><span class="k">class</span> <span class="nc">InTarget</span><span class="p">(</span><span class="n">BaseState</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;In this state the cursor is hovering over the target.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="InTarget.is_valid_next_state"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.InTarget.is_valid_next_state">[docs]</a>    <span class="k">def</span> <span class="nf">is_valid_next_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="n">State</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if a transition is possible to the given next state.</span>
+
+<span class="sd">        Valid transitions are:</span>
+<span class="sd">          - to the WaitingForCue state if the cursor was hovering the target \</span>
+<span class="sd">              for the target_holding_time.</span>
+<span class="sd">          - to the WaitingForCue state if the trial has timed out.</span>
+<span class="sd">          - to the Reaching state if the cursor is no longer over the target.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">WaitingForCue</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">time_in_state</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">target_holding_time</span>
+                <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">trial_timed_out</span>
+            <span class="p">)</span>
+        <span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">Reaching</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_window</span><span class="o">.</span><span class="n">is_cursor_on_target</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InTarget.enter"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.InTarget.enter">[docs]</a>    <span class="k">def</span> <span class="nf">enter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">previous_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">State</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Enter the state.</span>
+
+<span class="sd">        If the previous state was the Reaching state, then copy the time that</span>
+<span class="sd">        the trial started.</span>
+
+<span class="sd">        Inform the task window that the cursor is on the target so that its</span>
+<span class="sd">        appearance can be updated.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">enter</span><span class="p">(</span><span class="n">previous_state</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">previous_state</span><span class="p">,</span> <span class="n">Reaching</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">time_started_trial</span> <span class="o">=</span> <span class="n">previous_state</span><span class="o">.</span><span class="n">time_started_trial</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">task_window</span><span class="o">.</span><span class="n">set_decoded_cursor_on_target</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InTarget.exit"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.InTarget.exit">[docs]</a>    <span class="k">def</span> <span class="nf">exit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">next_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">State</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Exit the state.</span>
+
+<span class="sd">        If the next state is not the Reaching state, then reset the time</span>
+<span class="sd">        that the trial started.</span>
+
+<span class="sd">        Inform the task window that the cursor is no longer on the target so</span>
+<span class="sd">        that its appearance can be updated.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">next_state</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">next_state</span><span class="p">,</span> <span class="n">Reaching</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">time_started_trial</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">task_window</span><span class="o">.</span><span class="n">set_decoded_cursor_on_target</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="StateMachine"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.StateMachine">[docs]</a><span class="k">class</span> <span class="nc">StateMachine</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The state machine that controls the BCI task.</span>
+
+<span class="sd">    It is responsible for transitioning between states and calling the</span>
+<span class="sd">    enter and exit methods on the states.</span>
+<span class="sd">    It also provides a method to get the next state that should be transitioned to.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="StateMachine.__init__"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.StateMachine.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">states</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">State</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the state machine with the given states.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">states</span> <span class="o">=</span> <span class="n">states</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">State</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="StateMachine.get_next_state"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.StateMachine.get_next_state">[docs]</a>    <span class="k">def</span> <span class="nf">get_next_state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">State</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the next state that should be transitioned to.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_state</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_state</span><span class="o">.</span><span class="n">is_valid_next_state</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">state</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="StateMachine.enter"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.StateMachine.enter">[docs]</a>    <span class="k">def</span> <span class="nf">enter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="n">State</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Transition to the given state.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_state</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">current_state</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">enter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_state</span> <span class="o">=</span> <span class="n">s</span>
+        <span class="k">return</span> <span class="kc">True</span></div></div>
+
+
+<div class="viewcode-block" id="TaskState"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.TaskState">[docs]</a><span class="k">class</span> <span class="nc">TaskState</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The state of the task during each trial round.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TaskState.__init__"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.TaskState.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_window</span><span class="p">:</span> <span class="n">TaskWindow</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">StateParams</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the state with parameters and display it in given window.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">task_window</span> <span class="o">=</span> <span class="n">task_window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trial_counter</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">states</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">State</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">MenuScreen</span><span class="p">(</span><span class="n">task_window</span><span class="p">,</span> <span class="n">params</span><span class="p">),</span>
+            <span class="n">WaitingToBegin</span><span class="p">(</span><span class="n">task_window</span><span class="p">,</span> <span class="n">params</span><span class="p">),</span>
+            <span class="n">WaitingForCue</span><span class="p">(</span><span class="n">task_window</span><span class="p">,</span> <span class="n">params</span><span class="p">),</span>
+            <span class="n">Reaching</span><span class="p">(</span><span class="n">task_window</span><span class="p">,</span> <span class="n">params</span><span class="p">),</span>
+            <span class="n">InTarget</span><span class="p">(</span><span class="n">task_window</span><span class="p">,</span> <span class="n">params</span><span class="p">),</span>
+        <span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">state_machine</span> <span class="o">=</span> <span class="n">StateMachine</span><span class="p">(</span><span class="n">states</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state_machine</span><span class="o">.</span><span class="n">enter</span><span class="p">(</span><span class="n">states</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="TaskState.advance"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.tasks.center_out_reach.html#neural_data_simulator.tasks.center_out_reach.task_state.TaskState.advance">[docs]</a>    <span class="k">def</span> <span class="nf">advance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Try to advance the state machine to the next state.</span>
+
+<span class="sd">        If the state machine is able to transition to the next state, then</span>
+<span class="sd">        transition to it.</span>
+
+<span class="sd">        Do nothing if the state machine is not able to transition to the next state.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">next_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_machine</span><span class="o">.</span><span class="n">get_next_state</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">next_state</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="nb">isinstance</span><span class="p">(</span><span class="n">next_state</span><span class="p">,</span> <span class="n">WaitingForCue</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_window</span><span class="o">.</span><span class="n">is_target_centered</span>
+            <span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">trial_counter</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state_machine</span><span class="o">.</span><span class="n">enter</span><span class="p">(</span><span class="n">next_state</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      <!--&#169; Copyright 2023, AE Studio &amp; Chadwick Boulay. -->
+      <p>© Copyright 2023, <a href="https://ae.studio">AE Studio</a> & Chadwick Boulay</p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

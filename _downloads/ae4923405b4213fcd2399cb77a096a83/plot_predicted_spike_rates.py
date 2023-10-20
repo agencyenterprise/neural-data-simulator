@@ -51,8 +51,8 @@ import numpy as np
 import pooch
 from scipy import signal
 
-from neural_data_simulator.filters import BandpassFilter
-from neural_data_simulator.filters import GaussianFilter
+from neural_data_simulator.core.filters import BandpassFilter
+from neural_data_simulator.core.filters import GaussianFilter
 
 
 def threshold_crossing(a: np.ndarray) -> np.ndarray:

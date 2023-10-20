@@ -1,0 +1,32 @@
+neural\_data\_simulator.decoder 
+================================
+
+.. automodule:: neural_data_simulator.decoder
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+neural\_data\_simulator.decoder.decoders 
+-----------------------------------------
+
+.. automodule:: neural_data_simulator.decoder.decoders
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.decoder.run\_decoder 
+---------------------------------------------
+
+.. automodule:: neural_data_simulator.decoder.run_decoder
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.decoder.settings 
+-----------------------------------------
+
+.. automodule:: neural_data_simulator.decoder.settings
+   :members:
+   :undoc-members:
+   :show-inheritance:

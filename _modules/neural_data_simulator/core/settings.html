@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>neural_data_simulator.core.settings &mdash; Neural Data Simulator 0.2.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Neural Data Simulator
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../running_bci.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Neural Data Simulator</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../inputs.html">Behavioral Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../encoder.html">Encoder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ephys_generator.html">Electrophysiology (Ephys) Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../configuring.html">Configuring NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../running.html">Running NDS</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Extensions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../extending.html">Extending NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../decoders.html">Decoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks.html">Tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../visualization.html">Visualizing Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Recording and Streaming</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/">GitHub Repository</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../neural_data_simulator/modules.html">Neural Data Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tools/modules.html">Example Implementations and Utilities</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Neural Data Simulator</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">neural_data_simulator.core.settings</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for neural_data_simulator.core.settings</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Models for parsing and validating the contents of `settings.yaml`.&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">Json</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">validator</span>
+<span class="kn">from</span> <span class="nn">pydantic_yaml</span> <span class="kn">import</span> <span class="n">VersionedYamlModel</span>
+<span class="kn">from</span> <span class="nn">pydantic_yaml</span> <span class="kn">import</span> <span class="n">YamlStrEnum</span>
+
+
+<div class="viewcode-block" id="LogLevel"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.settings.LogLevel">[docs]</a><span class="k">class</span> <span class="nc">LogLevel</span><span class="p">(</span><span class="n">YamlStrEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Possible log levels.&quot;&quot;&quot;</span>
+
+    <span class="n">_DEBUG</span> <span class="o">=</span> <span class="s2">&quot;DEBUG&quot;</span>
+    <span class="n">_INFO</span> <span class="o">=</span> <span class="s2">&quot;INFO&quot;</span>
+    <span class="n">_ERROR</span> <span class="o">=</span> <span class="s2">&quot;ERROR&quot;</span>
+    <span class="n">_WARNING</span> <span class="o">=</span> <span class="s2">&quot;WARNING&quot;</span>
+    <span class="n">_CRITICAL</span> <span class="o">=</span> <span class="s2">&quot;CRITICAL&quot;</span></div>
+
+
+<div class="viewcode-block" id="EncoderEndpointType"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.settings.EncoderEndpointType">[docs]</a><span class="k">class</span> <span class="nc">EncoderEndpointType</span><span class="p">(</span><span class="n">YamlStrEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Possible types for the encoder input or output.&quot;&quot;&quot;</span>
+
+    <span class="n">FILE</span> <span class="o">=</span> <span class="s2">&quot;file&quot;</span>
+    <span class="n">LSL</span> <span class="o">=</span> <span class="s2">&quot;LSL&quot;</span></div>
+
+
+<div class="viewcode-block" id="EphysGeneratorEndpointType"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.settings.EphysGeneratorEndpointType">[docs]</a><span class="k">class</span> <span class="nc">EphysGeneratorEndpointType</span><span class="p">(</span><span class="n">YamlStrEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Possible types of input for the ephys generator.&quot;&quot;&quot;</span>
+
+    <span class="n">TESTING</span> <span class="o">=</span> <span class="s2">&quot;testing&quot;</span>
+    <span class="n">LSL</span> <span class="o">=</span> <span class="s2">&quot;LSL&quot;</span></div>
+
+
+<div class="viewcode-block" id="EncoderModelType"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.settings.EncoderModelType">[docs]</a><span class="k">class</span> <span class="nc">EncoderModelType</span><span class="p">(</span><span class="n">YamlStrEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Possible types of input for the encoder model.&quot;&quot;&quot;</span>
+
+    <span class="n">PLUGIN</span> <span class="o">=</span> <span class="s2">&quot;plugin&quot;</span>
+    <span class="n">VELOCITY_TUNING_CURVES</span> <span class="o">=</span> <span class="s2">&quot;velocity_tuning_curves&quot;</span></div>
+
+
+<div class="viewcode-block" id="LSLChannelFormatType"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.settings.LSLChannelFormatType">[docs]</a><span class="k">class</span> <span class="nc">LSLChannelFormatType</span><span class="p">(</span><span class="n">YamlStrEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Possible values for the LSL channel format.&quot;&quot;&quot;</span>
+
+    <span class="n">_FLOAT32</span> <span class="o">=</span> <span class="s2">&quot;float32&quot;</span>
+    <span class="n">_DOUBLE64</span> <span class="o">=</span> <span class="s2">&quot;double64&quot;</span>
+    <span class="n">_INT8</span> <span class="o">=</span> <span class="s2">&quot;int8&quot;</span>
+    <span class="n">_INT16</span> <span class="o">=</span> <span class="s2">&quot;int16&quot;</span>
+    <span class="n">_INT32</span> <span class="o">=</span> <span class="s2">&quot;int32&quot;</span>
+    <span class="n">_INT64</span> <span class="o">=</span> <span class="s2">&quot;int64&quot;</span></div>
+
+
+<div class="viewcode-block" id="TimerModel"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.settings.TimerModel">[docs]</a><span class="k">class</span> <span class="nc">TimerModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Settings for the timer implementation.&quot;&quot;&quot;</span>
+
+    <span class="n">max_cpu_buffer</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">loop_time</span><span class="p">:</span> <span class="nb">float</span></div>
+
+
+<div class="viewcode-block" id="LSLInputModel"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.settings.LSLInputModel">[docs]</a><span class="k">class</span> <span class="nc">LSLInputModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Settings for all LSL inlets.&quot;&quot;&quot;</span>
+
+    <span class="n">connection_timeout</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">stream_name</span><span class="p">:</span> <span class="nb">str</span></div>
+
+
+<div class="viewcode-block" id="LSLOutputModel"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.settings.LSLOutputModel">[docs]</a><span class="k">class</span> <span class="nc">LSLOutputModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Settings for all LSL outlets.&quot;&quot;&quot;</span>
+
+    <span class="k">class</span> <span class="nc">_Instrument</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+        <span class="n">manufacturer</span><span class="p">:</span> <span class="nb">str</span>
+        <span class="n">model</span><span class="p">:</span> <span class="nb">str</span>
+        <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
+
+    <span class="n">channel_format</span><span class="p">:</span> <span class="n">LSLChannelFormatType</span>
+    <span class="n">stream_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">stream_type</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">source_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">instrument</span><span class="p">:</span> <span class="n">_Instrument</span>
+    <span class="n">channel_labels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span></div>
+
+
+<div class="viewcode-block" id="EncoderSettings"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.settings.EncoderSettings">[docs]</a><span class="k">class</span> <span class="nc">EncoderSettings</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Settings for the encoder.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="EncoderSettings.Input"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.settings.EncoderSettings.Input">[docs]</a>    <span class="k">class</span> <span class="nc">Input</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Settings for the encoder input.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="EncoderSettings.Input.File"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.settings.EncoderSettings.Input.File">[docs]</a>        <span class="k">class</span> <span class="nc">File</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Settings for the encoder input type file.&quot;&quot;&quot;</span>
+
+            <span class="n">path</span><span class="p">:</span> <span class="nb">str</span>
+            <span class="n">sampling_rate</span><span class="p">:</span> <span class="nb">float</span>
+            <span class="n">timestamps_array_name</span><span class="p">:</span> <span class="nb">str</span>
+            <span class="n">data_array_name</span><span class="p">:</span> <span class="nb">str</span></div>
+
+        <span class="nb">type</span><span class="p">:</span> <span class="n">EncoderEndpointType</span>
+        <span class="n">file</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">File</span><span class="p">]</span>
+        <span class="n">lsl</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LSLInputModel</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="EncoderSettings.Output"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.settings.EncoderSettings.Output">[docs]</a>    <span class="k">class</span> <span class="nc">Output</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Settings for the encoder output.&quot;&quot;&quot;</span>
+
+        <span class="n">n_channels</span><span class="p">:</span> <span class="nb">int</span>
+        <span class="nb">type</span><span class="p">:</span> <span class="n">EncoderEndpointType</span>
+        <span class="n">file</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+        <span class="n">lsl</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LSLOutputModel</span><span class="p">]</span></div>
+
+    <span class="n">model</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">preprocessor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">postprocessor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">model_weights_file</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="nb">input</span><span class="p">:</span> <span class="n">Input</span>
+    <span class="n">output</span><span class="p">:</span> <span class="n">Output</span>
+
+    <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_model_entry_point_must_be_a_python_file</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.py&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">v</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The model entry point must be a Python file&quot;</span><span class="p">)</span>
+
+    <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;preprocessor&quot;</span><span class="p">,</span> <span class="s2">&quot;postprocessor&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_plugin_entry_point_must_be_a_python_file</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.py&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">v</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The plugin entry point must be a Python file&quot;</span><span class="p">)</span>
+
+    <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;input&quot;</span><span class="p">,</span> <span class="s2">&quot;output&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_file_type_must_have_a_file_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">EncoderEndpointType</span><span class="o">.</span><span class="n">FILE</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">value</span><span class="o">.</span><span class="n">file</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;File type must have a file object&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">value</span>
+
+    <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;input&quot;</span><span class="p">,</span> <span class="s2">&quot;output&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_lsl_type_must_have_a_lsl_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">EncoderEndpointType</span><span class="o">.</span><span class="n">LSL</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">value</span><span class="o">.</span><span class="n">lsl</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;LSL type must have a lsl object&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">value</span></div>
+
+
+<div class="viewcode-block" id="EphysGeneratorSettings"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.settings.EphysGeneratorSettings">[docs]</a><span class="k">class</span> <span class="nc">EphysGeneratorSettings</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Settings for the spike generator.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="EphysGeneratorSettings.Waveforms"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.settings.EphysGeneratorSettings.Waveforms">[docs]</a>    <span class="k">class</span> <span class="nc">Waveforms</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Settings for the spike waveform prototypes.&quot;&quot;&quot;</span>
+
+        <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span>
+        <span class="n">prototypes</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Json</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]</span>
+        <span class="n">unit_prototype_mapping</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
+
+        <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;prototypes&quot;</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">_prototypes_have_the_same_length</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+            <span class="n">prototype_lengths</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">prototype</span><span class="p">)</span> <span class="k">for</span> <span class="n">prototype</span> <span class="ow">in</span> <span class="n">v</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">prototype_lengths</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;prototypes do not share the same length.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">v</span>
+
+        <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;unit_prototype_mapping&quot;</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">_unit_prototype_mapping_needs_to_point_to_a_valid_prototype</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+            <span class="n">mapped_waveforms</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+            <span class="n">prototypes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s2">&quot;prototypes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">mapped_waveforms</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">prototypes</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Mapped prototype was not configured.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">v</span>
+
+        <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;unit_prototype_mapping&quot;</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">_unit_prototype_mapping_needs_a_default_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s2">&quot;default&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Mapped prototype doesn&#39;t have a default value.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">v</span></div>
+
+<div class="viewcode-block" id="EphysGeneratorSettings.Input"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.settings.EphysGeneratorSettings.Input">[docs]</a>    <span class="k">class</span> <span class="nc">Input</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Settings for the ephys generator input.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="EphysGeneratorSettings.Input.Testing"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.settings.EphysGeneratorSettings.Input.Testing">[docs]</a>        <span class="k">class</span> <span class="nc">Testing</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Settings for the ephys generator input type testing.&quot;&quot;&quot;</span>
+
+            <span class="n">n_channels</span><span class="p">:</span> <span class="nb">int</span></div>
+
+        <span class="nb">type</span><span class="p">:</span> <span class="n">EphysGeneratorEndpointType</span>
+
+        <span class="n">lsl</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LSLInputModel</span><span class="p">]</span>
+        <span class="n">testing</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Testing</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="EphysGeneratorSettings.Output"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.settings.EphysGeneratorSettings.Output">[docs]</a>    <span class="k">class</span> <span class="nc">Output</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Settings for the ephys generator output.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="EphysGeneratorSettings.Output.Raw"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.settings.EphysGeneratorSettings.Output.Raw">[docs]</a>        <span class="k">class</span> <span class="nc">Raw</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Settings for the ephys generator output type raw.&quot;&quot;&quot;</span>
+
+            <span class="n">lsl</span><span class="p">:</span> <span class="n">LSLOutputModel</span></div>
+
+<div class="viewcode-block" id="EphysGeneratorSettings.Output.LFP"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.settings.EphysGeneratorSettings.Output.LFP">[docs]</a>        <span class="k">class</span> <span class="nc">LFP</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Settings for the ephys generator output type LFP.&quot;&quot;&quot;</span>
+
+            <span class="n">data_frequency</span><span class="p">:</span> <span class="nb">float</span>
+            <span class="n">filter_cutoff</span><span class="p">:</span> <span class="nb">float</span>
+            <span class="n">filter_order</span><span class="p">:</span> <span class="nb">int</span>
+            <span class="n">lsl</span><span class="p">:</span> <span class="n">LSLOutputModel</span></div>
+
+<div class="viewcode-block" id="EphysGeneratorSettings.Output.SpikeEvents"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.settings.EphysGeneratorSettings.Output.SpikeEvents">[docs]</a>        <span class="k">class</span> <span class="nc">SpikeEvents</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Settings for the ephys generator output type spike events.&quot;&quot;&quot;</span>
+
+            <span class="n">lsl</span><span class="p">:</span> <span class="n">LSLOutputModel</span></div>
+
+        <span class="n">raw</span><span class="p">:</span> <span class="n">Raw</span>
+        <span class="n">lfp</span><span class="p">:</span> <span class="n">LFP</span>
+        <span class="n">spike_events</span><span class="p">:</span> <span class="n">SpikeEvents</span></div>
+
+<div class="viewcode-block" id="EphysGeneratorSettings.Noise"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.settings.EphysGeneratorSettings.Noise">[docs]</a>    <span class="k">class</span> <span class="nc">Noise</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Settings for the ephys generator noise.&quot;&quot;&quot;</span>
+
+        <span class="n">beta</span><span class="p">:</span> <span class="nb">float</span>
+        <span class="n">standard_deviation</span><span class="p">:</span> <span class="nb">float</span>
+        <span class="n">fmin</span><span class="p">:</span> <span class="nb">float</span>
+        <span class="n">samples</span><span class="p">:</span> <span class="nb">int</span></div>
+
+    <span class="n">waveforms</span><span class="p">:</span> <span class="n">Waveforms</span>
+    <span class="nb">input</span><span class="p">:</span> <span class="n">Input</span>
+    <span class="n">output</span><span class="p">:</span> <span class="n">Output</span>
+    <span class="n">noise</span><span class="p">:</span> <span class="n">Noise</span>
+
+    <span class="n">resolution</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">random_seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">raw_data_frequency</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">n_units_per_channel</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">refractory_time</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">lsl_chunk_frequency</span><span class="p">:</span> <span class="nb">float</span>
+
+    <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;input&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_input_lsl_type_must_have_a_lsl_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">input_value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">input_value</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">EphysGeneratorEndpointType</span><span class="o">.</span><span class="n">LSL</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">input_value</span><span class="o">.</span><span class="n">lsl</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;LSL type must have a lsl object&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">input_value</span>
+
+    <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;input&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_input_testing_type_must_have_a_testing_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">input_value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">input_value</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">EphysGeneratorEndpointType</span><span class="o">.</span><span class="n">TESTING</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="n">input_value</span><span class="o">.</span><span class="n">testing</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Testing type must have a testing object&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">input_value</span></div>
+
+
+<div class="viewcode-block" id="Settings"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.settings.Settings">[docs]</a><span class="k">class</span> <span class="nc">Settings</span><span class="p">(</span><span class="n">VersionedYamlModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;All settings for the NDS main package.&quot;&quot;&quot;</span>
+
+    <span class="n">log_level</span><span class="p">:</span> <span class="n">LogLevel</span>
+    <span class="n">timer</span><span class="p">:</span> <span class="n">TimerModel</span>
+    <span class="n">encoder</span><span class="p">:</span> <span class="n">EncoderSettings</span>
+    <span class="n">ephys_generator</span><span class="p">:</span> <span class="n">EphysGeneratorSettings</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      <!--&#169; Copyright 2023, AE Studio &amp; Chadwick Boulay. -->
+      <p>© Copyright 2023, <a href="https://ae.studio">AE Studio</a> & Chadwick Boulay</p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -10,85 +10,10 @@ neural\_data\_simulator
    :hidden:
    :maxdepth: 4
 
+   neural_data_simulator.core
+   neural_data_simulator.decoder
+   neural_data_simulator.plugins
+   neural_data_simulator.recorder
    neural_data_simulator.scripts
-
-
-neural\_data\_simulator.encoder 
---------------------------------
-
-.. automodule:: neural_data_simulator.encoder
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-neural\_data\_simulator.ephys\_generator 
------------------------------------------
-
-.. automodule:: neural_data_simulator.ephys_generator
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-neural\_data\_simulator.filters 
---------------------------------
-
-.. automodule:: neural_data_simulator.filters
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-neural\_data\_simulator.health\_checker 
-----------------------------------------
-
-.. automodule:: neural_data_simulator.health_checker
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-neural\_data\_simulator.inputs 
--------------------------------
-
-.. automodule:: neural_data_simulator.inputs
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-neural\_data\_simulator.models 
--------------------------------
-
-.. automodule:: neural_data_simulator.models
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-neural\_data\_simulator.outputs 
---------------------------------
-
-.. automodule:: neural_data_simulator.outputs
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-neural\_data\_simulator.runner 
--------------------------------
-
-.. automodule:: neural_data_simulator.runner
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-neural\_data\_simulator.samples 
---------------------------------
-
-.. automodule:: neural_data_simulator.samples
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-neural\_data\_simulator.timing 
--------------------------------
-
-.. automodule:: neural_data_simulator.timing
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   neural_data_simulator.streamer
+   neural_data_simulator.tasks

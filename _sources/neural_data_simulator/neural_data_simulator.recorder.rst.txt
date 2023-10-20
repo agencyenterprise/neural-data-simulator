@@ -1,0 +1,24 @@
+neural\_data\_simulator.recorder 
+=================================
+
+.. automodule:: neural_data_simulator.recorder
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+neural\_data\_simulator.recorder.recorders 
+-------------------------------------------
+
+.. automodule:: neural_data_simulator.recorder.recorders
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.recorder.run\_recorder 
+-----------------------------------------------
+
+.. automodule:: neural_data_simulator.recorder.run_recorder
+   :members:
+   :undoc-members:
+   :show-inheritance:

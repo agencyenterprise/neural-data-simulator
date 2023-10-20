@@ -1,0 +1,96 @@
+neural\_data\_simulator.tasks.center\_out\_reach 
+=================================================
+
+.. automodule:: neural_data_simulator.tasks.center_out_reach
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+neural\_data\_simulator.tasks.center\_out\_reach.buttons 
+---------------------------------------------------------
+
+.. automodule:: neural_data_simulator.tasks.center_out_reach.buttons
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.tasks.center\_out\_reach.input\_events 
+---------------------------------------------------------------
+
+.. automodule:: neural_data_simulator.tasks.center_out_reach.input_events
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.tasks.center\_out\_reach.joystick 
+----------------------------------------------------------
+
+.. automodule:: neural_data_simulator.tasks.center_out_reach.joystick
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.tasks.center\_out\_reach.metrics 
+---------------------------------------------------------
+
+.. automodule:: neural_data_simulator.tasks.center_out_reach.metrics
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.tasks.center\_out\_reach.scalers 
+---------------------------------------------------------
+
+.. automodule:: neural_data_simulator.tasks.center_out_reach.scalers
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.tasks.center\_out\_reach.screen\_info 
+--------------------------------------------------------------
+
+.. automodule:: neural_data_simulator.tasks.center_out_reach.screen_info
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.tasks.center\_out\_reach.settings 
+----------------------------------------------------------
+
+.. automodule:: neural_data_simulator.tasks.center_out_reach.settings
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.tasks.center\_out\_reach.sprites 
+---------------------------------------------------------
+
+.. automodule:: neural_data_simulator.tasks.center_out_reach.sprites
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.tasks.center\_out\_reach.task\_runner 
+--------------------------------------------------------------
+
+.. automodule:: neural_data_simulator.tasks.center_out_reach.task_runner
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.tasks.center\_out\_reach.task\_state 
+-------------------------------------------------------------
+
+.. automodule:: neural_data_simulator.tasks.center_out_reach.task_state
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.tasks.center\_out\_reach.task\_window 
+--------------------------------------------------------------
+
+.. automodule:: neural_data_simulator.tasks.center_out_reach.task_window
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>neural_data_simulator.decoder &mdash; Neural Data Simulator 0.2.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="neural_data_simulator.plugins" href="neural_data_simulator.plugins.html" />
+    <link rel="prev" title="neural_data_simulator.core" href="neural_data_simulator.core.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Neural Data Simulator
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../running_bci.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Neural Data Simulator</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inputs.html">Behavioral Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../encoder.html">Encoder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ephys_generator.html">Electrophysiology (Ephys) Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuring.html">Configuring NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../running.html">Running NDS</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Extensions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../extending.html">Extending NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../decoders.html">Decoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks.html">Tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visualization.html">Visualizing Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Recording and Streaming</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/">GitHub Repository</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Neural Data Simulator</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="neural_data_simulator.html">neural_data_simulator</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="neural_data_simulator.core.html">neural_data_simulator.core</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">neural_data_simulator.decoder</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#module-neural_data_simulator.decoder.decoders">neural_data_simulator.decoder.decoders</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-neural_data_simulator.decoder.run_decoder">neural_data_simulator.decoder.run_decoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-neural_data_simulator.decoder.settings">neural_data_simulator.decoder.settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="neural_data_simulator.plugins.html">neural_data_simulator.plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neural_data_simulator.recorder.html">neural_data_simulator.recorder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neural_data_simulator.scripts.html">neural_data_simulator.scripts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neural_data_simulator.streamer.html">neural_data_simulator.streamer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neural_data_simulator.tasks.html">neural_data_simulator.tasks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/modules.html">Example Implementations and Utilities</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Neural Data Simulator</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">Neural Data Simulator</a></li>
+          <li class="breadcrumb-item"><a href="neural_data_simulator.html">neural_data_simulator</a></li>
+      <li class="breadcrumb-item active">neural_data_simulator.decoder</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/neural_data_simulator/neural_data_simulator.decoder.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-neural_data_simulator.decoder">
+<span id="neural-data-simulator-decoder"></span><h1>neural_data_simulator.decoder<a class="headerlink" href="#module-neural_data_simulator.decoder" title="Permalink to this heading"></a></h1>
+<p>This package contains an example implementation of a neural decoder.</p>
+<p>The decoder is a software component that takes neural raw data as input
+and outputs behavioral data.</p>
+<p>The decoder entry point is the <code class="xref py py-meth docutils literal notranslate"><span class="pre">decoder.run_decoder.run()</span></code> method.
+Upon start, the configuration is parsed, the decoder connects to the
+LSL input raw data stream and creates an LSL outlet to write the decoded
+data to. Decoding is an iterative process that runs in a loop. On each
+iteration, a chunk of raw data is read from the LSL input stream and
+added to a buffer. The buffer is used to accumulate raw data so that
+the decoded chunk size can be constant. Once the buffer contains enough
+data according to the predetermined decoding window size, the decoder
+will count the number of spikes in each channel and estimate the spike
+rates. The spike rates are then used to predict the behavioral data
+using a pre-trained model. The predicted data is then written to the
+LSL output stream.</p>
+<section id="module-neural_data_simulator.decoder.decoders">
+<span id="neural-data-simulator-decoder-decoders"></span><h2>neural_data_simulator.decoder.decoders<a class="headerlink" href="#module-neural_data_simulator.decoder.decoders" title="Permalink to this heading"></a></h2>
+<p>This module contains the included decoder implementation – the <a class="reference internal" href="#neural_data_simulator.decoder.decoders.Decoder" title="neural_data_simulator.decoder.decoders.Decoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Decoder</span></code></a>.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_data_simulator.decoder.decoders.DecoderModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.decoder.decoders.</span></span><span class="sig-name descname"><span class="pre">DecoderModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/decoder/decoders.html#DecoderModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.decoder.decoders.DecoderModel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code></p>
+<p>Protocol for a <cite>Decoder</cite> model.</p>
+<p>A <cite>Decoder model</cite> predicts behavior data from spike rate data.</p>
+<p>The Decoder processes data in chunks represented as
+<a class="reference internal" href="neural_data_simulator.core.html#neural_data_simulator.core.samples.Samples" title="neural_data_simulator.core.samples.Samples"><code class="xref py py-class docutils literal notranslate"><span class="pre">neural_data_simulator.core.samples.Samples</span></code></a>.
+One chunk may contain several spike rate data points (n_samples) across multiple
+units (n_units). The <a class="reference internal" href="#neural_data_simulator.decoder.decoders.DecoderModel.predict" title="neural_data_simulator.decoder.decoders.DecoderModel.predict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">predict()</span></code></a> method is called for each chunk in order to
+transform the spike rate data into behavior data (n_samples) across multiple axes
+(n_axes).</p>
+<p>A python protocol (<a class="reference external" href="https://peps.python.org/pep-0544/">PEP-544</a>) works in
+a similar way to an abstract class.
+The <a class="reference internal" href="#neural_data_simulator.decoder.decoders.DecoderModel.__init__" title="neural_data_simulator.decoder.decoders.DecoderModel.__init__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__init__()</span></code></a> method of this protocol should never be called as
+protocols are not meant to be instantiated. An <a class="reference internal" href="#neural_data_simulator.decoder.decoders.DecoderModel.__init__" title="neural_data_simulator.decoder.decoders.DecoderModel.__init__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__init__()</span></code></a> method
+may be defined in a concrete implementation of this protocol if needed.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_data_simulator.decoder.decoders.DecoderModel.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../_modules/neural_data_simulator/decoder/decoders.html#DecoderModel.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.decoder.decoders.DecoderModel.predict" title="Permalink to this definition"></a></dt>
+<dd><p>Predict behavior from spike rate input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – Spike rate data as <a class="reference internal" href="neural_data_simulator.core.html#neural_data_simulator.core.samples.Samples" title="neural_data_simulator.core.samples.Samples"><code class="xref py py-class docutils literal notranslate"><span class="pre">neural_data_simulator.core.samples.Samples</span></code></a>
+with shape (n_samples, n_units).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Behavior data as <a class="reference internal" href="neural_data_simulator.core.html#neural_data_simulator.core.samples.Samples" title="neural_data_simulator.core.samples.Samples"><code class="xref py py-class docutils literal notranslate"><span class="pre">neural_data_simulator.core.samples.Samples</span></code></a>
+with shape (n_samples, n_axes). For example, in case of modeling
+velocities in a horizontal and vertical direction (2 axes), the
+returned data is a 2D array with shape (n_samples, 2).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_data_simulator.decoder.decoders.DecoderModel.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_data_simulator.decoder.decoders.DecoderModel.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_data_simulator.decoder.decoders.PersistedFileDecoderModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.decoder.decoders.</span></span><span class="sig-name descname"><span class="pre">PersistedFileDecoderModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/decoder/decoders.html#PersistedFileDecoderModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.decoder.decoders.PersistedFileDecoderModel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#neural_data_simulator.decoder.decoders.DecoderModel" title="neural_data_simulator.decoder.decoders.DecoderModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">DecoderModel</span></code></a></p>
+<p>Decoder pre-trained model that can be loaded from a file.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_data_simulator.decoder.decoders.PersistedFileDecoderModel.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/neural_data_simulator/decoder/decoders.html#PersistedFileDecoderModel.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.decoder.decoders.PersistedFileDecoderModel.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Initialize the model from a file path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>model_file_path</strong> – The path to the model file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_data_simulator.decoder.decoders.PersistedFileDecoderModel.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../_modules/neural_data_simulator/decoder/decoders.html#PersistedFileDecoderModel.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.decoder.decoders.PersistedFileDecoderModel.predict" title="Permalink to this definition"></a></dt>
+<dd><p>Predict behavior from spike rate input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – A spike rate vector.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A behavior vector.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_data_simulator.decoder.decoders.Decoder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.decoder.decoders.</span></span><span class="sig-name descname"><span class="pre">Decoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.decoder.decoders.DecoderModel" title="neural_data_simulator.decoder.decoders.DecoderModel"><span class="pre">DecoderModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_sample_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_sample_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_channels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/decoder/decoders.html#Decoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.decoder.decoders.Decoder" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Decoder implementation that decodes spiking raw data into velocities.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_data_simulator.decoder.decoders.Decoder.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.decoder.decoders.DecoderModel" title="neural_data_simulator.decoder.decoders.DecoderModel"><span class="pre">DecoderModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_sample_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_sample_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_channels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/decoder/decoders.html#Decoder.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.decoder.decoders.Decoder.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Initialize the decoder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> – The decoder model.</p></li>
+<li><p><strong>input_sample_rate</strong> – The input sample rate in Hz.</p></li>
+<li><p><strong>output_sample_rate</strong> – The output sample rate in Hz.</p></li>
+<li><p><strong>n_channels</strong> – The number of input channels.</p></li>
+<li><p><strong>threshold</strong> – The spike detection threshold.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_data_simulator.decoder.decoders.Decoder.decode">
+<span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="neural_data_simulator.core.html#neural_data_simulator.core.samples.Samples" title="neural_data_simulator.core.samples.Samples"><span class="pre">Samples</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="neural_data_simulator.core.html#neural_data_simulator.core.samples.Samples" title="neural_data_simulator.core.samples.Samples"><span class="pre">Samples</span></a></span></span><a class="reference internal" href="../_modules/neural_data_simulator/decoder/decoders.html#Decoder.decode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.decoder.decoders.Decoder.decode" title="Permalink to this definition"></a></dt>
+<dd><p>Decode spiking raw data into velocities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>samples</strong> – The raw data samples to decode.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The decoded velocities.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-neural_data_simulator.decoder.run_decoder">
+<span id="neural-data-simulator-decoder-run-decoder"></span><h2>neural_data_simulator.decoder.run_decoder<a class="headerlink" href="#module-neural_data_simulator.decoder.run_decoder" title="Permalink to this heading"></a></h2>
+<p>Script that configures and starts the example <code class="xref py py-class docutils literal notranslate"><span class="pre">Decoder</span></code>.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="neural_data_simulator.decoder.run_decoder.run">
+<span class="sig-prename descclassname"><span class="pre">neural_data_simulator.decoder.run_decoder.</span></span><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/decoder/run_decoder.html#run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.decoder.run_decoder.run" title="Permalink to this definition"></a></dt>
+<dd><p>Run the decoder loop.</p>
+</dd></dl>
+
+</section>
+<section id="module-neural_data_simulator.decoder.settings">
+<span id="neural-data-simulator-decoder-settings"></span><h2>neural_data_simulator.decoder.settings<a class="headerlink" href="#module-neural_data_simulator.decoder.settings" title="Permalink to this heading"></a></h2>
+<p>Schema for Decoder settings.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_data_simulator.decoder.settings.DecoderSettings">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.decoder.settings.</span></span><span class="sig-name descname"><span class="pre">DecoderSettings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.decoder.settings.DecoderSettings.Input" title="neural_data_simulator.decoder.settings.DecoderSettings.Input"><span class="pre">Input</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.decoder.settings.DecoderSettings.Output" title="neural_data_simulator.decoder.settings.DecoderSettings.Output"><span class="pre">Output</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spike_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/decoder/settings.html#DecoderSettings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.decoder.settings.DecoderSettings" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Decoder settings.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_data_simulator.decoder.settings.DecoderSettings.Input">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lsl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="neural_data_simulator.core.html#neural_data_simulator.core.settings.LSLInputModel" title="neural_data_simulator.core.settings.LSLInputModel"><span class="pre">LSLInputModel</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/decoder/settings.html#DecoderSettings.Input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.decoder.settings.DecoderSettings.Input" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Decoder input settings.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neural_data_simulator.decoder.settings.DecoderSettings.Input.lsl">
+<span class="sig-name descname"><span class="pre">lsl</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="neural_data_simulator.core.html#neural_data_simulator.core.settings.LSLInputModel" title="neural_data_simulator.core.settings.LSLInputModel"><span class="pre">LSLInputModel</span></a></em><a class="headerlink" href="#neural_data_simulator.decoder.settings.DecoderSettings.Input.lsl" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_data_simulator.decoder.settings.DecoderSettings.Output">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampling_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_channels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lsl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="neural_data_simulator.core.html#neural_data_simulator.core.settings.LSLOutputModel" title="neural_data_simulator.core.settings.LSLOutputModel"><span class="pre">LSLOutputModel</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/decoder/settings.html#DecoderSettings.Output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.decoder.settings.DecoderSettings.Output" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Decoder output settings.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neural_data_simulator.decoder.settings.DecoderSettings.Output.sampling_rate">
+<span class="sig-name descname"><span class="pre">sampling_rate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#neural_data_simulator.decoder.settings.DecoderSettings.Output.sampling_rate" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neural_data_simulator.decoder.settings.DecoderSettings.Output.n_channels">
+<span class="sig-name descname"><span class="pre">n_channels</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#neural_data_simulator.decoder.settings.DecoderSettings.Output.n_channels" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neural_data_simulator.decoder.settings.DecoderSettings.Output.lsl">
+<span class="sig-name descname"><span class="pre">lsl</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="neural_data_simulator.core.html#neural_data_simulator.core.settings.LSLOutputModel" title="neural_data_simulator.core.settings.LSLOutputModel"><span class="pre">LSLOutputModel</span></a></em><a class="headerlink" href="#neural_data_simulator.decoder.settings.DecoderSettings.Output.lsl" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neural_data_simulator.decoder.settings.DecoderSettings.input">
+<span class="sig-name descname"><span class="pre">input</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#neural_data_simulator.decoder.settings.DecoderSettings.Input" title="neural_data_simulator.decoder.settings.DecoderSettings.Input"><span class="pre">Input</span></a></em><a class="headerlink" href="#neural_data_simulator.decoder.settings.DecoderSettings.input" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neural_data_simulator.decoder.settings.DecoderSettings.output">
+<span class="sig-name descname"><span class="pre">output</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#neural_data_simulator.decoder.settings.DecoderSettings.Output" title="neural_data_simulator.decoder.settings.DecoderSettings.Output"><span class="pre">Output</span></a></em><a class="headerlink" href="#neural_data_simulator.decoder.settings.DecoderSettings.output" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neural_data_simulator.decoder.settings.DecoderSettings.model_file">
+<span class="sig-name descname"><span class="pre">model_file</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#neural_data_simulator.decoder.settings.DecoderSettings.model_file" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neural_data_simulator.decoder.settings.DecoderSettings.spike_threshold">
+<span class="sig-name descname"><span class="pre">spike_threshold</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#neural_data_simulator.decoder.settings.DecoderSettings.spike_threshold" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="neural_data_simulator.core.html" class="btn btn-neutral float-left" title="neural_data_simulator.core" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="neural_data_simulator.plugins.html" class="btn btn-neutral float-right" title="neural_data_simulator.plugins" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      <!--&#169; Copyright 2023, AE Studio &amp; Chadwick Boulay. -->
+      <p>© Copyright 2023, <a href="https://ae.studio">AE Studio</a> & Chadwick Boulay</p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

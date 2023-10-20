@@ -121,21 +121,21 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">neural_data_simulator</span> <span class="kn">import</span> <span class="n">inputs</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator</span> <span class="kn">import</span> <span class="n">outputs</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.ephys_generator</span> <span class="kn">import</span> <span class="n">ContinuousData</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.ephys_generator</span> <span class="kn">import</span> <span class="n">LSLSpikeRateInputAdapter</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.ephys_generator</span> <span class="kn">import</span> <span class="n">NoiseData</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.ephys_generator</span> <span class="kn">import</span> <span class="n">ProcessOutput</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.ephys_generator</span> <span class="kn">import</span> <span class="n">SpikeRateInput</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.ephys_generator</span> <span class="kn">import</span> <span class="n">SpikeRateTestingInput</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.ephys_generator</span> <span class="kn">import</span> <span class="n">Spikes</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.ephys_generator</span> <span class="kn">import</span> <span class="n">Waveforms</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.health_checker</span> <span class="kn">import</span> <span class="n">HealthChecker</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.outputs</span> <span class="kn">import</span> <span class="n">StreamConfig</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.settings</span> <span class="kn">import</span> <span class="n">EphysGeneratorEndpointType</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.settings</span> <span class="kn">import</span> <span class="n">EphysGeneratorSettings</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.settings</span> <span class="kn">import</span> <span class="n">Settings</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core</span> <span class="kn">import</span> <span class="n">inputs</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core</span> <span class="kn">import</span> <span class="n">outputs</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.ephys_generator</span> <span class="kn">import</span> <span class="n">ContinuousData</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.ephys_generator</span> <span class="kn">import</span> <span class="n">LSLSpikeRateInputAdapter</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.ephys_generator</span> <span class="kn">import</span> <span class="n">NoiseData</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.ephys_generator</span> <span class="kn">import</span> <span class="n">ProcessOutput</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.ephys_generator</span> <span class="kn">import</span> <span class="n">SpikeRateInput</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.ephys_generator</span> <span class="kn">import</span> <span class="n">SpikeRateTestingInput</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.ephys_generator</span> <span class="kn">import</span> <span class="n">Spikes</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.ephys_generator</span> <span class="kn">import</span> <span class="n">Waveforms</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.health_checker</span> <span class="kn">import</span> <span class="n">HealthChecker</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.outputs</span> <span class="kn">import</span> <span class="n">StreamConfig</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.settings</span> <span class="kn">import</span> <span class="n">EphysGeneratorEndpointType</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.settings</span> <span class="kn">import</span> <span class="n">EphysGeneratorSettings</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.settings</span> <span class="kn">import</span> <span class="n">Settings</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">configure_logger</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">initialize_logger</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">unwrap</span>
