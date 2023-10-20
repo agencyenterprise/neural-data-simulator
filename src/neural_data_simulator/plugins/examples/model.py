@@ -54,7 +54,7 @@ class VelocityTuningCurvesModel(EncoderModel):
         with v = velocity, theta = velocity direction.
 
         Args:
-            X: :class:`neural_data_simulator.samples.Samples` dataclass with timestamps
+            X: :class:`neural_data_simulator.core.samples.Samples` dataclass with timestamps
               and data points for velocity data (x and y direction, respectively) in
               the same unit as parameters were fit for. Each element of samples
               timestamps has 1 column where the acquisition time of the data point
@@ -63,7 +63,7 @@ class VelocityTuningCurvesModel(EncoderModel):
               acquisition.
 
         Returns:
-            :class:`neural_data_simulator.samples.Samples` with the same timestamps as
+            :class:`neural_data_simulator.core.samples.Samples` with the same timestamps as
             input, but data matching the size of the model parameters (which represent
             the units spikes are generated for).
         """

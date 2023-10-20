@@ -38,7 +38,7 @@ class Input(abc.ABC):
 
 
 class SamplesInput(Input):
-    """An input object based on a :class:`neural_data_simulator.samples.Samples` dataclass.
+    """An input object based on a :class:`neural_data_simulator.core.samples.Samples` dataclass.
 
     The underlying samples dataclass will have its timestamps modified to be
     in reference to when the first read was made from this class, simulating the
@@ -79,7 +79,7 @@ class SamplesInput(Input):
         If `set_reference_time_to_now` was not previously called, it will be called.
 
         Returns:
-            :class:`neural_data_simulator.samples.Samples` dataclass with timestamps and
+            :class:`neural_data_simulator.core.samples.Samples` dataclass with timestamps and
             data available since last `read` call.
         """
         if not self._has_reference_time:
@@ -234,7 +234,7 @@ class LSLInput(Input):
         """Read available data from the inlet as a samples.
 
         Returns:
-            :class:`neural_data_simulator.samples.Samples` dataclass with timestamps and
+            :class:`neural_data_simulator.core.samples.Samples` dataclass with timestamps and
             data read from the LSL StreamInlet. If no data is available, an empty
             Samples is returned.
 

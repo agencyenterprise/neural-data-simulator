@@ -102,7 +102,7 @@ class ConsoleOutput(Output):
         """Send data to a file without index or header.
 
         Args:
-            samples: :class:`neural_data_simulator.samples.Samples` dataclass with
+            samples: :class:`neural_data_simulator.core.samples.Samples` dataclass with
               timestamps and data.
         """
         timestamps_and_data = np.column_stack((samples.timestamps, samples.data))
@@ -145,7 +145,7 @@ class FileOutput(Output):
         """Write the samples into the file.
 
         Args:
-            samples: :class:`neural_data_simulator.samples.Samples` dataclass.
+            samples: :class:`neural_data_simulator.core.samples.Samples` dataclass.
         """
         if self.file is not None:
             timestamps_and_data = np.column_stack((samples.timestamps, samples.data))
@@ -321,7 +321,7 @@ class LSLOutputDevice(Output):
         """Push the data to the LSL outlet.
 
         Args:
-            samples: :class:`neural_data_simulator.samples.Samples` dataclass with
+            samples: :class:`neural_data_simulator.core.samples.Samples` dataclass with
               timestamps and data.
 
         Raises:

@@ -13,7 +13,7 @@ class EncoderModel(Protocol):
     spiking rate data.
 
     The Encoder processes data in chunks represented as
-    :class:`neural_data_simulator.samples.Samples`.
+    :class:`neural_data_simulator.core.samples.Samples`.
     One chunk may contain several behavioral data points (n_samples) across
     multiple axes (n_axes). The Encoder calls the EncoderModel's :meth:`encode` method
     for each chunk in order to transform the behavioral data into spiking rates
@@ -30,12 +30,12 @@ class EncoderModel(Protocol):
         """Encode behavior into spiking rates.
 
         Args:
-            data: Behavioral data as :class:`neural_data_simulator.samples.Samples`.
+            data: Behavioral data as :class:`neural_data_simulator.core.samples.Samples`.
               For example, in case of modeling velocities in a horizontal and vertical
               direction (2 axes), the data is a 2D array with shape (n_samples, 2).
 
         Returns:
-            Spiking rates as :class:`neural_data_simulator.samples.Samples`.
+            Spiking rates as :class:`neural_data_simulator.core.samples.Samples`.
             The spiking rates are represented as a 2D array with shape
             (n_samples, n_units).
         """
