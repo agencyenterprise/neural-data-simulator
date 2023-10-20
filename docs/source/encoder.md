@@ -24,11 +24,11 @@ Plugins are simple ways to change or extend how the [encoder](encoder.md) works.
 
 Plugins have several usages depending on which component is being plugged in.
 
-The `preprocessor` plugin (via its implementation of the [Processor](neural_data_simulator.encoder.Processor) protocol) is used to change the data before entering the encoder `model` (i.e. it modifies the behavior data); for example, it can be defined to scale behavioral data to accepted range, change behavioral data format, filter behavior data, add noise/disturbances to behavior data, etc.
+The `preprocessor` plugin (via its implementation of the [Processor](neural_data_simulator.core.encoder.Processor) protocol) is used to change the data before entering the encoder `model` (i.e. it modifies the behavior data); for example, it can be defined to scale behavioral data to accepted range, change behavioral data format, filter behavior data, add noise/disturbances to behavior data, etc.
 
-The encoder `model` plugin (via its implementation of the [EncoderModel](neural_data_simulator.models.EncoderModel) protocol) is used to define the model that converts behavior data to firing rate data.
+The encoder `model` plugin (via its implementation of the [EncoderModel](neural_data_simulator.core.models.EncoderModel) protocol) is used to define the model that converts behavior data to firing rate data.
 
-Finally, the `postprocessor` plugin (via its implementation of the [Processor](neural_data_simulator.encoder.Processor) protocol) is used to change the data after passing through the encoder `model` (i.e. it modifies the spiking rate data); for example change dimensionality of the model output data (e.g. duplicate or remove channels), add noise to firing rate data, swap channels or zero out channels to simulate data disturbances, etc.
+Finally, the `postprocessor` plugin (via its implementation of the [Processor](neural_data_simulator.core.encoder.Processor) protocol) is used to change the data after passing through the encoder `model` (i.e. it modifies the spiking rate data); for example change dimensionality of the model output data (e.g. duplicate or remove channels), add noise to firing rate data, swap channels or zero out channels to simulate data disturbances, etc.
 
 ### Preprocessor
 
@@ -66,13 +66,13 @@ You can find an example of a postprocessor in the [plugins example folder](https
 ### Example custom preprocessor as plugin
 
 Create a python script file in any location you prefer, for example `preprocessor.py`.
-At a minimum, this script should define a function called `create_preprocessor` that returns an instance of a class that implements the [Processor](neural_data_simulator.encoder.Processor) protocol.
+At a minimum, this script should define a function called `create_preprocessor` that returns an instance of a class that implements the [Processor](neural_data_simulator.core.encoder.Processor) protocol.
 
 The following snippet is a minimal but complete example of a preprocessor that just passes through the data unchanged as it receives it:
 
 ```
 """An example preprocessor"""
-from neural_data_simulator.encoder import Processor
+from neural_data_simulator.core.encoder import Processor
 from neural_data_simulator.samples import Samples
 
 
@@ -92,13 +92,13 @@ To make NDS call your preprocessor, you have to add the path of the script you j
 ### Example custom postprocessor as plugin
 
 Create a python script file in any location you prefer, for example `postprocessor.py`.
-At a minimum, this script should define a function called `create_postprocessor` that returns an instance of a class that implements the [Processor](neural_data_simulator.encoder.Processor) protocol.
+At a minimum, this script should define a function called `create_postprocessor` that returns an instance of a class that implements the [Processor](neural_data_simulator.core.encoder.Processor) protocol.
 
 The following snippet is a minimal, but complete example of a postprocessor that just passes through the data unchanged as it receives it:
 
 ```
 """An example postprocessor"""
-from neural_data_simulator.encoder import Processor
+from neural_data_simulator.core.encoder import Processor
 from neural_data_simulator.samples import Samples
 
 
@@ -120,13 +120,13 @@ To make NDS call your postprocessor, you have to add the path of the script you 
 If the included example [VelocityTuningCurvesModel](https://github.com/agencyenterprise/neural-data-simulator/blob/main/src/plugins/examples/model.py) is not well suited for your use case and [retraining this model](auto_examples/plot_train_encoder_and_decoder_model) is not a good option, you can create your own model and integrate it into the NDS encoder as a plugin.
 
 Create a python script file in any location you prefer, for example `model.py`.
-At a minimum, this script should define a function called `create_model` that returns an instance of a class that implements the [EncoderModel](neural_data_simulator.models.EncoderModel) protocol.
+At a minimum, this script should define a function called `create_model` that returns an instance of a class that implements the [EncoderModel](neural_data_simulator.core.models.EncoderModel) protocol.
 
 The following snippet is an example of a model that returns random values for spike rates:
 
 ```
 """Example of a custom EncoderModel."""
-from neural_data_simulator.models import EncoderModel
+from neural_data_simulator.core.models import EncoderModel
 from neural_data_simulator.samples import Samples
 
 class ExampleModel(EncoderModel):

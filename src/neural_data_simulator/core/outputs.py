@@ -195,10 +195,10 @@ class StreamConfig:
         sampling_rate: Union[float, Callable],
         n_channels: int,
     ):
-        """Create a StreamConfig from an :class:`neural_data_simulator.settings.LSLOutputModel`.
+        """Create a StreamConfig from an :class:`neural_data_simulator.core.settings.LSLOutputModel`.
 
         Args:
-            lsl_settings: :class:`neural_data_simulator.settings.LSLOutputModel`
+            lsl_settings: :class:`neural_data_simulator.core.settings.LSLOutputModel`
               instance.
             sampling_rate: Sampling rate in Hz.
             n_channels: Number of channels.
@@ -250,10 +250,10 @@ class LSLOutputDevice(Output):
         sampling_rate: Union[float, Callable],
         n_channels: int,
     ):
-        """Initialize from :class:`neural_data_simulator.settings.LSLOutputModel`.
+        """Initialize from :class:`neural_data_simulator.core.settings.LSLOutputModel`.
 
         Args:
-            lsl_settings: :class:`neural_data_simulator.settings.LSLOutputModel`
+            lsl_settings: :class:`neural_data_simulator.core.settings.LSLOutputModel`
               instance.
             sampling_rate: Sampling rate in Hz.
             n_channels: Number of channels.
