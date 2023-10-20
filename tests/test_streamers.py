@@ -2,10 +2,10 @@
 
 import numpy as np
 import pytest
-from streamer.streamers import LSLStreamer
 
-import neural_data_simulator.outputs
-from neural_data_simulator.samples import Samples
+import neural_data_simulator.core.outputs
+from neural_data_simulator.core.samples import Samples
+from neural_data_simulator.streamer.streamers import LSLStreamer
 
 
 class StreamOutletFake:
@@ -31,7 +31,7 @@ class StreamOutletFake:
 
 def get_stream_config(sample_rate):
     """Get a generic stream config for tests."""
-    stream_config = neural_data_simulator.outputs.StreamConfig(
+    stream_config = neural_data_simulator.core.outputs.StreamConfig(
         name="Test",
         type="behavior",
         source_id="a-test-fake",
@@ -51,7 +51,7 @@ def get_stream_config(sample_rate):
 def fake_lsl_outlet(monkeypatch):
     """Override the pylsl.StreamOutlet with a fake."""
     monkeypatch.setattr(
-        neural_data_simulator.outputs.pylsl, "StreamOutlet", StreamOutletFake
+        neural_data_simulator.core.outputs.pylsl, "StreamOutlet", StreamOutletFake
     )
 
 
@@ -62,10 +62,10 @@ class TestLSLStreamer:
         """Test that samples are forwarded to the LSL outlet by the streamer."""
         samples = Samples(timestamps=np.array([0, 1]), data=np.array([[2, 3], [4, 5]]))
 
-        regular_stream_output = neural_data_simulator.outputs.LSLOutputDevice(
+        regular_stream_output = neural_data_simulator.core.outputs.LSLOutputDevice(
             get_stream_config(sample_rate=50)
         )
-        irregular_stream_output = neural_data_simulator.outputs.LSLOutputDevice(
+        irregular_stream_output = neural_data_simulator.core.outputs.LSLOutputDevice(
             get_stream_config(sample_rate=0)
         )
         streamer = LSLStreamer(

@@ -7,11 +7,10 @@ from unittest.mock import Mock
 
 import numpy as np
 import pytest
-import streamer
-from streamer import run_streamer
-from streamer import settings
-import streamer.run_streamer
 
+from neural_data_simulator import streamer
+from neural_data_simulator.streamer import run_streamer
+from neural_data_simulator.streamer import settings
 from neural_data_simulator.util import settings_loader
 
 
@@ -145,7 +144,7 @@ def mock_default_settings(monkeypatch: pytest.MonkeyPatch):
     get_script_settings_mock = Mock()
     get_script_settings_mock.return_value = default_settings
     monkeypatch.setattr(
-        "streamer.run_streamer.get_script_settings",
+        "neural_data_simulator.streamer.run_streamer.get_script_settings",
         get_script_settings_mock,
     )
     return default_settings
