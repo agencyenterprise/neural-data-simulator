@@ -55,10 +55,10 @@ To start the `ephys generator`, complete the [installation](installation.md), ad
 ephys_generator
 ```
 
-To use a specific config file, specify the config directory (`--config-dir`) and config file-name (`--config-name`) flags. For example:
+To use a specific config file, specify the config directory (`--config-path`) and config file-name (`--config-name`) flags. For example:
 
 ```
-ephys_generator --config-dir $HOME/.nds/ --config-name settings
+ephys_generator --config-path $HOME/.nds/ --config-name settings
 ```
 
 ```{note}

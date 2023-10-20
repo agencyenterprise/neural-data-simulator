@@ -56,7 +56,7 @@ def _parse_args():
 
 def _build_hydra_settings_path_param(settings_path: Optional[Path]):
     """Convert full settings path to a Hydra command line parameter."""
-    _HYDRA_CONFIG_DIR_PARAM = "--config-dir"
+    _HYDRA_CONFIG_DIR_PARAM = "--config-path"
     _HYDRA_CONFIG_NAME_PARAM = "--config-name"
     params = []
     if settings_path is not None:
