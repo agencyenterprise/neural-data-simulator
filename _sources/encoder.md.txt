@@ -34,7 +34,7 @@ Finally, the `postprocessor` plugin (via its implementation of the [Processor](n
 
 A `preprocessor` is responsible for transforming the behavior input data before it is sent to the model. It should modify the received behavioral data to the encoder's expected shape (i.e., same number of channels) and scaling. For example, the default encoder expects standardized inputs with mean of 0 and standard deviation of 1.
 
-You can find examples of the preprocessor in the [plugins example folder](https://github.com/agencyenterprise/neural-data-simulator/tree/main/src/plugins/examples). To create and configure a preprocessor from scratch, check out the [Example custom preprocessor as plugin](#example-custom-preprocessor-as-plugin).
+You can find examples of the preprocessor in the [plugins example folder](https://github.com/agencyenterprise/neural-data-simulator/tree/main/src/neural_data_simulator/plugins/examples). To create and configure a preprocessor from scratch, check out the [Example custom preprocessor as plugin](#example-custom-preprocessor-as-plugin).
 
 ### Encoder model
 
@@ -46,7 +46,7 @@ An encoder `model` plugin is **required** for running NDS.
 
 #### Default model
 
-NDS includes a default model called [VelocityTuningCurvesModel](https://github.com/agencyenterprise/neural-data-simulator/blob/main/src/plugins/examples/model.py). The example [Train models for the encoder and decoder](auto_examples/plot_train_encoder_and_decoder_model) illustrates the steps performed for training the parameters of the included model.
+NDS includes a default model called [VelocityTuningCurvesModel](https://github.com/agencyenterprise/neural-data-simulator/blob/main/src/neural_data_simulator/plugins/examples/model.py). The example [Train models for the encoder and decoder](auto_examples/plot_train_encoder_and_decoder_model) illustrates the steps performed for training the parameters of the included model.
 You can modify this example to create a model that suits the needs of your project.
 
 #### Custom model
@@ -61,7 +61,7 @@ When adding a new model to the encoder, ensure that the input data has the same 
 
 The `postprocessor` modifies the encoder output into a format that the [`ephys generator`](ephys_generator.md) will expect.
 
-You can find an example of a postprocessor in the [plugins example folder](https://github.com/agencyenterprise/neural-data-simulator/tree/main/src/plugins/examples). To create and configure a postprocessor from scratch, check out the [Example custom postprocessor as plugin](#example-custom-postprocessor-as-plugin).
+You can find an example of a postprocessor in the [plugins example folder](https://github.com/agencyenterprise/neural-data-simulator/tree/main/src/neural_data_simulator/plugins/examples). To create and configure a postprocessor from scratch, check out the [Example custom postprocessor as plugin](#example-custom-postprocessor-as-plugin).
 
 ### Example custom preprocessor as plugin
 
@@ -117,7 +117,7 @@ To make NDS call your postprocessor, you have to add the path of the script you 
 
 ### Creating a new model plugin for the encoder
 
-If the included example [VelocityTuningCurvesModel](https://github.com/agencyenterprise/neural-data-simulator/blob/main/src/plugins/examples/model.py) is not well suited for your use case and [retraining this model](auto_examples/plot_train_encoder_and_decoder_model) is not a good option, you can create your own model and integrate it into the NDS encoder as a plugin.
+If the included example [VelocityTuningCurvesModel](https://github.com/agencyenterprise/neural-data-simulator/blob/main/src/neural_data_simulator/plugins/examples/model.py) is not well suited for your use case and [retraining this model](auto_examples/plot_train_encoder_and_decoder_model) is not a good option, you can create your own model and integrate it into the NDS encoder as a plugin.
 
 Create a python script file in any location you prefer, for example `model.py`.
 At a minimum, this script should define a function called `create_model` that returns an instance of a class that implements the [EncoderModel](neural_data_simulator.core.models.EncoderModel) protocol.

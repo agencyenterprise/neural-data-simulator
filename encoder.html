@@ -145,7 +145,7 @@ It is designed as a pipeline with three stages: the preprocessor, the encoder mo
 <section id="preprocessor">
 <h3>Preprocessor<a class="headerlink" href="#preprocessor" title="Permalink to this heading"></a></h3>
 <p>A <code class="docutils literal notranslate"><span class="pre">preprocessor</span></code> is responsible for transforming the behavior input data before it is sent to the model. It should modify the received behavioral data to the encoder’s expected shape (i.e., same number of channels) and scaling. For example, the default encoder expects standardized inputs with mean of 0 and standard deviation of 1.</p>
-<p>You can find examples of the preprocessor in the <a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/tree/main/src/plugins/examples">plugins example folder</a>. To create and configure a preprocessor from scratch, check out the <a class="reference internal" href="#example-custom-preprocessor-as-plugin">Example custom preprocessor as plugin</a>.</p>
+<p>You can find examples of the preprocessor in the <a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/tree/main/src/neural_data_simulator/plugins/examples">plugins example folder</a>. To create and configure a preprocessor from scratch, check out the <a class="reference internal" href="#example-custom-preprocessor-as-plugin">Example custom preprocessor as plugin</a>.</p>
 </section>
 <section id="encoder-model">
 <h3>Encoder model<a class="headerlink" href="#encoder-model" title="Permalink to this heading"></a></h3>
@@ -156,7 +156,7 @@ It is designed as a pipeline with three stages: the preprocessor, the encoder mo
 </div>
 <section id="default-model">
 <h4>Default model<a class="headerlink" href="#default-model" title="Permalink to this heading"></a></h4>
-<p>NDS includes a default model called <a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/blob/main/src/plugins/examples/model.py">VelocityTuningCurvesModel</a>. The example <a class="reference internal" href="auto_examples/plot_train_encoder_and_decoder_model.html"><span class="doc std std-doc">Train models for the encoder and decoder</span></a> illustrates the steps performed for training the parameters of the included model.
+<p>NDS includes a default model called <a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/blob/main/src/neural_data_simulator/plugins/examples/model.py">VelocityTuningCurvesModel</a>. The example <a class="reference internal" href="auto_examples/plot_train_encoder_and_decoder_model.html"><span class="doc std std-doc">Train models for the encoder and decoder</span></a> illustrates the steps performed for training the parameters of the included model.
 You can modify this example to create a model that suits the needs of your project.</p>
 </section>
 <section id="custom-model">
@@ -171,7 +171,7 @@ You can modify this example to create a model that suits the needs of your proje
 <section id="postprocessor">
 <h3>Postprocessor<a class="headerlink" href="#postprocessor" title="Permalink to this heading"></a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">postprocessor</span></code> modifies the encoder output into a format that the <a class="reference internal" href="ephys_generator.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">ephys</span> <span class="pre">generator</span></code></span></a> will expect.</p>
-<p>You can find an example of a postprocessor in the <a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/tree/main/src/plugins/examples">plugins example folder</a>. To create and configure a postprocessor from scratch, check out the <a class="reference internal" href="#example-custom-postprocessor-as-plugin">Example custom postprocessor as plugin</a>.</p>
+<p>You can find an example of a postprocessor in the <a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/tree/main/src/neural_data_simulator/plugins/examples">plugins example folder</a>. To create and configure a postprocessor from scratch, check out the <a class="reference internal" href="#example-custom-postprocessor-as-plugin">Example custom postprocessor as plugin</a>.</p>
 </section>
 <section id="example-custom-preprocessor-as-plugin">
 <h3>Example custom preprocessor as plugin<a class="headerlink" href="#example-custom-preprocessor-as-plugin" title="Permalink to this heading"></a></h3>
@@ -219,7 +219,7 @@ At a minimum, this script should define a function called <code class="docutils 
 </section>
 <section id="creating-a-new-model-plugin-for-the-encoder">
 <h3>Creating a new model plugin for the encoder<a class="headerlink" href="#creating-a-new-model-plugin-for-the-encoder" title="Permalink to this heading"></a></h3>
-<p>If the included example <a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/blob/main/src/plugins/examples/model.py">VelocityTuningCurvesModel</a> is not well suited for your use case and <a class="reference internal" href="auto_examples/plot_train_encoder_and_decoder_model.html"><span class="doc std std-doc">retraining this model</span></a> is not a good option, you can create your own model and integrate it into the NDS encoder as a plugin.</p>
+<p>If the included example <a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/blob/main/src/neural_data_simulator/plugins/examples/model.py">VelocityTuningCurvesModel</a> is not well suited for your use case and <a class="reference internal" href="auto_examples/plot_train_encoder_and_decoder_model.html"><span class="doc std std-doc">retraining this model</span></a> is not a good option, you can create your own model and integrate it into the NDS encoder as a plugin.</p>
 <p>Create a python script file in any location you prefer, for example <code class="docutils literal notranslate"><span class="pre">model.py</span></code>.
 At a minimum, this script should define a function called <code class="docutils literal notranslate"><span class="pre">create_model</span></code> that returns an instance of a class that implements the <a class="reference internal" href="neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.models.EncoderModel" title="neural_data_simulator.core.models.EncoderModel"><span class="xref myst py py-class">EncoderModel</span></a> protocol.</p>
 <p>The following snippet is an example of a model that returns random values for spike rates:</p>
