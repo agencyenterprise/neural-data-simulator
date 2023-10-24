@@ -1,7 +1,7 @@
 """Test runner.py module."""
 from unittest import mock
 
-from neural_data_simulator import runner
+from neural_data_simulator.core import runner
 
 
 class TestRunner:

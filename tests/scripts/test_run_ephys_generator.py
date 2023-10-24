@@ -11,10 +11,10 @@ import pylsl
 import pytest
 
 import neural_data_simulator
-from neural_data_simulator.ephys_generator import ContinuousData
-from neural_data_simulator.ephys_generator import Spikes
+from neural_data_simulator.core.ephys_generator import ContinuousData
+from neural_data_simulator.core.ephys_generator import Spikes
+from neural_data_simulator.core.settings import Settings
 from neural_data_simulator.scripts import run_ephys_generator
-from neural_data_simulator.settings import Settings
 
 
 @pytest.fixture

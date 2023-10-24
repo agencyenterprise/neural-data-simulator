@@ -10,14 +10,6 @@ maintainers = [
     "Chadwick Boulay <chadwick.boulay@gmail.com>",
     "AE Studio <bci@ae.studio>",
 ]
-packages = [
-    {include = "neural_data_simulator", from = "src"},
-    {include = "decoder", from = "src"},
-    {include = "recorder", from = "src"},
-    {include = "streamer", from = "src"},
-    {include = "tasks", from = "src"},
-    {include = "plugins", from = "src"},
-]
 readme = "README.md"
 license = "Apache-2.0"
 classifiers = [
@@ -84,12 +76,12 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.scripts]
 nds_post_install_config = "neural_data_simulator.scripts.post_install_config:run"
 encoder = "neural_data_simulator.scripts.run_encoder:run"
-streamer = "streamer.run_streamer:run"
+streamer = "neural_data_simulator.streamer.run_streamer:run"
 ephys_generator = "neural_data_simulator.scripts.run_ephys_generator:run"
-decoder = "decoder.run_decoder:run"
-recorder = "recorder.run_recorder:run"
-center_out_reach = "tasks.run_center_out_reach:run"
-run_closed_loop = "tasks.run_closed_loop:run"
+decoder = "neural_data_simulator.decoder.run_decoder:run"
+recorder = "neural_data_simulator.recorder.run_recorder:run"
+center_out_reach = "neural_data_simulator.tasks.run_center_out_reach:run"
+run_closed_loop = "neural_data_simulator.tasks.run_closed_loop:run"
 
 [tool.pytest.ini_options]
 # note: not overriding 'norecursedirs' here in order to keep the default value
@@ -105,28 +97,32 @@ extend-exclude = """(
 
 # Software architecture / interdependency checking
 [tool.importlinter]
-root_packages = [
-    "neural_data_simulator",
-    "decoder",
-    "recorder",
-    "streamer",
-    "tasks",
-    "plugins",
-]
+root_package = "neural_data_simulator"
 
 [[tool.importlinter.contracts]]
 id = "ext-ind"
 name = "Extension modules should be independent"
 type = "independence"
-modules = ["decoder", "recorder", "streamer", "tasks", "plugins"]
+modules = [
+    "neural_data_simulator.decoder",
+    "neural_data_simulator.recorder",
+    "neural_data_simulator.streamer",
+    "neural_data_simulator.tasks",
+    "neural_data_simulator.plugins",
+]
 
 [[tool.importlinter.contracts]]
 id = "core-ext"
 name = "Core NDS should not depend on extension modules"
 type = "forbidden"
-source_modules = ["neural_data_simulator"]
-forbidden_modules = ["decoder", "recorder", "streamer", "tasks", "plugins"]
-ignore_imports = ["neural_data_simulator.scripts.post_install_config -> *"]
+source_modules = ["neural_data_simulator.core"]
+forbidden_modules = [
+    "neural_data_simulator.decoder",
+    "neural_data_simulator.recorder",
+    "neural_data_simulator.streamer",
+    "neural_data_simulator.tasks",
+    "neural_data_simulator.plugins",
+]
 
 [tool.isort]
 profile = "google"

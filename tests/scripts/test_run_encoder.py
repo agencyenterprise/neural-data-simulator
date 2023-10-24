@@ -10,15 +10,15 @@ from omegaconf import OmegaConf
 import pytest
 
 import neural_data_simulator
-from neural_data_simulator import inputs
-from neural_data_simulator import models
-from neural_data_simulator import outputs
-from neural_data_simulator.encoder import Encoder
-from neural_data_simulator.encoder import Processor
+from neural_data_simulator.core import inputs
+from neural_data_simulator.core import models
+from neural_data_simulator.core import outputs
+from neural_data_simulator.core.encoder import Encoder
+from neural_data_simulator.core.encoder import Processor
+from neural_data_simulator.core.settings import EncoderEndpointType
+from neural_data_simulator.core.settings import EncoderSettings
+from neural_data_simulator.core.settings import Settings
 from neural_data_simulator.scripts import run_encoder
-from neural_data_simulator.settings import EncoderEndpointType
-from neural_data_simulator.settings import EncoderSettings
-from neural_data_simulator.settings import Settings
 
 velocity_tuning_curves = {
     "b0": np.array([1]),

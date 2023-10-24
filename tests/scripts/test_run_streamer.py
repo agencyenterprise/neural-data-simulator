@@ -7,10 +7,10 @@ from unittest.mock import Mock
 import hydra
 import numpy as np
 import pytest
-import streamer
-from streamer import run_streamer
-from streamer import settings
-import streamer.run_streamer
+
+from neural_data_simulator import streamer
+from neural_data_simulator.streamer import run_streamer
+from neural_data_simulator.streamer import settings
 
 
 class BlackrockRawIOFake:
