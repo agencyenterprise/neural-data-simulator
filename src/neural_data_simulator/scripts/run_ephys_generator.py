@@ -163,7 +163,7 @@ def _parse_args():
         type=check_config_override_str,
         help=(
             "Settings file overrides, e.g. "
-            "'log_level=DEBUG ephys_generator.input.type=testing'.",
+            "'log_level=DEBUG ephys_generator.input.type=testing'."
         ),
     )
     args = parser.parse_args()
