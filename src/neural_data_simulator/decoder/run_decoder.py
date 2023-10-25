@@ -1,12 +1,12 @@
 """Script that configures and starts the example :class:`Decoder`."""
 
+import argparse
 import logging
+from pathlib import Path
+from typing import cast
 
-import hydra
-import hydra.errors
-from omegaconf import DictConfig
-from omegaconf import OmegaConf
 from pydantic import BaseModel
+import yaml
 
 from neural_data_simulator.core import inputs
 from neural_data_simulator.core import outputs
@@ -18,9 +18,11 @@ from neural_data_simulator.decoder.decoders import PersistedFileDecoderModel
 from neural_data_simulator.decoder.settings import DecoderSettings
 from neural_data_simulator.util.runtime import configure_logger
 from neural_data_simulator.util.runtime import get_abs_path
+from neural_data_simulator.util.runtime import get_configs_dir
 from neural_data_simulator.util.runtime import initialize_logger
-from neural_data_simulator.util.runtime import NDS_HOME
 from neural_data_simulator.util.runtime import open_connection
+from neural_data_simulator.util.settings_loader import check_config_override_str
+from neural_data_simulator.util.settings_loader import load_settings
 
 SCRIPT_NAME = "nds-decoder"
 logger = logging.getLogger(__name__)
@@ -51,16 +53,42 @@ def _read_decode_send(
             data_output.send(decoded_samples)
 
 
-@hydra.main(config_path=NDS_HOME, config_name="settings_decoder", version_base="1.3")
-def run_with_config(cfg: DictConfig):
+def _parse_args():
+    parser = argparse.ArgumentParser(
+        description="Stream file neurodata to LSL.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument(
+        "--settings-path",
+        type=Path,
+        default=Path(get_configs_dir()).joinpath("settings_decoder.yaml"),
+        help="Path to the settings_decoder.yaml file.",
+    )
+    parser.add_argument(
+        "--overrides",
+        "-o",
+        nargs="*",
+        type=check_config_override_str,
+    )
+    args = parser.parse_args()
+    return args
+
+
+def run():
     """Run the decoder loop."""
     initialize_logger(SCRIPT_NAME)
-    # Validate Hydra config with Pydantic
-    cfg_resolved = OmegaConf.to_object(cfg)
-    settings = _Settings.parse_obj(cfg_resolved)
+    args = _parse_args()
+    settings: _Settings = cast(
+        _Settings,
+        load_settings(
+            args.settings_path,
+            settings_parser=_Settings,
+            override_dotlist=args.overrides,
+        ),
+    )
 
     configure_logger(SCRIPT_NAME, settings.log_level)
-    logger.debug("run_decoder configuration:\n" + OmegaConf.to_yaml(cfg))
+    logger.debug(f"run_kecoder settings:\n{yaml.dump(settings.dict())}")
 
     # Set up timer
     timer_settings = settings.timer
@@ -102,16 +130,6 @@ def run_with_config(cfg: DictConfig):
                 timer.wait()
     except KeyboardInterrupt:
         logger.info("CTRL+C received. Exiting...")
-
-
-def run():
-    """Run the script, with an informative error if config is not found."""
-    try:
-        run_with_config()
-    except hydra.errors.MissingConfigException as exc:
-        raise FileNotFoundError(
-            "Run 'nds_post_install_config' to copy the default settings files."
-        ) from exc
 
 
 if __name__ == "__main__":
