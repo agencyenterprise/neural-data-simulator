@@ -11,14 +11,13 @@ expects to read data from an LSL stream and output to an LSL outlet. In absence
 of the input stream, the ephys generator will not be able to start.
 """
 
+import argparse
 import logging
-from typing import Optional
+from pathlib import Path
+from typing import cast, Optional
 
-import hydra
-import hydra.errors
 import numpy as np
-from omegaconf import DictConfig
-from omegaconf import OmegaConf
+import yaml
 
 from neural_data_simulator.core import inputs
 from neural_data_simulator.core import outputs
@@ -36,9 +35,11 @@ from neural_data_simulator.core.settings import EphysGeneratorEndpointType
 from neural_data_simulator.core.settings import EphysGeneratorSettings
 from neural_data_simulator.core.settings import Settings
 from neural_data_simulator.util.runtime import configure_logger
+from neural_data_simulator.util.runtime import get_configs_dir
 from neural_data_simulator.util.runtime import initialize_logger
-from neural_data_simulator.util.runtime import NDS_HOME
 from neural_data_simulator.util.runtime import unwrap
+from neural_data_simulator.util.settings_loader import check_config_override_str
+from neural_data_simulator.util.settings_loader import load_settings
 
 SCRIPT_NAME = "nds-ephys-generator"
 logger = logging.getLogger(__name__)
@@ -146,17 +147,43 @@ def _set_random_seed(random_seed: Optional[int]):
         np.random.seed(random_seed)
 
 
-@hydra.main(config_path=NDS_HOME, config_name="settings", version_base="1.3")
-def run_with_config(cfg: DictConfig):
+def _parse_args():
+    parser = argparse.ArgumentParser(
+        description="Stream file neurodata to LSL.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument(
+        "--settings-path",
+        type=Path,
+        default=Path(get_configs_dir()).joinpath("settings.yaml"),
+        help="Path to the settings.yaml file.",
+    )
+    parser.add_argument(
+        "--overrides",
+        "-o",
+        nargs="*",
+        type=check_config_override_str,
+    )
+    args = parser.parse_args()
+    return args
+
+
+def run():
     """Load the configuration and start the ephys generator."""
     initialize_logger(SCRIPT_NAME)
-    # Validate Hydra config with Pydantic
-    cfg_resolved = OmegaConf.to_object(cfg)
-    settings = Settings.parse_obj(cfg_resolved)
+    args = _parse_args()
+    settings: Settings = cast(
+        Settings,
+        load_settings(
+            args.settings_path,
+            settings_parser=Settings,
+            override_dotlist=args.overrides,
+        ),
+    )
 
     _set_random_seed(settings.ephys_generator.random_seed)
     configure_logger(SCRIPT_NAME, settings.log_level)
-    logger.debug("run_ephys_generator configuration:\n" + OmegaConf.to_yaml(cfg))
+    logger.debug(f"run_ephys_generator settings:\n{yaml.dump(settings.dict())}")
 
     if settings.ephys_generator.input.type == EphysGeneratorEndpointType.LSL:
         lsl_input_settings = unwrap(settings.ephys_generator.input.lsl)
@@ -259,16 +286,6 @@ def run_with_config(cfg: DictConfig):
         lfp_output.disconnect()
         spike_events_output.disconnect()
         del spike_rate_input
-
-
-def run():
-    """Run the script, with an informative error if config is not found."""
-    try:
-        run_with_config()
-    except hydra.errors.MissingConfigException as exc:
-        raise FileNotFoundError(
-            "Run 'nds_post_install_config' to copy the default settings files."
-        ) from exc
 
 
 if __name__ == "__main__":
