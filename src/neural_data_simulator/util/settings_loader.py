@@ -17,9 +17,8 @@ def load_settings(
     settings_file: os.PathLike,
     settings_parser: Type[BaseModel],
     override_dotlist: Optional[list[str]] = None,
-) -> BaseModel:
-    """
-    Load settings from a YAML file and parse them into a Pydantic model.
+):
+    """Load settings from a YAML file and parse them into a Pydantic model.
 
     Args:
         settings_file: Path to the YAML file containing the settings.
@@ -33,12 +32,6 @@ def load_settings(
     Raises:
         FileNotFoundError: If the `settings_file` is not found.
     """
-def load_settings(
-    settings_file: os.PathLike,
-    settings_parser: Type[BaseModel],
-    override_dotlist: Optional[list[str]] = None,
-):
-    """Load script settings with optional overrides."""
     try:
         with open(settings_file, "r") as f:
             settings_dict = yaml.safe_load(f)

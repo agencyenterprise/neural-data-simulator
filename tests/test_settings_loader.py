@@ -1,6 +1,5 @@
 """Test settings_loader.py module."""
 import argparse
-
 from pathlib import Path
 from unittest.mock import call
 from unittest.mock import mock_open
@@ -78,21 +77,22 @@ class TestCheckConfigOverrideStr:
         )
 
     def test_check_config_override_str_invalid():
+        """Test invalid config override."""
         with pytest.raises(argparse.ArgumentTypeError):
-            check_config_override_str("=value")
+            settings_loader.check_config_override_str("=value")
         with pytest.raises(argparse.ArgumentTypeError):
-            check_config_override_str("key=")
+            settings_loader.check_config_override_str("key=")
         with pytest.raises(argparse.ArgumentTypeError):
-            check_config_override_str("key.subkey=")
+            settings_loader.check_config_override_str("key.subkey=")
         with pytest.raises(argparse.ArgumentTypeError):
-            check_config_override_str("key.subkey=")
+            settings_loader.check_config_override_str("key.subkey=")
         with pytest.raises(argparse.ArgumentTypeError):
-            check_config_override_str("key.subkey=")
+            settings_loader.check_config_override_str("key.subkey=")
         with pytest.raises(argparse.ArgumentTypeError):
-            check_config_override_str("key.subkey=")
+            settings_loader.check_config_override_str("key.subkey=")
         with pytest.raises(argparse.ArgumentTypeError):
-            check_config_override_str("key..subkey=value")
+            settings_loader.check_config_override_str("key..subkey=value")
         with pytest.raises(argparse.ArgumentTypeError):
-            check_config_override_str("key.subkey")
+            settings_loader.check_config_override_str("key.subkey")
         with pytest.raises(argparse.ArgumentTypeError):
-            check_config_override_str("key.subkey==value")
+            settings_loader.check_config_override_str("key.subkey==value")
