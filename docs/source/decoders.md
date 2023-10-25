@@ -12,10 +12,7 @@ The {class}`decoder.decoders.Decoder` class can also be used with a custom decod
 
 ## Configuring and running the included decoder
 
-To configure the decoder, change the file `settings_decoder.yaml`, which is located by default in the `$HOME/.nds/` folder.  To use a specific config file, specify the config directory (`--config-path`) and config file-name (`--config-name`) flags. For example:
-```
-decoder --config-path $HOME/.nds/ --config-name settings
-```
+To configure the decoder, change the file `settings_decoder.yaml`, which is located by default in the `$HOME/.nds/` folder. You can point the script to use a different configuration file by passing the `--settings-path` argument.
 
 Upon start, the decoder connects to the LSL input raw data stream and creates an LSL outlet to write the predicted behavior to. If the input stream cannot be found, the decoder will not be able to start, therefore make sure that the `ephys generator` is running before starting the decoder.
 
