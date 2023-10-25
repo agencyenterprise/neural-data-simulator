@@ -49,10 +49,11 @@ def load_settings(
     if override_dotlist:
         override_conf = OmegaConf.from_dotlist(override_dotlist)
         merged_conf = OmegaConf.merge(settings.dict(), override_conf)
+        merged_conf_dict = OmegaConf.to_object(merged_conf)
         # Re-validate merged config
         # If validation is slow, we can use `pydantic-partial` to only
         # re-validate the dot-list overrides.
-        settings = settings_parser.parse_obj(merged_conf)
+        settings = settings_parser.parse_obj(merged_conf_dict)
 
     return settings
 
