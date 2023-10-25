@@ -488,23 +488,6 @@ files = [
 numpy = ">=1.17.0"
 
 [[package]]
-name = "colorlog"
-version = "6.7.0"
-description = "Add colours to the output of Python's logging module."
-optional = false
-python-versions = ">=3.6"
-files = [
-    {file = "colorlog-6.7.0-py2.py3-none-any.whl", hash = "sha256:0d33ca236784a1ba3ff9c532d4964126d8a2c44f1f0cb1d2b0728196f512f662"},
-    {file = "colorlog-6.7.0.tar.gz", hash = "sha256:bd94bd21c1e13fac7bd3153f4bc3a7dc0eb0974b8bc2fdf1a989e474f6e582e5"},
-]
-
-[package.dependencies]
-colorama = {version = "*", markers = "sys_platform == \"win32\""}
-
-[package.extras]
-development = ["black", "flake8", "mypy", "pytest", "types-colorama"]
-
-[[package]]
 name = "comm"
 version = "0.1.2"
 description = "Jupyter Python Comm implementation, for usage in ipykernel, xeus-python etc."
@@ -1057,37 +1040,6 @@ numpy = ">=1.16"
 pandas = ">=0.23"
 "ruamel.yaml" = ">=0.15"
 scipy = ">=1.1"
-
-[[package]]
-name = "hydra-colorlog"
-version = "1.2.0"
-description = "Enables colorlog for Hydra apps"
-optional = false
-python-versions = "*"
-files = [
-    {file = "hydra-colorlog-1.2.0.tar.gz", hash = "sha256:d44f85008fabd2448c7e3b496c31b44d7610560f6fff74f3673afaa949870899"},
-    {file = "hydra_colorlog-1.2.0-py3-none-any.whl", hash = "sha256:33d05fc11ca9bc7a5d69cfb3c8fb395a1bc52fa1dfe7aca6a6f5ffb57f6e7c4b"},
-]
-
-[package.dependencies]
-colorlog = "*"
-hydra-core = ">=1.0.0"
-
-[[package]]
-name = "hydra-core"
-version = "1.3.2"
-description = "A framework for elegantly configuring complex applications"
-optional = false
-python-versions = "*"
-files = [
-    {file = "hydra-core-1.3.2.tar.gz", hash = "sha256:8a878ed67216997c3e9d88a8e72e7b4767e81af37afb4ea3334b269a4390a824"},
-    {file = "hydra_core-1.3.2-py3-none-any.whl", hash = "sha256:fa0238a9e31df3373b35b0bfb672c34cc92718d21f81311d8996a16de1141d8b"},
-]
-
-[package.dependencies]
-antlr4-python3-runtime = "==4.9.*"
-omegaconf = ">=2.2,<2.4"
-packaging = "*"
 
 [[package]]
 name = "idna"
@@ -4117,4 +4069,4 @@ extras = ["joblib", "matplotlib", "pygame", "pyobjc-framework-Quartz", "scikit-l
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "2b469a202ce7acf5682f10706f4b2fb7fa4794889d33465774256ab51b4f3765"
+content-hash = "e16cae7a2040dbb6424ffe49b74b7733679157e0726a9a1ea23de2c0f3670c63"
