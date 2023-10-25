@@ -1,9 +1,7 @@
-version: 2.0.0
+version: 1.0.0
 
 # possible values are CRITICAL, ERROR, WARNING, INFO, DEBUG
 log_level: "INFO"
-
-control_file: null
 
 center_out_reach:
   sampling_rate: 50
