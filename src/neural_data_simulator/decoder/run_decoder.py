@@ -36,23 +36,6 @@ class _Settings(BaseModel):
     timer: TimerModel
 
 
-def _read_decode_send(
-    data_input: inputs.Input, dec: Decoder, data_output: outputs.Output
-) -> None:
-    """Read input data, decode it, and send to the output stream.
-
-    Args:
-        data_input: Input data source.
-        dec: Decoder.
-        data_output: Output data sink.
-    """
-    samples = data_input.read()
-    if not samples.empty:
-        decoded_samples = dec.decode(samples)
-        if not decoded_samples.empty:
-            data_output.send(decoded_samples)
-
-
 def _parse_args():
     parser = argparse.ArgumentParser(
         description="Decode behavior from input neural data.",
@@ -72,6 +55,23 @@ def _parse_args():
     )
     args = parser.parse_args()
     return args
+
+
+def _read_decode_send(
+    data_input: inputs.Input, dec: Decoder, data_output: outputs.Output
+) -> None:
+    """Read input data, decode it, and send to the output stream.
+
+    Args:
+        data_input: Input data source.
+        dec: Decoder.
+        data_output: Output data sink.
+    """
+    samples = data_input.read()
+    if not samples.empty:
+        decoded_samples = dec.decode(samples)
+        if not decoded_samples.empty:
+            data_output.send(decoded_samples)
 
 
 def run():
