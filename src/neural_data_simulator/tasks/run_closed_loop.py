@@ -7,7 +7,6 @@ import subprocess
 import sys
 import tempfile
 import time
-from typing import Optional
 
 from neural_data_simulator.core.settings import LogLevel
 from neural_data_simulator.util.runtime import configure_logger
@@ -54,19 +53,10 @@ def _parse_args():
     return parser.parse_args()
 
 
-def _build_hydra_settings_path_param(settings_path: Optional[Path]):
-    """Convert full settings path to a Hydra command line parameter."""
-    _HYDRA_CONFIG_DIR_PARAM = "--config-path"
-    _HYDRA_CONFIG_NAME_PARAM = "--config-name"
+def _build_param_from_arg(arg_value, param_name):
     params = []
-    if settings_path is not None:
-        settings_path = settings_path.resolve()
-        params = [
-            _HYDRA_CONFIG_DIR_PARAM,
-            settings_path.parent,
-            _HYDRA_CONFIG_NAME_PARAM,
-            settings_path.name,
-        ]
+    if arg_value is not None:
+        params = [param_name, str(arg_value)]
     return params
 
 
@@ -116,9 +106,13 @@ def run():
 
     args = _parse_args()
 
-    nds_params = _build_hydra_settings_path_param(args.nds_settings_path)
-    decoder_params = _build_hydra_settings_path_param(args.decoder_settings_path)
-    task_params = _build_hydra_settings_path_param(args.task_settings_path)
+    SETTINGS_PATH_PARAM = "--settings-path"
+
+    nds_params = _build_param_from_arg(args.nds_settings_path, SETTINGS_PATH_PARAM)
+    decoder_params = _build_param_from_arg(
+        args.decoder_settings_path, SETTINGS_PATH_PARAM
+    )
+    task_params = _build_param_from_arg(args.task_settings_path, SETTINGS_PATH_PARAM)
 
     logger.info("Starting modules")
 
@@ -130,11 +124,7 @@ def run():
         control_file_path = os.path.join(temp_dir, "center_out_reach_control_file")
         Path(control_file_path).touch(exist_ok=False)
         center_out_reach = _run_process(
-            # `++` refers to appending or overriding the control_file parameter.
-            # This is only necessary if the user has not updated their
-            # center_out_reach_settings.yaml to the latest
-            ["center_out_reach", f"++control_file={control_file_path}"]
-            + task_params
+            ["center_out_reach", "--control-file", control_file_path] + task_params
         )
         logger.info("Modules started")
 
