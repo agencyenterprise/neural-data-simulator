@@ -44,16 +44,15 @@ def load_settings(
             "\t'--settings-path' argument."
         ) from file_error
 
-    settings = settings_parser.parse_obj(settings_dict)
-
     if override_dotlist:
         override_conf = OmegaConf.from_dotlist(override_dotlist)
-        merged_conf = OmegaConf.merge(settings.dict(), override_conf)
-        merged_conf_dict = OmegaConf.to_object(merged_conf)
+        merged_conf = OmegaConf.merge(settings_dict, override_conf)
+        settings_dict = OmegaConf.to_object(merged_conf)
         # Re-validate merged config
         # If validation is slow, we can use `pydantic-partial` to only
         # re-validate the dot-list overrides.
-        settings = settings_parser.parse_obj(merged_conf_dict)
+
+    settings = settings_parser.parse_obj(settings_dict)
 
     return settings
 
