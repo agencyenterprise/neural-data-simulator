@@ -149,7 +149,7 @@ def _set_random_seed(random_seed: Optional[int]):
 
 def _parse_args():
     parser = argparse.ArgumentParser(
-        description="Stream file neurodata to LSL.",
+        description="Simulate electrophysiology data from firing rates.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(

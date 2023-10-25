@@ -224,7 +224,7 @@ def _setup_data_output(
 
 def _parse_args():
     parser = argparse.ArgumentParser(
-        description="Stream file neurodata to LSL.",
+        description="Convert behavioral input into simulated neural activity.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(

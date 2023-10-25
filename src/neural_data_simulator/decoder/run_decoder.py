@@ -55,7 +55,7 @@ def _read_decode_send(
 
 def _parse_args():
     parser = argparse.ArgumentParser(
-        description="Stream file neurodata to LSL.",
+        description="Decode behavior from input neural data.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
