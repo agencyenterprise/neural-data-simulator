@@ -64,23 +64,18 @@ def check_config_override_str(value: str) -> str:
         value (str): The value to check.
 
     Raises:
-        argparse.ArgumentTypeError: If the value is not in the expected format.
+        argparse.ArgumentTypeError: If the key or subkeys are empty
+            Note: this is a pre-checker for OmegaConf.from_dotlist,
+            which actually handles a wide variety of str formats.
 
     Returns:
         str: The value if it is in the expected format.
     """
     parts = value.split("=")
-    try:
-        key, val = parts
-    except ValueError:
-        # not enough / too many values to unpack
-        raise argparse.ArgumentTypeError(
-            f"Invalid config-override: {value}\n"
-            "\tExpected format: `key=value` or `key.subkey=value`"
-        )
+    key = parts[0]
 
     key_parts = key.split(".")
-    if not key_parts or "" in key_parts:
+    if (not key_parts) or ("" in key_parts):
         raise argparse.ArgumentTypeError(
             f"Invalid config-override: {value}\n"
             "\tExpected format: `key=value` or `key.subkey=value`"

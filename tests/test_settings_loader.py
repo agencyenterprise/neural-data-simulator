@@ -76,23 +76,9 @@ class TestCheckConfigOverrideStr:
             == "key.subkey=value"
         )
 
-    def test_check_config_override_str_invalid():
+    def test_check_config_override_str_invalid(self):
         """Test invalid config override."""
         with pytest.raises(argparse.ArgumentTypeError):
             settings_loader.check_config_override_str("=value")
         with pytest.raises(argparse.ArgumentTypeError):
-            settings_loader.check_config_override_str("key=")
-        with pytest.raises(argparse.ArgumentTypeError):
-            settings_loader.check_config_override_str("key.subkey=")
-        with pytest.raises(argparse.ArgumentTypeError):
-            settings_loader.check_config_override_str("key.subkey=")
-        with pytest.raises(argparse.ArgumentTypeError):
-            settings_loader.check_config_override_str("key.subkey=")
-        with pytest.raises(argparse.ArgumentTypeError):
-            settings_loader.check_config_override_str("key.subkey=")
-        with pytest.raises(argparse.ArgumentTypeError):
             settings_loader.check_config_override_str("key..subkey=value")
-        with pytest.raises(argparse.ArgumentTypeError):
-            settings_loader.check_config_override_str("key.subkey")
-        with pytest.raises(argparse.ArgumentTypeError):
-            settings_loader.check_config_override_str("key.subkey==value")
