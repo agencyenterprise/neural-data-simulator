@@ -233,6 +233,10 @@ def _parse_args():
         "-o",
         nargs="*",
         type=check_config_override_str,
+        help=(
+            "Settings file overrides, e.g. "
+            "'log_level=DEBUG streamer.input_type=blackrock'."
+        ),
     )
     args = parser.parse_args()
     return args

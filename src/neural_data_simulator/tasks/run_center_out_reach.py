@@ -173,6 +173,10 @@ def _parse_args():
         "-o",
         nargs="*",
         type=check_config_override_str,
+        help=(
+            "Settings file overrides, e.g. "
+            "'log_level=DEBUG center_out_reach.sampling_rate=30'."
+        ),
     )
     parser.add_argument(
         "--control-file",

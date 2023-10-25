@@ -52,6 +52,10 @@ def _parse_args():
         "-o",
         nargs="*",
         type=check_config_override_str,
+        help=(
+            "Settings file overrides, e.g. "
+            "'log_level=DEBUG decoder.spike_threshold=-210'."
+        ),
     )
     args = parser.parse_args()
     return args

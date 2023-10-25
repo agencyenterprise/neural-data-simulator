@@ -237,6 +237,10 @@ def _parse_args():
         "-o",
         nargs="*",
         type=check_config_override_str,
+        help=(
+            "Settings file overrides, e.g. "
+            "'log_level=DEBUG encoder.output.n_channels=20'."
+        ),
     )
     args = parser.parse_args()
     return args
