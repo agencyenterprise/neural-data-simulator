@@ -126,7 +126,6 @@ class EncoderSettings(BaseModel):
 
     @validator("preprocessor", "postprocessor")
     def _plugin_entry_point_must_be_a_python_file(cls, v):
-        print("What is v?", v)
         if v is None or v.endswith(".py"):
             return v
         raise ValueError("The plugin entry point must be a Python file")
