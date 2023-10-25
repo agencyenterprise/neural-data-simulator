@@ -1,15 +1,13 @@
 """Run the center-out reach task GUI."""
+import argparse
 import logging
 from pathlib import Path
 import re
-from typing import Optional, Tuple
+from typing import cast, Tuple
 
-import hydra
-import hydra.errors
 import numpy as np
-from omegaconf import DictConfig
-from omegaconf import OmegaConf
 from pydantic import BaseModel
+import yaml
 
 from neural_data_simulator.core import inputs
 from neural_data_simulator.core import outputs
@@ -25,10 +23,12 @@ from neural_data_simulator.tasks.center_out_reach.task_state import StateParams
 from neural_data_simulator.tasks.center_out_reach.task_state import TaskState
 from neural_data_simulator.tasks.center_out_reach.task_window import TaskWindow
 from neural_data_simulator.util.runtime import configure_logger
+from neural_data_simulator.util.runtime import get_configs_dir
 from neural_data_simulator.util.runtime import initialize_logger
-from neural_data_simulator.util.runtime import NDS_HOME
 from neural_data_simulator.util.runtime import open_connection
 from neural_data_simulator.util.runtime import unwrap
+from neural_data_simulator.util.settings_loader import check_config_override_str
+from neural_data_simulator.util.settings_loader import load_settings
 
 SCRIPT_NAME = "nds-center-out-reach"
 logger = logging.getLogger(__name__)
@@ -41,7 +41,6 @@ class _Settings(BaseModel):
     """
 
     log_level: LogLevel
-    control_file: Optional[Path]
     center_out_reach: CenterOutReach
 
 
@@ -158,18 +157,47 @@ def _metrics_enabled(settings: _Settings) -> bool:
     )
 
 
-@hydra.main(
-    config_path=NDS_HOME, config_name="settings_center_out_reach", version_base="1.3"
-)
-def run_with_config(cfg: DictConfig):
+def _parse_args():
+    parser = argparse.ArgumentParser(
+        description="Run the center-out reach task GUI..",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument(
+        "--settings-path",
+        type=Path,
+        default=Path(get_configs_dir()).joinpath("settings_center_out_reach.yaml"),
+        help="Path to the settings_center_out_reach.yaml file.",
+    )
+    parser.add_argument(
+        "--overrides",
+        "-o",
+        nargs="*",
+        type=check_config_override_str,
+    )
+    parser.add_argument(
+        "--control-file",
+        type=Path,
+        help="Path to the control file that will receive control messages.",
+    )
+    args = parser.parse_args()
+    return args
+
+
+def run():
     """Run the center-out reach task GUI."""
     initialize_logger(SCRIPT_NAME)
-    # Validate Hydra config with Pydantic
-    cfg_resolved = OmegaConf.to_object(cfg)
-    settings = _Settings.parse_obj(cfg_resolved)
+    args = _parse_args()
+    settings: _Settings = cast(
+        _Settings,
+        load_settings(
+            args.settings_path,
+            settings_parser=_Settings,
+            override_dotlist=args.overrides,
+        ),
+    )
 
     configure_logger(SCRIPT_NAME, settings.log_level)
-    logger.debug("run_center_out_reach configuration:\n" + OmegaConf.to_yaml(cfg))
+    logger.debug(f"run_center_out_reach settings:\n{yaml.dump(settings.dict())}")
 
     if settings.center_out_reach.input.enabled:
         lsl_input_settings = unwrap(settings.center_out_reach.input.lsl)
@@ -271,8 +299,8 @@ def run_with_config(cfg: DictConfig):
         interrupted = True
 
     # This is used as a signal to a parent process that the main task has finished
-    if settings.control_file is not None:
-        with settings.control_file.open("w") as control_file:
+    if args.control_file is not None:
+        with args.control_file.open("w") as control_file:
             control_file.write("main_task_finished\n")
 
     if (
@@ -285,16 +313,6 @@ def run_with_config(cfg: DictConfig):
 
     if task_window is not None:
         task_window.leave()
-
-
-def run():
-    """Run the script, with an informative error if config is not found."""
-    try:
-        run_with_config()
-    except hydra.errors.MissingConfigException as exc:
-        raise FileNotFoundError(
-            "Run 'nds_post_install_config' to copy the default settings files."
-        ) from exc
 
 
 if __name__ == "__main__":
