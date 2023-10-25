@@ -15,8 +15,28 @@ logger = logging.getLogger(__name__)
 
 def load_settings(
     settings_file: os.PathLike,
-    override_dotlist: Optional[list[str]],
     settings_parser: Type[BaseModel],
+    override_dotlist: Optional[list[str]] = None,
+) -> BaseModel:
+    """
+    Load settings from a YAML file and parse them into a Pydantic model.
+
+    Args:
+        settings_file: Path to the YAML file containing the settings.
+        settings_parser: Pydantic model to parse the settings into.
+        override_dotlist: Optional list of dot-separated key-value pairs to override
+            the settings loaded from the file.
+
+    Returns:
+        An instance of the `settings_parser` model containing the parsed settings.
+
+    Raises:
+        FileNotFoundError: If the `settings_file` is not found.
+    """
+def load_settings(
+    settings_file: os.PathLike,
+    settings_parser: Type[BaseModel],
+    override_dotlist: Optional[list[str]] = None,
 ):
     """Load script settings with optional overrides."""
     try:
@@ -45,7 +65,17 @@ def load_settings(
 
 
 def check_config_override_str(value: str) -> str:
-    """Custom argparse type to check for individual dot-list arguments."""
+    """Custom argparse type to check for individual dot-list arguments.
+
+    Args:
+        value (str): The value to check.
+
+    Raises:
+        argparse.ArgumentTypeError: If the value is not in the expected format.
+
+    Returns:
+        str: The value if it is in the expected format.
+    """
     parts = value.split("=")
     try:
         key, val = parts

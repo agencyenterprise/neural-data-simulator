@@ -243,7 +243,12 @@ def run():
     initialize_logger(SCRIPT_NAME)
     args = _parse_args()
     run_settings: _Settings = cast(
-        _Settings, load_settings(args.settings_path, args.overrides, _Settings)
+        _Settings,
+        load_settings(
+            args.settings_path,
+            settings_parser=_Settings,
+            override_dotlist=args.overrides,
+        ),
     )
 
     configure_logger(SCRIPT_NAME, run_settings.log_level)
