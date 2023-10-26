@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import cast, Optional
 
 import numpy as np
+from rich.pretty import pprint
 import yaml
 
 from neural_data_simulator.core import inputs
@@ -166,6 +167,12 @@ def _parse_args():
             "For example: -o log_level=DEBUG ephys_generator.input.type=testing"
         ),
     )
+    parser.add_argument(
+        "--print-settings-only",
+        "-p",
+        action="store_true",
+        help="Parse/print the settings and exit.",
+    )
     args = parser.parse_args()
     return args
 
@@ -182,6 +189,9 @@ def run():
             override_dotlist=args.overrides,
         ),
     )
+    if args.print_settings_only:
+        pprint(settings)
+        return
 
     _set_random_seed(settings.ephys_generator.random_seed)
     configure_logger(SCRIPT_NAME, settings.log_level)

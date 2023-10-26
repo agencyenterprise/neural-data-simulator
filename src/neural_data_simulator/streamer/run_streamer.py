@@ -19,6 +19,7 @@ from typing import cast, Dict, Iterator, List, Optional, Tuple
 from neo.rawio.blackrockrawio import BlackrockRawIO
 import numpy as np
 from pydantic import BaseModel
+from rich.pretty import pprint
 import yaml
 
 from neural_data_simulator.core.outputs import LSLOutputDevice
@@ -238,6 +239,12 @@ def _parse_args():
             "For example: -o log_level=DEBUG streamer.lsl_chunk_frequency=50"
         ),
     )
+    parser.add_argument(
+        "--print-settings-only",
+        "-p",
+        action="store_true",
+        help="Parse/print the settings and exit.",
+    )
     args = parser.parse_args()
     return args
 
@@ -254,6 +261,9 @@ def run():
             override_dotlist=args.overrides,
         ),
     )
+    if args.print_settings_only:
+        pprint(run_settings)
+        return
 
     configure_logger(SCRIPT_NAME, run_settings.log_level)
     logger.debug(f"run_decoder settings:\n{yaml.dump(run_settings.dict())}")

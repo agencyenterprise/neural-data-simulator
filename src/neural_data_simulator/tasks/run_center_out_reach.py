@@ -7,6 +7,7 @@ from typing import cast, Tuple
 
 import numpy as np
 from pydantic import BaseModel
+from rich.pretty import pprint
 import yaml
 
 from neural_data_simulator.core import inputs
@@ -179,6 +180,12 @@ def _parse_args():
         ),
     )
     parser.add_argument(
+        "--print-settings-only",
+        "-p",
+        action="store_true",
+        help="Parse/print the settings and exit.",
+    )
+    parser.add_argument(
         "--control-file",
         type=Path,
         help="Path to the control file that will receive control messages.",
@@ -199,6 +206,9 @@ def run():
             override_dotlist=args.overrides,
         ),
     )
+    if args.print_settings_only:
+        pprint(settings)
+        return
 
     configure_logger(SCRIPT_NAME, settings.log_level)
     logger.debug(f"run_center_out_reach settings:\n{yaml.dump(settings.dict())}")

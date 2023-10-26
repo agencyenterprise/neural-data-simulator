@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import cast
 
 from pydantic import BaseModel
+from rich.pretty import pprint
 import yaml
 
 from neural_data_simulator.core import inputs
@@ -57,6 +58,12 @@ def _parse_args():
             "For example: -o log_level=DEBUG decoder.spike_threshold=-210"
         ),
     )
+    parser.add_argument(
+        "--print-settings-only",
+        "-p",
+        action="store_true",
+        help="Parse/print the settings and exit.",
+    )
     args = parser.parse_args()
     return args
 
@@ -90,6 +97,9 @@ def run():
             override_dotlist=args.overrides,
         ),
     )
+    if args.print_settings_only:
+        pprint(settings)
+        return
 
     configure_logger(SCRIPT_NAME, settings.log_level)
     logger.debug(f"run_decoder settings:\n{yaml.dump(settings.dict())}")

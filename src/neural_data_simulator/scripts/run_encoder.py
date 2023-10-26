@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Callable, cast, Optional, Union
 
 import numpy as np
+from rich.pretty import pprint
 import yaml
 
 from neural_data_simulator.core import encoder
@@ -242,6 +243,12 @@ def _parse_args():
             "For example: -o log_level=DEBUG encoder.output.n_channels=20"
         ),
     )
+    parser.add_argument(
+        "--print-settings-only",
+        "-p",
+        action="store_true",
+        help="Parse/print the settings and exit.",
+    )
     args = parser.parse_args()
     return args
 
@@ -258,6 +265,9 @@ def run():
             override_dotlist=args.overrides,
         ),
     )
+    if args.print_settings_only:
+        pprint(settings)
+        return
 
     configure_logger(SCRIPT_NAME, settings.log_level)
     logger.debug(f"run_encoder settings:\n{yaml.dump(settings.dict())}")
