@@ -97,6 +97,7 @@ extend-exclude = """(
 # Software architecture / interdependency checking
 [tool.importlinter]
 root_package = "neural_data_simulator"
+include_external_packages = true
 
 [[tool.importlinter.contracts]]
 id = "ext-ind"
