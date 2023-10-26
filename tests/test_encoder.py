@@ -4,7 +4,7 @@ from unittest.mock import patch
 import numpy as np
 
 import neural_data_simulator.core.encoder as encoder
-import neural_data_simulator.core.inputs as inputs
+from neural_data_simulator.core.inputs import api as inputs
 import neural_data_simulator.core.outputs as outputs
 from neural_data_simulator.core.samples import Samples
 

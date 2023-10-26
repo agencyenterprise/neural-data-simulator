@@ -15,9 +15,9 @@ from numpy import ndarray
 import numpy as np
 import pylsl
 
-from neural_data_simulator.core import inputs
 from neural_data_simulator.core import outputs
 from neural_data_simulator.core.filters import LowpassFilter
+from neural_data_simulator.core.inputs import api as inputs
 from neural_data_simulator.core.samples import Samples
 from neural_data_simulator.core.timing import Timer
 from neural_data_simulator.tasks.center_out_reach.input_events import InputEvent

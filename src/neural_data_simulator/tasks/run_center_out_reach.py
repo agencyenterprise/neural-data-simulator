@@ -8,8 +8,8 @@ from typing import cast, Tuple
 import numpy as np
 from pydantic_yaml import VersionedYamlModel
 
-from neural_data_simulator.core import inputs
 from neural_data_simulator.core import outputs
+from neural_data_simulator.core.inputs.lsl_input import LSLInput
 from neural_data_simulator.core.outputs import StreamConfig
 from neural_data_simulator.core.settings import LogLevel
 from neural_data_simulator.tasks.center_out_reach.input_events import InputHandler
@@ -187,7 +187,7 @@ def run():
 
     if settings.center_out_reach.input.enabled:
         lsl_input_settings = unwrap(settings.center_out_reach.input.lsl)
-        data_input = inputs.LSLInput(
+        data_input = LSLInput(
             lsl_input_settings.stream_name, lsl_input_settings.connection_timeout
         )
     else:

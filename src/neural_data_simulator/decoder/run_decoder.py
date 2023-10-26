@@ -7,9 +7,10 @@ from typing import cast
 
 from pydantic_yaml import VersionedYamlModel
 
-from neural_data_simulator.core import inputs
 from neural_data_simulator.core import outputs
 from neural_data_simulator.core import timing
+from neural_data_simulator.core.inputs import api as inputs
+from neural_data_simulator.core.inputs.lsl_input import LSLInput
 from neural_data_simulator.core.settings import LogLevel
 from neural_data_simulator.core.settings import TimerModel
 from neural_data_simulator.decoder.decoders import Decoder
@@ -86,7 +87,7 @@ def run():
         n_channels=output_settings.n_channels,
     )
     lsl_input_settings = settings.decoder.input.lsl
-    data_input = inputs.LSLInput(
+    data_input = LSLInput(
         stream_name=lsl_input_settings.stream_name,
         connection_timeout=lsl_input_settings.connection_timeout,
     )

@@ -3,7 +3,7 @@ import contextlib
 import logging
 from typing import Iterator, Optional, Protocol, runtime_checkable
 
-from neural_data_simulator.core.inputs import Input
+from neural_data_simulator.core.inputs.api import Input
 from neural_data_simulator.core.models import EncoderModel
 from neural_data_simulator.core.outputs import Output
 from neural_data_simulator.core.samples import Samples

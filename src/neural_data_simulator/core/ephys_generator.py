@@ -9,7 +9,7 @@ import pylsl
 
 from neural_data_simulator.core.filters import LowpassFilter
 from neural_data_simulator.core.health_checker import HealthChecker
-from neural_data_simulator.core.inputs import LSLInput
+from neural_data_simulator.core.inputs.lsl_input import LSLInput
 from neural_data_simulator.core.outputs import Output
 from neural_data_simulator.core.timing import Timer
 from neural_data_simulator.util.buffer import RingBuffer
