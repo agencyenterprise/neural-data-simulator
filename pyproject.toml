@@ -124,6 +124,13 @@ forbidden_modules = [
     "neural_data_simulator.plugins",
 ]
 
+[[tool.importlinter.contracts]]
+id = "output_impl"
+name = "ephys_generator should use output Protocol, not implementations (e.g. LSL)"
+type = "forbidden"
+source_modules = ["neural_data_simulator.core.ephys_generator"]
+forbidden_modules = ["pylsl"]
+
 [tool.isort]
 profile = "google"
 src_paths = "."
