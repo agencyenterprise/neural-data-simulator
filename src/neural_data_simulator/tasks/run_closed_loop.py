@@ -11,6 +11,7 @@ import time
 from neural_data_simulator.core.settings import LogLevel
 from neural_data_simulator.util.runtime import configure_logger
 from neural_data_simulator.util.runtime import initialize_logger
+from neural_data_simulator.util.settings_loader import check_config_override_str
 
 SCRIPT_NAME = "nds-run-closed-loop"
 logger = logging.getLogger(__name__)
@@ -50,14 +51,48 @@ def _parse_args():
         type=Path,
         help="Path to the yaml file containing the task config.",
     )
-    return parser.parse_args()
+    parser.add_argument(
+        "--nds-overrides",
+        "-no",
+        nargs="*",
+        type=check_config_override_str,
+        help=(
+            "Specify NDS config overrides as key-value pairs, separated by spaces. "
+            "For example: -no log_level=DEBUG streamer.lsl_chunk_frequency=50"
+        ),
+    )
+    parser.add_argument(
+        "--decoder-overrides",
+        "-do",
+        nargs="*",
+        type=check_config_override_str,
+        help=(
+            "Specify decoder config overrides as key-value pairs, separated by spaces. "
+            "For example: -do log_level=DEBUG decoder.spike_threshold=-210"
+        ),
+    )
+    parser.add_argument(
+        "--task-overrides",
+        "-to",
+        nargs="*",
+        type=check_config_override_str,
+        help=(
+            "Specify task config overrides as key-value pairs, separated by spaces. "
+            "For example: -to log_level=DEBUG center_out_reach.task.target_radius=0.03"
+        ),
+    )
+    args = parser.parse_args()
+
+    return args
 
 
 def _build_param_from_arg(arg_value, param_name):
-    params = []
-    if arg_value is not None:
-        params = [param_name, str(arg_value)]
-    return params
+    if arg_value is None:
+        return []
+    if isinstance(arg_value, list):
+        # Pass in each arg_value element as its string version
+        return [param_name] + [str(val) for val in arg_value]
+    return [param_name, str(arg_value)]
 
 
 def _wait_for_center_out_reach_main_task(
@@ -107,12 +142,16 @@ def run():
     args = _parse_args()
 
     SETTINGS_PATH_PARAM = "--settings-path"
+    OVERRIDES_PARAM = "--overrides"
 
     nds_params = _build_param_from_arg(args.nds_settings_path, SETTINGS_PATH_PARAM)
+    nds_params += _build_param_from_arg(args.nds_overrides, OVERRIDES_PARAM)
     decoder_params = _build_param_from_arg(
         args.decoder_settings_path, SETTINGS_PATH_PARAM
     )
+    decoder_params += _build_param_from_arg(args.decoder_overrides, OVERRIDES_PARAM)
     task_params = _build_param_from_arg(args.task_settings_path, SETTINGS_PATH_PARAM)
+    task_params += _build_param_from_arg(args.task_overrides, OVERRIDES_PARAM)
 
     logger.info("Starting modules")
 
