@@ -10,7 +10,7 @@ import pylsl
 from neural_data_simulator.core.filters import LowpassFilter
 from neural_data_simulator.core.health_checker import HealthChecker
 from neural_data_simulator.core.inputs import LSLInput
-from neural_data_simulator.core.outputs import LSLOutputDevice
+from neural_data_simulator.core.outputs import Output
 from neural_data_simulator.core.timing import Timer
 from neural_data_simulator.util.buffer import RingBuffer
 
@@ -731,16 +731,16 @@ class ProcessOutput:
             return 1.0 / self.lsl_chunk_frequency
 
     @dataclass
-    class LSLOutputs:
-        """Possible LSL output streams."""
+    class Outputs:
+        """Possible output streams."""
 
-        raw: Optional[LSLOutputDevice] = None
+        raw: Optional[Output] = None
         """The raw continuous data stream."""
 
-        lfp: Optional[LSLOutputDevice] = None
+        lfp: Optional[Output] = None
         """The LFP data stream."""
 
-        spike_events: Optional[LSLOutputDevice] = None
+        spike_events: Optional[Output] = None
         """The spike events stream."""
 
     def __init__(
@@ -748,7 +748,7 @@ class ProcessOutput:
         continuous_data: ContinuousData,
         spikes: Spikes,
         input_: SpikeRateInput,
-        outputs: LSLOutputs,
+        outputs: Outputs,
         params: Params,
         health_checker: HealthChecker,
     ):
@@ -758,7 +758,7 @@ class ProcessOutput:
             continuous_data: The continuous data generator.
             spikes: The spikes generator.
             input_: The spike rates input.
-            outputs: The LSL output streams.
+            outputs: The output streams.
             params: The initialization parameters.
             health_checker: The health monitor.
         """
