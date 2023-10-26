@@ -92,7 +92,7 @@ def run():
     )
 
     configure_logger(SCRIPT_NAME, settings.log_level)
-    logger.debug(f"run_kecoder settings:\n{yaml.dump(settings.dict())}")
+    logger.debug(f"run_decoder settings:\n{yaml.dump(settings.dict())}")
 
     # Set up timer
     timer_settings = settings.timer
