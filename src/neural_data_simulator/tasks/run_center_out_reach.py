@@ -176,7 +176,7 @@ def _parse_args():
         type=check_config_override_str,
         help=(
             "Specify settings overrides as key-value pairs, separated by spaces. "
-            "For example: -o log_level=DEBUG center_out_reach.sampling_rate=30"
+            "For example: -o log_level=DEBUG center_out_reach.task.target_radius=0.03"
         ),
     )
     parser.add_argument(
