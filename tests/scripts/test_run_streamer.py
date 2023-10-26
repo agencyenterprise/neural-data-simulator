@@ -101,7 +101,9 @@ def fake_blackrockrawio(monkeypatch):
 @pytest.fixture(autouse=True)
 def fake_parse_args(monkeypatch: pytest.MonkeyPatch) -> argparse.Namespace:
     """Fake command line arguments passed to the script."""
-    parse_args_result = argparse.Namespace(settings_path=None, overrides=None)
+    parse_args_result = argparse.Namespace(
+        settings_path=None, overrides=None, print_settings_only=False
+    )
 
     def parse_args(self, args=None, namespace=None):
         return parse_args_result
