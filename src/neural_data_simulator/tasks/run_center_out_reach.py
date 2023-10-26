@@ -174,8 +174,8 @@ def _parse_args():
         nargs="*",
         type=check_config_override_str,
         help=(
-            "Settings file overrides, e.g. "
-            "'log_level=DEBUG center_out_reach.sampling_rate=30'."
+            "Specify settings overrides as key-value pairs, separated by spaces. "
+            "For example: -o log_level=DEBUG center_out_reach.sampling_rate=30"
         ),
     )
     parser.add_argument(

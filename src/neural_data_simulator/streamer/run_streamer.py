@@ -234,8 +234,8 @@ def _parse_args():
         nargs="*",
         type=check_config_override_str,
         help=(
-            "Settings file overrides, e.g. "
-            "'log_level=DEBUG streamer.input_type=blackrock'."
+            "Specify settings overrides as key-value pairs, separated by spaces. "
+            "For example: -o log_level=DEBUG streamer.lsl_chunk_frequency=50"
         ),
     )
     args = parser.parse_args()
