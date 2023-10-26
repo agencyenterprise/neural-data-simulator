@@ -21,6 +21,7 @@ MAIN_TASK_FINISHED_MSG = "main_task_finished"
 
 
 def _run_process(args) -> subprocess.Popen:
+    logger.info(f"Starting process: {args}")
     return subprocess.Popen(args, shell=sys.platform == "win32")
 
 
