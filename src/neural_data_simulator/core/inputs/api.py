@@ -30,7 +30,6 @@ class Input(abc.ABC):
         pass
 
 
-# TODO: rename to LatestSampleInput
 class SpikeRateInput(Protocol):
     """An abstract input that can be used to read spike rates.
 
