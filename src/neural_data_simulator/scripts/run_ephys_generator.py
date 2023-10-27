@@ -19,15 +19,15 @@ import numpy as np
 
 from neural_data_simulator.core import outputs
 from neural_data_simulator.core.ephys_generator import ContinuousData
-from neural_data_simulator.core.ephys_generator import LSLSpikeRateInputAdapter
 from neural_data_simulator.core.ephys_generator import NoiseData
 from neural_data_simulator.core.ephys_generator import ProcessOutput
-from neural_data_simulator.core.ephys_generator import SpikeRateInput
-from neural_data_simulator.core.ephys_generator import SpikeRateTestingInput
 from neural_data_simulator.core.ephys_generator import Spikes
 from neural_data_simulator.core.ephys_generator import Waveforms
 from neural_data_simulator.core.health_checker import HealthChecker
+from neural_data_simulator.core.inputs.api import SpikeRateInput
 from neural_data_simulator.core.inputs.lsl_input import LSLInput
+from neural_data_simulator.core.inputs.lsl_input import LSLSpikeRateInputAdapter
+from neural_data_simulator.core.inputs.testing_input import SpikeRateTestingInput
 from neural_data_simulator.core.outputs import StreamConfig
 from neural_data_simulator.core.settings import EphysGeneratorEndpointType
 from neural_data_simulator.core.settings import EphysGeneratorSettings
