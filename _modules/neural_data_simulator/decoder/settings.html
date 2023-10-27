@@ -105,20 +105,21 @@
 <span></span><span class="sd">&quot;&quot;&quot;Schema for Decoder settings.&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">Extra</span>
 
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core.settings</span> <span class="kn">import</span> <span class="n">LSLInputModel</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core.settings</span> <span class="kn">import</span> <span class="n">LSLOutputModel</span>
 
 
-<div class="viewcode-block" id="DecoderSettings"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.decoder.html#neural_data_simulator.decoder.settings.DecoderSettings">[docs]</a><span class="k">class</span> <span class="nc">DecoderSettings</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="DecoderSettings"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.decoder.html#neural_data_simulator.decoder.settings.DecoderSettings">[docs]</a><span class="k">class</span> <span class="nc">DecoderSettings</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="n">Extra</span><span class="o">.</span><span class="n">forbid</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Decoder settings.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="DecoderSettings.Input"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.decoder.html#neural_data_simulator.decoder.settings.DecoderSettings.Input">[docs]</a>    <span class="k">class</span> <span class="nc">Input</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="DecoderSettings.Input"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.decoder.html#neural_data_simulator.decoder.settings.DecoderSettings.Input">[docs]</a>    <span class="k">class</span> <span class="nc">Input</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="n">Extra</span><span class="o">.</span><span class="n">forbid</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Decoder input settings.&quot;&quot;&quot;</span>
 
         <span class="n">lsl</span><span class="p">:</span> <span class="n">LSLInputModel</span></div>
 
-<div class="viewcode-block" id="DecoderSettings.Output"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.decoder.html#neural_data_simulator.decoder.settings.DecoderSettings.Output">[docs]</a>    <span class="k">class</span> <span class="nc">Output</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="DecoderSettings.Output"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.decoder.html#neural_data_simulator.decoder.settings.DecoderSettings.Output">[docs]</a>    <span class="k">class</span> <span class="nc">Output</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="n">Extra</span><span class="o">.</span><span class="n">forbid</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Decoder output settings.&quot;&quot;&quot;</span>
 
         <span class="n">sampling_rate</span><span class="p">:</span> <span class="nb">float</span>

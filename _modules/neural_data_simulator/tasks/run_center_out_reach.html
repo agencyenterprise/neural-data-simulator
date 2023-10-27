@@ -110,7 +110,10 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">cast</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">Extra</span>
 <span class="kn">from</span> <span class="nn">pydantic_yaml</span> <span class="kn">import</span> <span class="n">VersionedYamlModel</span>
+<span class="kn">from</span> <span class="nn">rich.pretty</span> <span class="kn">import</span> <span class="n">pprint</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
 
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core</span> <span class="kn">import</span> <span class="n">inputs</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core</span> <span class="kn">import</span> <span class="n">outputs</span>
@@ -126,10 +129,12 @@
 <span class="kn">from</span> <span class="nn">neural_data_simulator.tasks.center_out_reach.task_state</span> <span class="kn">import</span> <span class="n">TaskState</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.tasks.center_out_reach.task_window</span> <span class="kn">import</span> <span class="n">TaskWindow</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">configure_logger</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">get_configs_dir</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">initialize_logger</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">open_connection</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">unwrap</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.util.settings_loader</span> <span class="kn">import</span> <span class="n">get_script_settings</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.settings_loader</span> <span class="kn">import</span> <span class="n">check_config_override_str</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.settings_loader</span> <span class="kn">import</span> <span class="n">load_settings</span>
 
 <span class="n">SCRIPT_NAME</span> <span class="o">=</span> <span class="s2">&quot;nds-center-out-reach&quot;</span>
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -143,6 +148,9 @@
 
     <span class="n">log_level</span><span class="p">:</span> <span class="n">LogLevel</span>
     <span class="n">center_out_reach</span><span class="p">:</span> <span class="n">CenterOutReach</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">extra</span> <span class="o">=</span> <span class="n">Extra</span><span class="o">.</span><span class="n">forbid</span>
 
 
 <span class="k">def</span> <span class="nf">_get_task_window_params</span><span class="p">(</span>
@@ -258,13 +266,32 @@
     <span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_parse_args</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse command line arguments.&quot;&quot;&quot;</span>
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Run GUI.&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_parse_args</span><span class="p">():</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Run the center-out reach task GUI..&quot;</span><span class="p">,</span>
+        <span class="n">formatter_class</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentDefaultsHelpFormatter</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--settings-path&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">get_configs_dir</span><span class="p">())</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;settings_center_out_reach.yaml&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to the settings_center_out_reach.yaml file.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--overrides&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-o&quot;</span><span class="p">,</span>
+        <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="n">check_config_override_str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Specify settings overrides as key-value pairs, separated by spaces. &quot;</span>
+            <span class="s2">&quot;For example: -o log_level=DEBUG center_out_reach.task.target_radius=0.03&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--print-settings-only&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-p&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Parse/print the settings and exit.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--control-file&quot;</span><span class="p">,</span>
@@ -279,15 +306,20 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Run the center-out reach task GUI.&quot;&quot;&quot;</span>
     <span class="n">initialize_logger</span><span class="p">(</span><span class="n">SCRIPT_NAME</span><span class="p">)</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">_parse_args</span><span class="p">()</span>
-    <span class="n">settings</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span>
+    <span class="n">settings</span><span class="p">:</span> <span class="n">_Settings</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span>
         <span class="n">_Settings</span><span class="p">,</span>
-        <span class="n">get_script_settings</span><span class="p">(</span>
+        <span class="n">load_settings</span><span class="p">(</span>
             <span class="n">args</span><span class="o">.</span><span class="n">settings_path</span><span class="p">,</span>
-            <span class="s2">&quot;settings_center_out_reach.yaml&quot;</span><span class="p">,</span>
             <span class="n">settings_parser</span><span class="o">=</span><span class="n">_Settings</span><span class="p">,</span>
+            <span class="n">override_dotlist</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">overrides</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">)</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">print_settings_only</span><span class="p">:</span>
+        <span class="n">pprint</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span>
+        <span class="k">return</span>
+
     <span class="n">configure_logger</span><span class="p">(</span><span class="n">SCRIPT_NAME</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">log_level</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;run_center_out_reach settings:</span><span class="se">\n</span><span class="si">{</span><span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">center_out_reach</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span>
         <span class="n">lsl_input_settings</span> <span class="o">=</span> <span class="n">unwrap</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">center_out_reach</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">lsl</span><span class="p">)</span>
@@ -390,7 +422,7 @@
 
     <span class="c1"># This is used as a signal to a parent process that the main task has finished</span>
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">control_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">control_file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">control_file</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">args</span><span class="o">.</span><span class="n">control_file</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">control_file</span><span class="p">:</span>
             <span class="n">control_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;main_task_finished</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="p">(</span>

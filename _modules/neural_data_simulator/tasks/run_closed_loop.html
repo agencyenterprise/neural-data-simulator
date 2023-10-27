@@ -115,6 +115,7 @@
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core.settings</span> <span class="kn">import</span> <span class="n">LogLevel</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">configure_logger</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">initialize_logger</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.settings_loader</span> <span class="kn">import</span> <span class="n">check_config_override_str</span>
 
 <span class="n">SCRIPT_NAME</span> <span class="o">=</span> <span class="s2">&quot;nds-run-closed-loop&quot;</span>
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -124,6 +125,7 @@
 
 
 <span class="k">def</span> <span class="nf">_run_process</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Starting process: </span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;win32&quot;</span><span class="p">)</span>
 
 
@@ -154,14 +156,48 @@
         <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to the yaml file containing the task config.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--nds-overrides&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-no&quot;</span><span class="p">,</span>
+        <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="n">check_config_override_str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Specify NDS config overrides as key-value pairs, separated by spaces. &quot;</span>
+            <span class="s2">&quot;For example: -no log_level=DEBUG streamer.lsl_chunk_frequency=50&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--decoder-overrides&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-do&quot;</span><span class="p">,</span>
+        <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="n">check_config_override_str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Specify decoder config overrides as key-value pairs, separated by spaces. &quot;</span>
+            <span class="s2">&quot;For example: -do log_level=DEBUG decoder.spike_threshold=-210&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--task-overrides&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-to&quot;</span><span class="p">,</span>
+        <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="n">check_config_override_str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Specify task config overrides as key-value pairs, separated by spaces. &quot;</span>
+            <span class="s2">&quot;For example: -to log_level=DEBUG center_out_reach.task.target_radius=0.03&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">args</span>
 
 
 <span class="k">def</span> <span class="nf">_build_param_from_arg</span><span class="p">(</span><span class="n">arg_value</span><span class="p">,</span> <span class="n">param_name</span><span class="p">):</span>
-    <span class="n">params</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">if</span> <span class="n">arg_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="n">param_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">arg_value</span><span class="p">)]</span>
-    <span class="k">return</span> <span class="n">params</span>
+    <span class="k">if</span> <span class="n">arg_value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg_value</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="c1"># Pass in each arg_value element as its string version</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">param_name</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">arg_value</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">param_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">arg_value</span><span class="p">)]</span>
 
 
 <span class="k">def</span> <span class="nf">_wait_for_center_out_reach_main_task</span><span class="p">(</span>
@@ -211,12 +247,16 @@
     <span class="n">args</span> <span class="o">=</span> <span class="n">_parse_args</span><span class="p">()</span>
 
     <span class="n">SETTINGS_PATH_PARAM</span> <span class="o">=</span> <span class="s2">&quot;--settings-path&quot;</span>
+    <span class="n">OVERRIDES_PARAM</span> <span class="o">=</span> <span class="s2">&quot;--overrides&quot;</span>
 
     <span class="n">nds_params</span> <span class="o">=</span> <span class="n">_build_param_from_arg</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">nds_settings_path</span><span class="p">,</span> <span class="n">SETTINGS_PATH_PARAM</span><span class="p">)</span>
+    <span class="n">nds_params</span> <span class="o">+=</span> <span class="n">_build_param_from_arg</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">nds_overrides</span><span class="p">,</span> <span class="n">OVERRIDES_PARAM</span><span class="p">)</span>
     <span class="n">decoder_params</span> <span class="o">=</span> <span class="n">_build_param_from_arg</span><span class="p">(</span>
         <span class="n">args</span><span class="o">.</span><span class="n">decoder_settings_path</span><span class="p">,</span> <span class="n">SETTINGS_PATH_PARAM</span>
     <span class="p">)</span>
+    <span class="n">decoder_params</span> <span class="o">+=</span> <span class="n">_build_param_from_arg</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">decoder_overrides</span><span class="p">,</span> <span class="n">OVERRIDES_PARAM</span><span class="p">)</span>
     <span class="n">task_params</span> <span class="o">=</span> <span class="n">_build_param_from_arg</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">task_settings_path</span><span class="p">,</span> <span class="n">SETTINGS_PATH_PARAM</span><span class="p">)</span>
+    <span class="n">task_params</span> <span class="o">+=</span> <span class="n">_build_param_from_arg</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">task_overrides</span><span class="p">,</span> <span class="n">OVERRIDES_PARAM</span><span class="p">)</span>
 
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Starting modules&quot;</span><span class="p">)</span>
 

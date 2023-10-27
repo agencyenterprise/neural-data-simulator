@@ -2039,23 +2039,23 @@ channels. Defaults to “data”.</p></li>
 <dl class="py class">
 <dt class="sig sig-object py" id="neural_data_simulator.core.settings.LogLevel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.core.settings.</span></span><span class="sig-name descname"><span class="pre">LogLevel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/settings.html#LogLevel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.settings.LogLevel" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">YamlStrEnum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <p>Possible log levels.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="neural_data_simulator.core.settings.EncoderEndpointType">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.core.settings.</span></span><span class="sig-name descname"><span class="pre">EncoderEndpointType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/settings.html#EncoderEndpointType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.settings.EncoderEndpointType" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">YamlStrEnum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <p>Possible types for the encoder input or output.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_data_simulator.core.settings.EncoderEndpointType.FILE">
-<span class="sig-name descname"><span class="pre">FILE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">YamlStr('file')</span></em><a class="headerlink" href="#neural_data_simulator.core.settings.EncoderEndpointType.FILE" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">FILE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'file'</span></em><a class="headerlink" href="#neural_data_simulator.core.settings.EncoderEndpointType.FILE" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_data_simulator.core.settings.EncoderEndpointType.LSL">
-<span class="sig-name descname"><span class="pre">LSL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">YamlStr('LSL')</span></em><a class="headerlink" href="#neural_data_simulator.core.settings.EncoderEndpointType.LSL" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">LSL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'LSL'</span></em><a class="headerlink" href="#neural_data_simulator.core.settings.EncoderEndpointType.LSL" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2063,16 +2063,16 @@ channels. Defaults to “data”.</p></li>
 <dl class="py class">
 <dt class="sig sig-object py" id="neural_data_simulator.core.settings.EphysGeneratorEndpointType">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.core.settings.</span></span><span class="sig-name descname"><span class="pre">EphysGeneratorEndpointType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/settings.html#EphysGeneratorEndpointType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.settings.EphysGeneratorEndpointType" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">YamlStrEnum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <p>Possible types of input for the ephys generator.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_data_simulator.core.settings.EphysGeneratorEndpointType.TESTING">
-<span class="sig-name descname"><span class="pre">TESTING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">YamlStr('testing')</span></em><a class="headerlink" href="#neural_data_simulator.core.settings.EphysGeneratorEndpointType.TESTING" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">TESTING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'testing'</span></em><a class="headerlink" href="#neural_data_simulator.core.settings.EphysGeneratorEndpointType.TESTING" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_data_simulator.core.settings.EphysGeneratorEndpointType.LSL">
-<span class="sig-name descname"><span class="pre">LSL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">YamlStr('LSL')</span></em><a class="headerlink" href="#neural_data_simulator.core.settings.EphysGeneratorEndpointType.LSL" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">LSL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'LSL'</span></em><a class="headerlink" href="#neural_data_simulator.core.settings.EphysGeneratorEndpointType.LSL" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2080,16 +2080,16 @@ channels. Defaults to “data”.</p></li>
 <dl class="py class">
 <dt class="sig sig-object py" id="neural_data_simulator.core.settings.EncoderModelType">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.core.settings.</span></span><span class="sig-name descname"><span class="pre">EncoderModelType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/settings.html#EncoderModelType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.settings.EncoderModelType" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">YamlStrEnum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <p>Possible types of input for the encoder model.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_data_simulator.core.settings.EncoderModelType.PLUGIN">
-<span class="sig-name descname"><span class="pre">PLUGIN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">YamlStr('plugin')</span></em><a class="headerlink" href="#neural_data_simulator.core.settings.EncoderModelType.PLUGIN" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">PLUGIN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'plugin'</span></em><a class="headerlink" href="#neural_data_simulator.core.settings.EncoderModelType.PLUGIN" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_data_simulator.core.settings.EncoderModelType.VELOCITY_TUNING_CURVES">
-<span class="sig-name descname"><span class="pre">VELOCITY_TUNING_CURVES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">YamlStr('velocity_tuning_curves')</span></em><a class="headerlink" href="#neural_data_simulator.core.settings.EncoderModelType.VELOCITY_TUNING_CURVES" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">VELOCITY_TUNING_CURVES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'velocity_tuning_curves'</span></em><a class="headerlink" href="#neural_data_simulator.core.settings.EncoderModelType.VELOCITY_TUNING_CURVES" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2097,7 +2097,7 @@ channels. Defaults to “data”.</p></li>
 <dl class="py class">
 <dt class="sig sig-object py" id="neural_data_simulator.core.settings.LSLChannelFormatType">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.core.settings.</span></span><span class="sig-name descname"><span class="pre">LSLChannelFormatType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/settings.html#LSLChannelFormatType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.settings.LSLChannelFormatType" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">YamlStrEnum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <p>Possible values for the LSL channel format.</p>
 </dd></dl>
 
@@ -2522,6 +2522,18 @@ channels. Defaults to “data”.</p></li>
 <dt class="sig sig-object py" id="neural_data_simulator.core.settings.Settings.ephys_generator">
 <span class="sig-name descname"><span class="pre">ephys_generator</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#neural_data_simulator.core.settings.EphysGeneratorSettings" title="neural_data_simulator.core.settings.EphysGeneratorSettings"><span class="pre">EphysGeneratorSettings</span></a></em><a class="headerlink" href="#neural_data_simulator.core.settings.Settings.ephys_generator" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_data_simulator.core.settings.Settings.Config">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Config</span></span><a class="reference internal" href="../_modules/neural_data_simulator/core/settings.html#Settings.Config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.settings.Settings.Config" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Pydantic configuration.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neural_data_simulator.core.settings.Settings.Config.extra">
+<span class="sig-name descname"><span class="pre">extra</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'forbid'</span></em><a class="headerlink" href="#neural_data_simulator.core.settings.Settings.Config.extra" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
 
 </dd></dl>
 

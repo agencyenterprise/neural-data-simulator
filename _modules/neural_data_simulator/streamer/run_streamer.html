@@ -122,7 +122,10 @@
 
 <span class="kn">from</span> <span class="nn">neo.rawio.blackrockrawio</span> <span class="kn">import</span> <span class="n">BlackrockRawIO</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">Extra</span>
 <span class="kn">from</span> <span class="nn">pydantic_yaml</span> <span class="kn">import</span> <span class="n">VersionedYamlModel</span>
+<span class="kn">from</span> <span class="nn">rich.pretty</span> <span class="kn">import</span> <span class="n">pprint</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
 
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core.outputs</span> <span class="kn">import</span> <span class="n">LSLOutputDevice</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core.outputs</span> <span class="kn">import</span> <span class="n">StreamConfig</span>
@@ -132,9 +135,11 @@
 <span class="kn">from</span> <span class="nn">neural_data_simulator.streamer</span> <span class="kn">import</span> <span class="n">streamers</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">configure_logger</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">get_abs_path</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">get_configs_dir</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">initialize_logger</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">unwrap</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.util.settings_loader</span> <span class="kn">import</span> <span class="n">get_script_settings</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.settings_loader</span> <span class="kn">import</span> <span class="n">check_config_override_str</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.settings_loader</span> <span class="kn">import</span> <span class="n">load_settings</span>
 
 <span class="n">SCRIPT_NAME</span> <span class="o">=</span> <span class="s2">&quot;nds-streamer&quot;</span>
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -145,6 +150,9 @@
 
     <span class="n">log_level</span><span class="p">:</span> <span class="n">LogLevel</span>
     <span class="n">streamer</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">Streamer</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">extra</span> <span class="o">=</span> <span class="n">Extra</span><span class="o">.</span><span class="n">forbid</span>
 
 
 <div class="viewcode-block" id="StreamGroup"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.run_streamer.StreamGroup">[docs]</a><span class="k">class</span> <span class="nc">StreamGroup</span><span class="p">:</span>
@@ -318,24 +326,57 @@
     <span class="k">return</span> <span class="n">stream_config</span>
 
 
-<div class="viewcode-block" id="run"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.run_streamer.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the configuration and start the streamer.&quot;&quot;&quot;</span>
-    <span class="n">initialize_logger</span><span class="p">(</span><span class="n">SCRIPT_NAME</span><span class="p">)</span>
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Run streamer.&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_parse_args</span><span class="p">():</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Stream file neurodata to LSL.&quot;</span><span class="p">,</span>
+        <span class="n">formatter_class</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentDefaultsHelpFormatter</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--settings-path&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">get_configs_dir</span><span class="p">())</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;settings_streamer.yaml&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to the settings_streamer.yaml file.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">run_settings</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span>
-        <span class="n">_Settings</span><span class="p">,</span>
-        <span class="n">get_script_settings</span><span class="p">(</span>
-            <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span><span class="o">.</span><span class="n">settings_path</span><span class="p">,</span> <span class="s2">&quot;settings_streamer.yaml&quot;</span><span class="p">,</span> <span class="n">_Settings</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--overrides&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-o&quot;</span><span class="p">,</span>
+        <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="n">check_config_override_str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Specify settings overrides as key-value pairs, separated by spaces. &quot;</span>
+            <span class="s2">&quot;For example: -o log_level=DEBUG streamer.lsl_chunk_frequency=50&quot;</span>
         <span class="p">),</span>
     <span class="p">)</span>
-    <span class="n">configure_logger</span><span class="p">(</span><span class="n">SCRIPT_NAME</span><span class="p">,</span> <span class="n">run_settings</span><span class="o">.</span><span class="n">log_level</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--print-settings-only&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-p&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Parse/print the settings and exit.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">args</span>
 
-    <span class="k">if</span> <span class="n">run_settings</span><span class="o">.</span><span class="n">streamer</span><span class="o">.</span><span class="n">input_type</span> <span class="o">==</span> <span class="n">settings</span><span class="o">.</span><span class="n">StreamerInputType</span><span class="o">.</span><span class="n">NPZ</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+
+<div class="viewcode-block" id="run"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.run_streamer.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the configuration and start the streamer.&quot;&quot;&quot;</span>
+    <span class="n">initialize_logger</span><span class="p">(</span><span class="n">SCRIPT_NAME</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">_parse_args</span><span class="p">()</span>
+    <span class="n">run_settings</span><span class="p">:</span> <span class="n">_Settings</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span>
+        <span class="n">_Settings</span><span class="p">,</span>
+        <span class="n">load_settings</span><span class="p">(</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">settings_path</span><span class="p">,</span>
+            <span class="n">settings_parser</span><span class="o">=</span><span class="n">_Settings</span><span class="p">,</span>
+            <span class="n">override_dotlist</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">overrides</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">print_settings_only</span><span class="p">:</span>
+        <span class="n">pprint</span><span class="p">(</span><span class="n">run_settings</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="n">configure_logger</span><span class="p">(</span><span class="n">SCRIPT_NAME</span><span class="p">,</span> <span class="n">run_settings</span><span class="o">.</span><span class="n">log_level</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;run_decoder settings:</span><span class="se">\n</span><span class="si">{</span><span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">run_settings</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">run_settings</span><span class="o">.</span><span class="n">streamer</span><span class="o">.</span><span class="n">input_type</span> <span class="o">==</span> <span class="n">settings</span><span class="o">.</span><span class="n">StreamerInputType</span><span class="o">.</span><span class="n">NPZ</span><span class="p">:</span>
         <span class="n">input_settings</span> <span class="o">=</span> <span class="n">unwrap</span><span class="p">(</span><span class="n">run_settings</span><span class="o">.</span><span class="n">streamer</span><span class="o">.</span><span class="n">npz</span><span class="p">)</span><span class="o">.</span><span class="n">input</span>
         <span class="n">samples</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">Samples</span><span class="o">.</span><span class="n">load_from_npz</span><span class="p">(</span>
@@ -350,7 +391,7 @@
             <span class="n">lsl_settings</span><span class="p">,</span> <span class="n">output_settings</span><span class="o">.</span><span class="n">sampling_rate</span><span class="p">,</span> <span class="n">output_settings</span><span class="o">.</span><span class="n">n_channels</span>
         <span class="p">)</span>
         <span class="n">stream_group</span> <span class="o">=</span> <span class="n">StreamGroup</span><span class="p">([</span><span class="n">stream_config</span><span class="p">])</span>
-    <span class="k">elif</span> <span class="n">run_settings</span><span class="o">.</span><span class="n">streamer</span><span class="o">.</span><span class="n">input_type</span> <span class="o">==</span> <span class="n">settings</span><span class="o">.</span><span class="n">StreamerInputType</span><span class="o">.</span><span class="n">Blackrock</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">run_settings</span><span class="o">.</span><span class="n">streamer</span><span class="o">.</span><span class="n">input_type</span> <span class="o">==</span> <span class="n">settings</span><span class="o">.</span><span class="n">StreamerInputType</span><span class="o">.</span><span class="n">Blackrock</span><span class="p">:</span>
         <span class="n">input_settings</span> <span class="o">=</span> <span class="n">unwrap</span><span class="p">(</span><span class="n">run_settings</span><span class="o">.</span><span class="n">streamer</span><span class="o">.</span><span class="n">blackrock</span><span class="p">)</span><span class="o">.</span><span class="n">input</span>
         <span class="n">output_settings</span> <span class="o">=</span> <span class="n">unwrap</span><span class="p">(</span><span class="n">run_settings</span><span class="o">.</span><span class="n">streamer</span><span class="o">.</span><span class="n">blackrock</span><span class="p">)</span><span class="o">.</span><span class="n">output</span>
         <span class="n">lsl_settings</span> <span class="o">=</span> <span class="n">output_settings</span><span class="o">.</span><span class="n">lsl</span>

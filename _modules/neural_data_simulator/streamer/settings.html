@@ -103,28 +103,29 @@
              
   <h1>Source code for neural_data_simulator.streamer.settings</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Settings schema for the streamer.&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">Extra</span>
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">validator</span>
-<span class="kn">from</span> <span class="nn">pydantic_yaml</span> <span class="kn">import</span> <span class="n">YamlStrEnum</span>
 
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core.settings</span> <span class="kn">import</span> <span class="n">LSLChannelFormatType</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core.settings</span> <span class="kn">import</span> <span class="n">LSLOutputModel</span>
 
 
-<div class="viewcode-block" id="StreamerInputType"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.settings.StreamerInputType">[docs]</a><span class="k">class</span> <span class="nc">StreamerInputType</span><span class="p">(</span><span class="n">YamlStrEnum</span><span class="p">):</span>
+<div class="viewcode-block" id="StreamerInputType"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.settings.StreamerInputType">[docs]</a><span class="k">class</span> <span class="nc">StreamerInputType</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Possible types for the streamer input.&quot;&quot;&quot;</span>
 
     <span class="n">NPZ</span> <span class="o">=</span> <span class="s2">&quot;npz&quot;</span>
     <span class="n">Blackrock</span> <span class="o">=</span> <span class="s2">&quot;blackrock&quot;</span></div>
 
 
-<div class="viewcode-block" id="LSLSimplifiedOutputModel"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.settings.LSLSimplifiedOutputModel">[docs]</a><span class="k">class</span> <span class="nc">LSLSimplifiedOutputModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="LSLSimplifiedOutputModel"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.settings.LSLSimplifiedOutputModel">[docs]</a><span class="k">class</span> <span class="nc">LSLSimplifiedOutputModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="n">Extra</span><span class="o">.</span><span class="n">forbid</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Settings for all LSL outlets.&quot;&quot;&quot;</span>
 
-    <span class="k">class</span> <span class="nc">_Instrument</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">_Instrument</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="n">Extra</span><span class="o">.</span><span class="n">forbid</span><span class="p">):</span>
         <span class="n">manufacturer</span><span class="p">:</span> <span class="nb">str</span>
         <span class="n">model</span><span class="p">:</span> <span class="nb">str</span>
         <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
@@ -133,20 +134,20 @@
     <span class="n">instrument</span><span class="p">:</span> <span class="n">_Instrument</span></div>
 
 
-<div class="viewcode-block" id="Streamer"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.settings.Streamer">[docs]</a><span class="k">class</span> <span class="nc">Streamer</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="Streamer"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.settings.Streamer">[docs]</a><span class="k">class</span> <span class="nc">Streamer</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="n">Extra</span><span class="o">.</span><span class="n">forbid</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Settings specific to the streamer.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Streamer.NPZ"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.settings.Streamer.NPZ">[docs]</a>    <span class="k">class</span> <span class="nc">NPZ</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="Streamer.NPZ"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.settings.Streamer.NPZ">[docs]</a>    <span class="k">class</span> <span class="nc">NPZ</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="n">Extra</span><span class="o">.</span><span class="n">forbid</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Settings for streaming from a numpy archive file (.npz).&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Streamer.NPZ.Output"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.settings.Streamer.NPZ.Output">[docs]</a>        <span class="k">class</span> <span class="nc">Output</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="Streamer.NPZ.Output"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.settings.Streamer.NPZ.Output">[docs]</a>        <span class="k">class</span> <span class="nc">Output</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="n">Extra</span><span class="o">.</span><span class="n">forbid</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;Settings for outputting to LSL.&quot;&quot;&quot;</span>
 
             <span class="n">sampling_rate</span><span class="p">:</span> <span class="nb">float</span>
             <span class="n">n_channels</span><span class="p">:</span> <span class="nb">int</span>
             <span class="n">lsl</span><span class="p">:</span> <span class="n">LSLOutputModel</span></div>
 
-<div class="viewcode-block" id="Streamer.NPZ.Input"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.settings.Streamer.NPZ.Input">[docs]</a>        <span class="k">class</span> <span class="nc">Input</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="Streamer.NPZ.Input"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.settings.Streamer.NPZ.Input">[docs]</a>        <span class="k">class</span> <span class="nc">Input</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="n">Extra</span><span class="o">.</span><span class="n">forbid</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;Settings for reading in from a .npz file.&quot;&quot;&quot;</span>
 
             <span class="n">file</span><span class="p">:</span> <span class="n">Path</span>
@@ -156,15 +157,15 @@
         <span class="n">output</span><span class="p">:</span> <span class="n">Output</span>
         <span class="nb">input</span><span class="p">:</span> <span class="n">Input</span></div>
 
-<div class="viewcode-block" id="Streamer.Blackrock"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.settings.Streamer.Blackrock">[docs]</a>    <span class="k">class</span> <span class="nc">Blackrock</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="Streamer.Blackrock"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.settings.Streamer.Blackrock">[docs]</a>    <span class="k">class</span> <span class="nc">Blackrock</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="n">Extra</span><span class="o">.</span><span class="n">forbid</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Settings for streaming from Blackrock Neurotech files.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Streamer.Blackrock.Output"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.settings.Streamer.Blackrock.Output">[docs]</a>        <span class="k">class</span> <span class="nc">Output</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="Streamer.Blackrock.Output"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.settings.Streamer.Blackrock.Output">[docs]</a>        <span class="k">class</span> <span class="nc">Output</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="n">Extra</span><span class="o">.</span><span class="n">forbid</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;Settings for outputting to LSL.&quot;&quot;&quot;</span>
 
             <span class="n">lsl</span><span class="p">:</span> <span class="n">LSLSimplifiedOutputModel</span></div>
 
-<div class="viewcode-block" id="Streamer.Blackrock.Input"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.settings.Streamer.Blackrock.Input">[docs]</a>        <span class="k">class</span> <span class="nc">Input</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="Streamer.Blackrock.Input"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.streamer.html#neural_data_simulator.streamer.settings.Streamer.Blackrock.Input">[docs]</a>        <span class="k">class</span> <span class="nc">Input</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="n">Extra</span><span class="o">.</span><span class="n">forbid</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;Settings for reading in from a Blackrock Neurotech file.&quot;&quot;&quot;</span>
 
             <span class="n">file</span><span class="p">:</span> <span class="n">Path</span></div>
@@ -180,12 +181,12 @@
 
     <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;input_type&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">_config_is_set_for_input_type</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">StreamerInputType</span><span class="o">.</span><span class="n">Blackrock</span><span class="o">.</span><span class="n">value</span> <span class="ow">and</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;blackrock&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">StreamerInputType</span><span class="o">.</span><span class="n">Blackrock</span> <span class="ow">and</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;blackrock&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;blackrock fields need to be configured&quot;</span>
                 <span class="s2">&quot; for a Blackrock Neurotech file&quot;</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">StreamerInputType</span><span class="o">.</span><span class="n">NPZ</span><span class="o">.</span><span class="n">value</span> <span class="ow">and</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;npz&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">StreamerInputType</span><span class="o">.</span><span class="n">NPZ</span> <span class="ow">and</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;npz&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;npz fields need to be configured for an npz file&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">v</span></div>
 </pre></div>

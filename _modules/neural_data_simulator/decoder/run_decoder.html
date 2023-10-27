@@ -109,7 +109,10 @@
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">cast</span>
 
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">Extra</span>
 <span class="kn">from</span> <span class="nn">pydantic_yaml</span> <span class="kn">import</span> <span class="n">VersionedYamlModel</span>
+<span class="kn">from</span> <span class="nn">rich.pretty</span> <span class="kn">import</span> <span class="n">pprint</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
 
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core</span> <span class="kn">import</span> <span class="n">inputs</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core</span> <span class="kn">import</span> <span class="n">outputs</span>
@@ -121,9 +124,11 @@
 <span class="kn">from</span> <span class="nn">neural_data_simulator.decoder.settings</span> <span class="kn">import</span> <span class="n">DecoderSettings</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">configure_logger</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">get_abs_path</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">get_configs_dir</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">initialize_logger</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.runtime</span> <span class="kn">import</span> <span class="n">open_connection</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.util.settings_loader</span> <span class="kn">import</span> <span class="n">get_script_settings</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.settings_loader</span> <span class="kn">import</span> <span class="n">check_config_override_str</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.util.settings_loader</span> <span class="kn">import</span> <span class="n">load_settings</span>
 
 <span class="n">SCRIPT_NAME</span> <span class="o">=</span> <span class="s2">&quot;nds-decoder&quot;</span>
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -136,17 +141,39 @@
     <span class="n">decoder</span><span class="p">:</span> <span class="n">DecoderSettings</span>
     <span class="n">timer</span><span class="p">:</span> <span class="n">TimerModel</span>
 
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">extra</span> <span class="o">=</span> <span class="n">Extra</span><span class="o">.</span><span class="n">forbid</span>
 
-<span class="k">def</span> <span class="nf">_parse_args_settings_path</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse command-line arguments for the settings path.&quot;&quot;&quot;</span>
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Run decoder.&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_parse_args</span><span class="p">():</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Decode behavior from input neural data.&quot;</span><span class="p">,</span>
+        <span class="n">formatter_class</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentDefaultsHelpFormatter</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--settings-path&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">get_configs_dir</span><span class="p">())</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;settings_decoder.yaml&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to the settings_decoder.yaml file.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--overrides&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-o&quot;</span><span class="p">,</span>
+        <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="n">check_config_override_str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Specify settings overrides as key-value pairs, separated by spaces. &quot;</span>
+            <span class="s2">&quot;For example: -o log_level=DEBUG decoder.spike_threshold=-210&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--print-settings-only&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-p&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Parse/print the settings and exit.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">args</span><span class="o">.</span><span class="n">settings_path</span>
+    <span class="k">return</span> <span class="n">args</span>
 
 
 <span class="k">def</span> <span class="nf">_read_decode_send</span><span class="p">(</span>
@@ -169,14 +196,21 @@
 <div class="viewcode-block" id="run"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.decoder.html#neural_data_simulator.decoder.run_decoder.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Run the decoder loop.&quot;&quot;&quot;</span>
     <span class="n">initialize_logger</span><span class="p">(</span><span class="n">SCRIPT_NAME</span><span class="p">)</span>
-
-    <span class="n">settings</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">_parse_args</span><span class="p">()</span>
+    <span class="n">settings</span><span class="p">:</span> <span class="n">_Settings</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span>
         <span class="n">_Settings</span><span class="p">,</span>
-        <span class="n">get_script_settings</span><span class="p">(</span>
-            <span class="n">_parse_args_settings_path</span><span class="p">(),</span> <span class="s2">&quot;settings_decoder.yaml&quot;</span><span class="p">,</span> <span class="n">_Settings</span>
+        <span class="n">load_settings</span><span class="p">(</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">settings_path</span><span class="p">,</span>
+            <span class="n">settings_parser</span><span class="o">=</span><span class="n">_Settings</span><span class="p">,</span>
+            <span class="n">override_dotlist</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">overrides</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">)</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">print_settings_only</span><span class="p">:</span>
+        <span class="n">pprint</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span>
+        <span class="k">return</span>
+
     <span class="n">configure_logger</span><span class="p">(</span><span class="n">SCRIPT_NAME</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">log_level</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;run_decoder settings:</span><span class="se">\n</span><span class="si">{</span><span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="c1"># Set up timer</span>
     <span class="n">timer_settings</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">timer</span>
@@ -194,6 +228,7 @@
         <span class="n">stream_name</span><span class="o">=</span><span class="n">lsl_input_settings</span><span class="o">.</span><span class="n">stream_name</span><span class="p">,</span>
         <span class="n">connection_timeout</span><span class="o">=</span><span class="n">lsl_input_settings</span><span class="o">.</span><span class="n">connection_timeout</span><span class="p">,</span>
     <span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Querying info from LSL stream: </span><span class="si">{</span><span class="n">lsl_input_settings</span><span class="o">.</span><span class="n">stream_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="c1"># Set up decoder</span>
     <span class="n">decoder_model</span> <span class="o">=</span> <span class="n">PersistedFileDecoderModel</span><span class="p">(</span><span class="n">get_abs_path</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">decoder</span><span class="o">.</span><span class="n">model_file</span><span class="p">))</span>
@@ -205,6 +240,7 @@
         <span class="n">threshold</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">decoder</span><span class="o">.</span><span class="n">spike_threshold</span><span class="p">,</span>
     <span class="p">)</span>
 
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Attempting to open LSL connections...&quot;</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">open_connection</span><span class="p">(</span><span class="n">data_output</span><span class="p">),</span> <span class="n">open_connection</span><span class="p">(</span><span class="n">data_input</span><span class="p">):</span>
             <span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
