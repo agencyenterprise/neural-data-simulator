@@ -5,7 +5,6 @@ from typing import Dict, List, NamedTuple, Optional, Tuple, Union
 import colorednoise
 from numpy import ndarray
 import numpy as np
-import pylsl
 
 from neural_data_simulator.core.filters import LowpassFilter
 from neural_data_simulator.core.health_checker import HealthChecker
@@ -686,11 +685,12 @@ class ProcessOutput:
 
     def _execute(self):
         self._update_spike_rates()
+        time_now = self._timer.total_elapsed_time()
+
         if self._last_output_time is None:
-            self._last_output_time = pylsl.local_clock()
+            self._last_output_time = time_now
             return
 
-        time_now = pylsl.local_clock()
         time_elapsed = time_now - self._last_output_time
         self._last_output_time = time_now
 
@@ -704,7 +704,7 @@ class ProcessOutput:
 
         self._stream_continuous_data(continuous_data)
         self._stream_lfp(continuous_data)
-        self._stream_spike_events(spike_events, n_samples, time_elapsed)
+        self._stream_spike_events(spike_events)
 
     def _stream_continuous_data(self, continuous_data: ndarray):
         if self._outputs.raw is not None:
@@ -712,12 +712,7 @@ class ProcessOutput:
                 continuous_data / self._resolution, timestamps=None
             )
 
-    def _stream_spike_events(
-        self, spike_events: SpikeEvents, n_samples: int, time_elapsed: float
-    ):
-        if self._last_output_time is None:
-            raise ValueError("Last output time is not set.")
-
+    def _stream_spike_events(self, spike_events: SpikeEvents):
         assert (
             spike_events.waveform is not None
         ), "SpikeEvents.waveform is required to stream continuous data."
@@ -733,14 +728,9 @@ class ProcessOutput:
                 )
             )
 
-            time_interval_per_sample = time_elapsed / n_samples
-            spike_lsl_times = (
-                self._last_output_time
-                + spike_events.time_idx * time_interval_per_sample
-            )
-
             self._outputs.spike_events.send_array(
-                data_to_stream, timestamps=spike_lsl_times
+                data_to_stream,
+                timestamps=None,
             )
 
     def _stream_lfp(self, continuous_data: ndarray):
