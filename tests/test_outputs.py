@@ -156,11 +156,11 @@ class TestLSLOutputDevice:
                 Samples(timestamps=np.array([1.2]), data=np.array([[1.0]]))
             )
 
-    def test_send_as_chunk_with_wrong_shape(self):
+    def test_send_array_with_wrong_shape(self):
         """Test an exception is raised when the data has the wrong shape.
 
         The data has 2 channels, but the output only has 1 channel.
         """
         data_output = lsl_output.LSLOutputDevice(self.fake_stream_config)
         with pytest.raises(ValueError):
-            data_output.send_as_chunk(data=np.array([[1.0]]))
+            data_output.send_array(data=np.array([[1.0]]), timestamps=None)
