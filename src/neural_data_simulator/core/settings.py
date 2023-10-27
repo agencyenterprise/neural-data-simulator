@@ -259,4 +259,6 @@ class Settings(VersionedYamlModel):
     ephys_generator: EphysGeneratorSettings
 
     class Config:
+        """Pydantic configuration."""
+
         extra = Extra.forbid

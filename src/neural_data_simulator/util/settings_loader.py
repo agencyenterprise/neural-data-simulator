@@ -5,8 +5,8 @@ import os
 from typing import Optional, Type
 
 from omegaconf import OmegaConf
-import pydantic.error_wrappers
 from pydantic import BaseModel
+import pydantic.error_wrappers
 import yaml
 
 from neural_data_simulator.util.runtime import get_configs_dir
