@@ -54,6 +54,16 @@ class Output(abc.ABC):
         """
         pass
 
+    @abc.abstractmethod
+    def _send_array(self, data: ndarray, timestamps: Optional[ndarray]) -> None:
+        """Send data to output.
+
+        Args:
+            data: Data to output.
+            timestamps: Timestamps to output.
+        """
+        pass
+
     def _validate_data_shape(self, data: ndarray) -> None:
         """Validate the shape of the samples."""
         if not len(data):
@@ -80,6 +90,16 @@ class Output(abc.ABC):
         self._send(samples)
         return samples
 
+    def send_array(self, data: ndarray, timestamps: Optional[ndarray]):
+        """Push array data to output.
+
+        Args:
+            data: Data to output.
+            timestamps: Timestamps to output.
+        """
+        self._validate_data_shape(data)
+        self._send_array(data, timestamps)
+
 
 class ConsoleOutput(Output):
     """Represents an output device that prints to the terminal."""
@@ -99,13 +119,24 @@ class ConsoleOutput(Output):
         return self._channel_count
 
     def _send(self, samples: Samples) -> None:
-        """Send data to a file without index or header.
+        """Send data to console without index or header.
 
         Args:
             samples: :class:`neural_data_simulator.core.samples.Samples` dataclass with
               timestamps and data.
         """
-        timestamps_and_data = np.column_stack((samples.timestamps, samples.data))
+        self._send_array(samples.data, samples.timestamps)
+
+    def _send_array(self, data: ndarray, timestamps: Optional[ndarray]) -> None:
+        """Send data to console without index or header.
+
+        Args:
+            data: Data to output.
+            timestamps: Timestamps to output.
+        """
+        if timestamps is None:
+            timestamps = np.full(data.shape[0], np.nan)
+        timestamps_and_data = np.column_stack((timestamps, data))
         print(np.array2string(timestamps_and_data))
 
     def connect(self) -> None:
@@ -147,8 +178,19 @@ class FileOutput(Output):
         Args:
             samples: :class:`neural_data_simulator.core.samples.Samples` dataclass.
         """
+        self._send_array(samples.data, samples.timestamps)
+
+    def _send_array(self, data: ndarray, timestamps: Optional[ndarray]) -> None:
+        """Send data to file without index or header.
+
+        Args:
+            data: Data to output.
+            timestamps: Timestamps to output.
+        """
         if self.file is not None:
-            timestamps_and_data = np.column_stack((samples.timestamps, samples.data))
+            if timestamps is None:
+                timestamps = np.full(data.shape[0], np.nan)
+            timestamps_and_data = np.column_stack((timestamps, data))
             np.savetxt(self.file, timestamps_and_data, delimiter=",", fmt="%f")
 
     def connect(self) -> None:
@@ -328,61 +370,30 @@ class LSLOutputDevice(Output):
             ValueError: LSL StreamOutlet is not connected. `connect` should be called
               before `send`.
         """
-        for timestamp, data_point in zip(samples.timestamps, samples.data):
-            self.send_as_sample(data_point, timestamp)
+        self._send_array(samples.data, samples.timestamps)
 
-    def send_as_chunk(self, data: ndarray, timestamp: Optional[float] = None):
+    def _send_array(
+        self, data: ndarray, timestamps: Optional[Union[float, ndarray]] = None
+    ):
         """Send a list of data points to the LSL outlet.
 
         Args:
             data: An array of data points.
-            timestamp: An optional timestamp corresponding to the data points.
+            timestamps: timestamp(s) corresponding to the data points.
 
         Raises:
             ValueError: LSL StreamOutlet is not connected. `connect` should be called
               before `send`.
             ValueError: There was nothing to send because the data array is empty.
         """
-        self._check_data(data)
         self._check_connection()
         assert self._outlet is not None
         # cast data to expected channel format
         data_out = data.astype(self._dtype)
-        if timestamp:
-            self._outlet.push_chunk(data_out, timestamp)
+        if timestamps is not None:
+            self._outlet.push_chunk(data_out, timestamps)  # type: ignore[arg-type]
         else:
             self._outlet.push_chunk(data_out)
-
-    def send_as_sample(self, data: ndarray, timestamp: Optional[float] = None):
-        """Send a single sample with the corresponding timestamp.
-
-        A sample consisting of a data point per channel will be pushed to the LSL
-        outlet together with an optional timestamp.
-
-        Args:
-            data: A single data point as an array of 1 value per channel.
-            timestamp: An optional timestamp corresponding to the data point.
-
-        Raises:
-            ValueError: LSL StreamOutlet is not connected. `connect` should be called
-              before `send`.
-            ValueError: There was nothing to send because the data array is empty.
-        """
-        self._check_data(data)
-        self._check_connection()
-        assert self._outlet is not None
-        # cast data to expected channel format
-        data_out = data.astype(self._dtype)
-        if timestamp:
-            self._outlet.push_sample(data_out, timestamp)
-        else:
-            self._outlet.push_sample(data_out)
-
-    def _check_data(self, data: ndarray):
-        if len(data) == 0:
-            self.logger.debug("No data to output")
-            raise ValueError("No data data to output")
-        self._validate_data_shape(data)
 
     @staticmethod
     def _get_open_stream_names() -> List[str]:

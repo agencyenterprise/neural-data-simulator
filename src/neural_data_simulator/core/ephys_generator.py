@@ -708,7 +708,9 @@ class ProcessOutput:
 
     def _stream_continuous_data(self, continuous_data: ndarray):
         if self._outputs.raw is not None:
-            self._outputs.raw.send_as_chunk(continuous_data / self._resolution)
+            self._outputs.raw.send_array(
+                continuous_data / self._resolution, timestamps=None
+            )
 
     def _stream_spike_events(
         self, spike_events: SpikeEvents, n_samples: int, time_elapsed: float
@@ -737,16 +739,15 @@ class ProcessOutput:
                 + spike_events.time_idx * time_interval_per_sample
             )
 
-            for i, data in enumerate(data_to_stream):
-                self._outputs.spike_events.send_as_sample(
-                    data=data, timestamp=spike_lsl_times[i]
-                )
+            self._outputs.spike_events.send_array(
+                data_to_stream, timestamps=spike_lsl_times
+            )
 
     def _stream_lfp(self, continuous_data: ndarray):
         if self._outputs.lfp is not None:
             lfp = self.continuous_data.get_lfp_data(continuous_data)
             if len(lfp) > 0:
-                self._outputs.lfp.send_as_chunk(lfp / self._resolution)
+                self._outputs.lfp.send_array(lfp / self._resolution, timestamps=None)
 
     def _update_spike_rates(self):
         rates = self._input.read()  # update spike rates
