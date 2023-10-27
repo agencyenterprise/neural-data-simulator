@@ -48,8 +48,8 @@ def load_settings(
     # Validate settings file
     try:
         settings = settings_parser.parse_obj(settings_dict)
-    except pydantic.error_wrappers.ValidationError as validation_error:
-        validation_error.add_note("Settings file does not match expected schema.")
+    except pydantic.error_wrappers.ValidationError:
+        logger.error("Settings file does not match expected schema.")
         raise
 
     if override_dotlist:
@@ -61,8 +61,8 @@ def load_settings(
         # re-validate the dot-list overrides.
         try:
             settings = settings_parser.parse_obj(settings_dict)
-        except pydantic.error_wrappers.ValidationError as validation_error:
-            validation_error.add_note("Overrides list does not match expected schema.")
+        except pydantic.error_wrappers.ValidationError:
+            logger.error("Overrides list does not match expected schema.")
             raise
 
     return settings
