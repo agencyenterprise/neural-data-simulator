@@ -14,6 +14,7 @@ timer:
 encoder:
   # set a path to your custom preprocessor plugin
   # preprocessor: 'plugins/preprocessor.py'
+  preprocessor: null
 
   model: "plugins/model.py"
 

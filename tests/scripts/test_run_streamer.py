@@ -1,8 +1,7 @@
 """Test for run_streamer.py."""
 
 import argparse
-import os
-from pathlib import Path
+import os.path
 from unittest.mock import Mock
 
 import numpy as np
@@ -102,7 +101,9 @@ def fake_blackrockrawio(monkeypatch):
 @pytest.fixture(autouse=True)
 def fake_parse_args(monkeypatch: pytest.MonkeyPatch) -> argparse.Namespace:
     """Fake command line arguments passed to the script."""
-    parse_args_result = argparse.Namespace(settings_path=None)
+    parse_args_result = argparse.Namespace(
+        settings_path=None, overrides=None, print_settings_only=False
+    )
 
     def parse_args(self, args=None, namespace=None):
         return parse_args_result
@@ -132,20 +133,21 @@ def mock_path_exists(monkeypatch: pytest.MonkeyPatch):
 
 
 @pytest.fixture(autouse=True)
-def mock_default_settings(monkeypatch: pytest.MonkeyPatch):
-    """Mock get_script_settings to return the default settings."""
-    package_dir = os.path.dirname(streamer.__file__)
-    default_settings: run_streamer._Settings = settings_loader.get_script_settings(
-        Path(f"{package_dir}/config/settings_streamer.yaml"),
-        "settings.yaml",
-        run_streamer._Settings,
+def mock_default_settings(monkeypatch: pytest.MonkeyPatch) -> run_streamer._Settings:
+    """Mock load_settings to return the default settings."""
+    default_settings = settings_loader.load_settings(
+        os.path.join(
+            os.path.dirname(streamer.__file__), "config", "settings_streamer.yaml"
+        ),
+        settings_parser=run_streamer._Settings,
     )
     default_settings.streamer.stream_indefinitely = False
-    get_script_settings_mock = Mock()
-    get_script_settings_mock.return_value = default_settings
+
+    load_settings_mock = Mock()
+    load_settings_mock.return_value = default_settings
     monkeypatch.setattr(
-        "neural_data_simulator.streamer.run_streamer.get_script_settings",
-        get_script_settings_mock,
+        "neural_data_simulator.streamer.run_streamer.load_settings",
+        load_settings_mock,
     )
     return default_settings
 

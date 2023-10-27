@@ -1,6 +1,5 @@
 r"""Script that starts the ephys generator.
 
-The ephys generator default configuration is located in `NDS_HOME/settings.yaml`
 (see :mod:`neural_data_simulator.scripts.post_install_config`). The script can use
 different config file specified via the `\--settings-path` argument.
 
@@ -16,6 +15,8 @@ from pathlib import Path
 from typing import cast, Optional
 
 import numpy as np
+from rich.pretty import pprint
+import yaml
 
 from neural_data_simulator.core import inputs
 from neural_data_simulator.core import outputs
@@ -33,9 +34,11 @@ from neural_data_simulator.core.settings import EphysGeneratorEndpointType
 from neural_data_simulator.core.settings import EphysGeneratorSettings
 from neural_data_simulator.core.settings import Settings
 from neural_data_simulator.util.runtime import configure_logger
+from neural_data_simulator.util.runtime import get_configs_dir
 from neural_data_simulator.util.runtime import initialize_logger
 from neural_data_simulator.util.runtime import unwrap
-from neural_data_simulator.util.settings_loader import get_script_settings
+from neural_data_simulator.util.settings_loader import check_config_override_str
+from neural_data_simulator.util.settings_loader import load_settings
 
 SCRIPT_NAME = "nds-ephys-generator"
 logger = logging.getLogger(__name__)
@@ -143,23 +146,56 @@ def _set_random_seed(random_seed: Optional[int]):
         np.random.seed(random_seed)
 
 
-def run():
-    """Load the configuration and start the ephys generator."""
-    initialize_logger(SCRIPT_NAME)
-    parser = argparse.ArgumentParser(description="Run ephys generator.")
+def _parse_args():
+    parser = argparse.ArgumentParser(
+        description="Simulate electrophysiology data from firing rates.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     parser.add_argument(
         "--settings-path",
         type=Path,
+        default=Path(get_configs_dir()).joinpath("settings.yaml"),
         help="Path to the settings.yaml file.",
     )
-    settings = cast(
-        Settings,
-        get_script_settings(
-            parser.parse_args().settings_path, "settings.yaml", Settings
+    parser.add_argument(
+        "--overrides",
+        "-o",
+        nargs="*",
+        type=check_config_override_str,
+        help=(
+            "Specify settings overrides as key-value pairs, separated by spaces. "
+            "For example: -o log_level=DEBUG ephys_generator.input.type=testing"
         ),
     )
+    parser.add_argument(
+        "--print-settings-only",
+        "-p",
+        action="store_true",
+        help="Parse/print the settings and exit.",
+    )
+    args = parser.parse_args()
+    return args
+
+
+def run():
+    """Load the configuration and start the ephys generator."""
+    initialize_logger(SCRIPT_NAME)
+    args = _parse_args()
+    settings: Settings = cast(
+        Settings,
+        load_settings(
+            args.settings_path,
+            settings_parser=Settings,
+            override_dotlist=args.overrides,
+        ),
+    )
+    if args.print_settings_only:
+        pprint(settings)
+        return
+
     _set_random_seed(settings.ephys_generator.random_seed)
     configure_logger(SCRIPT_NAME, settings.log_level)
+    logger.debug(f"run_ephys_generator settings:\n{yaml.dump(settings.dict())}")
 
     if settings.ephys_generator.input.type == EphysGeneratorEndpointType.LSL:
         lsl_input_settings = unwrap(settings.ephys_generator.input.lsl)

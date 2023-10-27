@@ -2,7 +2,6 @@
 
 import argparse
 import os
-from pathlib import Path
 from unittest.mock import call
 from unittest.mock import Mock
 
@@ -20,7 +19,9 @@ from neural_data_simulator.util import settings_loader
 @pytest.fixture(autouse=True)
 def fake_parse_args(monkeypatch: pytest.MonkeyPatch) -> argparse.Namespace:
     """Fake command line arguments passed to the script."""
-    parse_args_result = argparse.Namespace(settings_path=None)
+    parse_args_result = argparse.Namespace(
+        settings_path=None, overrides=None, print_settings_only=False
+    )
 
     def parse_args(self, args=None, namespace=None):
         return parse_args_result
@@ -30,20 +31,24 @@ def fake_parse_args(monkeypatch: pytest.MonkeyPatch) -> argparse.Namespace:
 
 
 @pytest.fixture(autouse=True)
-def mock_get_script_settings(monkeypatch: pytest.MonkeyPatch):
-    """Mock get_script_settings to return the default settings."""
-    default_settings: Settings = settings_loader.get_script_settings(
-        Path(f"{os.path.dirname(neural_data_simulator.__file__)}/config/settings.yaml"),
-        "settings.yaml",
-        Settings,
+def mock_default_settings(monkeypatch: pytest.MonkeyPatch) -> Settings:
+    """Mock load_settings to return the default settings."""
+    default_settings = settings_loader.load_settings(
+        os.path.join(
+            os.path.dirname(neural_data_simulator.__file__),
+            "config",
+            "settings.yaml",
+        ),
+        settings_parser=Settings,
     )
-    get_script_settings_mock = Mock()
-    get_script_settings_mock.return_value = default_settings
+
+    load_settings_mock = Mock()
+    load_settings_mock.return_value = default_settings
     monkeypatch.setattr(
-        "neural_data_simulator.scripts.run_ephys_generator.get_script_settings",
-        get_script_settings_mock,
+        "neural_data_simulator.scripts.run_ephys_generator.load_settings",
+        load_settings_mock,
     )
-    return get_script_settings_mock
+    return default_settings
 
 
 @pytest.fixture(autouse=True)

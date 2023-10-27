@@ -1,40 +1,96 @@
 """Parse settings from files."""
-import errno
+import argparse
 import logging
-from pathlib import Path
+import os
 from typing import Optional, Type
 
-from pydantic_yaml import VersionedYamlModel
+from omegaconf import OmegaConf
+from pydantic import BaseModel
+import pydantic.error_wrappers
+import yaml
 
-from neural_data_simulator.util.runtime import get_abs_path
-from neural_data_simulator.util.runtime import NDS_HOME
+from neural_data_simulator.util.runtime import get_configs_dir
 
 logger = logging.getLogger(__name__)
 
 
-def get_script_settings(
-    settings_file: Optional[Path],
-    filename: str,
-    settings_parser: Type[VersionedYamlModel],
+def load_settings(
+    settings_file: os.PathLike,
+    settings_parser: Type[BaseModel],
+    override_dotlist: Optional[list[str]] = None,
 ):
-    """Load script settings from the filepath."""
-    if settings_file is None:
-        default_settings_file = Path(f"{NDS_HOME}/{filename}")
-        if not default_settings_file.exists():
-            raise FileNotFoundError(
-                errno.ENOENT,
-                "Default settings file not found. Run 'nds_post_install_config' "
-                "to copy the default settings files.\n"
-                "Alternatively, you can specify the path to the settings file via the "
-                "'--settings-path' argument.",
-                str(default_settings_file),
-            )
+    """Load settings from a YAML file and parse them into a Pydantic model.
 
-        settings_file = default_settings_file
+    Args:
+        settings_file: Path to the YAML file containing the settings.
+        settings_parser: Pydantic model to parse the settings into.
+        override_dotlist: Optional list of dot-separated key-value pairs to override
+            the settings loaded from the file.
 
-    with open(get_abs_path(str(settings_file))) as f:
-        settings = settings_parser.parse_raw(f.read(), proto="yaml")
+    Returns:
+        An instance of the `settings_parser` model containing the parsed settings.
 
-    logger.info(f"Using settings from '{settings_file}'")
+    Raises:
+        FileNotFoundError: If the `settings_file` is not found.
+        pydantic.error_wrappers.ValidationError: If the settings file/overrides do not
+            match the schema
+    """
+    try:
+        with open(settings_file, "r") as f:
+            settings_dict = yaml.safe_load(f)
+    except FileNotFoundError as file_error:
+        raise FileNotFoundError(
+            f"Settings file not found: {settings_file}.\n"
+            "\tRun 'nds_post_install_config' to copy the default settings files\n"
+            f"\tto: {get_configs_dir()}\n"
+            "\tAlternatively, you can specify the path to the settings file via the\n"
+            "\t'--settings-path' argument."
+        ) from file_error
+
+    # Validate settings file
+    try:
+        settings = settings_parser.parse_obj(settings_dict)
+    except pydantic.error_wrappers.ValidationError:
+        logger.error("Settings file does not match expected schema.")
+        raise
+
+    if override_dotlist:
+        override_conf = OmegaConf.from_dotlist(override_dotlist)
+        merged_conf = OmegaConf.merge(settings_dict, override_conf)
+        settings_dict = OmegaConf.to_object(merged_conf)
+        # Re-validate merged config
+        # If validation is slow, we can use `pydantic-partial` to only
+        # re-validate the dot-list overrides.
+        try:
+            settings = settings_parser.parse_obj(settings_dict)
+        except pydantic.error_wrappers.ValidationError:
+            logger.error("Overrides list does not match expected schema.")
+            raise
 
     return settings
+
+
+def check_config_override_str(value: str) -> str:
+    """Custom argparse type to check for individual dot-list arguments.
+
+    Args:
+        value (str): The value to check.
+
+    Raises:
+        argparse.ArgumentTypeError: If the key or subkeys are empty
+            Note: this is a pre-checker for OmegaConf.from_dotlist,
+            which actually handles a wide variety of str formats.
+
+    Returns:
+        str: The value if it is in the expected format.
+    """
+    parts = value.split("=")
+    key = parts[0]
+
+    key_parts = key.split(".")
+    if (not key_parts) or ("" in key_parts):
+        raise argparse.ArgumentTypeError(
+            f"Invalid config-override: {value}\n"
+            "\tExpected format: `key=value` or `key.subkey=value`"
+        )
+    return value

@@ -6,7 +6,10 @@ import re
 from typing import cast, Tuple
 
 import numpy as np
+from pydantic import Extra
 from pydantic_yaml import VersionedYamlModel
+from rich.pretty import pprint
+import yaml
 
 from neural_data_simulator.core import inputs
 from neural_data_simulator.core import outputs
@@ -22,10 +25,12 @@ from neural_data_simulator.tasks.center_out_reach.task_state import StateParams
 from neural_data_simulator.tasks.center_out_reach.task_state import TaskState
 from neural_data_simulator.tasks.center_out_reach.task_window import TaskWindow
 from neural_data_simulator.util.runtime import configure_logger
+from neural_data_simulator.util.runtime import get_configs_dir
 from neural_data_simulator.util.runtime import initialize_logger
 from neural_data_simulator.util.runtime import open_connection
 from neural_data_simulator.util.runtime import unwrap
-from neural_data_simulator.util.settings_loader import get_script_settings
+from neural_data_simulator.util.settings_loader import check_config_override_str
+from neural_data_simulator.util.settings_loader import load_settings
 
 SCRIPT_NAME = "nds-center-out-reach"
 logger = logging.getLogger(__name__)
@@ -39,6 +44,9 @@ class _Settings(VersionedYamlModel):
 
     log_level: LogLevel
     center_out_reach: CenterOutReach
+
+    class Config:
+        extra = Extra.forbid
 
 
 def _get_task_window_params(
@@ -154,13 +162,32 @@ def _metrics_enabled(settings: _Settings) -> bool:
     )
 
 
-def _parse_args() -> argparse.Namespace:
-    """Parse command line arguments."""
-    parser = argparse.ArgumentParser(description="Run GUI.")
+def _parse_args():
+    parser = argparse.ArgumentParser(
+        description="Run the center-out reach task GUI..",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     parser.add_argument(
         "--settings-path",
         type=Path,
+        default=Path(get_configs_dir()).joinpath("settings_center_out_reach.yaml"),
         help="Path to the settings_center_out_reach.yaml file.",
+    )
+    parser.add_argument(
+        "--overrides",
+        "-o",
+        nargs="*",
+        type=check_config_override_str,
+        help=(
+            "Specify settings overrides as key-value pairs, separated by spaces. "
+            "For example: -o log_level=DEBUG center_out_reach.task.target_radius=0.03"
+        ),
+    )
+    parser.add_argument(
+        "--print-settings-only",
+        "-p",
+        action="store_true",
+        help="Parse/print the settings and exit.",
     )
     parser.add_argument(
         "--control-file",
@@ -175,15 +202,20 @@ def run():
     """Run the center-out reach task GUI."""
     initialize_logger(SCRIPT_NAME)
     args = _parse_args()
-    settings = cast(
+    settings: _Settings = cast(
         _Settings,
-        get_script_settings(
+        load_settings(
             args.settings_path,
-            "settings_center_out_reach.yaml",
             settings_parser=_Settings,
+            override_dotlist=args.overrides,
         ),
     )
+    if args.print_settings_only:
+        pprint(settings)
+        return
+
     configure_logger(SCRIPT_NAME, settings.log_level)
+    logger.debug(f"run_center_out_reach settings:\n{yaml.dump(settings.dict())}")
 
     if settings.center_out_reach.input.enabled:
         lsl_input_settings = unwrap(settings.center_out_reach.input.lsl)
@@ -286,7 +318,7 @@ def run():
 
     # This is used as a signal to a parent process that the main task has finished
     if args.control_file is not None:
-        with open(args.control_file, "w") as control_file:
+        with args.control_file.open("w") as control_file:
             control_file.write("main_task_finished\n")
 
     if (

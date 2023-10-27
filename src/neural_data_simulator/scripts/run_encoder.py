@@ -15,6 +15,8 @@ from pathlib import Path
 from typing import Callable, cast, Optional, Union
 
 import numpy as np
+from rich.pretty import pprint
+import yaml
 
 from neural_data_simulator.core import encoder
 from neural_data_simulator.core import inputs
@@ -30,10 +32,12 @@ from neural_data_simulator.core.settings import Settings
 from neural_data_simulator.scripts.errors import InvalidPluginError
 from neural_data_simulator.util.runtime import configure_logger
 from neural_data_simulator.util.runtime import get_abs_path
+from neural_data_simulator.util.runtime import get_configs_dir
 from neural_data_simulator.util.runtime import initialize_logger
 from neural_data_simulator.util.runtime import load_module
 from neural_data_simulator.util.runtime import unwrap
-from neural_data_simulator.util.settings_loader import get_script_settings
+from neural_data_simulator.util.settings_loader import check_config_override_str
+from neural_data_simulator.util.settings_loader import load_settings
 
 SCRIPT_NAME = "nds-encoder"
 logger = logging.getLogger(__name__)
@@ -218,26 +222,55 @@ def _setup_data_output(
     return data_output
 
 
-def _parse_args_settings_path() -> Path:
-    """Get the path to the settings file from the command line arguments."""
-    parser = argparse.ArgumentParser(description="Run encoder.")
+def _parse_args():
+    parser = argparse.ArgumentParser(
+        description="Convert behavioral input into simulated neural activity.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     parser.add_argument(
         "--settings-path",
         type=Path,
+        default=Path(get_configs_dir()).joinpath("settings.yaml"),
         help="Path to the settings.yaml file.",
     )
+    parser.add_argument(
+        "--overrides",
+        "-o",
+        nargs="*",
+        type=check_config_override_str,
+        help=(
+            "Specify settings overrides as key-value pairs, separated by spaces. "
+            "For example: -o log_level=DEBUG encoder.output.n_channels=20"
+        ),
+    )
+    parser.add_argument(
+        "--print-settings-only",
+        "-p",
+        action="store_true",
+        help="Parse/print the settings and exit.",
+    )
     args = parser.parse_args()
-    return args.settings_path
+    return args
 
 
 def run():
     """Load the configuration and start the encoder."""
     initialize_logger(SCRIPT_NAME)
-    settings = cast(
+    args = _parse_args()
+    settings: Settings = cast(
         Settings,
-        get_script_settings(_parse_args_settings_path(), "settings.yaml", Settings),
+        load_settings(
+            args.settings_path,
+            settings_parser=Settings,
+            override_dotlist=args.overrides,
+        ),
     )
+    if args.print_settings_only:
+        pprint(settings)
+        return
+
     configure_logger(SCRIPT_NAME, settings.log_level)
+    logger.debug(f"run_encoder settings:\n{yaml.dump(settings.dict())}")
 
     data_input, sampling_rate = _setup_data_input(settings.encoder.input)
     model = _setup_model(settings.encoder)

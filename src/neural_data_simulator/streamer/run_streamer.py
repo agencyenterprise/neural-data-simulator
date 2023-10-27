@@ -18,7 +18,10 @@ from typing import cast, Dict, Iterator, List, Optional, Tuple
 
 from neo.rawio.blackrockrawio import BlackrockRawIO
 import numpy as np
+from pydantic import Extra
 from pydantic_yaml import VersionedYamlModel
+from rich.pretty import pprint
+import yaml
 
 from neural_data_simulator.core.outputs import LSLOutputDevice
 from neural_data_simulator.core.outputs import StreamConfig
@@ -28,9 +31,11 @@ from neural_data_simulator.streamer import settings
 from neural_data_simulator.streamer import streamers
 from neural_data_simulator.util.runtime import configure_logger
 from neural_data_simulator.util.runtime import get_abs_path
+from neural_data_simulator.util.runtime import get_configs_dir
 from neural_data_simulator.util.runtime import initialize_logger
 from neural_data_simulator.util.runtime import unwrap
-from neural_data_simulator.util.settings_loader import get_script_settings
+from neural_data_simulator.util.settings_loader import check_config_override_str
+from neural_data_simulator.util.settings_loader import load_settings
 
 SCRIPT_NAME = "nds-streamer"
 logger = logging.getLogger(__name__)
@@ -41,6 +46,9 @@ class _Settings(VersionedYamlModel):
 
     log_level: LogLevel
     streamer: settings.Streamer
+
+    class Config:
+        extra = Extra.forbid
 
 
 class StreamGroup:
@@ -214,24 +222,57 @@ def _get_irregular_stream_config(
     return stream_config
 
 
-def run():
-    """Load the configuration and start the streamer."""
-    initialize_logger(SCRIPT_NAME)
-    parser = argparse.ArgumentParser(description="Run streamer.")
+def _parse_args():
+    parser = argparse.ArgumentParser(
+        description="Stream file neurodata to LSL.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     parser.add_argument(
         "--settings-path",
         type=Path,
+        default=Path(get_configs_dir()).joinpath("settings_streamer.yaml"),
         help="Path to the settings_streamer.yaml file.",
     )
-    run_settings = cast(
-        _Settings,
-        get_script_settings(
-            parser.parse_args().settings_path, "settings_streamer.yaml", _Settings
+    parser.add_argument(
+        "--overrides",
+        "-o",
+        nargs="*",
+        type=check_config_override_str,
+        help=(
+            "Specify settings overrides as key-value pairs, separated by spaces. "
+            "For example: -o log_level=DEBUG streamer.lsl_chunk_frequency=50"
         ),
     )
-    configure_logger(SCRIPT_NAME, run_settings.log_level)
+    parser.add_argument(
+        "--print-settings-only",
+        "-p",
+        action="store_true",
+        help="Parse/print the settings and exit.",
+    )
+    args = parser.parse_args()
+    return args
 
-    if run_settings.streamer.input_type == settings.StreamerInputType.NPZ.value:
+
+def run():
+    """Load the configuration and start the streamer."""
+    initialize_logger(SCRIPT_NAME)
+    args = _parse_args()
+    run_settings: _Settings = cast(
+        _Settings,
+        load_settings(
+            args.settings_path,
+            settings_parser=_Settings,
+            override_dotlist=args.overrides,
+        ),
+    )
+    if args.print_settings_only:
+        pprint(run_settings)
+        return
+
+    configure_logger(SCRIPT_NAME, run_settings.log_level)
+    logger.debug(f"run_decoder settings:\n{yaml.dump(run_settings.dict())}")
+
+    if run_settings.streamer.input_type == settings.StreamerInputType.NPZ:
         input_settings = unwrap(run_settings.streamer.npz).input
         samples = [
             Samples.load_from_npz(
@@ -246,7 +287,7 @@ def run():
             lsl_settings, output_settings.sampling_rate, output_settings.n_channels
         )
         stream_group = StreamGroup([stream_config])
-    elif run_settings.streamer.input_type == settings.StreamerInputType.Blackrock.value:
+    elif run_settings.streamer.input_type == settings.StreamerInputType.Blackrock:
         input_settings = unwrap(run_settings.streamer.blackrock).input
         output_settings = unwrap(run_settings.streamer.blackrock).output
         lsl_settings = output_settings.lsl

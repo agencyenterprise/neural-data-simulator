@@ -1,14 +1,17 @@
 """Models for parsing and validating the contents of `settings.yaml`."""
+from enum import Enum
+from enum import unique
 from typing import Dict, Optional
 
 from pydantic import BaseModel
+from pydantic import Extra
 from pydantic import Json
 from pydantic import validator
 from pydantic_yaml import VersionedYamlModel
-from pydantic_yaml import YamlStrEnum
 
 
-class LogLevel(YamlStrEnum):
+@unique
+class LogLevel(str, Enum):
     """Possible log levels."""
 
     _DEBUG = "DEBUG"
@@ -18,28 +21,32 @@ class LogLevel(YamlStrEnum):
     _CRITICAL = "CRITICAL"
 
 
-class EncoderEndpointType(YamlStrEnum):
+@unique
+class EncoderEndpointType(str, Enum):
     """Possible types for the encoder input or output."""
 
     FILE = "file"
     LSL = "LSL"
 
 
-class EphysGeneratorEndpointType(YamlStrEnum):
+@unique
+class EphysGeneratorEndpointType(str, Enum):
     """Possible types of input for the ephys generator."""
 
     TESTING = "testing"
     LSL = "LSL"
 
 
-class EncoderModelType(YamlStrEnum):
+@unique
+class EncoderModelType(str, Enum):
     """Possible types of input for the encoder model."""
 
     PLUGIN = "plugin"
     VELOCITY_TUNING_CURVES = "velocity_tuning_curves"
 
 
-class LSLChannelFormatType(YamlStrEnum):
+@unique
+class LSLChannelFormatType(str, Enum):
     """Possible values for the LSL channel format."""
 
     _FLOAT32 = "float32"
@@ -50,24 +57,24 @@ class LSLChannelFormatType(YamlStrEnum):
     _INT64 = "int64"
 
 
-class TimerModel(BaseModel):
+class TimerModel(BaseModel, extra=Extra.forbid):
     """Settings for the timer implementation."""
 
     max_cpu_buffer: float
     loop_time: float
 
 
-class LSLInputModel(BaseModel):
+class LSLInputModel(BaseModel, extra=Extra.forbid):
     """Settings for all LSL inlets."""
 
     connection_timeout: float
     stream_name: str
 
 
-class LSLOutputModel(BaseModel):
+class LSLOutputModel(BaseModel, extra=Extra.forbid):
     """Settings for all LSL outlets."""
 
-    class _Instrument(BaseModel):
+    class _Instrument(BaseModel, extra=Extra.forbid):
         manufacturer: str
         model: str
         id: int
@@ -80,13 +87,13 @@ class LSLOutputModel(BaseModel):
     channel_labels: Optional[list[str]]
 
 
-class EncoderSettings(BaseModel):
+class EncoderSettings(BaseModel, extra=Extra.forbid):
     """Settings for the encoder."""
 
-    class Input(BaseModel):
+    class Input(BaseModel, extra=Extra.forbid):
         """Settings for the encoder input."""
 
-        class File(BaseModel):
+        class File(BaseModel, extra=Extra.forbid):
             """Settings for the encoder input type file."""
 
             path: str
@@ -98,7 +105,7 @@ class EncoderSettings(BaseModel):
         file: Optional[File]
         lsl: Optional[LSLInputModel]
 
-    class Output(BaseModel):
+    class Output(BaseModel, extra=Extra.forbid):
         """Settings for the encoder output."""
 
         n_channels: int
@@ -115,13 +122,13 @@ class EncoderSettings(BaseModel):
 
     @validator("model")
     def _model_entry_point_must_be_a_python_file(cls, v):
-        if v is not None and v.endswith(".py"):
+        if v is None or v.endswith(".py"):
             return v
         raise ValueError("The model entry point must be a Python file")
 
     @validator("preprocessor", "postprocessor")
     def _plugin_entry_point_must_be_a_python_file(cls, v):
-        if v is not None and v.endswith(".py"):
+        if v is None or v.endswith(".py"):
             return v
         raise ValueError("The plugin entry point must be a Python file")
 
@@ -138,10 +145,10 @@ class EncoderSettings(BaseModel):
         return value
 
 
-class EphysGeneratorSettings(BaseModel):
+class EphysGeneratorSettings(BaseModel, extra=Extra.forbid):
     """Settings for the spike generator."""
 
-    class Waveforms(BaseModel):
+    class Waveforms(BaseModel, extra=Extra.forbid):
         """Settings for the spike waveform prototypes."""
 
         n_samples: int
@@ -169,10 +176,10 @@ class EphysGeneratorSettings(BaseModel):
                 raise ValueError("Mapped prototype doesn't have a default value.")
             return v
 
-    class Input(BaseModel):
+    class Input(BaseModel, extra=Extra.forbid):
         """Settings for the ephys generator input."""
 
-        class Testing(BaseModel):
+        class Testing(BaseModel, extra=Extra.forbid):
             """Settings for the ephys generator input type testing."""
 
             n_channels: int
@@ -182,15 +189,15 @@ class EphysGeneratorSettings(BaseModel):
         lsl: Optional[LSLInputModel]
         testing: Optional[Testing]
 
-    class Output(BaseModel):
+    class Output(BaseModel, extra=Extra.forbid):
         """Settings for the ephys generator output."""
 
-        class Raw(BaseModel):
+        class Raw(BaseModel, extra=Extra.forbid):
             """Settings for the ephys generator output type raw."""
 
             lsl: LSLOutputModel
 
-        class LFP(BaseModel):
+        class LFP(BaseModel, extra=Extra.forbid):
             """Settings for the ephys generator output type LFP."""
 
             data_frequency: float
@@ -198,7 +205,7 @@ class EphysGeneratorSettings(BaseModel):
             filter_order: int
             lsl: LSLOutputModel
 
-        class SpikeEvents(BaseModel):
+        class SpikeEvents(BaseModel, extra=Extra.forbid):
             """Settings for the ephys generator output type spike events."""
 
             lsl: LSLOutputModel
@@ -207,7 +214,7 @@ class EphysGeneratorSettings(BaseModel):
         lfp: LFP
         spike_events: SpikeEvents
 
-    class Noise(BaseModel):
+    class Noise(BaseModel, extra=Extra.forbid):
         """Settings for the ephys generator noise."""
 
         beta: float
@@ -250,3 +257,8 @@ class Settings(VersionedYamlModel):
     timer: TimerModel
     encoder: EncoderSettings
     ephys_generator: EphysGeneratorSettings
+
+    class Config:
+        """Pydantic configuration."""
+
+        extra = Extra.forbid
