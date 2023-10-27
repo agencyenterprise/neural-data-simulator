@@ -32,6 +32,8 @@ def load_settings(
 
     Raises:
         FileNotFoundError: If the `settings_file` is not found.
+        pydantic.error_wrappers.ValidationError: If the settings file/overrides do not
+            match the schema
     """
     try:
         with open(settings_file, "r") as f:
