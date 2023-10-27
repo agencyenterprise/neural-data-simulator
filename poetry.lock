@@ -4233,4 +4233,4 @@ extras = ["joblib", "matplotlib", "pygame", "pyobjc-framework-Quartz", "scikit-l
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "1da934f95ceba576a931c876c40f6d5d5c7bdd9210a3aad856fe41adc6283c35"
+content-hash = "702a472ef13560cac89e5a94e894e5a1ddf99e1f28ca9daef03c77f79eb87eea"
