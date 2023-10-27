@@ -33,6 +33,10 @@ class FakeOutput(outputs.Output):
         """Send samples."""
         pass
 
+    def _send_array(self, data, timestamps) -> None:
+        """Send array data."""
+        pass
+
     def connect(self):
         """Connect to output."""
         yield
