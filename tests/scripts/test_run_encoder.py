@@ -9,10 +9,11 @@ import numpy as np
 import pytest
 
 import neural_data_simulator
-from neural_data_simulator.core import inputs
 from neural_data_simulator.core import models
 from neural_data_simulator.core.encoder import Encoder
 from neural_data_simulator.core.encoder import Processor
+from neural_data_simulator.core.inputs.lsl_input import LSLInput
+from neural_data_simulator.core.inputs.samples_input import SamplesInput
 from neural_data_simulator.core.outputs.lsl_output import LSLOutputDevice
 from neural_data_simulator.core.outputs import api as outputs
 from neural_data_simulator.core.settings import EncoderEndpointType
@@ -103,7 +104,7 @@ class TestRunEncoder:
         run_encoder.run()
 
         encoder = fake_runner.encoder
-        assert isinstance(encoder.input, inputs.LSLInput)
+        assert isinstance(encoder.input, LSLInput)
         assert isinstance(encoder.output, LSLOutputDevice)
         assert encoder.preprocessor is None
         assert isinstance(encoder.postprocessor, Processor)
@@ -126,7 +127,7 @@ class TestRunEncoder:
         run_encoder.run()
 
         encoder = fake_runner.encoder
-        assert isinstance(encoder.input, inputs.SamplesInput)
+        assert isinstance(encoder.input, SamplesInput)
         assert isinstance(encoder.output, outputs.FileOutput)
         assert encoder.preprocessor is None
         assert isinstance(encoder.postprocessor, Processor)
