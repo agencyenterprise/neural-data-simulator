@@ -11,7 +11,7 @@ from types import ModuleType
 from typing import Any, Optional, Union
 
 from neural_data_simulator.core.inputs.api import Input
-from neural_data_simulator.core.outputs import Output
+from neural_data_simulator.core.outputs.api import Output
 from neural_data_simulator.core.settings import LogLevel
 
 logger = logging.getLogger(__name__)

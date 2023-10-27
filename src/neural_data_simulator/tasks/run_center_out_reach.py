@@ -8,9 +8,9 @@ from typing import cast, Tuple
 import numpy as np
 from pydantic_yaml import VersionedYamlModel
 
-from neural_data_simulator.core import outputs
 from neural_data_simulator.core.inputs.lsl_input import LSLInput
-from neural_data_simulator.core.outputs import StreamConfig
+from neural_data_simulator.core.outputs.lsl_output import LSLOutputDevice
+from neural_data_simulator.core.outputs.lsl_output import StreamConfig
 from neural_data_simulator.core.settings import LogLevel
 from neural_data_simulator.tasks.center_out_reach.input_events import InputHandler
 from neural_data_simulator.tasks.center_out_reach.metrics import MetricsCollector
@@ -195,7 +195,7 @@ def run():
 
     lsl_output_settings = settings.center_out_reach.output.lsl
     sampling_rate = settings.center_out_reach.sampling_rate
-    data_output = outputs.LSLOutputDevice(
+    data_output = LSLOutputDevice(
         stream_config=StreamConfig.from_lsl_settings(
             lsl_output_settings,
             sampling_rate,
@@ -206,7 +206,7 @@ def run():
     # Set up the output for the task state
     task_window_output = None
     if settings.center_out_reach.task_window_output is not None:
-        task_window_output = outputs.LSLOutputDevice.from_lsl_settings(
+        task_window_output = LSLOutputDevice.from_lsl_settings(
             settings.center_out_reach.task_window_output.lsl,
             sampling_rate,
             n_channels=4,

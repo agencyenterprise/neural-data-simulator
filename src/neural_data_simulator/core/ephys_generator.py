@@ -9,7 +9,7 @@ import numpy as np
 from neural_data_simulator.core.filters import LowpassFilter
 from neural_data_simulator.core.health_checker import HealthChecker
 from neural_data_simulator.core.inputs.api import SpikeRateInput
-from neural_data_simulator.core.outputs import Output
+from neural_data_simulator.core.outputs.api import Output
 from neural_data_simulator.core.timing import Timer
 from neural_data_simulator.util.buffer import RingBuffer
 

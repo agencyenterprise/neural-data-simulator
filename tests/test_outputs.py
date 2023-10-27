@@ -30,12 +30,16 @@ class TestConsoleOutput:
 
     def test_connect(self):
         """Test output can be connected using a context manager."""
-        data_output = neural_data_simulator.core.outputs.ConsoleOutput(channel_count=1)
+        data_output = neural_data_simulator.core.outputs.api.ConsoleOutput(
+            channel_count=1
+        )
         data_output.connect()
 
     def test_send(self, samples_to_send, capsys):
         """Test if when `send` is called, the samples are printed to console."""
-        data_output = neural_data_simulator.core.outputs.ConsoleOutput(channel_count=2)
+        data_output = neural_data_simulator.core.outputs.api.ConsoleOutput(
+            channel_count=2
+        )
         output_samples = data_output.send(samples_to_send)
         captured = capsys.readouterr()
         assert captured.out == "[[1.2 1.  2. ]]\n"
@@ -46,7 +50,9 @@ class TestConsoleOutput:
 
         The data has 2 channels, but the output only has 1 channel.
         """
-        data_output = neural_data_simulator.core.outputs.ConsoleOutput(channel_count=1)
+        data_output = neural_data_simulator.core.outputs.api.ConsoleOutput(
+            channel_count=1
+        )
         with pytest.raises(ValueError):
             data_output.send(samples_to_send)
 
@@ -56,14 +62,14 @@ class TestFileOutput:
 
     def test_connected(self):
         """Test output can be connected and output file is opened."""
-        data_output = neural_data_simulator.core.outputs.FileOutput(channel_count=1)
+        data_output = neural_data_simulator.core.outputs.api.FileOutput(channel_count=1)
         data_output.connect()
         assert data_output.file is not None
         assert not data_output.file.closed
 
     def test_disconnected(self):
         """Test that the file is closed when we context manager is exited."""
-        data_output = neural_data_simulator.core.outputs.FileOutput(channel_count=1)
+        data_output = neural_data_simulator.core.outputs.api.FileOutput(channel_count=1)
         data_output.connect()
         data_output.disconnect()
         assert data_output.file.closed
@@ -71,7 +77,7 @@ class TestFileOutput:
     def test_send(self, samples_to_send, tmpdir):
         """Test that sample is written to file when `send` is called."""
         file = tmpdir.join("output.csv")
-        data_output = neural_data_simulator.core.outputs.FileOutput(
+        data_output = neural_data_simulator.core.outputs.api.FileOutput(
             channel_count=2, file_name=str(file)
         )
         data_output.connect()
@@ -85,7 +91,7 @@ class TestFileOutput:
 
         The data has 2 channels, but the output only has 1 channel.
         """
-        data_output = neural_data_simulator.core.outputs.FileOutput(channel_count=1)
+        data_output = neural_data_simulator.core.outputs.api.FileOutput(channel_count=1)
         with pytest.raises(ValueError):
             data_output.send(samples_to_send)
 
@@ -98,7 +104,9 @@ def mock_lsl_outlet(monkeypatch):
     """
     lsl_outlet = mock.Mock()
     pylsl_mock = mock.Mock()
-    monkeypatch.setattr(neural_data_simulator.core.outputs, "pylsl", pylsl_mock)
+    monkeypatch.setattr(
+        neural_data_simulator.core.outputs.lsl_output, "pylsl", pylsl_mock
+    )
     pylsl_mock.StreamOutlet = lsl_outlet
     pylsl_mock.resolve_streams = lambda: []
     return lsl_outlet
@@ -110,7 +118,7 @@ class TestLSLOutputDevice:
     @property
     def fake_stream_config(self):
         """Get a generic stream config for tests."""
-        stream_config = neural_data_simulator.core.outputs.StreamConfig(
+        stream_config = neural_data_simulator.core.outputs.lsl_output.StreamConfig(
             name="Test",
             type="behavior",
             source_id="a-test-fake",
@@ -127,7 +135,7 @@ class TestLSLOutputDevice:
 
     def test_send_before_connection_raises_error(self, samples_to_send):
         """Test that sending samples before opening a connection raises an error."""
-        lsl_output = neural_data_simulator.core.outputs.LSLOutputDevice(
+        lsl_output = neural_data_simulator.core.outputs.lsl_output.LSLOutputDevice(
             self.fake_stream_config
         )
         with pytest.raises(ConnectionError):
@@ -135,7 +143,7 @@ class TestLSLOutputDevice:
 
     def test_send(self, samples_to_send, mock_lsl_outlet):
         """Test that samples are pushed to the LSL outlet."""
-        lsl_output = neural_data_simulator.core.outputs.LSLOutputDevice(
+        lsl_output = neural_data_simulator.core.outputs.lsl_output.LSLOutputDevice(
             self.fake_stream_config
         )
         lsl_output.connect()
@@ -147,7 +155,7 @@ class TestLSLOutputDevice:
 
     def test_send_no_data(self, mock_lsl_outlet):
         """Test that nothing is pushed to the LSL outlet if there is no data."""
-        lsl_output = neural_data_simulator.core.outputs.LSLOutputDevice(
+        lsl_output = neural_data_simulator.core.outputs.lsl_output.LSLOutputDevice(
             self.fake_stream_config
         )
         lsl_output.connect()
@@ -165,7 +173,7 @@ class TestLSLOutputDevice:
 
         The data has 2 channels, but the output only has 1 channel.
         """
-        data_output = neural_data_simulator.core.outputs.LSLOutputDevice(
+        data_output = neural_data_simulator.core.outputs.lsl_output.LSLOutputDevice(
             self.fake_stream_config
         )
         with pytest.raises(ValueError):
@@ -178,7 +186,7 @@ class TestLSLOutputDevice:
 
         The data has 2 channels, but the output only has 1 channel.
         """
-        data_output = neural_data_simulator.core.outputs.LSLOutputDevice(
+        data_output = neural_data_simulator.core.outputs.lsl_output.LSLOutputDevice(
             self.fake_stream_config
         )
         with pytest.raises(ValueError):

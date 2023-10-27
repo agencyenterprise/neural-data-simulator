@@ -62,11 +62,15 @@ class TestLSLStreamer:
         """Test that samples are forwarded to the LSL outlet by the streamer."""
         samples = Samples(timestamps=np.array([0, 1]), data=np.array([[2, 3], [4, 5]]))
 
-        regular_stream_output = neural_data_simulator.core.outputs.LSLOutputDevice(
-            get_stream_config(sample_rate=50)
+        regular_stream_output = (
+            neural_data_simulator.core.outputs.lsl_output.LSLOutputDevice(
+                get_stream_config(sample_rate=50)
+            )
         )
-        irregular_stream_output = neural_data_simulator.core.outputs.LSLOutputDevice(
-            get_stream_config(sample_rate=0)
+        irregular_stream_output = (
+            neural_data_simulator.core.outputs.lsl_output.LSLOutputDevice(
+                get_stream_config(sample_rate=0)
+            )
         )
         streamer = LSLStreamer(
             [regular_stream_output, irregular_stream_output],

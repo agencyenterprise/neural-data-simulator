@@ -18,13 +18,13 @@ import numpy as np
 
 from neural_data_simulator.core import encoder
 from neural_data_simulator.core import models
-from neural_data_simulator.core import outputs
 from neural_data_simulator.core import runner
 from neural_data_simulator.core import timing
 from neural_data_simulator.core.inputs import api as inputs
 from neural_data_simulator.core.inputs.lsl_input import LSLInput
 from neural_data_simulator.core.inputs.samples_input import SamplesInput
-from neural_data_simulator.core.outputs import LSLOutputDevice
+from neural_data_simulator.core.outputs import api as outputs
+from neural_data_simulator.core.outputs.lsl_output import LSLOutputDevice
 from neural_data_simulator.core.samples import Samples
 from neural_data_simulator.core.settings import EncoderEndpointType
 from neural_data_simulator.core.settings import EncoderSettings

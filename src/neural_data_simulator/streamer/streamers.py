@@ -6,7 +6,7 @@ from typing import List
 import numpy as np
 import pylsl
 
-from neural_data_simulator.core.outputs import LSLOutputDevice
+from neural_data_simulator.core.outputs.lsl_output import LSLOutputDevice
 from neural_data_simulator.core.samples import Samples
 from neural_data_simulator.core.timing import Timer
 

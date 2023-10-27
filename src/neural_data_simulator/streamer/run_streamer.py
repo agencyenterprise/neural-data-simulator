@@ -20,8 +20,8 @@ from neo.rawio.blackrockrawio import BlackrockRawIO
 import numpy as np
 from pydantic_yaml import VersionedYamlModel
 
-from neural_data_simulator.core.outputs import LSLOutputDevice
-from neural_data_simulator.core.outputs import StreamConfig
+from neural_data_simulator.core.outputs.lsl_output import LSLOutputDevice
+from neural_data_simulator.core.outputs.lsl_output import StreamConfig
 from neural_data_simulator.core.samples import Samples
 from neural_data_simulator.core.settings import LogLevel
 from neural_data_simulator.streamer import settings
