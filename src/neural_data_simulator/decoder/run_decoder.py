@@ -5,6 +5,7 @@ import logging
 from pathlib import Path
 from typing import cast
 
+from pydantic import Extra
 from pydantic_yaml import VersionedYamlModel
 from rich.pretty import pprint
 import yaml
@@ -35,6 +36,9 @@ class _Settings(VersionedYamlModel):
     log_level: LogLevel
     decoder: DecoderSettings
     timer: TimerModel
+
+    class Config:
+        extra = Extra.forbid
 
 
 def _parse_args():

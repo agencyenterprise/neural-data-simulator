@@ -47,6 +47,9 @@ class _Settings(VersionedYamlModel):
     log_level: LogLevel
     streamer: settings.Streamer
 
+    class Config:
+        extra = Extra.forbid
+
 
 class StreamGroup:
     """Utility class for managing a list of streams."""

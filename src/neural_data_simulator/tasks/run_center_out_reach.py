@@ -6,6 +6,7 @@ import re
 from typing import cast, Tuple
 
 import numpy as np
+from pydantic import Extra
 from pydantic_yaml import VersionedYamlModel
 from rich.pretty import pprint
 import yaml
@@ -43,6 +44,9 @@ class _Settings(VersionedYamlModel):
 
     log_level: LogLevel
     center_out_reach: CenterOutReach
+
+    class Config:
+        extra = Extra.forbid
 
 
 def _get_task_window_params(

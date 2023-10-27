@@ -1,20 +1,21 @@
 """Schema for Decoder settings."""
 
 from pydantic import BaseModel
+from pydantic import Extra
 
 from neural_data_simulator.core.settings import LSLInputModel
 from neural_data_simulator.core.settings import LSLOutputModel
 
 
-class DecoderSettings(BaseModel):
+class DecoderSettings(BaseModel, extra=Extra.forbid):
     """Decoder settings."""
 
-    class Input(BaseModel):
+    class Input(BaseModel, extra=Extra.forbid):
         """Decoder input settings."""
 
         lsl: LSLInputModel
 
-    class Output(BaseModel):
+    class Output(BaseModel, extra=Extra.forbid):
         """Decoder output settings."""
 
         sampling_rate: float

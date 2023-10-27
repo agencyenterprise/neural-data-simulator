@@ -4,6 +4,7 @@ from enum import unique
 from typing import Dict, Optional
 
 from pydantic import BaseModel
+from pydantic import Extra
 from pydantic import Json
 from pydantic import validator
 from pydantic_yaml import VersionedYamlModel
@@ -56,24 +57,24 @@ class LSLChannelFormatType(str, Enum):
     _INT64 = "int64"
 
 
-class TimerModel(BaseModel):
+class TimerModel(BaseModel, extra=Extra.forbid):
     """Settings for the timer implementation."""
 
     max_cpu_buffer: float
     loop_time: float
 
 
-class LSLInputModel(BaseModel):
+class LSLInputModel(BaseModel, extra=Extra.forbid):
     """Settings for all LSL inlets."""
 
     connection_timeout: float
     stream_name: str
 
 
-class LSLOutputModel(BaseModel):
+class LSLOutputModel(BaseModel, extra=Extra.forbid):
     """Settings for all LSL outlets."""
 
-    class _Instrument(BaseModel):
+    class _Instrument(BaseModel, extra=Extra.forbid):
         manufacturer: str
         model: str
         id: int
@@ -86,13 +87,13 @@ class LSLOutputModel(BaseModel):
     channel_labels: Optional[list[str]]
 
 
-class EncoderSettings(BaseModel):
+class EncoderSettings(BaseModel, extra=Extra.forbid):
     """Settings for the encoder."""
 
-    class Input(BaseModel):
+    class Input(BaseModel, extra=Extra.forbid):
         """Settings for the encoder input."""
 
-        class File(BaseModel):
+        class File(BaseModel, extra=Extra.forbid):
             """Settings for the encoder input type file."""
 
             path: str
@@ -104,7 +105,7 @@ class EncoderSettings(BaseModel):
         file: Optional[File]
         lsl: Optional[LSLInputModel]
 
-    class Output(BaseModel):
+    class Output(BaseModel, extra=Extra.forbid):
         """Settings for the encoder output."""
 
         n_channels: int
@@ -144,10 +145,10 @@ class EncoderSettings(BaseModel):
         return value
 
 
-class EphysGeneratorSettings(BaseModel):
+class EphysGeneratorSettings(BaseModel, extra=Extra.forbid):
     """Settings for the spike generator."""
 
-    class Waveforms(BaseModel):
+    class Waveforms(BaseModel, extra=Extra.forbid):
         """Settings for the spike waveform prototypes."""
 
         n_samples: int
@@ -175,10 +176,10 @@ class EphysGeneratorSettings(BaseModel):
                 raise ValueError("Mapped prototype doesn't have a default value.")
             return v
 
-    class Input(BaseModel):
+    class Input(BaseModel, extra=Extra.forbid):
         """Settings for the ephys generator input."""
 
-        class Testing(BaseModel):
+        class Testing(BaseModel, extra=Extra.forbid):
             """Settings for the ephys generator input type testing."""
 
             n_channels: int
@@ -188,15 +189,15 @@ class EphysGeneratorSettings(BaseModel):
         lsl: Optional[LSLInputModel]
         testing: Optional[Testing]
 
-    class Output(BaseModel):
+    class Output(BaseModel, extra=Extra.forbid):
         """Settings for the ephys generator output."""
 
-        class Raw(BaseModel):
+        class Raw(BaseModel, extra=Extra.forbid):
             """Settings for the ephys generator output type raw."""
 
             lsl: LSLOutputModel
 
-        class LFP(BaseModel):
+        class LFP(BaseModel, extra=Extra.forbid):
             """Settings for the ephys generator output type LFP."""
 
             data_frequency: float
@@ -204,7 +205,7 @@ class EphysGeneratorSettings(BaseModel):
             filter_order: int
             lsl: LSLOutputModel
 
-        class SpikeEvents(BaseModel):
+        class SpikeEvents(BaseModel, extra=Extra.forbid):
             """Settings for the ephys generator output type spike events."""
 
             lsl: LSLOutputModel
@@ -213,7 +214,7 @@ class EphysGeneratorSettings(BaseModel):
         lfp: LFP
         spike_events: SpikeEvents
 
-    class Noise(BaseModel):
+    class Noise(BaseModel, extra=Extra.forbid):
         """Settings for the ephys generator noise."""
 
         beta: float
@@ -256,3 +257,6 @@ class Settings(VersionedYamlModel):
     timer: TimerModel
     encoder: EncoderSettings
     ephys_generator: EphysGeneratorSettings
+
+    class Config:
+        extra = Extra.forbid

@@ -2,16 +2,17 @@
 from typing import Optional
 
 from pydantic import BaseModel
+from pydantic import Extra
 from pydantic import validator
 
 from neural_data_simulator.core.settings import LSLInputModel
 from neural_data_simulator.core.settings import LSLOutputModel
 
 
-class CenterOutReach(BaseModel):
+class CenterOutReach(BaseModel, extra=Extra.forbid):
     """Center-out reach settings."""
 
-    class Input(BaseModel):
+    class Input(BaseModel, extra=Extra.forbid):
         """Input settings."""
 
         enabled: bool
@@ -24,15 +25,15 @@ class CenterOutReach(BaseModel):
 
             return v
 
-    class Output(BaseModel):
+    class Output(BaseModel, extra=Extra.forbid):
         """Output settings."""
 
         lsl: LSLOutputModel
 
-    class Window(BaseModel):
+    class Window(BaseModel, extra=Extra.forbid):
         """Window settings."""
 
-        class Colors(BaseModel):
+        class Colors(BaseModel, extra=Extra.forbid):
             """Colors used in the GUI."""
 
             background: str
@@ -48,13 +49,13 @@ class CenterOutReach(BaseModel):
 
         colors: Colors
 
-    class StandardScaler(BaseModel):
+    class StandardScaler(BaseModel, extra=Extra.forbid):
         """Velocity scaler settings."""
 
         scale: list[float]
         mean: list[float]
 
-    class Task(BaseModel):
+    class Task(BaseModel, extra=Extra.forbid):
         """Task settings."""
 
         target_radius: float
