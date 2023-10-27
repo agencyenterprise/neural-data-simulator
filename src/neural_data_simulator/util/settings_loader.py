@@ -5,6 +5,7 @@ import os
 from typing import Optional, Type
 
 from omegaconf import OmegaConf
+import pydantic.error_wrappers
 from pydantic import BaseModel
 import yaml
 
@@ -44,6 +45,13 @@ def load_settings(
             "\t'--settings-path' argument."
         ) from file_error
 
+    # Validate settings file
+    try:
+        settings = settings_parser.parse_obj(settings_dict)
+    except pydantic.error_wrappers.ValidationError as validation_error:
+        validation_error.add_note("Settings file does not match expected schema.")
+        raise
+
     if override_dotlist:
         override_conf = OmegaConf.from_dotlist(override_dotlist)
         merged_conf = OmegaConf.merge(settings_dict, override_conf)
@@ -51,8 +59,11 @@ def load_settings(
         # Re-validate merged config
         # If validation is slow, we can use `pydantic-partial` to only
         # re-validate the dot-list overrides.
-
-    settings = settings_parser.parse_obj(settings_dict)
+        try:
+            settings = settings_parser.parse_obj(settings_dict)
+        except pydantic.error_wrappers.ValidationError as validation_error:
+            validation_error.add_note("Overrides list does not match expected schema.")
+            raise
 
     return settings
 
