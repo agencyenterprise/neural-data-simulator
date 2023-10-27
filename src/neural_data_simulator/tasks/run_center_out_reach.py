@@ -6,7 +6,7 @@ import re
 from typing import cast, Tuple
 
 import numpy as np
-from pydantic import BaseModel
+from pydantic_yaml import VersionedYamlModel
 from rich.pretty import pprint
 import yaml
 
@@ -35,7 +35,7 @@ SCRIPT_NAME = "nds-center-out-reach"
 logger = logging.getLogger(__name__)
 
 
-class _Settings(BaseModel):
+class _Settings(VersionedYamlModel):
     """Center-out reach app settings.
 
     Defines the schema of a `settings_center_out_reach.yaml` file.

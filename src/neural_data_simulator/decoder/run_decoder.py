@@ -5,7 +5,7 @@ import logging
 from pathlib import Path
 from typing import cast
 
-from pydantic import BaseModel
+from pydantic_yaml import VersionedYamlModel
 from rich.pretty import pprint
 import yaml
 
@@ -29,7 +29,7 @@ SCRIPT_NAME = "nds-decoder"
 logger = logging.getLogger(__name__)
 
 
-class _Settings(BaseModel):
+class _Settings(VersionedYamlModel):
     """Decoder app settings."""
 
     log_level: LogLevel

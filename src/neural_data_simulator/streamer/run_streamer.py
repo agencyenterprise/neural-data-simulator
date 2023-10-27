@@ -18,7 +18,8 @@ from typing import cast, Dict, Iterator, List, Optional, Tuple
 
 from neo.rawio.blackrockrawio import BlackrockRawIO
 import numpy as np
-from pydantic import BaseModel
+from pydantic import Extra
+from pydantic_yaml import VersionedYamlModel
 from rich.pretty import pprint
 import yaml
 
@@ -40,7 +41,7 @@ SCRIPT_NAME = "nds-streamer"
 logger = logging.getLogger(__name__)
 
 
-class _Settings(BaseModel):
+class _Settings(VersionedYamlModel):
     """Pydantic base settings for running the streamer."""
 
     log_level: LogLevel

@@ -6,6 +6,7 @@ from typing import Dict, Optional
 from pydantic import BaseModel
 from pydantic import Json
 from pydantic import validator
+from pydantic_yaml import VersionedYamlModel
 
 
 @unique
@@ -248,7 +249,7 @@ class EphysGeneratorSettings(BaseModel):
         return input_value
 
 
-class Settings(BaseModel):
+class Settings(VersionedYamlModel):
     """All settings for the NDS main package."""
 
     log_level: LogLevel
