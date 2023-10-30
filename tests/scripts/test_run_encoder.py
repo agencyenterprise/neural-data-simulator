@@ -14,8 +14,8 @@ from neural_data_simulator.core.encoder import Encoder
 from neural_data_simulator.core.encoder import Processor
 from neural_data_simulator.core.inputs.lsl_input import LSLInput
 from neural_data_simulator.core.inputs.samples_input import SamplesInput
-from neural_data_simulator.core.outputs.lsl_output import LSLOutputDevice
 from neural_data_simulator.core.outputs import api as outputs
+from neural_data_simulator.core.outputs.lsl_output import LSLOutputDevice
 from neural_data_simulator.core.settings import EncoderEndpointType
 from neural_data_simulator.core.settings import EncoderSettings
 from neural_data_simulator.core.settings import Settings

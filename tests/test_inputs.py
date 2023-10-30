@@ -6,8 +6,8 @@ import numpy as np
 import pylsl
 import pytest
 
-from neural_data_simulator.core.inputs import samples_input
 from neural_data_simulator.core.inputs import lsl_input
+from neural_data_simulator.core.inputs import samples_input
 from neural_data_simulator.core.samples import Samples
 
 
