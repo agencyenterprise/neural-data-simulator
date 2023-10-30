@@ -13,7 +13,8 @@ class StreamOutletFake:
 
     def __init__(self, *args, **kwargs):
         """Fake init method."""
-        self.pushed_sample_data = np.array([]).reshape((-1, 2))
+        self.pushed_sample_data = np.zeros(shape=(0, 2))
+        self.pushed_chunk_data = np.zeros(shape=(0, 2))
 
     def connect(self):
         """Fake connect method."""
@@ -21,8 +22,9 @@ class StreamOutletFake:
 
     def push_chunk(self, data, timestamp):
         """Fake push_chunk method. Saves passed data for later validation."""
-        self.pushed_chunk_data = data
-        self.pushed_chunk_timestamp = timestamp
+        self.pushed_chunk_data = np.vstack((self.pushed_chunk_data, data))
+        # `timestamp` arg-type can be flexible, so we ignore it for now
+        _ = timestamp
 
     def push_sample(self, data, timestamp=None):
         """Fake push_sample method. Saves passed data for later validation."""
@@ -64,15 +66,11 @@ class TestLSLStreamer:
         """Test that samples are forwarded to the LSL outlet by the streamer."""
         samples = Samples(timestamps=np.array([0, 1]), data=np.array([[2, 3], [4, 5]]))
 
-        regular_stream_output = (
-            lsl_output.LSLOutputDevice(
-                get_stream_config(sample_rate=50)
-            )
+        regular_stream_output = lsl_output.LSLOutputDevice(
+            get_stream_config(sample_rate=50)
         )
-        irregular_stream_output = (
-            lsl_output.LSLOutputDevice(
-                get_stream_config(sample_rate=0)
-            )
+        irregular_stream_output = lsl_output.LSLOutputDevice(
+            get_stream_config(sample_rate=0)
         )
         streamer = LSLStreamer(
             [regular_stream_output, irregular_stream_output],
@@ -86,11 +84,11 @@ class TestLSLStreamer:
         fake_regular_lsl_outlet = regular_stream_output._outlet
         fake_irregular_lsl_outlet = irregular_stream_output._outlet
 
-        assert np.array_equal(
+        np.testing.assert_array_equal(
             fake_regular_lsl_outlet.pushed_chunk_data,
             np.array([[2, 3], [4, 5]]),
         )
-        assert np.array_equal(
-            fake_irregular_lsl_outlet.pushed_sample_data,
+        np.testing.assert_array_equal(
+            fake_irregular_lsl_outlet.pushed_chunk_data,
             np.array([[2, 3], [4, 5]]),
         )
