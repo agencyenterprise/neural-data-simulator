@@ -129,8 +129,12 @@ class TestLSLOutputDevice:
         mock_lsl_outlet.mock_calls = []
         lsl_output_device.send(samples_to_send)
         # using mock.ANY because numpy array doesn't like ==
-        assert mock_lsl_outlet.mock_calls == [mock.call().push_sample(mock.ANY, 1.2)]
-        assert list(mock_lsl_outlet.mock_calls[0][1][0]) == [1.0, 2.0]
+        assert mock_lsl_outlet.mock_calls == [
+            mock.call().push_chunk(mock.ANY, samples_to_send.timestamps)
+        ]
+        np.testing.assert_array_equal(
+            mock_lsl_outlet.mock_calls[0][1][0], samples_to_send.data
+        )
 
     def test_send_no_data(self, mock_lsl_outlet):
         """Test that nothing is pushed to the LSL outlet if there is no data."""

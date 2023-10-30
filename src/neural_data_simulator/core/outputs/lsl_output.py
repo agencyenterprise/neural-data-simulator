@@ -196,6 +196,8 @@ class LSLOutputDevice(Output):
         """
         self._check_connection()
         assert self._outlet is not None
+        if len(data) == 0:
+            return
         # cast data to expected channel format
         data_out = data.astype(self._dtype)
         if timestamps is not None:
