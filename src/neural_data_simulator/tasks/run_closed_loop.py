@@ -86,7 +86,7 @@ def _parse_args():
     parser.add_argument(
         "--remote-task",
         action="store_true",
-        help="Run without the center_out_reach task, expecting a remote task to be used.",
+        help="Run without center_out_reach task, expecting a remote task to be used.",
     )
 
     args = parser.parse_args()
