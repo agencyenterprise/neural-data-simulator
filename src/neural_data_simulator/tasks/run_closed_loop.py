@@ -84,9 +84,9 @@ def _parse_args():
     )
 
     parser.add_argument(
-        "--headless",
+        "--remote-task",
         action="store_true",
-        help="Run in headless mode without starting the center_out_reach task.",
+        help="Run without the center_out_reach task, expecting a remote task to be used.",
     )
 
     args = parser.parse_args()
@@ -167,8 +167,8 @@ def run():
     ephys = _run_process(["ephys_generator"] + nds_params)
     decoder = _run_process(["decoder"] + decoder_params)
 
-    if args.headless:
-        logger.info("Running in headless mode. Press CTRL+C to stop.")
+    if args.remote_task:
+        logger.info("Running with remote task. Press CTRL+C to exit.")
         try:
             while True:
                 time.sleep(1)
