@@ -82,6 +82,13 @@ def _parse_args():
             "For example: -to log_level=DEBUG center_out_reach.task.target_radius=0.03"
         ),
     )
+
+    parser.add_argument(
+        "--remote-task",
+        action="store_true",
+        help="Run without center_out_reach task, expecting a remote task to be used.",
+    )
+
     args = parser.parse_args()
 
     return args
@@ -160,27 +167,37 @@ def run():
     ephys = _run_process(["ephys_generator"] + nds_params)
     decoder = _run_process(["decoder"] + decoder_params)
 
-    with tempfile.TemporaryDirectory() as temp_dir:
-        control_file_path = os.path.join(temp_dir, "center_out_reach_control_file")
-        Path(control_file_path).touch(exist_ok=False)
-        center_out_reach = _run_process(
-            ["center_out_reach", "--control-file", control_file_path] + task_params
-        )
-        logger.info("Modules started")
-
+    if args.remote_task:
+        logger.info("Running with remote task. Press CTRL+C to exit.")
         try:
-            _wait_for_center_out_reach_main_task(control_file_path, center_out_reach)
+            while True:
+                time.sleep(1)
         except KeyboardInterrupt:
             logger.info("CTRL+C received. Exiting...")
-            _terminate_process("center_out_reach", center_out_reach)
+    else:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            control_file_path = os.path.join(temp_dir, "center_out_reach_control_file")
+            Path(control_file_path).touch(exist_ok=False)
+            center_out_reach = _run_process(
+                ["center_out_reach", "--control-file", control_file_path] + task_params
+            )
+            logger.info("Modules started")
 
-        _terminate_process("encoder", encoder)
-        _terminate_process("ephys_generator", ephys)
-        _terminate_process("decoder", decoder)
+            try:
+                _wait_for_center_out_reach_main_task(
+                    control_file_path, center_out_reach
+                )
+            except KeyboardInterrupt:
+                logger.info("CTRL+C received. Exiting...")
+                _terminate_process("center_out_reach", center_out_reach)
 
-        if center_out_reach.poll() is None:
-            logger.info("Waiting for center_out_reach")
-            center_out_reach.wait()
+            if center_out_reach.poll() is None:
+                logger.info("Waiting for center_out_reach")
+                center_out_reach.wait()
+
+    _terminate_process("encoder", encoder)
+    _terminate_process("ephys_generator", ephys)
+    _terminate_process("decoder", decoder)
 
     logger.info("Done")
 
