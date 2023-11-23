@@ -5,22 +5,22 @@
 
 Computation times
 =================
-**01:34.427** total execution time for **auto_examples** files:
+**01:27.241** total execution time for **auto_examples** files:
 
 +---------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_plot_train_encoder_and_decoder_model.py` (``plot_train_encoder_and_decoder_model.py``) | 01:14.758 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_plot_train_encoder_and_decoder_model.py` (``plot_train_encoder_and_decoder_model.py``) | 01:12.851 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_plot_run_open_loop.py` (``plot_run_open_loop.py``)                                     | 00:10.598 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_plot_run_open_loop.py` (``plot_run_open_loop.py``)                                     | 00:06.923 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_plot_psd.py` (``plot_psd.py``)                                                         | 00:02.182 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_plot_psd.py` (``plot_psd.py``)                                                         | 00:02.310 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_plot_isi.py` (``plot_isi.py``)                                                         | 00:02.033 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_plot_isi.py` (``plot_isi.py``)                                                         | 00:02.016 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_plot_behavior_distribution.py` (``plot_behavior_distribution.py``)                     | 00:01.850 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_plot_behavior_distribution.py` (``plot_behavior_distribution.py``)                     | 00:01.430 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_plot_predicted_spike_rates.py` (``plot_predicted_spike_rates.py``)                     | 00:01.114 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_plot_behavior_and_spikes.py` (``plot_behavior_and_spikes.py``)                         | 00:00.609 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_plot_behavior_and_spikes.py` (``plot_behavior_and_spikes.py``)                         | 00:00.950 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_plot_decoded_behavior.py` (``plot_decoded_behavior.py``)                               | 00:00.561 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_plot_decoded_behavior.py` (``plot_decoded_behavior.py``)                               | 00:00.941 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_plot_predicted_spike_rates.py` (``plot_predicted_spike_rates.py``)                     | 00:00.541 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------------------------+-----------+--------+
