@@ -4,8 +4,8 @@ from unittest.mock import patch
 import numpy as np
 
 import neural_data_simulator.core.encoder as encoder
-import neural_data_simulator.core.inputs as inputs
-import neural_data_simulator.core.outputs as outputs
+from neural_data_simulator.core.inputs import api as inputs
+import neural_data_simulator.core.outputs.api as outputs
 from neural_data_simulator.core.samples import Samples
 
 
@@ -31,6 +31,10 @@ class FakeOutput(outputs.Output):
 
     def _send(self, samples):
         """Send samples."""
+        pass
+
+    def _send_array(self, data, timestamps) -> None:
+        """Send array data."""
         pass
 
     def connect(self):

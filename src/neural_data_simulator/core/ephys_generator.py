@@ -1,132 +1,17 @@
 """This module contains classes that are used to generate spikes from spike rates."""
 from dataclasses import dataclass
-from typing import Dict, List, NamedTuple, Optional, Protocol, Tuple, Union
+from typing import Dict, List, NamedTuple, Optional, Tuple, Union
 
 import colorednoise
 from numpy import ndarray
 import numpy as np
-import pylsl
 
 from neural_data_simulator.core.filters import LowpassFilter
 from neural_data_simulator.core.health_checker import HealthChecker
-from neural_data_simulator.core.inputs import LSLInput
-from neural_data_simulator.core.outputs import LSLOutputDevice
+from neural_data_simulator.core.inputs.api import SpikeRateInput
+from neural_data_simulator.core.outputs.api import Output
 from neural_data_simulator.core.timing import Timer
 from neural_data_simulator.util.buffer import RingBuffer
-
-
-class SpikeRateInput(Protocol):
-    """An abstract input that can be used to read spike rates.
-
-    A python protocol (`PEP-544 <https://peps.python.org/pep-0544/>`_) works in
-    a similar way to an abstract class.
-    The :meth:`__init__` method of this protocol should never be called as
-    protocols are not meant to be instantiated. An :meth:`__init__` method
-    may be defined in a concrete implementation of this protocol if needed.
-    """
-
-    @property
-    def channel_count(self) -> int:
-        """Get the number of input channels.
-
-        Returns:
-            The input channel count.
-        """
-        ...
-
-    def read(self) -> Optional[ndarray]:
-        """Read spike rates, one per channel.
-
-        Returns:
-            An array of spike rates with shape (n_units,) or None if no samples
-            are available.
-        """
-        ...
-
-
-class LSLSpikeRateInputAdapter(SpikeRateInput):
-    """Reads spike rates from an LSL input."""
-
-    @property
-    def channel_count(self) -> int:
-        """Get the LSL stream channel count.
-
-        Returns:
-            The input channel count.
-        """
-        return self.lsl_input.get_info().channel_count
-
-    def __init__(self, lsl_input: LSLInput):
-        """Create an adapter for a given LSL input.
-
-        Args:
-            lsl_input: The LSL input to adapt.
-        """
-        self.lsl_input = lsl_input
-
-    def __del__(self):
-        """Disconnect from the LSL input stream."""
-        self.lsl_input.disconnect()
-
-    def connect(self):
-        """Connect to the LSL input stream."""
-        self.lsl_input.connect()
-
-    def read(self) -> Optional[ndarray]:
-        """Connect to the LSL input stream.
-
-        Returns:
-            An array of spike rates with shape (n_units,) or None if no samples
-            are available.
-        """
-        samples = self.lsl_input.read()
-        if len(samples) > 0:
-            return np.array(samples.data[-1])
-        return None
-
-
-class SpikeRateTestingInput(SpikeRateInput):
-    """A constant spike rate input that can be used for testing.
-
-    Generates spike rates so that spikes are more likely to happen
-    on channels of a higher order and less likely on channels of a lower order.
-    The spike rate for a channel is always constant.
-    """
-
-    def __init__(self, n_channels: int, n_units: int):
-        """Create a testing spike rate input.
-
-        Args:
-            n_channels: The number of input channels.
-            n_units: The total number of units, which should be a multiple
-                of the number of channels.
-        """
-        self.n_channels = n_channels
-        self.n_units = n_units
-
-    @property
-    def channel_count(self) -> int:
-        """Get the number of input channels.
-
-        Returns:
-            The input channel count.
-        """
-        return self.n_channels
-
-    def read(self) -> Optional[ndarray]:
-        """Read spike rates, one per channel.
-
-        Returns:
-            The array of testing spike rates with shape (n_units,).
-            For example, if `n_channels = 50` and `n_units_per_channel = 1`, the
-            spike rates will be constant and equal to:
-
-            `[ 0.  2.  4.  6.  8. 10. 12. 14. 16. 18. 20. 22. 24. 26. 28. 30. 32. 34.
-            36. 38. 40. 42. 44. 46. 48. 50. 52. 54. 56. 58. 60. 62. 64. 66. 68. 70.
-            72. 74. 76. 78. 80. 82. 84. 86. 88. 90. 92. 94. 96. 98.]`
-        """
-        rates = np.arange(self.n_units) * 100 / self.n_units
-        return rates.astype(int)
 
 
 @dataclass
@@ -731,24 +616,24 @@ class ProcessOutput:
             return 1.0 / self.lsl_chunk_frequency
 
     @dataclass
-    class LSLOutputs:
-        """Possible LSL output streams."""
+    class Outputs:
+        """Possible output streams."""
 
-        raw: Optional[LSLOutputDevice] = None
+        raw: Optional[Output] = None
         """The raw continuous data stream."""
 
-        lfp: Optional[LSLOutputDevice] = None
+        lfp: Optional[Output] = None
         """The LFP data stream."""
 
-        spike_events: Optional[LSLOutputDevice] = None
+        spike_events: Optional[Output] = None
         """The spike events stream."""
 
     def __init__(
         self,
         continuous_data: ContinuousData,
         spikes: Spikes,
-        input_: SpikeRateInput,
-        outputs: LSLOutputs,
+        input: SpikeRateInput,
+        outputs: Outputs,
         params: Params,
         health_checker: HealthChecker,
     ):
@@ -757,12 +642,12 @@ class ProcessOutput:
         Args:
             continuous_data: The continuous data generator.
             spikes: The spikes generator.
-            input_: The spike rates input.
-            outputs: The LSL output streams.
+            input: The spike rates input.
+            outputs: The output streams.
             params: The initialization parameters.
             health_checker: The health monitor.
         """
-        self._input = input_
+        self._input = input
         self._outputs = outputs
         self._params = params
         self._health_checker = health_checker
@@ -800,11 +685,12 @@ class ProcessOutput:
 
     def _execute(self):
         self._update_spike_rates()
+        time_now = self._timer.total_elapsed_time()
+
         if self._last_output_time is None:
-            self._last_output_time = pylsl.local_clock()
+            self._last_output_time = time_now
             return
 
-        time_now = pylsl.local_clock()
         time_elapsed = time_now - self._last_output_time
         self._last_output_time = time_now
 
@@ -818,18 +704,15 @@ class ProcessOutput:
 
         self._stream_continuous_data(continuous_data)
         self._stream_lfp(continuous_data)
-        self._stream_spike_events(spike_events, n_samples, time_elapsed)
+        self._stream_spike_events(spike_events)
 
     def _stream_continuous_data(self, continuous_data: ndarray):
         if self._outputs.raw is not None:
-            self._outputs.raw.send_as_chunk(continuous_data / self._resolution)
+            self._outputs.raw.send_array(
+                continuous_data / self._resolution, timestamps=None
+            )
 
-    def _stream_spike_events(
-        self, spike_events: SpikeEvents, n_samples: int, time_elapsed: float
-    ):
-        if self._last_output_time is None:
-            raise ValueError("Last output time is not set.")
-
+    def _stream_spike_events(self, spike_events: SpikeEvents):
         assert (
             spike_events.waveform is not None
         ), "SpikeEvents.waveform is required to stream continuous data."
@@ -845,22 +728,16 @@ class ProcessOutput:
                 )
             )
 
-            time_interval_per_sample = time_elapsed / n_samples
-            spike_lsl_times = (
-                self._last_output_time
-                + spike_events.time_idx * time_interval_per_sample
+            self._outputs.spike_events.send_array(
+                data_to_stream,
+                timestamps=None,
             )
-
-            for i, data in enumerate(data_to_stream):
-                self._outputs.spike_events.send_as_sample(
-                    data=data, timestamp=spike_lsl_times[i]
-                )
 
     def _stream_lfp(self, continuous_data: ndarray):
         if self._outputs.lfp is not None:
             lfp = self.continuous_data.get_lfp_data(continuous_data)
             if len(lfp) > 0:
-                self._outputs.lfp.send_as_chunk(lfp / self._resolution)
+                self._outputs.lfp.send_array(lfp / self._resolution, timestamps=None)
 
     def _update_spike_rates(self):
         rates = self._input.read()  # update spike rates

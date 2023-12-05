@@ -1,165 +1,15 @@
-"""A collection of outputs that can be used by NDS."""
-import abc
+"""LSL output device."""
 from dataclasses import dataclass
 import logging
-from typing import Any, Callable, IO, List, Optional, Union
+from typing import Callable, List, Optional, Union
 
 from numpy import ndarray
 import numpy as np
 import pylsl
 
+from neural_data_simulator.core.outputs.api import Output
 from neural_data_simulator.core.samples import Samples
 from neural_data_simulator.core.settings import LSLOutputModel
-
-
-class Output(abc.ABC):
-    """Represents an abstract output that can be used to send samples."""
-
-    @property
-    @abc.abstractmethod
-    def channel_count(self) -> int:
-        """Return the number of channels."""
-        pass
-
-    def wait_for_consumers(self, timeout: int) -> bool:
-        """Wait for consumers to connect until the timeout expires.
-
-        Args:
-            timeout: Timeout in seconds.
-
-        Returns:
-            True if consumers are connected, False otherwise.
-        """
-        return True
-
-    def has_consumers(self) -> bool:
-        """Return whether there are consumers connected to the output."""
-        return True
-
-    @abc.abstractmethod
-    def connect(self) -> None:
-        """Connect to output."""
-        pass
-
-    def disconnect(self) -> None:
-        """Disconnect from output. The default implementation does nothing."""
-        pass
-
-    @abc.abstractmethod
-    def _send(self, samples: Samples) -> None:
-        """Send samples to output.
-
-        Args:
-            samples: Samples to output.
-        """
-        pass
-
-    def _validate_data_shape(self, data: ndarray) -> None:
-        """Validate the shape of the samples."""
-        if not len(data):
-            return
-
-        if (len(data.shape) == 1 and self.channel_count != data.shape[0]) or (
-            len(data.shape) == 2 and self.channel_count != data.shape[1]
-        ):
-            raise ValueError(
-                f"Output expects data with {self.channel_count} channels,"
-                + f" received data with {data.shape[-1]} channels"
-            )
-
-    def send(self, samples: Samples) -> Samples:
-        """Push samples to output and return the data unchanged.
-
-        Args:
-            samples: Samples to output.
-
-        Returns:
-            The input samples unchanged.
-        """
-        self._validate_data_shape(samples.data)
-        self._send(samples)
-        return samples
-
-
-class ConsoleOutput(Output):
-    """Represents an output device that prints to the terminal."""
-
-    def __init__(self, channel_count: int):
-        """Initialize the ConsoleOutput class."""
-        self.logger = logging.getLogger(__name__)
-        self._channel_count = channel_count
-
-    @property
-    def channel_count(self) -> int:
-        """The number of channels.
-
-        Returns:
-            Number of channels of the output.
-        """
-        return self._channel_count
-
-    def _send(self, samples: Samples) -> None:
-        """Send data to a file without index or header.
-
-        Args:
-            samples: :class:`neural_data_simulator.core.samples.Samples` dataclass with
-              timestamps and data.
-        """
-        timestamps_and_data = np.column_stack((samples.timestamps, samples.data))
-        print(np.array2string(timestamps_and_data))
-
-    def connect(self) -> None:
-        """Connect to the device within a context.
-
-        The default implementation does nothing.
-        """
-        pass
-
-
-class FileOutput(Output):
-    """Represents an output device that writes to a file."""
-
-    def __init__(self, channel_count: int, file_name: str = "output.csv"):
-        """Initialize FileOutput class.
-
-        Args:
-            channel_count: Number of channels for this output.
-            file_name: File path to write the samples via the
-                `send` method. Defaults to "output.csv".
-        """
-        self.logger = logging.getLogger(__name__)
-        self._channel_count = channel_count
-        self.file: Optional[IO[Any]] = None
-        self.file_name = file_name
-
-    @property
-    def channel_count(self) -> int:
-        """The number of channels.
-
-        Returns:
-            Number of channels of the output.
-        """
-        return self._channel_count
-
-    def _send(self, samples: Samples) -> None:
-        """Write the samples into the file.
-
-        Args:
-            samples: :class:`neural_data_simulator.core.samples.Samples` dataclass.
-        """
-        if self.file is not None:
-            timestamps_and_data = np.column_stack((samples.timestamps, samples.data))
-            np.savetxt(self.file, timestamps_and_data, delimiter=",", fmt="%f")
-
-    def connect(self) -> None:
-        """Open the output file."""
-        self.logger.info(f"Opening output file {self.file_name}")
-        self.file = open(self.file_name, "w")
-
-    def disconnect(self) -> None:
-        """Close the output file."""
-        if self.file is not None:
-            self.file.close()
 
 
 @dataclass
@@ -328,61 +178,32 @@ class LSLOutputDevice(Output):
             ValueError: LSL StreamOutlet is not connected. `connect` should be called
               before `send`.
         """
-        for timestamp, data_point in zip(samples.timestamps, samples.data):
-            self.send_as_sample(data_point, timestamp)
+        self._send_array(samples.data, samples.timestamps)
 
-    def send_as_chunk(self, data: ndarray, timestamp: Optional[float] = None):
+    def _send_array(
+        self, data: ndarray, timestamps: Optional[Union[float, ndarray]] = None
+    ):
         """Send a list of data points to the LSL outlet.
 
         Args:
             data: An array of data points.
-            timestamp: An optional timestamp corresponding to the data points.
+            timestamps: timestamp(s) corresponding to the data points.
 
         Raises:
             ValueError: LSL StreamOutlet is not connected. `connect` should be called
               before `send`.
             ValueError: There was nothing to send because the data array is empty.
         """
-        self._check_data(data)
         self._check_connection()
         assert self._outlet is not None
+        if len(data) == 0:
+            return
         # cast data to expected channel format
         data_out = data.astype(self._dtype)
-        if timestamp:
-            self._outlet.push_chunk(data_out, timestamp)
+        if timestamps is not None:
+            self._outlet.push_chunk(data_out, timestamps)  # type: ignore[arg-type]
         else:
             self._outlet.push_chunk(data_out)
-
-    def send_as_sample(self, data: ndarray, timestamp: Optional[float] = None):
-        """Send a single sample with the corresponding timestamp.
-
-        A sample consisting of a data point per channel will be pushed to the LSL
-        outlet together with an optional timestamp.
-
-        Args:
-            data: A single data point as an array of 1 value per channel.
-            timestamp: An optional timestamp corresponding to the data point.
-
-        Raises:
-            ValueError: LSL StreamOutlet is not connected. `connect` should be called
-              before `send`.
-            ValueError: There was nothing to send because the data array is empty.
-        """
-        self._check_data(data)
-        self._check_connection()
-        assert self._outlet is not None
-        # cast data to expected channel format
-        data_out = data.astype(self._dtype)
-        if timestamp:
-            self._outlet.push_sample(data_out, timestamp)
-        else:
-            self._outlet.push_sample(data_out)
-
-    def _check_data(self, data: ndarray):
-        if len(data) == 0:
-            self.logger.debug("No data to output")
-            raise ValueError("No data data to output")
-        self._validate_data_shape(data)
 
     @staticmethod
     def _get_open_stream_names() -> List[str]:

@@ -18,18 +18,18 @@ import numpy as np
 from rich.pretty import pprint
 import yaml
 
-from neural_data_simulator.core import inputs
-from neural_data_simulator.core import outputs
 from neural_data_simulator.core.ephys_generator import ContinuousData
-from neural_data_simulator.core.ephys_generator import LSLSpikeRateInputAdapter
 from neural_data_simulator.core.ephys_generator import NoiseData
 from neural_data_simulator.core.ephys_generator import ProcessOutput
-from neural_data_simulator.core.ephys_generator import SpikeRateInput
-from neural_data_simulator.core.ephys_generator import SpikeRateTestingInput
 from neural_data_simulator.core.ephys_generator import Spikes
 from neural_data_simulator.core.ephys_generator import Waveforms
 from neural_data_simulator.core.health_checker import HealthChecker
-from neural_data_simulator.core.outputs import StreamConfig
+from neural_data_simulator.core.inputs.api import SpikeRateInput
+from neural_data_simulator.core.inputs.lsl_input import LSLInput
+from neural_data_simulator.core.inputs.lsl_input import LSLSpikeRateInputAdapter
+from neural_data_simulator.core.inputs.testing_input import SpikeRateTestingInput
+from neural_data_simulator.core.outputs.lsl_output import LSLOutputDevice
+from neural_data_simulator.core.outputs.lsl_output import StreamConfig
 from neural_data_simulator.core.settings import EphysGeneratorEndpointType
 from neural_data_simulator.core.settings import EphysGeneratorSettings
 from neural_data_simulator.core.settings import Settings
@@ -75,12 +75,12 @@ def _setup_LSL_input(
     Returns:
         LSL stream input that can be used to read data from.
     """
-    lsl_inlet = inputs.LSLInput(stream_name, connection_timeout)
+    lsl_inlet = LSLInput(stream_name, connection_timeout)
     spike_rate_input = LSLSpikeRateInputAdapter(lsl_inlet)
     return spike_rate_input
 
 
-def _setup_LSL_output(config: StreamConfig) -> outputs.LSLOutputDevice:
+def _setup_LSL_output(config: StreamConfig) -> LSLOutputDevice:
     """Set up output that will make the data available via an LSL stream.
 
     Args:
@@ -90,7 +90,7 @@ def _setup_LSL_output(config: StreamConfig) -> outputs.LSLOutputDevice:
         An LSL output stream that can be used by the ephys generator
           to publish data.
     """
-    lsl_output = outputs.LSLOutputDevice(config)
+    lsl_output = LSLOutputDevice(config)
     lsl_output.connect()
     return lsl_output
 
@@ -268,7 +268,7 @@ def run():
         _get_spikes_params(settings.ephys_generator),
     )
 
-    outputs = ProcessOutput.LSLOutputs(
+    outputs = ProcessOutput.Outputs(
         continuous_data_output, lfp_output, spike_events_output
     )
 

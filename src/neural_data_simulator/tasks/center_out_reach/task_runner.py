@@ -15,9 +15,9 @@ from numpy import ndarray
 import numpy as np
 import pylsl
 
-from neural_data_simulator.core import inputs
-from neural_data_simulator.core import outputs
 from neural_data_simulator.core.filters import LowpassFilter
+from neural_data_simulator.core.inputs import api as inputs
+from neural_data_simulator.core.outputs import api
 from neural_data_simulator.core.samples import Samples
 from neural_data_simulator.core.timing import Timer
 from neural_data_simulator.tasks.center_out_reach.input_events import InputEvent
@@ -53,11 +53,11 @@ class TaskRunner:
         self,
         sample_rate: float,
         decoded_cursor_input: Optional[inputs.Input],
-        actual_cursor_output: Optional[outputs.Output],
+        actual_cursor_output: Optional[api.Output],
         velocity_scaler: VelocityScaler,
         with_decoded_cursor: bool,
         metrics_collector: Optional[MetricsCollector],
-        task_window_output: Optional[outputs.Output] = None,
+        task_window_output: Optional[api.Output] = None,
     ):
         """Create a new instance to run the center_out_reach task.
 

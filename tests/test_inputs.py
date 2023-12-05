@@ -6,7 +6,8 @@ import numpy as np
 import pylsl
 import pytest
 
-import neural_data_simulator.core.inputs
+from neural_data_simulator.core.inputs import lsl_input
+from neural_data_simulator.core.inputs import samples_input
 from neural_data_simulator.core.samples import Samples
 
 
@@ -14,7 +15,7 @@ from neural_data_simulator.core.samples import Samples
 def mock_time(monkeypatch):
     """Create a mock for the time class."""
     time_mock = mock.Mock()
-    monkeypatch.setattr(neural_data_simulator.core.inputs, "time", time_mock)
+    monkeypatch.setattr(samples_input, "time", time_mock)
     return time_mock
 
 
@@ -29,7 +30,7 @@ class TestSamplesInput:
 
     def test_referencing(self, input_samples):
         """Test if initialization is performed when explicitly called."""
-        data_input = neural_data_simulator.core.inputs.SamplesInput(input_samples)
+        data_input = samples_input.SamplesInput(input_samples)
         data_input.set_reference_time_to_now()
         time.sleep(0.2)
         read_samples = data_input.read()
@@ -41,7 +42,7 @@ class TestSamplesInput:
         Validate that it is being called properly and that it is returning
         the expected samples.
         """
-        data_input = neural_data_simulator.core.inputs.SamplesInput(input_samples)
+        data_input = samples_input.SamplesInput(input_samples)
         mock_time.time.side_effect = np.arange(60000.00, 60000.20, 0.02)
         data_input.set_reference_time_to_now()
         samples1 = data_input.read()
@@ -57,7 +58,7 @@ class TestSamplesInput:
         When `read` is called before `set_reference_time_to_now`,
         `set_reference_time_to_now` should be called automatically.
         """
-        data_input = neural_data_simulator.core.inputs.SamplesInput(input_samples)
+        data_input = samples_input.SamplesInput(input_samples)
         mock_time.time.side_effect = [60000.00, 60000.00001]
         spy = mocker.spy(data_input, "set_reference_time_to_now")
         _ = data_input.read()
@@ -69,7 +70,7 @@ class TestSamplesInput:
         If `read` is called before the time of the next sample, no sample should be
         returned.
         """
-        data_input = neural_data_simulator.core.inputs.SamplesInput(input_samples)
+        data_input = samples_input.SamplesInput(input_samples)
         mock_time.time.side_effect = [60000.00, 60000.20, 60000.20001]
         _ = data_input.read()
         samples = data_input.read()
@@ -94,9 +95,7 @@ class TestLSLInput:
 
     def get_test_input(self, stream_name="Test"):
         """Create a testing LSL input."""
-        return neural_data_simulator.core.inputs.LSLInput(
-            stream_name, resolve_streams_wait_time=0.01
-        )
+        return lsl_input.LSLInput(stream_name, resolve_streams_wait_time=0.01)
 
     def test_connect(self):
         """Test connecting to the input."""
