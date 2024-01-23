@@ -10,7 +10,7 @@ def read_xdf(file_path):
     # Read XDF
     streams, header = pyxdf.load_xdf(file_path)
     # Find stream indices
-    # Customise according to your stream names
+    # Customise according to your streams
     ECG_index = -1
     EEG_index = -1
     MARKERS_index = -1
@@ -40,7 +40,7 @@ def read_xdf(file_path):
     notched = raw.notch_filter([50, 60])
     filtered_low_frequency = notched.filter(0.75, None, fir_design='firwin')
 
-    # 3. Remove artifacts
+    # 3. Remove artifacts using ASR
     asr = ASR(sfreq=filtered_low_frequency.info["sfreq"], cutoff=13)
     asr.fit(filtered_low_frequency)
     artifacts_removed = asr.transform(filtered_low_frequency)
@@ -65,20 +65,19 @@ def read_xdf(file_path):
     MARKER_time_zero_ref = streams[MARKERS_index]["time_stamps"] - streams[MARKERS_index]["time_stamps"][0]
 
     trials = []
-    # Get index of relevant markers (trial start)
+    # Index of relevant markers (trial start)
     markers_list = list(np.where(MARKER_stim == markers_dict['trial_start']))[0]
     for m in markers_list:
         # Trial start timestamp
         marker_start_time = MARKER_time_zero_ref[m]
-        # Get the index of the first EEG sample recorded immediately after the marker was received
+        # Index of the EEG sample recorded immediately after the marker was received
         EEG_start_idx = np.where(EEG_time_zero_ref >= marker_start_time)
         EEG_start_idx = EEG_start_idx[0][0]
-        # Trial end index in the EEG stream
+        # Index of trial end
         EEG_end_idx = EEG_start_idx + (trial_len * sfreq)
         # Subset trial
         trial = np.array([channel[EEG_start_idx:EEG_end_idx] for channel in EEG_channels])
-        # TODO: Handle difference between marker timestamp and EEG timestamp
-        # Interpolate voltage between subsequent samples?
+        # TODO: Handle time difference between marker timestamp and EEG timestamp
         # time_offset = EEG_start - marker_start_time
         trials.append(trial)
 
