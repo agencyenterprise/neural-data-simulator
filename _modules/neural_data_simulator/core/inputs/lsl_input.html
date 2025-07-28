@@ -3,26 +3,26 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>neural_data_simulator.core.inputs &mdash; Neural Data Simulator 0.2.0 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/sg_gallery-binder.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/sg_gallery-dataframe.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <title>neural_data_simulator.core.inputs.lsl_input &mdash; Neural Data Simulator 0.2.0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/sg_gallery-rendered-html.css" type="text/css" />
   <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../search.html" /> 
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -30,10 +30,10 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html" class="icon icon-home"> Neural Data Simulator
+            <a href="../../../../index.html" class="icon icon-home"> Neural Data Simulator
           </a>
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -42,39 +42,39 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../running_bci.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../running_bci.html">Quick Start</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Neural Data Simulator</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../inputs.html">Behavioral Input</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../encoder.html">Encoder</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ephys_generator.html">Electrophysiology (Ephys) Generator</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../configuring.html">Configuring NDS</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../running.html">Running NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../inputs.html">Behavioral Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../encoder.html">Encoder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ephys_generator.html">Electrophysiology (Ephys) Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuring.html">Configuring NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../running.html">Running NDS</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Extensions</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../extending.html">Extending NDS</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../decoders.html">Decoders</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tasks.html">Tasks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../visualization.html">Visualizing Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Recording and Streaming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../extending.html">Extending NDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../decoders.html">Decoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks.html">Tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../visualization.html">Visualizing Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utilities.html">Recording and Streaming</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../auto_examples/index.html">Tutorials</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/agencyenterprise/neural-data-simulator/">GitHub Repository</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../neural_data_simulator/modules.html">Neural Data Simulator</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tools/modules.html">Example Implementations and Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../neural_data_simulator/modules.html">Neural Data Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tools/modules.html">Example Implementations and Utilities</a></li>
 </ul>
 
         </div>
@@ -83,16 +83,16 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">Neural Data Simulator</a>
+          <a href="../../../../index.html">Neural Data Simulator</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a></li>
-          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">neural_data_simulator.core.inputs</li>
+      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">neural_data_simulator.core.inputs.lsl_input</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -101,154 +101,25 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for neural_data_simulator.core.inputs</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;A collection of inputs that can be used by NDS.&quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">abc</span>
+  <h1>Source code for neural_data_simulator.core.inputs.lsl_input</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Input implementation for LSL streams.&quot;&quot;&quot;</span>
+
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">field</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">InitVar</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pylsl</span>
 
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.inputs.api</span> <span class="kn">import</span> <span class="n">Input</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.inputs.api</span> <span class="kn">import</span> <span class="n">SpikeRateInput</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core.samples</span> <span class="kn">import</span> <span class="n">Samples</span>
 
 
-<div class="viewcode-block" id="Input"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.inputs.Input">[docs]</a><span class="k">class</span> <span class="nc">Input</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents an input that can be used to consume data from.</span>
-
-<span class="sd">    This can be an interface for a joystick, a behavior data generator, a data</span>
-<span class="sd">    streamer that loads data from disk, etc.</span>
-<span class="sd">    Each `read` should return all newly available data since the last `read` call.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-<div class="viewcode-block" id="Input.read"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.inputs.Input.read">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Samples</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read available data.&quot;&quot;&quot;</span>
-        <span class="k">pass</span></div>
-
-<div class="viewcode-block" id="Input.connect"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.inputs.Input.connect">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Connect to input.&quot;&quot;&quot;</span>
-        <span class="k">pass</span></div>
-
-<div class="viewcode-block" id="Input.disconnect"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.inputs.Input.disconnect">[docs]</a>    <span class="k">def</span> <span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Disconnect from input. The default implementation does nothing.&quot;&quot;&quot;</span>
-        <span class="k">pass</span></div></div>
-
-
-<div class="viewcode-block" id="SamplesInput"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.inputs.SamplesInput">[docs]</a><span class="k">class</span> <span class="nc">SamplesInput</span><span class="p">(</span><span class="n">Input</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An input object based on :class:`neural_data_simulator.core.samples.Samples`.</span>
-
-<span class="sd">    The underlying samples dataclass will have its timestamps modified to be</span>
-<span class="sd">    in reference to when the first read was made from this class, simulating the</span>
-<span class="sd">    appearance of data being collected in real-time. Alternatively, the function</span>
-<span class="sd">    `set_reference_time_to_now` can be called prior to the first `read` of the data to</span>
-<span class="sd">    use that as a reference time.</span>
-
-<span class="sd">    A timer is synced between the reference time and the first timestamp in the input</span>
-<span class="sd">    samples. Any calls to the `read` function will calculate the current time in</span>
-<span class="sd">    reference to the synced timer and return the appropriate samples.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-<div class="viewcode-block" id="SamplesInput.__init__"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.inputs.SamplesInput.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_samples</span><span class="p">:</span> <span class="n">Samples</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the SamplesInput class.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            input_samples: Dataclass containing timestamps and behavior data.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_input_samples</span> <span class="o">=</span> <span class="n">input_samples</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_index_next_sample_to_read</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_has_reference_time</span> <span class="o">=</span> <span class="kc">False</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_last_time_streamed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_time_reference</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
-
-<div class="viewcode-block" id="SamplesInput.set_reference_time_to_now"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.inputs.SamplesInput.set_reference_time_to_now">[docs]</a>    <span class="k">def</span> <span class="nf">set_reference_time_to_now</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set current time as starting time for data stream.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_streaming_time</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_set_reference_time</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_has_reference_time</span> <span class="o">=</span> <span class="kc">True</span></div>
-
-<div class="viewcode-block" id="SamplesInput.read"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.inputs.SamplesInput.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Samples</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get new samples from the time of last read.</span>
-
-<span class="sd">        If first call to `read` samples will be read since the call to</span>
-<span class="sd">        `set_reference_time_to_now`.</span>
-<span class="sd">        If `set_reference_time_to_now` was not previously called, it will be called.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            :class:`neural_data_simulator.core.samples.Samples` dataclass with</span>
-<span class="sd">            timestamps and data available since last `read` call.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_reference_time</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="s2">&quot;Reference time not calculated before first read call.&quot;</span>
-                <span class="s2">&quot; Calculating now.&quot;</span>
-            <span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">set_reference_time_to_now</span><span class="p">()</span>
-
-        <span class="n">index_current_sample</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_current_sample_index</span><span class="p">()</span>
-        <span class="n">output_samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_samples_from_last_read_to_index</span><span class="p">(</span><span class="n">index_current_sample</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_index_next_sample_to_read</span> <span class="o">=</span> <span class="n">index_current_sample</span> <span class="o">+</span> <span class="mi">1</span>
-
-        <span class="k">return</span> <span class="n">output_samples</span></div>
-
-    <span class="k">def</span> <span class="nf">_get_current_sample_index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find sample index corresponding to current time.</span>
-
-<span class="sd">        Get index of sample representing current time relative to input samples</span>
-<span class="sd">        time.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">time_now</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_referenced_time</span><span class="p">()</span>
-        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_input_samples</span><span class="o">.</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">time_now</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-        <span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_get_samples_from_last_read_to_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Samples</span><span class="p">:</span>
-        <span class="n">timestamps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_samples</span><span class="o">.</span><span class="n">timestamps</span><span class="p">[</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_index_next_sample_to_read</span> <span class="p">:</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="p">]</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_samples</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_index_next_sample_to_read</span> <span class="p">:</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
-
-        <span class="k">return</span> <span class="n">Samples</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_initialize_streaming_time</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_last_time_streamed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">_set_reference_time</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set reference time.</span>
-
-<span class="sd">        Reference time is set as the time difference from `set_reference_time_to_now`</span>
-<span class="sd">        call to first timestamp in the input samples.</span>
-<span class="sd">        This correction is used to convert real time elapsed to time elapsed relative to</span>
-<span class="sd">        the samples first timestamp.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_time_streamed</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_time_reference</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_last_time_streamed</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_samples</span><span class="o">.</span><span class="n">timestamps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Streaming time not initialized&quot;</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_get_referenced_time</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get current time in the input samples reference.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_reference</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_reference</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Reference time not initialized&quot;</span><span class="p">)</span>
-
-<div class="viewcode-block" id="SamplesInput.connect"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.inputs.SamplesInput.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;No action required during connect for this class.&quot;&quot;&quot;</span>
-        <span class="k">pass</span></div></div>
-
-
-<div class="viewcode-block" id="StreamInfo"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.inputs.StreamInfo">[docs]</a><span class="nd">@dataclass</span>
+<div class="viewcode-block" id="StreamInfo"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.core.inputs.html#neural_data_simulator.core.inputs.lsl_input.StreamInfo">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">StreamInfo</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Selected advertised properties of an LSL stream.&quot;&quot;&quot;</span>
 
@@ -283,10 +154,10 @@
 <span class="p">]</span>
 
 
-<div class="viewcode-block" id="LSLInput"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.inputs.LSLInput">[docs]</a><span class="k">class</span> <span class="nc">LSLInput</span><span class="p">(</span><span class="n">Input</span><span class="p">):</span>
+<div class="viewcode-block" id="LSLInput"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.core.inputs.html#neural_data_simulator.core.inputs.lsl_input.LSLInput">[docs]</a><span class="k">class</span> <span class="nc">LSLInput</span><span class="p">(</span><span class="n">Input</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents an LSL Inlet stream for behavior data.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="LSLInput.__init__"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.inputs.LSLInput.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="LSLInput.__init__"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.core.inputs.html#neural_data_simulator.core.inputs.lsl_input.LSLInput.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">stream_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">connection_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">60.0</span><span class="p">,</span>
@@ -309,7 +180,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_streams_wait_time</span> <span class="o">=</span> <span class="n">resolve_streams_wait_time</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LSLInput.get_info"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.inputs.LSLInput.get_info">[docs]</a>    <span class="k">def</span> <span class="nf">get_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StreamInfo</span><span class="p">:</span>
+<div class="viewcode-block" id="LSLInput.get_info"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.core.inputs.html#neural_data_simulator.core.inputs.lsl_input.LSLInput.get_info">[docs]</a>    <span class="k">def</span> <span class="nf">get_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StreamInfo</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get information about the LSL stream.</span>
 
 <span class="sd">        If the stream is not connected, it will try to resolve the stream</span>
@@ -334,17 +205,16 @@
                 <span class="s2">&quot;LSL StreamInlet is not connected, ensure you run connect before read.&quot;</span>
             <span class="p">)</span>
 
-<div class="viewcode-block" id="LSLInput.read"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.inputs.LSLInput.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Samples</span><span class="p">:</span>
+<div class="viewcode-block" id="LSLInput.read"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.core.inputs.html#neural_data_simulator.core.inputs.lsl_input.LSLInput.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Samples</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Read available data from the inlet as a samples.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            :class:`neural_data_simulator.core.samples.Samples` dataclass with</span>
-<span class="sd">            timestamps and data read from the LSL StreamInlet. If no data is</span>
-<span class="sd">            available, an empty Samples is returned.</span>
+<span class="sd">            :class:`neural_data_simulator.samples.Samples` dataclass with timestamps and</span>
+<span class="sd">            data read from the LSL StreamInlet. If no data is available, an empty</span>
+<span class="sd">            Samples is returned.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            ValueError: LSL StreamInlet is not connected. `connect` should be</span>
-<span class="sd">            called</span>
+<span class="sd">            ValueError: LSL StreamInlet is not connected. `connect` should be called</span>
 <span class="sd">              before `read`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_connection</span><span class="p">()</span>
@@ -358,7 +228,7 @@
             <span class="k">return</span> <span class="n">Samples</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">timestamps</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">Samples</span><span class="o">.</span><span class="n">empty_samples</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="LSLInput.set_connection_timeout"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.inputs.LSLInput.set_connection_timeout">[docs]</a>    <span class="k">def</span> <span class="nf">set_connection_timeout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="LSLInput.set_connection_timeout"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.core.inputs.html#neural_data_simulator.core.inputs.lsl_input.LSLInput.set_connection_timeout">[docs]</a>    <span class="k">def</span> <span class="nf">set_connection_timeout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the maximum time that the inlet search for the desired LSL stream.</span>
 
 <span class="sd">        Args:</span>
@@ -372,7 +242,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Timeout must be greater than 0, received </span><span class="si">{</span><span class="n">timeout</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LSLInput.connect"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.inputs.LSLInput.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="LSLInput.connect"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.core.inputs.html#neural_data_simulator.core.inputs.lsl_input.LSLInput.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Connect to the LSL Inlet stream.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Connecting to device...&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_stream_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_stream</span><span class="p">()</span>
@@ -389,7 +259,7 @@
             <span class="n">bufsize</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">LSL_DTYPES</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_stream_info</span><span class="o">.</span><span class="n">channel_format</span><span class="p">()]</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="LSLInput.disconnect"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.inputs.LSLInput.disconnect">[docs]</a>    <span class="k">def</span> <span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="LSLInput.disconnect"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.core.inputs.html#neural_data_simulator.core.inputs.lsl_input.LSLInput.disconnect">[docs]</a>    <span class="k">def</span> <span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Disconnect from the LSL Inlet stream.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Disconnecting LSL input stream...&quot;</span><span class="p">)</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inlet</span>
@@ -437,6 +307,47 @@
             <span class="n">info</span><span class="o">=</span><span class="n">stream_info</span><span class="p">,</span>
             <span class="n">processing_flags</span><span class="o">=</span><span class="n">pylsl</span><span class="o">.</span><span class="n">proc_clocksync</span> <span class="o">|</span> <span class="n">pylsl</span><span class="o">.</span><span class="n">proc_dejitter</span><span class="p">,</span>
         <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LSLSpikeRateInputAdapter"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.core.inputs.html#neural_data_simulator.core.inputs.lsl_input.LSLSpikeRateInputAdapter">[docs]</a><span class="k">class</span> <span class="nc">LSLSpikeRateInputAdapter</span><span class="p">(</span><span class="n">SpikeRateInput</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reads spike rates from an LSL input.&quot;&quot;&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">channel_count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the LSL stream channel count.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The input channel count.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lsl_input</span><span class="o">.</span><span class="n">get_info</span><span class="p">()</span><span class="o">.</span><span class="n">channel_count</span>
+
+<div class="viewcode-block" id="LSLSpikeRateInputAdapter.__init__"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.core.inputs.html#neural_data_simulator.core.inputs.lsl_input.LSLSpikeRateInputAdapter.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lsl_input</span><span class="p">:</span> <span class="n">LSLInput</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create an adapter for a given LSL input.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            lsl_input: The LSL input to adapt.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lsl_input</span> <span class="o">=</span> <span class="n">lsl_input</span></div>
+
+    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Disconnect from the LSL input stream.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lsl_input</span><span class="o">.</span><span class="n">disconnect</span><span class="p">()</span>
+
+<div class="viewcode-block" id="LSLSpikeRateInputAdapter.connect"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.core.inputs.html#neural_data_simulator.core.inputs.lsl_input.LSLSpikeRateInputAdapter.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Connect to the LSL input stream.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lsl_input</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LSLSpikeRateInputAdapter.read"><a class="viewcode-back" href="../../../../neural_data_simulator/neural_data_simulator.core.inputs.html#neural_data_simulator.core.inputs.lsl_input.LSLSpikeRateInputAdapter.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Connect to the LSL input stream.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            An array of spike rates with shape (n_units,) or None if no samples</span>
+<span class="sd">            are available.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lsl_input</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">samples</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="kc">None</span></div></div>
 </pre></div>
 
            </div>

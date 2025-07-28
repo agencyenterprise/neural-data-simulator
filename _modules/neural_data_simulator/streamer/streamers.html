@@ -110,7 +110,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pylsl</span>
 
-<span class="kn">from</span> <span class="nn">neural_data_simulator.core.outputs</span> <span class="kn">import</span> <span class="n">LSLOutputDevice</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.outputs.lsl_output</span> <span class="kn">import</span> <span class="n">LSLOutputDevice</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core.samples</span> <span class="kn">import</span> <span class="n">Samples</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core.timing</span> <span class="kn">import</span> <span class="n">Timer</span>
 
@@ -242,7 +242,7 @@
                 <span class="n">timestamps</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">samples</span><span class="o">.</span><span class="n">timestamps</span><span class="p">[</span><span class="n">stream_slice</span><span class="p">]</span>
                 <span class="n">timestamps</span> <span class="o">=</span> <span class="n">timestamps</span> <span class="o">-</span> <span class="n">timestamps</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">time_now</span>
                 <span class="n">data</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">samples</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">stream_slice</span><span class="p">]</span>
-                <span class="n">stream</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">send_as_chunk</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">timestamps</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">stream</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">send_array</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">timestamps</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
     <span class="k">def</span> <span class="nf">_check_stream_finished</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">:</span> <span class="n">Stream</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_cursor</span> <span class="o">&gt;=</span> <span class="n">stream</span><span class="o">.</span><span class="n">length</span><span class="p">:</span>

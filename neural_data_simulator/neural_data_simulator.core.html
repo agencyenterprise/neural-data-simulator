@@ -24,7 +24,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="neural_data_simulator.decoder" href="neural_data_simulator.decoder.html" />
+    <link rel="next" title="neural_data_simulator.core.inputs" href="neural_data_simulator.core.inputs.html" />
     <link rel="prev" title="neural_data_simulator" href="neural_data_simulator.html" /> 
 </head>
 
@@ -79,13 +79,12 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">Neural Data Simulator</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="neural_data_simulator.html">neural_data_simulator</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">neural_data_simulator.core</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="neural_data_simulator.core.inputs.html">neural_data_simulator.core.inputs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-neural_data_simulator.core.encoder">neural_data_simulator.core.encoder</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-neural_data_simulator.core.ephys_generator">neural_data_simulator.core.ephys_generator</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-neural_data_simulator.core.filters">neural_data_simulator.core.filters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-neural_data_simulator.core.health_checker">neural_data_simulator.core.health_checker</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-neural_data_simulator.core.inputs">neural_data_simulator.core.inputs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-neural_data_simulator.core.models">neural_data_simulator.core.models</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-neural_data_simulator.core.outputs">neural_data_simulator.core.outputs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-neural_data_simulator.core.runner">neural_data_simulator.core.runner</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-neural_data_simulator.core.samples">neural_data_simulator.core.samples</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-neural_data_simulator.core.settings">neural_data_simulator.core.settings</a></li>
@@ -147,12 +146,12 @@ processing.</p></li>
 consistency. It prints messages to the console when the data processing time
 is increasing or is taking longer than expected.</p></li>
 <li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">inputs</span></code> contains various types of inputs that can be used by NDS,
-mainly <a class="reference internal" href="#neural_data_simulator.core.inputs.SamplesInput" title="neural_data_simulator.core.inputs.SamplesInput"><code class="xref py py-class docutils literal notranslate"><span class="pre">inputs.SamplesInput</span></code></a> and <a class="reference internal" href="#neural_data_simulator.core.inputs.LSLInput" title="neural_data_simulator.core.inputs.LSLInput"><code class="xref py py-class docutils literal notranslate"><span class="pre">inputs.LSLInput</span></code></a>.</p></li>
+mainly <code class="xref py py-class docutils literal notranslate"><span class="pre">inputs.SamplesInput</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">inputs.LSLInput</span></code>.</p></li>
 <li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">models</span></code> is meant to host model implementations that can be used by the
 encoder to convert behavior data into spike rates.</p></li>
 <li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">outputs</span></code> contains classes that NDS uses to stream data out, mainly
-<a class="reference internal" href="#neural_data_simulator.core.outputs.FileOutput" title="neural_data_simulator.core.outputs.FileOutput"><code class="xref py py-class docutils literal notranslate"><span class="pre">outputs.FileOutput</span></code></a>, <a class="reference internal" href="#neural_data_simulator.core.outputs.ConsoleOutput" title="neural_data_simulator.core.outputs.ConsoleOutput"><code class="xref py py-class docutils literal notranslate"><span class="pre">outputs.ConsoleOutput</span></code></a> and
-<a class="reference internal" href="#neural_data_simulator.core.outputs.LSLOutputDevice" title="neural_data_simulator.core.outputs.LSLOutputDevice"><code class="xref py py-class docutils literal notranslate"><span class="pre">outputs.LSLOutputDevice</span></code></a>.</p></li>
+<code class="xref py py-class docutils literal notranslate"><span class="pre">outputs.FileOutput</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">outputs.ConsoleOutput</span></code> and
+<code class="xref py py-class docutils literal notranslate"><span class="pre">outputs.LSLOutputDevice</span></code>.</p></li>
 <li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">runner</span></code> is where the function that runs the encoder pipeline is
 implemented.</p></li>
 <li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">samples</span></code> contains the <a class="reference internal" href="#neural_data_simulator.core.samples.Samples" title="neural_data_simulator.core.samples.Samples"><code class="xref py py-class docutils literal notranslate"><span class="pre">samples.Samples</span></code></a> class, which is used to
@@ -164,6 +163,8 @@ every script that processes data at regular intervals.</p></li>
 </ul>
 </dd>
 </dl>
+<div class="toctree-wrapper compound">
+</div>
 <section id="module-neural_data_simulator.core.encoder">
 <span id="neural-data-simulator-core-encoder"></span><h2>neural_data_simulator.core.encoder<a class="headerlink" href="#module-neural_data_simulator.core.encoder" title="Permalink to this heading"></a></h2>
 <p>This module contains the <cite>Encoder</cite> implementation.</p>
@@ -207,7 +208,7 @@ may be defined in a concrete implementation of this protocol if needed.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="neural_data_simulator.core.encoder.Encoder">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.core.encoder.</span></span><span class="sig-name descname"><span class="pre">Encoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.inputs.Input" title="neural_data_simulator.core.inputs.Input"><span class="pre">Input</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">preprocessor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#neural_data_simulator.core.encoder.Processor" title="neural_data_simulator.core.encoder.Processor"><span class="pre">Processor</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.models.EncoderModel" title="neural_data_simulator.core.models.EncoderModel"><span class="pre">EncoderModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">postprocessor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#neural_data_simulator.core.encoder.Processor" title="neural_data_simulator.core.encoder.Processor"><span class="pre">Processor</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.outputs.Output" title="neural_data_simulator.core.outputs.Output"><span class="pre">Output</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/encoder.html#Encoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.encoder.Encoder" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.core.encoder.</span></span><span class="sig-name descname"><span class="pre">Encoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="neural_data_simulator.core.inputs.html#neural_data_simulator.core.inputs.api.Input" title="neural_data_simulator.core.inputs.api.Input"><span class="pre">Input</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">preprocessor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#neural_data_simulator.core.encoder.Processor" title="neural_data_simulator.core.encoder.Processor"><span class="pre">Processor</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.models.EncoderModel" title="neural_data_simulator.core.models.EncoderModel"><span class="pre">EncoderModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">postprocessor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#neural_data_simulator.core.encoder.Processor" title="neural_data_simulator.core.encoder.Processor"><span class="pre">Processor</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/encoder.html#Encoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.encoder.Encoder" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Encoder class implementation.</p>
 <p>It manages the data through all the necessary steps to convert from behavior data
@@ -215,7 +216,7 @@ into spiking data. These steps currently include an optional preprocessor, the
 model transformation and an optional postprocessor.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="neural_data_simulator.core.encoder.Encoder.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.inputs.Input" title="neural_data_simulator.core.inputs.Input"><span class="pre">Input</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">preprocessor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#neural_data_simulator.core.encoder.Processor" title="neural_data_simulator.core.encoder.Processor"><span class="pre">Processor</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.models.EncoderModel" title="neural_data_simulator.core.models.EncoderModel"><span class="pre">EncoderModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">postprocessor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#neural_data_simulator.core.encoder.Processor" title="neural_data_simulator.core.encoder.Processor"><span class="pre">Processor</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.outputs.Output" title="neural_data_simulator.core.outputs.Output"><span class="pre">Output</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/encoder.html#Encoder.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.encoder.Encoder.__init__" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="neural_data_simulator.core.inputs.html#neural_data_simulator.core.inputs.api.Input" title="neural_data_simulator.core.inputs.api.Input"><span class="pre">Input</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">preprocessor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#neural_data_simulator.core.encoder.Processor" title="neural_data_simulator.core.encoder.Processor"><span class="pre">Processor</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.models.EncoderModel" title="neural_data_simulator.core.models.EncoderModel"><span class="pre">EncoderModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">postprocessor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#neural_data_simulator.core.encoder.Processor" title="neural_data_simulator.core.encoder.Processor"><span class="pre">Processor</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/encoder.html#Encoder.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.encoder.Encoder.__init__" title="Permalink to this definition"></a></dt>
 <dd><p>Initialize the Encoder class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -261,146 +262,6 @@ of the <cite>send</cite> method, and can be connected to through a context manag
 <section id="module-neural_data_simulator.core.ephys_generator">
 <span id="neural-data-simulator-core-ephys-generator"></span><h2>neural_data_simulator.core.ephys_generator<a class="headerlink" href="#module-neural_data_simulator.core.ephys_generator" title="Permalink to this heading"></a></h2>
 <p>This module contains classes that are used to generate spikes from spike rates.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="neural_data_simulator.core.ephys_generator.SpikeRateInput">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.core.ephys_generator.</span></span><span class="sig-name descname"><span class="pre">SpikeRateInput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/ephys_generator.html#SpikeRateInput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.SpikeRateInput" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code></p>
-<p>An abstract input that can be used to read spike rates.</p>
-<p>A python protocol (<a class="reference external" href="https://peps.python.org/pep-0544/">PEP-544</a>) works in
-a similar way to an abstract class.
-The <a class="reference internal" href="#neural_data_simulator.core.ephys_generator.SpikeRateInput.__init__" title="neural_data_simulator.core.ephys_generator.SpikeRateInput.__init__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__init__()</span></code></a> method of this protocol should never be called as
-protocols are not meant to be instantiated. An <a class="reference internal" href="#neural_data_simulator.core.ephys_generator.SpikeRateInput.__init__" title="neural_data_simulator.core.ephys_generator.SpikeRateInput.__init__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__init__()</span></code></a> method
-may be defined in a concrete implementation of this protocol if needed.</p>
-<dl class="py property">
-<dt class="sig sig-object py" id="neural_data_simulator.core.ephys_generator.SpikeRateInput.channel_count">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">channel_count</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.SpikeRateInput.channel_count" title="Permalink to this definition"></a></dt>
-<dd><p>Get the number of input channels.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>The input channel count.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.ephys_generator.SpikeRateInput.read">
-<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/neural_data_simulator/core/ephys_generator.html#SpikeRateInput.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.SpikeRateInput.read" title="Permalink to this definition"></a></dt>
-<dd><p>Read spike rates, one per channel.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>An array of spike rates with shape (n_units,) or None if no samples
-are available.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.ephys_generator.SpikeRateInput.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.SpikeRateInput.__init__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="neural_data_simulator.core.ephys_generator.LSLSpikeRateInputAdapter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.core.ephys_generator.</span></span><span class="sig-name descname"><span class="pre">LSLSpikeRateInputAdapter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lsl_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.inputs.LSLInput" title="neural_data_simulator.core.inputs.LSLInput"><span class="pre">LSLInput</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/ephys_generator.html#LSLSpikeRateInputAdapter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.LSLSpikeRateInputAdapter" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#neural_data_simulator.core.ephys_generator.SpikeRateInput" title="neural_data_simulator.core.ephys_generator.SpikeRateInput"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpikeRateInput</span></code></a></p>
-<p>Reads spike rates from an LSL input.</p>
-<dl class="py property">
-<dt class="sig sig-object py" id="neural_data_simulator.core.ephys_generator.LSLSpikeRateInputAdapter.channel_count">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">channel_count</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.LSLSpikeRateInputAdapter.channel_count" title="Permalink to this definition"></a></dt>
-<dd><p>Get the LSL stream channel count.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>The input channel count.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.ephys_generator.LSLSpikeRateInputAdapter.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lsl_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.inputs.LSLInput" title="neural_data_simulator.core.inputs.LSLInput"><span class="pre">LSLInput</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/ephys_generator.html#LSLSpikeRateInputAdapter.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.LSLSpikeRateInputAdapter.__init__" title="Permalink to this definition"></a></dt>
-<dd><p>Create an adapter for a given LSL input.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>lsl_input</strong> – The LSL input to adapt.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.ephys_generator.LSLSpikeRateInputAdapter.connect">
-<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/ephys_generator.html#LSLSpikeRateInputAdapter.connect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.LSLSpikeRateInputAdapter.connect" title="Permalink to this definition"></a></dt>
-<dd><p>Connect to the LSL input stream.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.ephys_generator.LSLSpikeRateInputAdapter.read">
-<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/neural_data_simulator/core/ephys_generator.html#LSLSpikeRateInputAdapter.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.LSLSpikeRateInputAdapter.read" title="Permalink to this definition"></a></dt>
-<dd><p>Connect to the LSL input stream.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>An array of spike rates with shape (n_units,) or None if no samples
-are available.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="neural_data_simulator.core.ephys_generator.SpikeRateTestingInput">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.core.ephys_generator.</span></span><span class="sig-name descname"><span class="pre">SpikeRateTestingInput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_channels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/ephys_generator.html#SpikeRateTestingInput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.SpikeRateTestingInput" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#neural_data_simulator.core.ephys_generator.SpikeRateInput" title="neural_data_simulator.core.ephys_generator.SpikeRateInput"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpikeRateInput</span></code></a></p>
-<p>A constant spike rate input that can be used for testing.</p>
-<p>Generates spike rates so that spikes are more likely to happen
-on channels of a higher order and less likely on channels of a lower order.
-The spike rate for a channel is always constant.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.ephys_generator.SpikeRateTestingInput.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_channels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/ephys_generator.html#SpikeRateTestingInput.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.SpikeRateTestingInput.__init__" title="Permalink to this definition"></a></dt>
-<dd><p>Create a testing spike rate input.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>n_channels</strong> – The number of input channels.</p></li>
-<li><p><strong>n_units</strong> – The total number of units, which should be a multiple
-of the number of channels.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="neural_data_simulator.core.ephys_generator.SpikeRateTestingInput.channel_count">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">channel_count</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.SpikeRateTestingInput.channel_count" title="Permalink to this definition"></a></dt>
-<dd><p>Get the number of input channels.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>The input channel count.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.ephys_generator.SpikeRateTestingInput.read">
-<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/neural_data_simulator/core/ephys_generator.html#SpikeRateTestingInput.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.SpikeRateTestingInput.read" title="Permalink to this definition"></a></dt>
-<dd><p>Read spike rates, one per channel.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><p>The array of testing spike rates with shape (n_units,).
-For example, if <cite>n_channels = 50</cite> and <cite>n_units_per_channel = 1</cite>, the
-spike rates will be constant and equal to:</p>
-<p><cite>[ 0.  2.  4.  6.  8. 10. 12. 14. 16. 18. 20. 22. 24. 26. 28. 30. 32. 34.
-36. 38. 40. 42. 44. 46. 48. 50. 52. 54. 56. 58. 60. 62. 64. 66. 68. 70.
-72. 74. 76. 78. 80. 82. 84. 86. 88. 90. 92. 94. 96. 98.]</cite></p>
-</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 <dl class="py class">
 <dt class="sig sig-object py" id="neural_data_simulator.core.ephys_generator.SpikeEvents">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.core.ephys_generator.</span></span><span class="sig-name descname"><span class="pre">SpikeEvents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waveform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/ephys_generator.html#SpikeEvents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.SpikeEvents" title="Permalink to this definition"></a></dt>
@@ -880,7 +741,7 @@ per second for the corresponding unit.</p></li>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="neural_data_simulator.core.ephys_generator.ProcessOutput">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.core.ephys_generator.</span></span><span class="sig-name descname"><span class="pre">ProcessOutput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">continuous_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.ephys_generator.ContinuousData" title="neural_data_simulator.core.ephys_generator.ContinuousData"><span class="pre">ContinuousData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">spikes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.ephys_generator.Spikes" title="neural_data_simulator.core.ephys_generator.Spikes"><span class="pre">Spikes</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.ephys_generator.SpikeRateInput" title="neural_data_simulator.core.ephys_generator.SpikeRateInput"><span class="pre">SpikeRateInput</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.ephys_generator.ProcessOutput.LSLOutputs" title="neural_data_simulator.core.ephys_generator.ProcessOutput.LSLOutputs"><span class="pre">LSLOutputs</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.ephys_generator.ProcessOutput.Params" title="neural_data_simulator.core.ephys_generator.ProcessOutput.Params"><span class="pre">Params</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">health_checker</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.health_checker.HealthChecker" title="neural_data_simulator.core.health_checker.HealthChecker"><span class="pre">HealthChecker</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/ephys_generator.html#ProcessOutput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.ProcessOutput" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.core.ephys_generator.</span></span><span class="sig-name descname"><span class="pre">ProcessOutput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">continuous_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.ephys_generator.ContinuousData" title="neural_data_simulator.core.ephys_generator.ContinuousData"><span class="pre">ContinuousData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">spikes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.ephys_generator.Spikes" title="neural_data_simulator.core.ephys_generator.Spikes"><span class="pre">Spikes</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="neural_data_simulator.core.inputs.html#neural_data_simulator.core.inputs.api.SpikeRateInput" title="neural_data_simulator.core.inputs.api.SpikeRateInput"><span class="pre">SpikeRateInput</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.ephys_generator.ProcessOutput.Outputs" title="neural_data_simulator.core.ephys_generator.ProcessOutput.Outputs"><span class="pre">Outputs</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.ephys_generator.ProcessOutput.Params" title="neural_data_simulator.core.ephys_generator.ProcessOutput.Params"><span class="pre">Params</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">health_checker</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.health_checker.HealthChecker" title="neural_data_simulator.core.health_checker.HealthChecker"><span class="pre">HealthChecker</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/ephys_generator.html#ProcessOutput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.ProcessOutput" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Process that reads spike rates and outputs spiking data.</p>
 <p>The process can be started by calling the <a class="reference internal" href="#neural_data_simulator.core.ephys_generator.ProcessOutput.start" title="neural_data_simulator.core.ephys_generator.ProcessOutput.start"><code class="xref py py-meth docutils literal notranslate"><span class="pre">start()</span></code></a> method.
@@ -929,30 +790,30 @@ the LFP data stream and spike events stream.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="neural_data_simulator.core.ephys_generator.ProcessOutput.LSLOutputs">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">LSLOutputs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#neural_data_simulator.core.outputs.LSLOutputDevice" title="neural_data_simulator.core.outputs.LSLOutputDevice"><span class="pre">LSLOutputDevice</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lfp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#neural_data_simulator.core.outputs.LSLOutputDevice" title="neural_data_simulator.core.outputs.LSLOutputDevice"><span class="pre">LSLOutputDevice</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spike_events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#neural_data_simulator.core.outputs.LSLOutputDevice" title="neural_data_simulator.core.outputs.LSLOutputDevice"><span class="pre">LSLOutputDevice</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/ephys_generator.html#ProcessOutput.LSLOutputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.ProcessOutput.LSLOutputs" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="neural_data_simulator.core.ephys_generator.ProcessOutput.Outputs">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Outputs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Output</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lfp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Output</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spike_events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Output</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/ephys_generator.html#ProcessOutput.Outputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.ProcessOutput.Outputs" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Possible LSL output streams.</p>
+<p>Possible output streams.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.ephys_generator.ProcessOutput.LSLOutputs.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#neural_data_simulator.core.outputs.LSLOutputDevice" title="neural_data_simulator.core.outputs.LSLOutputDevice"><span class="pre">LSLOutputDevice</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lfp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#neural_data_simulator.core.outputs.LSLOutputDevice" title="neural_data_simulator.core.outputs.LSLOutputDevice"><span class="pre">LSLOutputDevice</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spike_events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#neural_data_simulator.core.outputs.LSLOutputDevice" title="neural_data_simulator.core.outputs.LSLOutputDevice"><span class="pre">LSLOutputDevice</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.ProcessOutput.LSLOutputs.__init__" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="neural_data_simulator.core.ephys_generator.ProcessOutput.Outputs.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Output</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lfp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Output</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spike_events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Output</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.ProcessOutput.Outputs.__init__" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="neural_data_simulator.core.ephys_generator.ProcessOutput.LSLOutputs.raw">
-<span class="sig-name descname"><span class="pre">raw</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#neural_data_simulator.core.outputs.LSLOutputDevice" title="neural_data_simulator.core.outputs.LSLOutputDevice"><span class="pre">LSLOutputDevice</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.ProcessOutput.LSLOutputs.raw" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="neural_data_simulator.core.ephys_generator.ProcessOutput.Outputs.raw">
+<span class="sig-name descname"><span class="pre">raw</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Output</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.ProcessOutput.Outputs.raw" title="Permalink to this definition"></a></dt>
 <dd><p>The raw continuous data stream.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="neural_data_simulator.core.ephys_generator.ProcessOutput.LSLOutputs.lfp">
-<span class="sig-name descname"><span class="pre">lfp</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#neural_data_simulator.core.outputs.LSLOutputDevice" title="neural_data_simulator.core.outputs.LSLOutputDevice"><span class="pre">LSLOutputDevice</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.ProcessOutput.LSLOutputs.lfp" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="neural_data_simulator.core.ephys_generator.ProcessOutput.Outputs.lfp">
+<span class="sig-name descname"><span class="pre">lfp</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Output</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.ProcessOutput.Outputs.lfp" title="Permalink to this definition"></a></dt>
 <dd><p>The LFP data stream.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="neural_data_simulator.core.ephys_generator.ProcessOutput.LSLOutputs.spike_events">
-<span class="sig-name descname"><span class="pre">spike_events</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#neural_data_simulator.core.outputs.LSLOutputDevice" title="neural_data_simulator.core.outputs.LSLOutputDevice"><span class="pre">LSLOutputDevice</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.ProcessOutput.LSLOutputs.spike_events" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="neural_data_simulator.core.ephys_generator.ProcessOutput.Outputs.spike_events">
+<span class="sig-name descname"><span class="pre">spike_events</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Output</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.ProcessOutput.Outputs.spike_events" title="Permalink to this definition"></a></dt>
 <dd><p>The spike events stream.</p>
 </dd></dl>
 
@@ -960,7 +821,7 @@ the LFP data stream and spike events stream.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neural_data_simulator.core.ephys_generator.ProcessOutput.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">continuous_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.ephys_generator.ContinuousData" title="neural_data_simulator.core.ephys_generator.ContinuousData"><span class="pre">ContinuousData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">spikes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.ephys_generator.Spikes" title="neural_data_simulator.core.ephys_generator.Spikes"><span class="pre">Spikes</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.ephys_generator.SpikeRateInput" title="neural_data_simulator.core.ephys_generator.SpikeRateInput"><span class="pre">SpikeRateInput</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.ephys_generator.ProcessOutput.LSLOutputs" title="neural_data_simulator.core.ephys_generator.ProcessOutput.LSLOutputs"><span class="pre">LSLOutputs</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.ephys_generator.ProcessOutput.Params" title="neural_data_simulator.core.ephys_generator.ProcessOutput.Params"><span class="pre">Params</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">health_checker</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.health_checker.HealthChecker" title="neural_data_simulator.core.health_checker.HealthChecker"><span class="pre">HealthChecker</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/ephys_generator.html#ProcessOutput.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.ProcessOutput.__init__" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">continuous_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.ephys_generator.ContinuousData" title="neural_data_simulator.core.ephys_generator.ContinuousData"><span class="pre">ContinuousData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">spikes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.ephys_generator.Spikes" title="neural_data_simulator.core.ephys_generator.Spikes"><span class="pre">Spikes</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="neural_data_simulator.core.inputs.html#neural_data_simulator.core.inputs.api.SpikeRateInput" title="neural_data_simulator.core.inputs.api.SpikeRateInput"><span class="pre">SpikeRateInput</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.ephys_generator.ProcessOutput.Outputs" title="neural_data_simulator.core.ephys_generator.ProcessOutput.Outputs"><span class="pre">Outputs</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.ephys_generator.ProcessOutput.Params" title="neural_data_simulator.core.ephys_generator.ProcessOutput.Params"><span class="pre">Params</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">health_checker</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.health_checker.HealthChecker" title="neural_data_simulator.core.health_checker.HealthChecker"><span class="pre">HealthChecker</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/ephys_generator.html#ProcessOutput.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.ephys_generator.ProcessOutput.__init__" title="Permalink to this definition"></a></dt>
 <dd><p>Initialize the ProcessOutput class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -968,7 +829,7 @@ the LFP data stream and spike events stream.</p>
 <li><p><strong>continuous_data</strong> – The continuous data generator.</p></li>
 <li><p><strong>spikes</strong> – The spikes generator.</p></li>
 <li><p><strong>input</strong> – The spike rates input.</p></li>
-<li><p><strong>outputs</strong> – The LSL output streams.</p></li>
+<li><p><strong>outputs</strong> – The output streams.</p></li>
 <li><p><strong>params</strong> – The initialization parameters.</p></li>
 <li><p><strong>health_checker</strong> – The health monitor.</p></li>
 </ul>
@@ -1249,213 +1110,6 @@ processed in each iteration.</p></li>
 </dd></dl>
 
 </section>
-<section id="module-neural_data_simulator.core.inputs">
-<span id="neural-data-simulator-core-inputs"></span><h2>neural_data_simulator.core.inputs<a class="headerlink" href="#module-neural_data_simulator.core.inputs" title="Permalink to this heading"></a></h2>
-<p>A collection of inputs that can be used by NDS.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="neural_data_simulator.core.inputs.Input">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.core.inputs.</span></span><span class="sig-name descname"><span class="pre">Input</span></span><a class="reference internal" href="../_modules/neural_data_simulator/core/inputs.html#Input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.inputs.Input" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
-<p>Represents an input that can be used to consume data from.</p>
-<p>This can be an interface for a joystick, a behavior data generator, a data
-streamer that loads data from disk, etc.
-Each <cite>read</cite> should return all newly available data since the last <cite>read</cite> call.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.inputs.Input.read">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#neural_data_simulator.core.samples.Samples" title="neural_data_simulator.core.samples.Samples"><span class="pre">Samples</span></a></span></span><a class="reference internal" href="../_modules/neural_data_simulator/core/inputs.html#Input.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.inputs.Input.read" title="Permalink to this definition"></a></dt>
-<dd><p>Read available data.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.inputs.Input.connect">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/neural_data_simulator/core/inputs.html#Input.connect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.inputs.Input.connect" title="Permalink to this definition"></a></dt>
-<dd><p>Connect to input.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.inputs.Input.disconnect">
-<span class="sig-name descname"><span class="pre">disconnect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/neural_data_simulator/core/inputs.html#Input.disconnect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.inputs.Input.disconnect" title="Permalink to this definition"></a></dt>
-<dd><p>Disconnect from input. The default implementation does nothing.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="neural_data_simulator.core.inputs.SamplesInput">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.core.inputs.</span></span><span class="sig-name descname"><span class="pre">SamplesInput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.samples.Samples" title="neural_data_simulator.core.samples.Samples"><span class="pre">Samples</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/inputs.html#SamplesInput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.inputs.SamplesInput" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#neural_data_simulator.core.inputs.Input" title="neural_data_simulator.core.inputs.Input"><code class="xref py py-class docutils literal notranslate"><span class="pre">Input</span></code></a></p>
-<p>An input object based on <a class="reference internal" href="#neural_data_simulator.core.samples.Samples" title="neural_data_simulator.core.samples.Samples"><code class="xref py py-class docutils literal notranslate"><span class="pre">neural_data_simulator.core.samples.Samples</span></code></a>.</p>
-<p>The underlying samples dataclass will have its timestamps modified to be
-in reference to when the first read was made from this class, simulating the
-appearance of data being collected in real-time. Alternatively, the function
-<cite>set_reference_time_to_now</cite> can be called prior to the first <cite>read</cite> of the data to
-use that as a reference time.</p>
-<p>A timer is synced between the reference time and the first timestamp in the input
-samples. Any calls to the <cite>read</cite> function will calculate the current time in
-reference to the synced timer and return the appropriate samples.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.inputs.SamplesInput.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.samples.Samples" title="neural_data_simulator.core.samples.Samples"><span class="pre">Samples</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/neural_data_simulator/core/inputs.html#SamplesInput.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.inputs.SamplesInput.__init__" title="Permalink to this definition"></a></dt>
-<dd><p>Initialize the SamplesInput class.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>input_samples</strong> – Dataclass containing timestamps and behavior data.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.inputs.SamplesInput.set_reference_time_to_now">
-<span class="sig-name descname"><span class="pre">set_reference_time_to_now</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/inputs.html#SamplesInput.set_reference_time_to_now"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.inputs.SamplesInput.set_reference_time_to_now" title="Permalink to this definition"></a></dt>
-<dd><p>Set current time as starting time for data stream.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.inputs.SamplesInput.read">
-<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#neural_data_simulator.core.samples.Samples" title="neural_data_simulator.core.samples.Samples"><span class="pre">Samples</span></a></span></span><a class="reference internal" href="../_modules/neural_data_simulator/core/inputs.html#SamplesInput.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.inputs.SamplesInput.read" title="Permalink to this definition"></a></dt>
-<dd><p>Get new samples from the time of last read.</p>
-<p>If first call to <cite>read</cite> samples will be read since the call to
-<cite>set_reference_time_to_now</cite>.
-If <cite>set_reference_time_to_now</cite> was not previously called, it will be called.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#neural_data_simulator.core.samples.Samples" title="neural_data_simulator.core.samples.Samples"><code class="xref py py-class docutils literal notranslate"><span class="pre">neural_data_simulator.core.samples.Samples</span></code></a> dataclass with
-timestamps and data available since last <cite>read</cite> call.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.inputs.SamplesInput.connect">
-<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/neural_data_simulator/core/inputs.html#SamplesInput.connect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.inputs.SamplesInput.connect" title="Permalink to this definition"></a></dt>
-<dd><p>No action required during connect for this class.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="neural_data_simulator.core.inputs.StreamInfo">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.core.inputs.</span></span><span class="sig-name descname"><span class="pre">StreamInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lsl_stream_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dataclasses.InitVar</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#neural_data_simulator.core.inputs.StreamInfo" title="neural_data_simulator.core.inputs.StreamInfo"><span class="pre">StreamInfo</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/inputs.html#StreamInfo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.inputs.StreamInfo" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Selected advertised properties of an LSL stream.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="neural_data_simulator.core.inputs.StreamInfo.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#neural_data_simulator.core.inputs.StreamInfo.name" title="Permalink to this definition"></a></dt>
-<dd><p>Name of the LSL stream.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="neural_data_simulator.core.inputs.StreamInfo.sample_rate">
-<span class="sig-name descname"><span class="pre">sample_rate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#neural_data_simulator.core.inputs.StreamInfo.sample_rate" title="Permalink to this definition"></a></dt>
-<dd><p>Advertised sample rate of the LSL stream.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="neural_data_simulator.core.inputs.StreamInfo.channel_count">
-<span class="sig-name descname"><span class="pre">channel_count</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#neural_data_simulator.core.inputs.StreamInfo.channel_count" title="Permalink to this definition"></a></dt>
-<dd><p>Number of channels in the LSL stream.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="neural_data_simulator.core.inputs.StreamInfo.lsl_stream_info">
-<span class="sig-name descname"><span class="pre">lsl_stream_info</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dataclasses.InitVar</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#neural_data_simulator.core.inputs.StreamInfo" title="neural_data_simulator.core.inputs.StreamInfo"><span class="pre">StreamInfo</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#neural_data_simulator.core.inputs.StreamInfo.lsl_stream_info" title="Permalink to this definition"></a></dt>
-<dd><p>pylsl stream info object.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.inputs.StreamInfo.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lsl_stream_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dataclasses.InitVar</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#neural_data_simulator.core.inputs.StreamInfo" title="neural_data_simulator.core.inputs.StreamInfo"><span class="pre">StreamInfo</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#neural_data_simulator.core.inputs.StreamInfo.__init__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="neural_data_simulator.core.inputs.LSLInput">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.core.inputs.</span></span><span class="sig-name descname"><span class="pre">LSLInput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolve_streams_wait_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/inputs.html#LSLInput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.inputs.LSLInput" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#neural_data_simulator.core.inputs.Input" title="neural_data_simulator.core.inputs.Input"><code class="xref py py-class docutils literal notranslate"><span class="pre">Input</span></code></a></p>
-<p>Represents an LSL Inlet stream for behavior data.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.inputs.LSLInput.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolve_streams_wait_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/inputs.html#LSLInput.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.inputs.LSLInput.__init__" title="Permalink to this definition"></a></dt>
-<dd><p>Initialize LSLInput class.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>stream_name</strong> – Name of the LSL stream to retrieve data from.</p></li>
-<li><p><strong>connection_timeout</strong> – Maximum time for attempting a connection
-to an LSL input stream.</p></li>
-<li><p><strong>resolve_streams_wait_time</strong> – Maximum waiting time to get the list
-of available streams. Should be bigger than 0.5 to ensure all streams
-are returned.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.inputs.LSLInput.get_info">
-<span class="sig-name descname"><span class="pre">get_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#neural_data_simulator.core.inputs.StreamInfo" title="neural_data_simulator.core.inputs.StreamInfo"><span class="pre">StreamInfo</span></a></span></span><a class="reference internal" href="../_modules/neural_data_simulator/core/inputs.html#LSLInput.get_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.inputs.LSLInput.get_info" title="Permalink to this definition"></a></dt>
-<dd><p>Get information about the LSL stream.</p>
-<p>If the stream is not connected, it will try to resolve the stream
-and return the information.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>LSL stream properties.</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the stream is not found.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.inputs.LSLInput.read">
-<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#neural_data_simulator.core.samples.Samples" title="neural_data_simulator.core.samples.Samples"><span class="pre">Samples</span></a></span></span><a class="reference internal" href="../_modules/neural_data_simulator/core/inputs.html#LSLInput.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.inputs.LSLInput.read" title="Permalink to this definition"></a></dt>
-<dd><p>Read available data from the inlet as a samples.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#neural_data_simulator.core.samples.Samples" title="neural_data_simulator.core.samples.Samples"><code class="xref py py-class docutils literal notranslate"><span class="pre">neural_data_simulator.core.samples.Samples</span></code></a> dataclass with
-timestamps and data read from the LSL StreamInlet. If no data is
-available, an empty Samples is returned.</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>ValueError</strong> – LSL StreamInlet is not connected. <cite>connect</cite> should be</p></li>
-<li><p><strong>called</strong> – before <cite>read</cite>.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.inputs.LSLInput.set_connection_timeout">
-<span class="sig-name descname"><span class="pre">set_connection_timeout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/neural_data_simulator/core/inputs.html#LSLInput.set_connection_timeout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.inputs.LSLInput.set_connection_timeout" title="Permalink to this definition"></a></dt>
-<dd><p>Set the maximum time that the inlet search for the desired LSL stream.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>timeout</strong> – Maximum time to wait in seconds.</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>ValueError</strong> – if timeout equals or less than 0.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.inputs.LSLInput.connect">
-<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/inputs.html#LSLInput.connect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.inputs.LSLInput.connect" title="Permalink to this definition"></a></dt>
-<dd><p>Connect to the LSL Inlet stream.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.inputs.LSLInput.disconnect">
-<span class="sig-name descname"><span class="pre">disconnect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/inputs.html#LSLInput.disconnect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.inputs.LSLInput.disconnect" title="Permalink to this definition"></a></dt>
-<dd><p>Disconnect from the LSL Inlet stream.</p>
-</dd></dl>
-
-</dd></dl>
-
-</section>
 <section id="module-neural_data_simulator.core.models">
 <span id="neural-data-simulator-core-models"></span><h2>neural_data_simulator.core.models<a class="headerlink" href="#module-neural_data_simulator.core.models" title="Permalink to this heading"></a></h2>
 <p>Classes that implement a model for encoding neural data from behavior data.</p>
@@ -1501,364 +1155,6 @@ The spiking rates are represented as a 2D array with shape
 <dt class="sig sig-object py" id="neural_data_simulator.core.models.EncoderModel.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_data_simulator.core.models.EncoderModel.__init__" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-neural_data_simulator.core.outputs">
-<span id="neural-data-simulator-core-outputs"></span><h2>neural_data_simulator.core.outputs<a class="headerlink" href="#module-neural_data_simulator.core.outputs" title="Permalink to this heading"></a></h2>
-<p>A collection of outputs that can be used by NDS.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.Output">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.core.outputs.</span></span><span class="sig-name descname"><span class="pre">Output</span></span><a class="reference internal" href="../_modules/neural_data_simulator/core/outputs.html#Output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.outputs.Output" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
-<p>Represents an abstract output that can be used to send samples.</p>
-<dl class="py property">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.Output.channel_count">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">channel_count</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#neural_data_simulator.core.outputs.Output.channel_count" title="Permalink to this definition"></a></dt>
-<dd><p>Return the number of channels.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.Output.wait_for_consumers">
-<span class="sig-name descname"><span class="pre">wait_for_consumers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/neural_data_simulator/core/outputs.html#Output.wait_for_consumers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.outputs.Output.wait_for_consumers" title="Permalink to this definition"></a></dt>
-<dd><p>Wait for consumers to connect until the timeout expires.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>timeout</strong> – Timeout in seconds.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>True if consumers are connected, False otherwise.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.Output.has_consumers">
-<span class="sig-name descname"><span class="pre">has_consumers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/neural_data_simulator/core/outputs.html#Output.has_consumers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.outputs.Output.has_consumers" title="Permalink to this definition"></a></dt>
-<dd><p>Return whether there are consumers connected to the output.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.Output.connect">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/neural_data_simulator/core/outputs.html#Output.connect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.outputs.Output.connect" title="Permalink to this definition"></a></dt>
-<dd><p>Connect to output.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.Output.disconnect">
-<span class="sig-name descname"><span class="pre">disconnect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/neural_data_simulator/core/outputs.html#Output.disconnect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.outputs.Output.disconnect" title="Permalink to this definition"></a></dt>
-<dd><p>Disconnect from output. The default implementation does nothing.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.Output.send">
-<span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.samples.Samples" title="neural_data_simulator.core.samples.Samples"><span class="pre">Samples</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#neural_data_simulator.core.samples.Samples" title="neural_data_simulator.core.samples.Samples"><span class="pre">Samples</span></a></span></span><a class="reference internal" href="../_modules/neural_data_simulator/core/outputs.html#Output.send"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.outputs.Output.send" title="Permalink to this definition"></a></dt>
-<dd><p>Push samples to output and return the data unchanged.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>samples</strong> – Samples to output.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The input samples unchanged.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.ConsoleOutput">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.core.outputs.</span></span><span class="sig-name descname"><span class="pre">ConsoleOutput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/outputs.html#ConsoleOutput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.outputs.ConsoleOutput" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#neural_data_simulator.core.outputs.Output" title="neural_data_simulator.core.outputs.Output"><code class="xref py py-class docutils literal notranslate"><span class="pre">Output</span></code></a></p>
-<p>Represents an output device that prints to the terminal.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.ConsoleOutput.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/outputs.html#ConsoleOutput.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.outputs.ConsoleOutput.__init__" title="Permalink to this definition"></a></dt>
-<dd><p>Initialize the ConsoleOutput class.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.ConsoleOutput.channel_count">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">channel_count</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#neural_data_simulator.core.outputs.ConsoleOutput.channel_count" title="Permalink to this definition"></a></dt>
-<dd><p>The number of channels.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Number of channels of the output.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.ConsoleOutput.connect">
-<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/neural_data_simulator/core/outputs.html#ConsoleOutput.connect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.outputs.ConsoleOutput.connect" title="Permalink to this definition"></a></dt>
-<dd><p>Connect to the device within a context.</p>
-<p>The default implementation does nothing.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.FileOutput">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.core.outputs.</span></span><span class="sig-name descname"><span class="pre">FileOutput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'output.csv'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/outputs.html#FileOutput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.outputs.FileOutput" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#neural_data_simulator.core.outputs.Output" title="neural_data_simulator.core.outputs.Output"><code class="xref py py-class docutils literal notranslate"><span class="pre">Output</span></code></a></p>
-<p>Represents an output device that writes to a file.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.FileOutput.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'output.csv'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/outputs.html#FileOutput.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.outputs.FileOutput.__init__" title="Permalink to this definition"></a></dt>
-<dd><p>Initialize FileOutput class.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>channel_count</strong> – Number of channels for this output.</p></li>
-<li><p><strong>file_name</strong> – File path to write the samples via the
-<cite>send</cite> method. Defaults to “output.csv”.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.FileOutput.channel_count">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">channel_count</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#neural_data_simulator.core.outputs.FileOutput.channel_count" title="Permalink to this definition"></a></dt>
-<dd><p>The number of channels.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Number of channels of the output.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.FileOutput.connect">
-<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/neural_data_simulator/core/outputs.html#FileOutput.connect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.outputs.FileOutput.connect" title="Permalink to this definition"></a></dt>
-<dd><p>Open the output file.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.FileOutput.disconnect">
-<span class="sig-name descname"><span class="pre">disconnect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/neural_data_simulator/core/outputs.html#FileOutput.disconnect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.outputs.FileOutput.disconnect" title="Permalink to this definition"></a></dt>
-<dd><p>Close the output file.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.StreamConfig">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.core.outputs.</span></span><span class="sig-name descname"><span class="pre">StreamConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acquisition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/outputs.html#StreamConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.outputs.StreamConfig" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Parameters of an LSL stream.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.StreamConfig.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#neural_data_simulator.core.outputs.StreamConfig.name" title="Permalink to this definition"></a></dt>
-<dd><p>LSL stream name.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.StreamConfig.type">
-<span class="sig-name descname"><span class="pre">type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#neural_data_simulator.core.outputs.StreamConfig.type" title="Permalink to this definition"></a></dt>
-<dd><p>LSL stream type.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.StreamConfig.source_id">
-<span class="sig-name descname"><span class="pre">source_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#neural_data_simulator.core.outputs.StreamConfig.source_id" title="Permalink to this definition"></a></dt>
-<dd><p>LSL source id.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.StreamConfig.acquisition">
-<span class="sig-name descname"><span class="pre">acquisition</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#neural_data_simulator.core.outputs.StreamConfig.acquisition" title="Permalink to this definition"></a></dt>
-<dd><p>Information regarding the acquisition device.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.StreamConfig.sample_rate">
-<span class="sig-name descname"><span class="pre">sample_rate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#neural_data_simulator.core.outputs.StreamConfig.sample_rate" title="Permalink to this definition"></a></dt>
-<dd><p>Sampling rate in Hz.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.StreamConfig.channel_format">
-<span class="sig-name descname"><span class="pre">channel_format</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#neural_data_simulator.core.outputs.StreamConfig.channel_format" title="Permalink to this definition"></a></dt>
-<dd><p>Stream data type, for example <cite>float32</cite> or <cite>int32</cite>.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.StreamConfig.channel_labels">
-<span class="sig-name descname"><span class="pre">channel_labels</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#neural_data_simulator.core.outputs.StreamConfig.channel_labels" title="Permalink to this definition"></a></dt>
-<dd><p>Channel labels. The number of labels must match the number
-of channels.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.StreamConfig.from_lsl_settings">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_lsl_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lsl_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.settings.LSLOutputModel" title="neural_data_simulator.core.settings.LSLOutputModel"><span class="pre">LSLOutputModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampling_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_channels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/outputs.html#StreamConfig.from_lsl_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.outputs.StreamConfig.from_lsl_settings" title="Permalink to this definition"></a></dt>
-<dd><p>Create a StreamConfig from an LSLOutputModel.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>lsl_settings</strong> – <a class="reference internal" href="#neural_data_simulator.core.settings.LSLOutputModel" title="neural_data_simulator.core.settings.LSLOutputModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">neural_data_simulator.core.settings.LSLOutputModel</span></code></a>
-instance.</p></li>
-<li><p><strong>sampling_rate</strong> – Sampling rate in Hz.</p></li>
-<li><p><strong>n_channels</strong> – Number of channels.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.StreamConfig.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acquisition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#neural_data_simulator.core.outputs.StreamConfig.__init__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.LSLOutputDevice">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_data_simulator.core.outputs.</span></span><span class="sig-name descname"><span class="pre">LSLOutputDevice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.outputs.StreamConfig" title="neural_data_simulator.core.outputs.StreamConfig"><span class="pre">StreamConfig</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/outputs.html#LSLOutputDevice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.outputs.LSLOutputDevice" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#neural_data_simulator.core.outputs.Output" title="neural_data_simulator.core.outputs.Output"><code class="xref py py-class docutils literal notranslate"><span class="pre">Output</span></code></a></p>
-<p>An output device that can be used to stream data via LSL.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.LSLOutputDevice.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.outputs.StreamConfig" title="neural_data_simulator.core.outputs.StreamConfig"><span class="pre">StreamConfig</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/outputs.html#LSLOutputDevice.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.outputs.LSLOutputDevice.__init__" title="Permalink to this definition"></a></dt>
-<dd><p>Initialize the LSL Output Device from a StreamConfig.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>stream_config</strong> – <code class="xref py py-class docutils literal notranslate"><span class="pre">neural_data_simulator.outputs.StreamConfig</span></code> instance.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.LSLOutputDevice.from_lsl_settings">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_lsl_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lsl_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_data_simulator.core.settings.LSLOutputModel" title="neural_data_simulator.core.settings.LSLOutputModel"><span class="pre">LSLOutputModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampling_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_channels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/outputs.html#LSLOutputDevice.from_lsl_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.outputs.LSLOutputDevice.from_lsl_settings" title="Permalink to this definition"></a></dt>
-<dd><p>Initialize from <a class="reference internal" href="#neural_data_simulator.core.settings.LSLOutputModel" title="neural_data_simulator.core.settings.LSLOutputModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">neural_data_simulator.core.settings.LSLOutputModel</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>lsl_settings</strong> – <a class="reference internal" href="#neural_data_simulator.core.settings.LSLOutputModel" title="neural_data_simulator.core.settings.LSLOutputModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">neural_data_simulator.core.settings.LSLOutputModel</span></code></a>
-instance.</p></li>
-<li><p><strong>sampling_rate</strong> – Sampling rate in Hz.</p></li>
-<li><p><strong>n_channels</strong> – Number of channels.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.LSLOutputDevice.channel_count">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">channel_count</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#neural_data_simulator.core.outputs.LSLOutputDevice.channel_count" title="Permalink to this definition"></a></dt>
-<dd><p>The number of channels.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Number of channels of the output.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.LSLOutputDevice.sample_rate">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sample_rate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#neural_data_simulator.core.outputs.LSLOutputDevice.sample_rate" title="Permalink to this definition"></a></dt>
-<dd><p>Sample rate of the stream.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>The sample rate in Hz.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.LSLOutputDevice.name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#neural_data_simulator.core.outputs.LSLOutputDevice.name" title="Permalink to this definition"></a></dt>
-<dd><p>The name of the stream.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>The configured name of the output stream.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.LSLOutputDevice.send_as_chunk">
-<span class="sig-name descname"><span class="pre">send_as_chunk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/outputs.html#LSLOutputDevice.send_as_chunk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.outputs.LSLOutputDevice.send_as_chunk" title="Permalink to this definition"></a></dt>
-<dd><p>Send a list of data points to the LSL outlet.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> – An array of data points.</p></li>
-<li><p><strong>timestamp</strong> – An optional timestamp corresponding to the data points.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>ValueError</strong> – LSL StreamOutlet is not connected. <cite>connect</cite> should be called
-    before <cite>send</cite>.</p></li>
-<li><p><strong>ValueError</strong> – There was nothing to send because the data array is empty.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.LSLOutputDevice.send_as_sample">
-<span class="sig-name descname"><span class="pre">send_as_sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/outputs.html#LSLOutputDevice.send_as_sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.outputs.LSLOutputDevice.send_as_sample" title="Permalink to this definition"></a></dt>
-<dd><p>Send a single sample with the corresponding timestamp.</p>
-<p>A sample consisting of a data point per channel will be pushed to the LSL
-outlet together with an optional timestamp.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> – A single data point as an array of 1 value per channel.</p></li>
-<li><p><strong>timestamp</strong> – An optional timestamp corresponding to the data point.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>ValueError</strong> – LSL StreamOutlet is not connected. <cite>connect</cite> should be called
-    before <cite>send</cite>.</p></li>
-<li><p><strong>ValueError</strong> – There was nothing to send because the data array is empty.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.LSLOutputDevice.connect">
-<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/outputs.html#LSLOutputDevice.connect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.outputs.LSLOutputDevice.connect" title="Permalink to this definition"></a></dt>
-<dd><p>Connect to the LSL stream.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.LSLOutputDevice.disconnect">
-<span class="sig-name descname"><span class="pre">disconnect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neural_data_simulator/core/outputs.html#LSLOutputDevice.disconnect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.outputs.LSLOutputDevice.disconnect" title="Permalink to this definition"></a></dt>
-<dd><p>Forget the connection to the LSL stream.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.LSLOutputDevice.has_consumers">
-<span class="sig-name descname"><span class="pre">has_consumers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/neural_data_simulator/core/outputs.html#LSLOutputDevice.has_consumers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.outputs.LSLOutputDevice.has_consumers" title="Permalink to this definition"></a></dt>
-<dd><p>Check if there are consumers connected to the stream.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>True if there are consumers, False if there aren’t any.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_data_simulator.core.outputs.LSLOutputDevice.wait_for_consumers">
-<span class="sig-name descname"><span class="pre">wait_for_consumers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/neural_data_simulator/core/outputs.html#LSLOutputDevice.wait_for_consumers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neural_data_simulator.core.outputs.LSLOutputDevice.wait_for_consumers" title="Permalink to this definition"></a></dt>
-<dd><p>Wait for consumers to connect until the timeout expires.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>timeout</strong> – Timeout in seconds.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>True if consumers are connected, False otherwise.</p>
-</dd>
-</dl>
-</dd></dl>
 
 </dd></dl>
 
@@ -2619,7 +1915,7 @@ input parameters.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="neural_data_simulator.html" class="btn btn-neutral float-left" title="neural_data_simulator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="neural_data_simulator.decoder.html" class="btn btn-neutral float-right" title="neural_data_simulator.decoder" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="neural_data_simulator.core.inputs.html" class="btn btn-neutral float-right" title="neural_data_simulator.core.inputs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

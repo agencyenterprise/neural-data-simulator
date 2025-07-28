@@ -122,18 +122,18 @@
 <span class="kn">from</span> <span class="nn">rich.pretty</span> <span class="kn">import</span> <span class="n">pprint</span>
 <span class="kn">import</span> <span class="nn">yaml</span>
 
-<span class="kn">from</span> <span class="nn">neural_data_simulator.core</span> <span class="kn">import</span> <span class="n">inputs</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.core</span> <span class="kn">import</span> <span class="n">outputs</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core.ephys_generator</span> <span class="kn">import</span> <span class="n">ContinuousData</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.core.ephys_generator</span> <span class="kn">import</span> <span class="n">LSLSpikeRateInputAdapter</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core.ephys_generator</span> <span class="kn">import</span> <span class="n">NoiseData</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core.ephys_generator</span> <span class="kn">import</span> <span class="n">ProcessOutput</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.core.ephys_generator</span> <span class="kn">import</span> <span class="n">SpikeRateInput</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.core.ephys_generator</span> <span class="kn">import</span> <span class="n">SpikeRateTestingInput</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core.ephys_generator</span> <span class="kn">import</span> <span class="n">Spikes</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core.ephys_generator</span> <span class="kn">import</span> <span class="n">Waveforms</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core.health_checker</span> <span class="kn">import</span> <span class="n">HealthChecker</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.core.outputs</span> <span class="kn">import</span> <span class="n">StreamConfig</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.inputs.api</span> <span class="kn">import</span> <span class="n">SpikeRateInput</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.inputs.lsl_input</span> <span class="kn">import</span> <span class="n">LSLInput</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.inputs.lsl_input</span> <span class="kn">import</span> <span class="n">LSLSpikeRateInputAdapter</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.inputs.testing_input</span> <span class="kn">import</span> <span class="n">SpikeRateTestingInput</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.outputs.lsl_output</span> <span class="kn">import</span> <span class="n">LSLOutputDevice</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.outputs.lsl_output</span> <span class="kn">import</span> <span class="n">StreamConfig</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core.settings</span> <span class="kn">import</span> <span class="n">EphysGeneratorEndpointType</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core.settings</span> <span class="kn">import</span> <span class="n">EphysGeneratorSettings</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core.settings</span> <span class="kn">import</span> <span class="n">Settings</span>
@@ -179,12 +179,12 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        LSL stream input that can be used to read data from.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">lsl_inlet</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">LSLInput</span><span class="p">(</span><span class="n">stream_name</span><span class="p">,</span> <span class="n">connection_timeout</span><span class="p">)</span>
+    <span class="n">lsl_inlet</span> <span class="o">=</span> <span class="n">LSLInput</span><span class="p">(</span><span class="n">stream_name</span><span class="p">,</span> <span class="n">connection_timeout</span><span class="p">)</span>
     <span class="n">spike_rate_input</span> <span class="o">=</span> <span class="n">LSLSpikeRateInputAdapter</span><span class="p">(</span><span class="n">lsl_inlet</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">spike_rate_input</span>
 
 
-<span class="k">def</span> <span class="nf">_setup_LSL_output</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">StreamConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">outputs</span><span class="o">.</span><span class="n">LSLOutputDevice</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_setup_LSL_output</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">StreamConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LSLOutputDevice</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set up output that will make the data available via an LSL stream.</span>
 
 <span class="sd">    Args:</span>
@@ -194,7 +194,7 @@
 <span class="sd">        An LSL output stream that can be used by the ephys generator</span>
 <span class="sd">          to publish data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">lsl_output</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">LSLOutputDevice</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">lsl_output</span> <span class="o">=</span> <span class="n">LSLOutputDevice</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
     <span class="n">lsl_output</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">lsl_output</span>
 
@@ -372,7 +372,7 @@
         <span class="n">_get_spikes_params</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">ephys_generator</span><span class="p">),</span>
     <span class="p">)</span>
 
-    <span class="n">outputs</span> <span class="o">=</span> <span class="n">ProcessOutput</span><span class="o">.</span><span class="n">LSLOutputs</span><span class="p">(</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="n">ProcessOutput</span><span class="o">.</span><span class="n">Outputs</span><span class="p">(</span>
         <span class="n">continuous_data_output</span><span class="p">,</span> <span class="n">lfp_output</span><span class="p">,</span> <span class="n">spike_events_output</span>
     <span class="p">)</span>
 

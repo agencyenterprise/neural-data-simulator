@@ -123,12 +123,14 @@
 <span class="kn">import</span> <span class="nn">yaml</span>
 
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core</span> <span class="kn">import</span> <span class="n">encoder</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.core</span> <span class="kn">import</span> <span class="n">inputs</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core</span> <span class="kn">import</span> <span class="n">models</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.core</span> <span class="kn">import</span> <span class="n">outputs</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core</span> <span class="kn">import</span> <span class="n">runner</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core</span> <span class="kn">import</span> <span class="n">timing</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.core.outputs</span> <span class="kn">import</span> <span class="n">LSLOutputDevice</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.inputs</span> <span class="kn">import</span> <span class="n">api</span> <span class="k">as</span> <span class="n">inputs</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.inputs.lsl_input</span> <span class="kn">import</span> <span class="n">LSLInput</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.inputs.samples_input</span> <span class="kn">import</span> <span class="n">SamplesInput</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.outputs</span> <span class="kn">import</span> <span class="n">api</span> <span class="k">as</span> <span class="n">outputs</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.outputs.lsl_output</span> <span class="kn">import</span> <span class="n">LSLOutputDevice</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core.samples</span> <span class="kn">import</span> <span class="n">Samples</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core.settings</span> <span class="kn">import</span> <span class="n">EncoderEndpointType</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core.settings</span> <span class="kn">import</span> <span class="n">EncoderSettings</span>
@@ -149,7 +151,7 @@
 
 <span class="k">def</span> <span class="nf">_setup_npz_input</span><span class="p">(</span>
     <span class="n">behavior_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timestamps_array_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data_array_name</span><span class="p">:</span> <span class="nb">str</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">inputs</span><span class="o">.</span><span class="n">SamplesInput</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SamplesInput</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set up the NPZ file input.</span>
 
 <span class="sd">    Load data from npz file and create a samples dataclass with the entirety</span>
@@ -168,11 +170,11 @@
         <span class="n">timestamps</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">timestamps_array_name</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">data_array_name</span><span class="p">]</span>
     <span class="p">)</span>
 
-    <span class="n">data_input</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">SamplesInput</span><span class="p">(</span><span class="n">all_samples</span><span class="p">)</span>
+    <span class="n">data_input</span> <span class="o">=</span> <span class="n">SamplesInput</span><span class="p">(</span><span class="n">all_samples</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">data_input</span>
 
 
-<span class="k">def</span> <span class="nf">_setup_LSL_input</span><span class="p">(</span><span class="n">stream_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">connection_timeout</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">inputs</span><span class="o">.</span><span class="n">LSLInput</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_setup_LSL_input</span><span class="p">(</span><span class="n">stream_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">connection_timeout</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LSLInput</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set up LSL input to read data from the behavior stream.</span>
 
 <span class="sd">    Args:</span>
@@ -183,7 +185,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        LSL stream input that can be used to read data from.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">data_input</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">LSLInput</span><span class="p">(</span><span class="n">stream_name</span><span class="p">,</span> <span class="n">connection_timeout</span><span class="p">)</span>
+    <span class="n">data_input</span> <span class="o">=</span> <span class="n">LSLInput</span><span class="p">(</span><span class="n">stream_name</span><span class="p">,</span> <span class="n">connection_timeout</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">data_input</span>
 
 

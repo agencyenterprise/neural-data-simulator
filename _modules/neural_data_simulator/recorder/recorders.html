@@ -106,7 +106,7 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">neural_data_simulator.core</span> <span class="kn">import</span> <span class="n">inputs</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.inputs.lsl_input</span> <span class="kn">import</span> <span class="n">LSLInput</span>
 
 
 <div class="viewcode-block" id="LSLStreamRecorder"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.recorder.html#neural_data_simulator.recorder.recorders.LSLStreamRecorder">[docs]</a><span class="k">class</span> <span class="nc">LSLStreamRecorder</span><span class="p">:</span>
@@ -118,7 +118,7 @@
 <span class="sd">        Args:</span>
 <span class="sd">            stream_name: Name of the LSL stream to record.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">lsl_input</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">LSLInput</span><span class="p">(</span><span class="n">stream_name</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">)</span>
+        <span class="n">lsl_input</span> <span class="o">=</span> <span class="n">LSLInput</span><span class="p">(</span><span class="n">stream_name</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">)</span>
         <span class="n">lsl_input</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input</span> <span class="o">=</span> <span class="n">lsl_input</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">lsl_input</span><span class="o">.</span><span class="n">get_info</span><span class="p">()</span><span class="o">.</span><span class="n">channel_count</span><span class="p">)</span>

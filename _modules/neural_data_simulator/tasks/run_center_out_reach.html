@@ -115,9 +115,9 @@
 <span class="kn">from</span> <span class="nn">rich.pretty</span> <span class="kn">import</span> <span class="n">pprint</span>
 <span class="kn">import</span> <span class="nn">yaml</span>
 
-<span class="kn">from</span> <span class="nn">neural_data_simulator.core</span> <span class="kn">import</span> <span class="n">inputs</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.core</span> <span class="kn">import</span> <span class="n">outputs</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.core.outputs</span> <span class="kn">import</span> <span class="n">StreamConfig</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.inputs.lsl_input</span> <span class="kn">import</span> <span class="n">LSLInput</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.outputs.lsl_output</span> <span class="kn">import</span> <span class="n">LSLOutputDevice</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.outputs.lsl_output</span> <span class="kn">import</span> <span class="n">StreamConfig</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core.settings</span> <span class="kn">import</span> <span class="n">LogLevel</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.tasks.center_out_reach.input_events</span> <span class="kn">import</span> <span class="n">InputHandler</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.tasks.center_out_reach.metrics</span> <span class="kn">import</span> <span class="n">MetricsCollector</span>
@@ -323,7 +323,7 @@
 
     <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">center_out_reach</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span>
         <span class="n">lsl_input_settings</span> <span class="o">=</span> <span class="n">unwrap</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">center_out_reach</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">lsl</span><span class="p">)</span>
-        <span class="n">data_input</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">LSLInput</span><span class="p">(</span>
+        <span class="n">data_input</span> <span class="o">=</span> <span class="n">LSLInput</span><span class="p">(</span>
             <span class="n">lsl_input_settings</span><span class="o">.</span><span class="n">stream_name</span><span class="p">,</span> <span class="n">lsl_input_settings</span><span class="o">.</span><span class="n">connection_timeout</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -331,7 +331,7 @@
 
     <span class="n">lsl_output_settings</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">center_out_reach</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">lsl</span>
     <span class="n">sampling_rate</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">center_out_reach</span><span class="o">.</span><span class="n">sampling_rate</span>
-    <span class="n">data_output</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">LSLOutputDevice</span><span class="p">(</span>
+    <span class="n">data_output</span> <span class="o">=</span> <span class="n">LSLOutputDevice</span><span class="p">(</span>
         <span class="n">stream_config</span><span class="o">=</span><span class="n">StreamConfig</span><span class="o">.</span><span class="n">from_lsl_settings</span><span class="p">(</span>
             <span class="n">lsl_output_settings</span><span class="p">,</span>
             <span class="n">sampling_rate</span><span class="p">,</span>
@@ -342,7 +342,7 @@
     <span class="c1"># Set up the output for the task state</span>
     <span class="n">task_window_output</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">center_out_reach</span><span class="o">.</span><span class="n">task_window_output</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">task_window_output</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">LSLOutputDevice</span><span class="o">.</span><span class="n">from_lsl_settings</span><span class="p">(</span>
+        <span class="n">task_window_output</span> <span class="o">=</span> <span class="n">LSLOutputDevice</span><span class="o">.</span><span class="n">from_lsl_settings</span><span class="p">(</span>
             <span class="n">settings</span><span class="o">.</span><span class="n">center_out_reach</span><span class="o">.</span><span class="n">task_window_output</span><span class="o">.</span><span class="n">lsl</span><span class="p">,</span>
             <span class="n">sampling_rate</span><span class="p">,</span>
             <span class="n">n_channels</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>

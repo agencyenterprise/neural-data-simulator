@@ -104,133 +104,18 @@
   <h1>Source code for neural_data_simulator.core.ephys_generator</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;This module contains classes that are used to generate spikes from spike rates.&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">colorednoise</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ndarray</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pylsl</span>
 
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core.filters</span> <span class="kn">import</span> <span class="n">LowpassFilter</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core.health_checker</span> <span class="kn">import</span> <span class="n">HealthChecker</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.core.inputs</span> <span class="kn">import</span> <span class="n">LSLInput</span>
-<span class="kn">from</span> <span class="nn">neural_data_simulator.core.outputs</span> <span class="kn">import</span> <span class="n">LSLOutputDevice</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.inputs.api</span> <span class="kn">import</span> <span class="n">SpikeRateInput</span>
+<span class="kn">from</span> <span class="nn">neural_data_simulator.core.outputs.api</span> <span class="kn">import</span> <span class="n">Output</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.core.timing</span> <span class="kn">import</span> <span class="n">Timer</span>
 <span class="kn">from</span> <span class="nn">neural_data_simulator.util.buffer</span> <span class="kn">import</span> <span class="n">RingBuffer</span>
-
-
-<div class="viewcode-block" id="SpikeRateInput"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.ephys_generator.SpikeRateInput">[docs]</a><span class="k">class</span> <span class="nc">SpikeRateInput</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An abstract input that can be used to read spike rates.</span>
-
-<span class="sd">    A python protocol (`PEP-544 &lt;https://peps.python.org/pep-0544/&gt;`_) works in</span>
-<span class="sd">    a similar way to an abstract class.</span>
-<span class="sd">    The :meth:`__init__` method of this protocol should never be called as</span>
-<span class="sd">    protocols are not meant to be instantiated. An :meth:`__init__` method</span>
-<span class="sd">    may be defined in a concrete implementation of this protocol if needed.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">channel_count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the number of input channels.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            The input channel count.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="o">...</span>
-
-<div class="viewcode-block" id="SpikeRateInput.read"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.ephys_generator.SpikeRateInput.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read spike rates, one per channel.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            An array of spike rates with shape (n_units,) or None if no samples</span>
-<span class="sd">            are available.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="o">...</span></div></div>
-
-
-<div class="viewcode-block" id="LSLSpikeRateInputAdapter"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.ephys_generator.LSLSpikeRateInputAdapter">[docs]</a><span class="k">class</span> <span class="nc">LSLSpikeRateInputAdapter</span><span class="p">(</span><span class="n">SpikeRateInput</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reads spike rates from an LSL input.&quot;&quot;&quot;</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">channel_count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the LSL stream channel count.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            The input channel count.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lsl_input</span><span class="o">.</span><span class="n">get_info</span><span class="p">()</span><span class="o">.</span><span class="n">channel_count</span>
-
-<div class="viewcode-block" id="LSLSpikeRateInputAdapter.__init__"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.ephys_generator.LSLSpikeRateInputAdapter.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lsl_input</span><span class="p">:</span> <span class="n">LSLInput</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create an adapter for a given LSL input.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            lsl_input: The LSL input to adapt.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">lsl_input</span> <span class="o">=</span> <span class="n">lsl_input</span></div>
-
-    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Disconnect from the LSL input stream.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">lsl_input</span><span class="o">.</span><span class="n">disconnect</span><span class="p">()</span>
-
-<div class="viewcode-block" id="LSLSpikeRateInputAdapter.connect"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.ephys_generator.LSLSpikeRateInputAdapter.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Connect to the LSL input stream.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">lsl_input</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span></div>
-
-<div class="viewcode-block" id="LSLSpikeRateInputAdapter.read"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.ephys_generator.LSLSpikeRateInputAdapter.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Connect to the LSL input stream.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            An array of spike rates with shape (n_units,) or None if no samples</span>
-<span class="sd">            are available.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lsl_input</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">samples</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-        <span class="k">return</span> <span class="kc">None</span></div></div>
-
-
-<div class="viewcode-block" id="SpikeRateTestingInput"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.ephys_generator.SpikeRateTestingInput">[docs]</a><span class="k">class</span> <span class="nc">SpikeRateTestingInput</span><span class="p">(</span><span class="n">SpikeRateInput</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A constant spike rate input that can be used for testing.</span>
-
-<span class="sd">    Generates spike rates so that spikes are more likely to happen</span>
-<span class="sd">    on channels of a higher order and less likely on channels of a lower order.</span>
-<span class="sd">    The spike rate for a channel is always constant.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-<div class="viewcode-block" id="SpikeRateTestingInput.__init__"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.ephys_generator.SpikeRateTestingInput.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n_units</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a testing spike rate input.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            n_channels: The number of input channels.</span>
-<span class="sd">            n_units: The total number of units, which should be a multiple</span>
-<span class="sd">                of the number of channels.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">n_channels</span> <span class="o">=</span> <span class="n">n_channels</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">n_units</span> <span class="o">=</span> <span class="n">n_units</span></div>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">channel_count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the number of input channels.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            The input channel count.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_channels</span>
-
-<div class="viewcode-block" id="SpikeRateTestingInput.read"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.ephys_generator.SpikeRateTestingInput.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read spike rates, one per channel.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            The array of testing spike rates with shape (n_units,).</span>
-<span class="sd">            For example, if `n_channels = 50` and `n_units_per_channel = 1`, the</span>
-<span class="sd">            spike rates will be constant and equal to:</span>
-
-<span class="sd">            `[ 0.  2.  4.  6.  8. 10. 12. 14. 16. 18. 20. 22. 24. 26. 28. 30. 32. 34.</span>
-<span class="sd">            36. 38. 40. 42. 44. 46. 48. 50. 52. 54. 56. 58. 60. 62. 64. 66. 68. 70.</span>
-<span class="sd">            72. 74. 76. 78. 80. 82. 84. 86. 88. 90. 92. 94. 96. 98.]`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">rates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_units</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_units</span>
-        <span class="k">return</span> <span class="n">rates</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="SpikeEvents"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.ephys_generator.SpikeEvents">[docs]</a><span class="nd">@dataclass</span>
@@ -834,25 +719,25 @@
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;The interval at which to stream data to the LSL outlets.&quot;&quot;&quot;</span>
             <span class="k">return</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">lsl_chunk_frequency</span></div>
 
-<div class="viewcode-block" id="ProcessOutput.LSLOutputs"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.ephys_generator.ProcessOutput.LSLOutputs">[docs]</a>    <span class="nd">@dataclass</span>
-    <span class="k">class</span> <span class="nc">LSLOutputs</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Possible LSL output streams.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ProcessOutput.Outputs"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.ephys_generator.ProcessOutput.Outputs">[docs]</a>    <span class="nd">@dataclass</span>
+    <span class="k">class</span> <span class="nc">Outputs</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Possible output streams.&quot;&quot;&quot;</span>
 
-        <span class="n">raw</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LSLOutputDevice</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">raw</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Output</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The raw continuous data stream.&quot;&quot;&quot;</span>
 
-        <span class="n">lfp</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LSLOutputDevice</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">lfp</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Output</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The LFP data stream.&quot;&quot;&quot;</span>
 
-        <span class="n">spike_events</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LSLOutputDevice</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">spike_events</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Output</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The spike events stream.&quot;&quot;&quot;</span></div>
 
 <div class="viewcode-block" id="ProcessOutput.__init__"><a class="viewcode-back" href="../../../neural_data_simulator/neural_data_simulator.core.html#neural_data_simulator.core.ephys_generator.ProcessOutput.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">continuous_data</span><span class="p">:</span> <span class="n">ContinuousData</span><span class="p">,</span>
         <span class="n">spikes</span><span class="p">:</span> <span class="n">Spikes</span><span class="p">,</span>
-        <span class="n">input_</span><span class="p">:</span> <span class="n">SpikeRateInput</span><span class="p">,</span>
-        <span class="n">outputs</span><span class="p">:</span> <span class="n">LSLOutputs</span><span class="p">,</span>
+        <span class="nb">input</span><span class="p">:</span> <span class="n">SpikeRateInput</span><span class="p">,</span>
+        <span class="n">outputs</span><span class="p">:</span> <span class="n">Outputs</span><span class="p">,</span>
         <span class="n">params</span><span class="p">:</span> <span class="n">Params</span><span class="p">,</span>
         <span class="n">health_checker</span><span class="p">:</span> <span class="n">HealthChecker</span><span class="p">,</span>
     <span class="p">):</span>
@@ -861,12 +746,12 @@
 <span class="sd">        Args:</span>
 <span class="sd">            continuous_data: The continuous data generator.</span>
 <span class="sd">            spikes: The spikes generator.</span>
-<span class="sd">            input_: The spike rates input.</span>
-<span class="sd">            outputs: The LSL output streams.</span>
+<span class="sd">            input: The spike rates input.</span>
+<span class="sd">            outputs: The output streams.</span>
 <span class="sd">            params: The initialization parameters.</span>
 <span class="sd">            health_checker: The health monitor.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_input</span> <span class="o">=</span> <span class="n">input_</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_input</span> <span class="o">=</span> <span class="nb">input</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span> <span class="o">=</span> <span class="n">outputs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="o">=</span> <span class="n">params</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_health_checker</span> <span class="o">=</span> <span class="n">health_checker</span>
@@ -904,11 +789,12 @@
 
     <span class="k">def</span> <span class="nf">_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_update_spike_rates</span><span class="p">()</span>
+        <span class="n">time_now</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_timer</span><span class="o">.</span><span class="n">total_elapsed_time</span><span class="p">()</span>
+
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_output_time</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_last_output_time</span> <span class="o">=</span> <span class="n">pylsl</span><span class="o">.</span><span class="n">local_clock</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_last_output_time</span> <span class="o">=</span> <span class="n">time_now</span>
             <span class="k">return</span>
 
-        <span class="n">time_now</span> <span class="o">=</span> <span class="n">pylsl</span><span class="o">.</span><span class="n">local_clock</span><span class="p">()</span>
         <span class="n">time_elapsed</span> <span class="o">=</span> <span class="n">time_now</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_output_time</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_last_output_time</span> <span class="o">=</span> <span class="n">time_now</span>
 
@@ -922,18 +808,15 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_stream_continuous_data</span><span class="p">(</span><span class="n">continuous_data</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_stream_lfp</span><span class="p">(</span><span class="n">continuous_data</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_stream_spike_events</span><span class="p">(</span><span class="n">spike_events</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">time_elapsed</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stream_spike_events</span><span class="p">(</span><span class="n">spike_events</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_stream_continuous_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">continuous_data</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span><span class="o">.</span><span class="n">raw</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span><span class="o">.</span><span class="n">raw</span><span class="o">.</span><span class="n">send_as_chunk</span><span class="p">(</span><span class="n">continuous_data</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolution</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span><span class="o">.</span><span class="n">raw</span><span class="o">.</span><span class="n">send_array</span><span class="p">(</span>
+                <span class="n">continuous_data</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolution</span><span class="p">,</span> <span class="n">timestamps</span><span class="o">=</span><span class="kc">None</span>
+            <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_stream_spike_events</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">spike_events</span><span class="p">:</span> <span class="n">SpikeEvents</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">time_elapsed</span><span class="p">:</span> <span class="nb">float</span>
-    <span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_output_time</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Last output time is not set.&quot;</span><span class="p">)</span>
-
+    <span class="k">def</span> <span class="nf">_stream_spike_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spike_events</span><span class="p">:</span> <span class="n">SpikeEvents</span><span class="p">):</span>
         <span class="k">assert</span> <span class="p">(</span>
             <span class="n">spike_events</span><span class="o">.</span><span class="n">waveform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="p">),</span> <span class="s2">&quot;SpikeEvents.waveform is required to stream continuous data.&quot;</span>
@@ -949,22 +832,16 @@
                 <span class="p">)</span>
             <span class="p">)</span>
 
-            <span class="n">time_interval_per_sample</span> <span class="o">=</span> <span class="n">time_elapsed</span> <span class="o">/</span> <span class="n">n_samples</span>
-            <span class="n">spike_lsl_times</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_last_output_time</span>
-                <span class="o">+</span> <span class="n">spike_events</span><span class="o">.</span><span class="n">time_idx</span> <span class="o">*</span> <span class="n">time_interval_per_sample</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span><span class="o">.</span><span class="n">spike_events</span><span class="o">.</span><span class="n">send_array</span><span class="p">(</span>
+                <span class="n">data_to_stream</span><span class="p">,</span>
+                <span class="n">timestamps</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="p">)</span>
-
-            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data_to_stream</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span><span class="o">.</span><span class="n">spike_events</span><span class="o">.</span><span class="n">send_as_sample</span><span class="p">(</span>
-                    <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">spike_lsl_times</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-                <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_stream_lfp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">continuous_data</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span><span class="o">.</span><span class="n">lfp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">lfp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">continuous_data</span><span class="o">.</span><span class="n">get_lfp_data</span><span class="p">(</span><span class="n">continuous_data</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lfp</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span><span class="o">.</span><span class="n">lfp</span><span class="o">.</span><span class="n">send_as_chunk</span><span class="p">(</span><span class="n">lfp</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolution</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span><span class="o">.</span><span class="n">lfp</span><span class="o">.</span><span class="n">send_array</span><span class="p">(</span><span class="n">lfp</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolution</span><span class="p">,</span> <span class="n">timestamps</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_update_spike_rates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">rates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>  <span class="c1"># update spike rates</span>

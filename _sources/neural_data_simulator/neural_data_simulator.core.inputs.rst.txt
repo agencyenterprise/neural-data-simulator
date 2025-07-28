@@ -1,0 +1,40 @@
+neural\_data\_simulator.core.inputs 
+====================================
+
+.. automodule:: neural_data_simulator.core.inputs
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+neural\_data\_simulator.core.inputs.api 
+----------------------------------------
+
+.. automodule:: neural_data_simulator.core.inputs.api
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.core.inputs.lsl\_input 
+-----------------------------------------------
+
+.. automodule:: neural_data_simulator.core.inputs.lsl_input
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.core.inputs.samples\_input 
+---------------------------------------------------
+
+.. automodule:: neural_data_simulator.core.inputs.samples_input
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neural\_data\_simulator.core.inputs.testing\_input 
+---------------------------------------------------
+
+.. automodule:: neural_data_simulator.core.inputs.testing_input
+   :members:
+   :undoc-members:
+   :show-inheritance:
