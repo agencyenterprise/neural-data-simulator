@@ -73,7 +73,7 @@ The following snippet is a minimal but complete example of a preprocessor that j
 ```
 """An example preprocessor"""
 from neural_data_simulator.core.encoder import Processor
-from neural_data_simulator.samples import Samples
+from neural_data_simulator.core.samples import Samples
 
 
 class PassThroughPreprocessor(Processor):

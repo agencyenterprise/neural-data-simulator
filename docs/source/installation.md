@@ -51,7 +51,7 @@ If the command above is not able to find a liblsl package for your system, you c
 
 ## Matplotlib
 
-If NDS was installed with the `[extras]` dependencies, [matplotlib](https://matplotlib.org) will also be included. This library is being used to display velocities and trajectories plots at the end of running the BCI closed loop simulation. In order to display figures, `matplotlib` can use different rendering backends. On some Linux distributions and on macOS, `matplotlib` might work out of the box, but other Linux distributions require explicitly installing a backend like `PyQt`. On Windows, it also requires the [Microsoft Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170) to be installed. Please consult the [matplotlib documentation](https://matplotlib.org/stable/devel/dependencies.html#optional-dependencies) for more information.
+If NDS was installed with the `[extras]` dependencies, [matplotlib](https://matplotlib.org) will also be included. This library is being used to display velocities and trajectories plots at the end of running the BCI closed loop simulation. In order to display figures, `matplotlib` can use different rendering backends. On some Linux distributions and on macOS, `matplotlib` might work out of the box, but other Linux distributions require explicitly installing a backend like `PyQt`. On Windows, it also requires the [Microsoft Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170) to be installed. Please consult the [matplotlib documentation](https://matplotlib.org/stable/) for more information.
 
 ## Post-installation script
 
