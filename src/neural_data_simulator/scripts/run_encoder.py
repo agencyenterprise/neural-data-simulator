@@ -19,12 +19,14 @@ from rich.pretty import pprint
 import yaml
 
 from neural_data_simulator.core import encoder
-from neural_data_simulator.core import inputs
 from neural_data_simulator.core import models
-from neural_data_simulator.core import outputs
 from neural_data_simulator.core import runner
 from neural_data_simulator.core import timing
-from neural_data_simulator.core.outputs import LSLOutputDevice
+from neural_data_simulator.core.inputs import api as inputs
+from neural_data_simulator.core.inputs.lsl_input import LSLInput
+from neural_data_simulator.core.inputs.samples_input import SamplesInput
+from neural_data_simulator.core.outputs import api as outputs
+from neural_data_simulator.core.outputs.lsl_output import LSLOutputDevice
 from neural_data_simulator.core.samples import Samples
 from neural_data_simulator.core.settings import EncoderEndpointType
 from neural_data_simulator.core.settings import EncoderSettings
@@ -45,7 +47,7 @@ logger = logging.getLogger(__name__)
 
 def _setup_npz_input(
     behavior_file: str, timestamps_array_name: str, data_array_name: str
-) -> inputs.SamplesInput:
+) -> SamplesInput:
     """Set up the NPZ file input.
 
     Load data from npz file and create a samples dataclass with the entirety
@@ -64,11 +66,11 @@ def _setup_npz_input(
         timestamps=data[timestamps_array_name], data=data[data_array_name]
     )
 
-    data_input = inputs.SamplesInput(all_samples)
+    data_input = SamplesInput(all_samples)
     return data_input
 
 
-def _setup_LSL_input(stream_name: str, connection_timeout: float) -> inputs.LSLInput:
+def _setup_LSL_input(stream_name: str, connection_timeout: float) -> LSLInput:
     """Set up LSL input to read data from the behavior stream.
 
     Args:
@@ -79,7 +81,7 @@ def _setup_LSL_input(stream_name: str, connection_timeout: float) -> inputs.LSLI
     Returns:
         LSL stream input that can be used to read data from.
     """
-    data_input = inputs.LSLInput(stream_name, connection_timeout)
+    data_input = LSLInput(stream_name, connection_timeout)
     return data_input
 
 

@@ -6,7 +6,7 @@ from typing import List
 import numpy as np
 import pylsl
 
-from neural_data_simulator.core.outputs import LSLOutputDevice
+from neural_data_simulator.core.outputs.lsl_output import LSLOutputDevice
 from neural_data_simulator.core.samples import Samples
 from neural_data_simulator.core.timing import Timer
 
@@ -138,7 +138,7 @@ class LSLStreamer:
                 timestamps = stream.samples.timestamps[stream_slice]
                 timestamps = timestamps - timestamps[-1] + time_now
                 data = stream.samples.data[stream_slice]
-                stream.output.send_as_chunk(data, timestamps[0])
+                stream.output.send_array(data, timestamps[0])
 
     def _check_stream_finished(self, stream: Stream):
         if stream.read_cursor >= stream.length:

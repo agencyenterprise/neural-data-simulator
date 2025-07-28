@@ -98,6 +98,7 @@ extend-exclude = """(
 # Software architecture / interdependency checking
 [tool.importlinter]
 root_package = "neural_data_simulator"
+include_external_packages = true
 
 [[tool.importlinter.contracts]]
 id = "ext-ind"
@@ -123,6 +124,13 @@ forbidden_modules = [
     "neural_data_simulator.tasks",
     "neural_data_simulator.plugins",
 ]
+
+[[tool.importlinter.contracts]]
+id = "output_impl"
+name = "ephys_generator should use output Protocol, not implementations (e.g. LSL)"
+type = "forbidden"
+source_modules = ["neural_data_simulator.core.ephys_generator"]
+forbidden_modules = ["pylsl"]
 
 [tool.isort]
 profile = "google"
