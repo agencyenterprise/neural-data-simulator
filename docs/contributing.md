@@ -61,7 +61,7 @@ brew install labstreaminglayer/tap/lsl
 
 On Windows, the [Microsoft Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170) has to be installed.
 
-For building the documentation or running spellchecking you will need to install the [enchant C library](https://abiword.github.io/enchant/) if it's not already installed on your system. To do this please follow the instructions on the [pyenchant documentation page](https://pyenchant.github.io/pyenchant/install.html#installing-the-enchant-c-library).
+For building the documentation or running spellchecking you will need to install the enchant C library if it's not already installed on your system. To do this please follow the instructions on the [pyenchant documentation page](https://pyenchant.github.io/pyenchant/install.html#installing-the-enchant-c-library).
 
 ### Using the environment
 
