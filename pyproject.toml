@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "neural-data-simulator"
-version = "v0.2.9"
+version = "v0.2.10"
 description = "Electrophysiology simulator data for developing Brain-Computer Interfaces"
 authors = [
     "AE Studio <bci@ae.studio>",
