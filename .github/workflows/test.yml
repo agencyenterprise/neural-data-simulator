@@ -32,7 +32,7 @@ jobs:
 
       - name: Install Poetry
         id: install-poetry
-        uses: snok/install-poetry@v1.3.4
+        uses: snok/install-poetry@v1.4.1
         with:
           virtualenvs-create: true
           virtualenvs-in-project: true
@@ -50,20 +50,20 @@ jobs:
 
       - name: Install Conda for liblsl
         if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
-        uses: conda-incubator/setup-miniconda@v2
+        uses: conda-incubator/setup-miniconda@v3
         with:
           auto-activate-base: true
           activate-environment: ""
-
+          
       - name: Install liblsl
+        shell: bash -el {0}
         run: |
           if [ "$RUNNER_OS" == "Linux" ]; then
             curl -OL https://github.com/sccn/liblsl/releases/download/v1.16.1/liblsl-1.16.1-focal_amd64.deb
             sudo apt install -y ./liblsl-1.16.1-focal_amd64.deb
           elif [ "$RUNNER_OS" == "macOS" ]; then
-            curl -OL https://github.com/sccn/liblsl/releases/download/v1.16.1/liblsl-1.16.1-OSX_amd64.tar.bz2
-            tar xvf liblsl-1.16.1-OSX_amd64.tar.bz2
-            echo "PYLSL_LIB=$PWD/lib/liblsl.dylib" >> $GITHUB_ENV
+            conda install -c conda-forge liblsl
+            echo "PYLSL_LIB=$CONDA_PREFIX/lib/liblsl.dylib" >> $GITHUB_ENV
           elif [ "$RUNNER_OS" == "Windows" ]; then
             echo "liblsl will be installed by poetry"
           else
