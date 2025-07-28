@@ -702,7 +702,7 @@ Dump the model to a file that can be used in the decoder configuration.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 1 minutes  13.006 seconds)
+   **Total running time of the script:** ( 1 minutes  16.766 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_train_encoder_and_decoder_model.py:
